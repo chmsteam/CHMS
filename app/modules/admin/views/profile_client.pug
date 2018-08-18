@@ -1,0 +1,82 @@
+extends ../../../templates/navbaradmin.pug
+
+block content
+    .right_col(role='main')
+        div
+            .page-title
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
+                        .x_panel
+                            .x_title
+                                //- each list in listtab
+                                    a(href='/admin/transaction_client_request_'+list.intRequestID)
+                                        button.btn.btn-primary.pull-right.btn-lg(type='button') Back
+                                center
+                                    h3
+                                        b Client's Profile
+                            .x_content
+                                each client in clienttab
+                                    .col-md-3.col-sm-3.col-xs-12.profile_left
+                                        center
+                                            .profile_img
+                                                #crop-avatar
+                                                    // Current avatar
+                                                    img.img-responsive.avatar-view(src='../images/'+client.strPicture, alt='Avatar', title='Change the avatar')
+                                            h3 #{client.strLName}, #{client.strFName} #{client.strMName}
+                                            button.btn.btn-primary(type='button' data-toggle='modal' data-target='#editclient_profile') Edit Profile
+                                        br
+                                        br
+                                        ul.list-unstyled.user_data
+                                            li
+                                                i.fa.fa-user.user-profile-icon
+                                                | &nbsp #{client.strEmail}
+                                            li
+                                                i.fa.fa-phone-square.user-profile-icon
+                                                | &nbsp #{client.strContact}
+                                            li
+                                                i.fa.fa-map-marker.user-profile-icon
+                                                | &nbsp #{client.strEmail}  
+    #editclient_profile.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-xs
+            .modal-content
+                .modal-header
+                    button.close(type='button', data-dismiss='modal')
+                        span(aria-hidden='true') ×
+                    h4#myModalLabel.modal-title Edit Client Profile
+                .modal-body
+                    form#demo-form2.form-horizontal.form-label-left(method="POST" action="")
+                        input.form-control.col-md-7.col-xs-12(type='number', id='_id', required='required', name='requirementID' style="display:none;")     
+                        .form-group
+                            .input-group
+                                span.input-group-addon
+                                    i.icofont.icofont-picture
+                                img#uploadPreview(style='width: 100px; height: 100px;' )
+                                input.form-control.file-input(id="uploadImage" type='file', name='pic1',accept='image/*' onchange="PreviewImage();")                     
+                        //- .form-group
+                        //-     label.control-label.col-md-3.col-sm-3.col-xs-12
+                        //-         | Requirement Name
+                        //-         span.required *
+                        //-     .col-md-6.col-sm-6.col-xs-12
+                        //-         input.form-control.col-md-7.col-xs-12(type='text', id='_name', required='required', name='requirementname')
+                        //- .form-group
+                        //-     label.control-label.col-md-3.col-sm-3.col-xs-12 Requirement For*:
+                        //-     .col-md-6.col-sm-6.col-xs-12
+                        //-         select(name='reqtype').form-control
+                        //-             option(id='_type') 
+                        //-                 |
+                        //-                 i same as before
+                        //-             option(value='Client') Client
+                        //-             option(value='Household Worker') Household Worker
+                        .ln_solid
+                        .form-group.pull-right
+                            button.btn.btn-success(type='submit') Update
+                            button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
+
+    script.
+        function PreviewImage() {
+            var oFReader = new FileReader();
+            oFReader.readAsDataURL(document.getElementById("uploadImage").files[0]);
+            oFReader.onload = function (oFREvent) {
+            document.getElementById("uploadPreview").src = oFREvent.target.result;
+            };
+        };

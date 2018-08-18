@@ -1,0 +1,48 @@
+extends ../../../templates/navbaradmin.pug
+
+block content
+    .right_col(role='main')
+        .title_left
+            h5
+                | Transaction / Client / 
+                b Requests
+            .clearfix
+            .row
+                .col-md-12.col-sm-12.col-xs-12
+                    .x_panel
+                        br
+                        br
+                        table#datatable.table.table-striped.table-bordered
+                            thead
+                                tr
+                                    th ID
+                                    th NAME
+                                    th REQUEST
+                                    th DATE REQUESTED
+                                    th DATE NEEDED
+                                    th STATUS
+                                    th ACTION
+                            tbody
+                                each request in requesttab
+                                    tr
+                                        td #{request.intRequestID}
+                                        td #{request.strName}
+                                        td #{request.strRequestType}
+                                        td #{request.datRequestDate}
+                                        td #{request.datRequestNeedDate}
+                                        td #{request.strRequestStatus}
+                                        td
+                                            form(method='POST' action='transactionrequestdecision')
+                                                input(type='number' required='required', name='transid' value=''+request.intRequestID, style='display:none;')                          
+                                                a(href='transaction_client_request_'+request.intRequestID)
+                                                    button.btn.btn-info(type='button')
+                                                        i.fa.fa-eye
+                                                        | &nbspView
+                                                if request.strRequestStatus == 'Pending'                       
+                                                    button.btn.btn-success(type='submit' name='btn1' value='approve')
+                                                        i.fa.fa-check
+                                                        | &nbspApprove
+                                                    button.btn.btn-danger(type='submit' name='btn1' value='reject')
+                                                        i.fa.fa-times
+                                                        | &nbspReject
+                                                    

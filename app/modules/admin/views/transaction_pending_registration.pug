@@ -1,0 +1,106 @@
+extends ../../../templates/navbaradmin.pug
+
+block content
+    .right_col(role='main')
+        .title_left
+            h5
+                | Transaction / 
+                b Pending Registration
+        .x_panel
+            .x_panel
+                .x_title
+                    center
+                        h3
+                            b Pending Registration
+                        .clearfix
+                br
+                .col-md-12.col-sm-12.col-xs-12
+                    div(role='tabpanel', data-example-id='togglable-tabs')
+                        ul#myTab.nav.nav-tabs.bar_tabs(role='tablist')
+                            li.active(role='presentation')
+                                a#hw-tab(href='#tab_content1', role='tab', data-toggle='tab', aria-expanded='true') Household Worker
+                            li(role='presentation')
+                                a#client-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Client
+                        #myTabContent.tab-content      
+                            #tab_content1.tab-pane.fade.active.in(role='tabpanel', aria-labelledby='hw-tab')
+                                .col-md-12.col-sm-12.col-xs-12
+                                    table#datatable.table.table-striped.table-bordered
+                                        thead
+                                            tr
+                                                th ID NO.
+                                                th NAME
+                                                th STATUS
+                                                th ACTION
+                                        tbody
+                                             each item in itemtab 
+                                                if item.strType=='Household Worker'
+                                                    tr
+                                                        td #{item.intID}
+                                                        td #{item.strName}
+                                                        td #{item.strStatus}
+                                                            //- input.js-switch(type='checkbox', checked='')
+                                                        td
+                                                            button.btn.btn-info(type='button')
+                                                                i.fa.fa-eye
+                                                                |   View
+                                                            if item.strStatus=="Unregistered"
+                                                                a(href="tr_approve_householdworker/"+item.intID)
+                                                                    button.btn.btn-success(type='button')
+                                                                        i.fa.fa-thumbs-up
+                                                                        |   Approve
+                                                            else if item.strStatus=="Rejected"
+                                                                a(href="tr_approve_householdworker/"+item.intID)
+                                                                    button.btn.btn-success(type='button' disabled)
+                                                                        i.fa.fa-thumbs-up
+                                                                        |   Approve
+                                                            if item.strStatus=='Unregistered'
+                                                                a(href="tr_reject_householdworker/"+item.intID)
+                                                                    button.btn.btn-danger(type='button')
+                                                                        i.fa.fa-trash
+                                                                        |   Reject
+                                                            else if item.strStatus=='Rejected'
+                                                                a(href="tr_revert_householdworker/"+item.intID)
+                                                                    button.btn.btn-danger(type='button')
+                                                                        i.fa.fa-refresh
+                                                                        |   Revert
+                            #tab_content2.tab-pane.fade.in(role='tabpanel', aria-labelledby='client-tab')
+                                .col-md-12.col-sm-12.col-xs-12
+                                    table#datatable2.table.table-striped.table-bordered
+                                        thead
+                                            tr
+                                                th ID NO.
+                                                th NAME
+                                                th STATUS
+                                                th ACTION
+                                        tbody 
+                                            tr
+                                                each item in itemtab 
+                                                    if item.strType=='Client'
+                                                        td #{item.intID}
+                                                        td #{item.strName}
+                                                        td #{item.strStatus}
+                                                            //- input.js-switch(type='checkbox', checked='')
+                                                        td
+                                                            button.btn.btn-info(type='button')
+                                                                i.fa.fa-eye
+                                                                |   View
+                                                            if item.strStatus=="Unregistered"
+                                                                a(href="tr_approve_client/"+item.intID)
+                                                                    button.btn.btn-success(type='button')
+                                                                        i.fa.fa-thumbs-up
+                                                                        |   Approve
+                                                            else if item.strStatus=="Rejected"
+                                                                a(href="tr_approve_client/"+item.intID)
+                                                                    button.btn.btn-success(type='button' disabled)
+                                                                        i.fa.fa-thumbs-up
+                                                                        |   Approve
+                                                            if item.strStatus=='Unregistered'
+                                                                a(href="tr_reject_client/"+item.intID)
+                                                                    button.btn.btn-danger(type='button')
+                                                                        i.fa.fa-trash
+                                                                        |   Reject
+                                                            else if item.strStatus=='Rejected'
+                                                                a(href="tr_revert_client/"+item.intID)
+                                                                    button.btn.btn-danger(type='button')
+                                                                        i.fa.fa-refresh
+                                                                        |   Revert

@@ -1,0 +1,133 @@
+extends ../../../templates/navbarclient.pug
+block content
+    .right_col(role='main')
+        div
+            .page-title
+            .clearfix
+            .row
+                .col-md-12
+                    .x_panel
+                        .x_content
+                            section.content.invoice
+                                // title row
+                                .row
+                                    .col-xs-12.invoice-header
+                                        each dc in dctab
+                                            h1
+                                                i.fa.fa-globe
+                                                |  Invoice.
+                                                small.pull-right Date: #{dc.datDateRequested}
+                                    // /.col
+                                // info row
+                                .row.invoice-info
+                                    .col-sm-4.invoice-col
+                                        each agency in agencytab
+                                            | From
+                                            address
+                                                strong #{agency.strName}
+                                                br
+                                                | #{agency.strAddress}
+                                                br
+                                                | #{agency.strTelNum}
+                                                br
+                                                | #{agency.strEmail}
+                                    // /.col
+                                    .col-sm-4.invoice-col
+                                        each client in clienttab
+                                            | To
+                                            address
+                                                strong #{client.strFName} #{client.strLName}
+                                                br
+                                                | #{client.strPAddress}
+                                                br
+                                                | Phone: #{client.strContact}
+                                                br
+                                                | Email: #{client.strEmail}
+                                    // /.col
+                                    .col-sm-4.invoice-col
+                                        br
+                                        h3
+                                            each dc in dctab
+                                                big
+                                                    b Invoice:
+                                                |  #{dc.strInvoiceNum}
+                                        br
+                                    // /.col
+                                // /.row
+                                // Table row
+                                .row
+                                    .col-xs-12.table
+                                        table.table.table-striped
+                                            thead
+                                                tr
+                                                    th Service
+                                                    th Qty
+                                                    th Rate	
+                                                    th Subtotal
+                                            tbody
+                                                each item in itemtab
+                                                    tr
+                                                        td #{item.strName}
+                                                        td #{item.service}
+                                                        td P #{item.deciRate}
+                                                        td P #{item.Rate}
+                                    // /.col
+                                // /.row
+                                .row
+                                    // accepted payments column
+                                    .col-xs-6
+                                    // /.col
+                                    .col-xs-5
+                                        //- p.lead Amount Due 2/22/2014
+                                        .table-responsive
+                                            table.table
+                                                tbody
+                                                    tr
+                                                        th Subtotal:
+                                                        each item in itemtab
+                                                            td(align='right') P #{item.Rate}
+                                                            input(id='subtot' type="number", value=item.Rate style="display:none;")
+                                                    tr
+                                                        th Agency Fee:
+                                                        each agencyf in agencyftab
+                                                            td(align='right') P #{agencyf.fltFee}
+                                                            input(id='agefee' type="number", value=agencyf.fltFee style="display:none;")
+                                                        tr
+                                                            each otherfee in otherfeetab 
+                                                                th #{otherfee.strName} Fee:
+                                                                td(align='right') P #{otherfee.fltFee}
+                                                                input(id='othfee' type="number", value=otherfee.fltFee style="display:none;")
+                                                    tr
+                                                        th Total:
+                                                        td(align='right')
+                                                            p#tots
+                                                        //- input(id = 'tots' type="number", name="")
+                                    // /.col
+                                // /.row
+                                br
+                                // this row will not appear when printing
+                                .row.no-print
+                                    .col-xs-12
+                                        //- button.btn.btn-success.pull-right(onclick='window.print();')
+                                        //-     i.fa.fa-print
+                                        //-     |  Print
+                                        //- // button class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment</button
+                                        //- button.btn.btn-primary.pull-right(style='margin-right: 5px;')
+                                        //-     i.fa.fa-download
+                                        //-     |  Generate PDF
+                                        br
+                                        br
+                                        a(href='/request_add')
+                                            button.btn.btn-primary.btn-lg.pull-right(type='button') Back to Lists
+
+    script.
+        function total(){
+             var subtot=parseInt(document.getElementById("subtot").value)
+             var agefee=parseInt(document.getElementById("agefee").value)
+             var othfee=parseInt(document.getElementById("othfee").value)
+             var total;
+
+             total = subtot+agefee+othfee;
+
+             document.getElementById("tots").innerHTML = 'P '+total;
+        }

@@ -1,0 +1,117 @@
+
+extends ../../../templates/navbaradmin.pug
+
+block content
+    // page content
+    .right_col(role='main')
+        div
+            .page-title
+                .title_left
+                    h5
+                        | Maintenance /&nbsp
+                        b Services
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
+                        .x_panel
+                            .x_content
+                            button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='.bs-add-modal-xs')
+                                i.fa.fa-plus
+                                | &nbspAdd
+                            br
+                            br
+                            table#datatable.table.table-striped.table-bordered
+                                thead
+                                    tr
+                                        //- th ID NO.
+                                        th SERVICE
+                                        th STATUS
+                                        th ACTION
+                                tbody
+                                    each item in itemtab
+                                        tr
+                                        
+                                            //- td #{item.intID}
+                                            td #{item.strName}
+                                            td #{item.strStatus}
+                                                //- input.js-switch(type='checkbox', checked='')
+                                            td
+                                                //- button.btn.btn-info(type='button')
+                                                    i.fa.fa-eye
+                                                    |   View
+                                                button.btn.btn-primary(type='button', id=''+item.intID, name=''+item.strName,data-toggle='modal', data-target='.bs-edit-modal-xs', onclick="copyID2(this.id), copyName(this.name);" )
+                                                    i.fa.fa-edit
+                                                    |   Edit
+                                                if item.strStatus=='Active'
+                                                    a(href="disable_service/"+item.intID)
+                                                        button.btn.btn-danger(type='button')
+                                                            i.fa.fa-toggle-off
+                                                            |   Disable
+                                                else if item.strStatus=='Inactive'
+                                                    a(href="enable_service/"+item.intID)
+                                                        button.btn.btn-danger(type='button')
+                                                            i.fa.fa-toggle-on
+                                                            |   Enable
+                //- Add
+                .modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+                    .modal-dialog.modal-xs
+                        .modal-content
+                            .modal-header
+                                button.close(type='button', data-dismiss='modal')
+                                    span(aria-hidden='true') ×
+                                h4#myModalLabel.modal-title Add a Service
+                            .modal-body
+                               form#demo-form2.form-horizontal.form-label-left(method="POST" action="add_service")
+                                .form-group
+                                    label.control-label.col-md-3.col-sm-3.col-xs-12(for='service-name')
+                                        | Service Name 
+                                        span.required *
+                                    .col-md-6.col-sm-6.col-xs-12
+                                        input#first-name.form-control.col-md-7.col-xs-12(type='text', required='required', name='servicename')
+                                .ln_solid
+                                .form-group.pull-right
+                                    button.btn.btn-warning(type='reset') Reset
+                                    button.btn.btn-success(type='submit') Add
+                                    button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
+                //- Edit
+                .modal.fade.bs-edit-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+                    .modal-dialog.modal-xs
+                        .modal-content
+                            .modal-header
+                                button.close(type='button', data-dismiss='modal')
+                                    span(aria-hidden='true') ×
+                                h4#myModalLabel.modal-title Edit Service
+                            .modal-body
+                                form#demo-form2.form-horizontal.form-label-left(method="POST" action="edit_service")
+                                    .form-group
+                                        //- label.control-label.col-md-3.col-sm-3.col-xs-12
+                                        //-     | ID
+                                        //-     span.required *
+                                        .col-md-6.col-sm-6.col-xs-12
+                                            //- input.form-control.col-md-7.col-xs-12(type='text', id='txt1', required='required', disabled)
+                                            input.form-control.col-md-7.col-xs-12(type='text', id='txt11', required='required', name='serviceID' style="display:none;")                          
+                                    .form-group
+                                        label.control-label.col-md-3.col-sm-3.col-xs-12
+                                            | Service Name
+                                            span.required *
+                                        .col-md-6.col-sm-6.col-xs-12
+                                            input.form-control.col-md-7.col-xs-12(type='text', id='txt2', required='required', name='servicename')
+                                    .ln_solid
+                                    .form-group.pull-right
+                                        button.btn.btn-success(type='submit') Update
+                                        button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
+
+            // /page content
+ 
+        //- for update
+        script(type='text/javascript').
+            function copyID(clicked_id) {
+                document.getElementById("txt1").value = clicked_id;
+            }
+             function copyID2(clicked_id) {
+                document.getElementById("txt11").value = clicked_id;
+            }
+            function copyName(clicked_name) {
+                document.getElementById("txt2").value = clicked_name;
+            }
+
+    

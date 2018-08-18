@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title Document
+        script(src="../sweetalert/dist/sweetalert.min.js")
+            
+    body
+        button(onclick='test();') error
+        br
+        button(onclick='test2();') A warning message, with a function attached to the confirm message
+        br
+        button(onclick='test3();') A prompt modal, where the user's input is logged:
+        br
+        button(onclick='test4();') In combination with Fetch:
+        br
+
+    script.
+        function test(){
+            swal("Oops!", "Something went wrong!", "error");
+        }
+        function test2(){
+            swal({
+                title: "Are you sure?",
+                text: "Are you sure that you want to leave this page?",
+                icon: "warning",
+                dangerMode: true,
+            })
+            .then(willDelete => {
+                if (willDelete) {
+                swal("Deleted!", "Your imaginary file has been deleted!", "success");
+                }
+            });
+        }
+        function test3(){
+            swal("Type something:", {
+                content: "input",
+            })
+            .then((value) => {
+                swal(`You typed: ${value}`);
+            })
+        
+        }
+        function test4(){
+            swal({
+                text: 'Wanna log some information about Bulbasaur?',
+                button: {
+                text: "Search!",
+                closeModal: false,
+                },
+            })
+            .then(willSearch => {
+                if (willSearch) {
+                return fetch(`http://pokeapi.co/api/v2/pokemon/1`)
+                }
+            })
+            .then(result => result.json())
+            .then(json => console.log(json))
+            .catch(err => {
+                swal("Oops!", "Seems like we couldn't fetch the info", "error")
+            })
+        }

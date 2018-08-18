@@ -1,0 +1,53 @@
+extends ../../../templates/navbaradmin.pug
+
+block content
+    .right_col(role='main')
+        .page-title
+            .title_left
+                h5
+                    | Client / 
+                    b Pending Registration
+            .row
+                .col-md-12.col-sm-12.col-xs-12
+                    .x_panel
+                        .x_content
+                        table#datatable.table.table-striped.table-bordered
+                            thead
+                                tr
+                                    th ID NO.
+                                    th NAME
+                                    th STATUS
+                                    th ACTION
+                            tbody
+                                each item in itemtab    
+                                    tr
+                                    
+                                        td #{item.intID}
+                                        td #{item.strName}
+                                        td #{item.strStatus}
+                                            //- input.js-switch(type='checkbox', checked='')
+                                        td
+                                            button.btn.btn-info(type='button')
+                                                i.fa.fa-eye
+                                                |   View
+                                            if item.strStatus=="Unregistered"
+                                                a(href="approve_client/"+item.intID)
+                                                    button.btn.btn-success(type='button')
+                                                        i.fa.fa-thumbs-up
+                                                        |   Approve
+                                            else if item.strStatus=="Rejected"
+                                                a(href="approve_client/"+item.intID)
+                                                    button.btn.btn-success(type='button' disabled)
+                                                        i.fa.fa-thumbs-up
+                                                        |   Approve
+                                            if item.strStatus=='Unregistered'
+                                                a(href="reject_client/"+item.intID)
+                                                    button.btn.btn-danger(type='button')
+                                                        i.fa.fa-trash
+                                                        |   Reject
+                                            else if item.strStatus=='Rejected'
+                                                a(href="revert_client/"+item.intID)
+                                                    button.btn.btn-danger(type='button')
+                                                        i.fa.fa-refresh
+                                                        |   Revert
+            

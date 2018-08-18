@@ -1,0 +1,78 @@
+extends ../../../templates/navbarclient.pug
+block content
+    .right_col(role='main')
+        div
+            .clearfix
+            .row
+                .col-md-12
+                    .x_panel
+                        .x_panel
+                            .x_title
+                                h1 Summary of Selection
+                                .clearfix
+                            br
+                            br
+                            center
+                                h1
+                                    b "&nbspMy First List&nbsp"
+                            center
+                                h3
+                                    p
+                                        | Total no. of service/s:&nbsp
+                                        b 2
+                            br
+                            br
+                            .col-md-12.col-sm-12.col-xs-12
+                                .table-responsive
+                                    table.table.table-striped.jambo_table.bulk_action
+                                        thead
+                                            tr.headings
+                                                th.column-title EMPLOYEE NO. 
+                                                th.column-title TYPE OF SERVICE 
+                                                th.column-title STATUS 
+                                                th.column-title.no-link.last
+                                                    span.nobr ACTION
+                                                th.bulk-actions(colspan='7')
+                                                    a.antoo(style='color:#fff; font-weight:500;')
+                                                        | Bulk Actions ( 
+                                                        span.action-cnt  
+                                                        |  ) 
+                                                        i.fa.fa-chevron-down
+                                        tbody
+                                            tr.even.pointer
+                                                td 121000040
+                                                td Housemaid
+                                                td waiting for approval
+                                                td(<a='', href='#')
+                                                    button.btn.btn-info.btn-xs(type='button')
+                                                        i.fa.fa-plus
+                                                        | &nbsp&nbspview
+                                                    a(href='#')
+                                                        button.btn.btn-danger.btn-xs(type='button')
+                                                            i.fa.fa-trash
+                                                            | &nbsp&nbspremove
+                                            tr.odd.pointer
+                                                td 121000039
+                                                td Housemaid
+                                                td waiting for approval
+                                                td(<a='', href='#')
+                                                    button.btn.btn-info.btn-xs(type='button')
+                                                        i.fa.fa-plus
+                                                        | &nbsp&nbspview
+                                                    a(href='#')
+                                                        button.btn.btn-danger.btn-xs(type='button')
+                                                            i.fa.fa-trash
+                                                            | &nbsp&nbspremove
+                            .form-group.pull-right
+                                .col-md-12.col-sm-9.col-xs-12.pull-right
+                                    br
+                                    button.btn.btn-primary.btn-lg(type='button') Cancel
+                                    button.btn.btn-primary.btn-lg(type='reset') Back
+                                    a(href='/request_add')
+                                        button.btn.btn-success.btn-lg(type='submit', onclick="new PNotify({\
+                                        title: 'SUCCESSFUL!!!',\
+                                        text: 'list successfully created.',\
+                                        type: 'success',\
+                                        styling: 'bootstrap3'\
+                                        });") Finish
+                                | 				 `

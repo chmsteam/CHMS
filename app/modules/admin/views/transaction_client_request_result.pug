@@ -1,0 +1,56 @@
+extends ../../../templates/navbaradmin.pug
+
+block content
+    .right_col(role='main')
+        .clearfix
+        .row
+            .col-md-12.col-sm-12.col-xs-12
+                .x_panel
+                    .x_title
+
+                        .pull-right
+                            each request in requesttab
+                                a(href='transaction_client_request_'+request.intIRequestID)
+                                    button.btn.btn-primary.btn-lg(type='button') Back
+                        center
+                            h3
+                                b Results
+                    br
+                    br
+                    table#datatable.table.table-striped.table-bordered
+                        thead
+                            tr
+                                th ID
+                                th NAME
+                                th SERVICE
+                                th AGE
+                                th Gender
+                                th EDUCATION
+                                th WORK EXPERIENCE
+                                th STATUS
+                                th ACTION
+                        tbody
+                            each resulta in resultatab
+                                each request in requesttab
+                                    tr
+                                        form(method="POST" action="transaction_add_to_list_"+request.intIRequestID+request.intIRequest_No+resulta.intHWID)
+                                            td #{resulta.intHWID}
+                                                //- input(type="number" name= 'hwid' style='visibility:hidden;', value=''+resulta.intHWID)
+                                            td #{resulta.hwname}
+                                            td #{resulta.strName}
+                                            td #{resulta.age}
+                                            td #{resulta.strGender}
+                                            td #{resulta.strType}
+                                            td #{resulta.Work_exp}
+                                            td #{resulta.strStatus}
+                                            td
+                                                button.btn.btn-success.btn-lg(type='submit') Add to list
+                                //- tr
+                                //-     td 2
+                                //-     td Housemaid
+                                //-     td Approved
+                                //-     td
+                                //-         a(href='transaction_client_request_')
+                                //-             button.btn.btn-info(type='button')
+                                //-                 i.fa.fa-eye
+                                //-                 | &nbspview

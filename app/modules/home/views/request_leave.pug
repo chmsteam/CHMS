@@ -1,0 +1,90 @@
+extends ../../../templates/navbarclient.pug
+
+block content
+    .right_col(role='main')
+        div
+            .page-title
+                .title_left
+                    h3
+                .clearfix
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
+                        .x_panel
+                            .x_panel
+                                .x_title
+                                    h1 Request for Leave
+                                    .clearfix
+                                .x_content
+                                    br
+                                    .x_panel(style='background-color:#f1f1f1')
+                                        .modal-body
+                                            .row
+                                                .col-md-12
+                                                    .col-md-4
+                                                        .profile_img
+                                                            #crop-avatar(align='center')
+                                                                // Current avatar
+                                                                img.img-responsive.avatar-view(style='height:250px', src='/assets/gentelella/production/images/alexis.jpg', alt='Avatar', title='Change the avatar')
+                                                    .col-md-8(align='left')
+                                                        br
+                                                        .x_panel
+                                                            h2
+                                                                table
+                                                                    tr
+                                                                        td
+                                                                            b Employee no:
+                                                                        td &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp00001
+                                                                    tr
+                                                                        td
+                                                                            b Employee name:
+                                                                        td &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspMateo Do
+                                                                    tr
+                                                                        td
+                                                                            b Type of service:
+                                                                        td &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspDriver
+                                                                    tr
+                                                                        td
+                                                                            b Type of leave:
+                                                                        td &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspIncident Leave
+                                                                    tr
+                                                                        td
+                                                                            b Days of leave:
+                                                                        td &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp15
+                                                                    tr
+                                                                        td
+                                                                            b Date of leave started:
+                                                                        td &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp07/16/2018
+                                                                    tr
+                                                                        td
+                                                                            b Date of leave ended:
+                                                                        td &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp07/31/2018
+                                                                    tr
+                                                                        td
+                                                                            b Reason:
+                                                                        td &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspMagbabakasyon sa probinsya.
+                                        br
+                                        .pull-right
+                                            div
+                                                button.btn.btn-primary Reject
+                                                button.btn.btn-success(type='button', data-toggle='modal', data-target='.bs-example-modal-sm') Approve
+                                                // Small modal
+                                                .modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
+                                                    .modal-dialog.modal-sm
+                                                        .modal-content
+                                                            .modal-header
+                                                                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                                                    span(aria-hidden='true') ×
+                                                                h4#myModalLabel2.modal-title
+                                                            .modal-body(align='center')
+                                                                br
+                                                                br
+                                                                h2
+                                                                    b Do you want reliever?
+                                                                br
+                                                                br
+                                                                p
+                                                            .modal-footer
+                                                                button.btn.btn-primary(type='button', data-dismiss='modal') No
+                                                                a(href='/request_add/createlist_set_preferences')
+                                                                    button.btn.btn-primary(type='button') Yes
+                                                // /modals

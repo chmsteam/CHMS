@@ -1,0 +1,134 @@
+extends ../../../templates/navbaradmin.pug
+
+block content
+    .right_col(role='main')
+        .page-title
+            .title_left
+                h5
+                    | Transaction / Registration / Client / 
+                    b Add
+        .row
+            .col-md-12.col-sm-12.col-xs-12
+                .x_panel
+                    .x_title
+                        .pull-right
+                            a(href='client_list')
+                                button.btn.btn-primary.btn-lg(type='button') Back
+                        h3 Personal Details
+                        .clearfix
+                    .x_content
+                        br
+                        form.form-horizontal.form-label-left(method="POST" action="register_client")
+                            .item.form-group
+                                label.control-label.col-md-3.col-sm-3.col-xs-12
+                                    | Name 
+                                    span.required *
+                                .col-md-6.col-sm-6.col-xs-12
+                                    input.form-control.col-md-7.col-xs-12(type='text', name='firstname', placeholder='First Name', required='required')
+                            .item.form-group
+                                label.control-label.col-md-3.col-sm-3.col-xs-12
+                                    span.required
+                                .col-md-3.fcol-sm-6.col-xs-12
+                                    input.form-control.col-md-7.col-xs-12(data-validate-length-range='6', data-validate-words='2', name='middlename', placeholder='Middle Name (Optional)', type='text')
+                                .col-md-3.col-sm-6.col-xs-12
+                                    input.form-control.col-md-7.col-xs-12(data-validate-length-range='6', data-validate-words='2', name='lastname', placeholder='Last Name', required='required', type='text')
+                            br
+                            .item.form-group
+                                label.control-label.col-md-3.col-sm-3.col-xs-12
+                                    | Email Address
+                                    span.required *
+                                .col-md-6.col-sm-6.col-xs-12
+                                    input.form-control.col-md-7.col-xs-12(type='email', name='email', required='required')
+                            .item.form-group
+                                label.control-label.col-md-3.col-sm-3.col-xs-12
+                                    | Password
+                                    span.required *
+                                .col-md-6.col-sm-6.col-xs-12
+                                    input.form-control.col-md-7.col-xs-12(type='password', name='password', required='required' placeholder='(Minimun of 5 characters)')
+                            .item.form-group
+                                label.control-label.col-md-3.col-sm-3.col-xs-12
+                                    |Confirm Password
+                                    span.required *
+                                .col-md-6.col-sm-6.col-xs-12
+                                    input.form-control.col-md-7.col-xs-12(type='password', name='conpassword', required='required')
+                            br
+                            .item.form-group
+                                label.control-label.col-md-3.col-sm-3.col-xs-12
+                                    | Mobile Number / Telephone Number
+                                    span.required *
+                                .col-md-6.col-sm-6.col-xs-12
+                                    input.form-control.col-md-7.col-xs-12(type='txt', name='contactnum', required='required')
+                            .item.form-group
+                                label.control-label.col-md-3.col-sm-3.col-xs-12
+                                    | Current Address 
+                                    span.required *
+                                .col-md-3.col-sm-6.col-xs-12
+                                    input.form-control.col-md-7.col-xs-12(id="_1", type='text', name='housenum', placeholder='House/Bldg. no.', required='required')
+                                .col-md-3.col-sm-6.col-xs-12
+                                    input.form-control.col-md-7.col-xs-12(id="_2", type='text', name='streetnum', placeholder='Street', required='required')
+                            .item.form-group
+                                label.control-label.col-md-3.col-sm-3.col-xs-12
+                                    span.required
+                                .col-md-3.col-sm-6.col-xs-12
+                                    input.form-control.col-md-7.col-xs-12(id="_3", type='text', name='province', placeholder='Province', required='required')
+                                .col-md-3.col-sm-6.col-xs-12
+                                    input.form-control.col-md-7.col-xs-12(id="_4", type='text', name='city', placeholder='City', required='required')
+                            .item.form-group
+                                label.control-label.col-md-3.col-sm-3.col-xs-12
+                                    | Permanent Address 
+                                    span.required *
+                                .col-md-6.col-sm-6.col-xs-12
+                                    input.form-control.col-md-7.col-xs-12(id="txtf", type='text', name='permanentadd', placeholder='', required='required')
+                                .checkbox.control-label.col-md-9.col-xs-12
+                                    label
+                                        input(id='chb', type='checkbox', value='', onClick="copy();")
+                                        |  Same with my Current Address.
+                            br
+                            .item.form-group
+                                label.control-label.col-md-3.col-sm-3.col-xs-12
+                                    | Office Address 
+                                    span.required
+                                .col-md-6.col-sm-6.col-xs-12
+                                    input.form-control.col-md-7.col-xs-12(type='text', name='ofcaddress', placeholder='')
+                            .item.form-group
+                                label.control-label.col-md-3.col-sm-3.col-xs-12
+                                    | Office Telephone Number 
+                                .col-md-6.col-sm-6.col-xs-12
+                                    input.form-control.col-md-7.col-xs-12(type='text', name='ofcnum')
+                            .form-group
+                                .col-md-7.col-md-offset-3.pull-right
+                                    | 
+                                    button.btn.btn-primary(type='reset') Reset
+                                    button.btn.btn-success(type='submit') Register
+                            .ln_solid
+
+    script(type='text/javascript').
+        function copy() {
+            var txt1 = document.getElementById("_1");
+            var txt2 = document.getElementById("_2");
+            var txt3 = document.getElementById("_3");
+            var txt4 = document.getElementById("_4");
+            var txtf = document.getElementById("txtf");
+            
+            if((txt1.value && txt2.value && txt3.value && txt4.value) == ''){
+                txtf.value= '';
+            }
+            else{
+              txtf.value = txt1.value + ', ' + txt2.value + ', ' + txt3.value + ', ' + txt4.value;                     
+            }
+   
+        }
+        function dis(){
+            var txt1 = document.getElementById("_1");
+            var txt2 = document.getElementById("_2");
+            var txt3 = document.getElementById("_3");
+            var txt4 = document.getElementById("_4");
+            var txtf = document.getElementById("txtf");       
+
+            if((txt1.value && txt2.value && txt3.value && txt4.value) == ''){
+                document.getElementById("chb").disabled = true;
+            }
+            else if ((txt1.value)=='1'){
+                document.getElementById("chb").disabled = false;
+            }
+        }

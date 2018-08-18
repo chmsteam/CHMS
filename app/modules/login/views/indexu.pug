@@ -1,0 +1,49 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    meta(name='description', content='')
+    meta(name='author', content='')
+    title Login
+    // Bootstrap core CSS
+    link(href='../assets/bootstrap/css/bootstrap.min.css', rel='stylesheet')
+    // Custom styles for this template
+    link(href='../css/logo-nav.css', rel='stylesheet')
+  body
+    // Page Content
+    .container
+      h1.mt-5 CHSM - Demo
+      hr
+      // Button trigger modal
+      button.btn.btn-primary(type='button', data-toggle='modal', data-target='#signinmodal')
+        | Sign in
+      // Modal
+      #signinmodal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLongTitle', aria-hidden='true')
+        .modal-dialog(role='document')
+          .modal-content
+            .modal-header
+              h5#exampleModalLongTitle.modal-title Sign in to CHSM
+              button.close(type='button', data-dismiss='modal', aria-label='Close')
+                span(aria-hidden='true') ×
+            .modal-body
+              // modal body
+              form(method='POST', action='/login')
+                .form-group
+                  label(for='exampleInputEmail1') Email address
+                  input#exampleInputEmail1.form-control(type='text', aria-describedby='emailHelp', placeholder='Enter email', name='email')
+                  // <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                .form-group
+                  label(for='exampleInputPassword1') Password
+                  input#exampleInputPassword1.form-control(type='password', placeholder='Password', name='password')
+                div
+                  | Don't have an account? Sign up 
+                  a(href='') here
+                button.btn.btn-primary(type='submit') Sign in
+              // / modal body
+            .modal-footer
+      // modal
+    // /page content
+    // Bootstrap core JavaScript
+    script(src='../assets/jquery/jquery.min.js')
+    script(src='../assets/bootstrap/js/bootstrap.bundle.min.js')

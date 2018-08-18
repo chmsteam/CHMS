@@ -1,0 +1,119 @@
+extends ../../../templates/navbarclient.pug
+
+block content
+    .right_col(role='main')
+        .page-title
+            .title_left
+                h1
+                    b
+            .clearfix
+            .row
+                .col-md-12.col-sm-12.col-xs-12
+                    .x_panel
+                        .x_panel
+                            .x_title
+                                h1  Add Household Worker 
+                                .clearfix
+                            br
+                            .x_content
+                                center
+                                    //- a(href='/request_add/createlist_services')
+                                    button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='#Add')
+                                        i.fa.fa-plus
+                                        | &nbspCreate New List
+                                br
+                                .row
+                                    .col-md-12
+                                        .x_content
+                                            .row
+                                                .col-md-12.col-sm-12.col-xs-12.text-center
+                                                .clearfix
+                                                each list in listtab
+                                                    .col-md-4.col-sm-4.col-xs-12.profile_details
+                                                        .well.profile_view
+                                                            .col-sm-12
+                                                                h3.brief #{list.strRequestName}
+                                                                .left.col-sm-12
+                                                                    br
+                                                                    ul.list-unstyled
+                                                                        li
+                                                                            strong List no: 
+                                                                            |  #{list.intRequestID}
+                                                                        li
+                                                                            strong Date created: 
+                                                                            |  #{list.datRequestDate}
+                                                                        li
+                                                                            strong Date needed: 
+                                                                            |  #{list.datRequestNeedDate}
+                                                                        li
+                                                                            strong Status: 
+                                                                            |  #{list.strRequestStatus}
+                                                            .col-xs-12.bottom.text-center
+                                                                if list.strRequestStatus == 'Pending' || list.strRequestStatus == 'Approved'
+                                                                    a(href='/request_add/invoice_'+list.intRequestID)
+                                                                        button.btn.btn-info(type='button') View Invoice
+                                                                    a(href='/request_add/mylist_'+list.intRequestID)
+                                                                        button.btn.btn-primary(type='button') View
+                                                                    button.btn.btn-danger(type='button', data-toggle='modal', data-target='#ListDelete3') Delete
+                                                                else if list.strRequestStatus == 'Draft'||  list.strRequestStatus =='On process'
+                                                                    a(href='/request_add/mylist_'+list.intRequestID)
+                                                                        button.btn.btn-primary(type='button') View
+                                                                    button.btn.btn-danger(type='button', data-toggle='modal', data-target='#ListDelete3') Delete
+                                                                else if list.strRequestStatus == 'Finished'
+                                                                    a(href='/request_add/invoice_'+list.intRequestID)
+                                                                        button.btn.btn-info(type='button') View Invoice
+                                                                    a(href='/request_add/mylist_'+list.intRequestID)
+                                                                        button.btn.btn-primary(type='button') View
+    //- modal
+    #Add.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-md
+            .modal-content
+                .modal-header
+                    button.close(type='button', data-dismiss='modal')
+                        span(aria-hidden='true') ×
+                    h4#myModalLabel.modal-title Create List
+                .modal-body
+                    .x_panel
+                        .x_content
+                            form.form-horizontal(method='POST' action='/request_add/createlist_services/createlist')
+                                .form-group
+                                    label.control-label.col-md-4.col-sm-3.col-xs-12 Name of list:
+                                    .col-md-4.col-sm-9.col-xs-12
+                                        input.form-control(type='text', name='reqname', required='')
+                                        input.form-control(id='thedate' type='date', name='reqdate' style='display:none;')
+                                .form-group
+                                    label.control-label.col-md-4.col-sm-3.col-xs-12 Date needed:
+                                    .col-md-4.col-sm-9.col-xs-12
+                                        input.form-control(type='date', name='dateneed' required)
+                                .form-group
+                                    label.control-label.col-md-4.col-sm-3.col-xs-12 Description:
+                                    .col-md-4.col-sm-9.col-xs-12
+                                        textarea.form-control(rows='5', name='reqdesc')
+                                .form-group.pull-right
+                                    .col-md-12.col-sm-9.col-xs-12.pull-right
+                                        button.btn.btn-success.btn-lg(type='submit',  onCLick='time();') Create
+    
+    //- scripts
+    script.
+        function time(){
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; //January is 0!
+            var yyyy = today.getFullYear();
+            var hh = today.getHours();
+            var min = today.getMinutes();
+            var sec = today.getSeconds();
+            var x= document.getElementById("thedate");
+            
+            if(dd<10) {
+                dd = '0'+dd
+            } 
+
+            if(mm<10) {
+                mm = '0'+mm
+            } 
+
+            today = yyyy + '-' + mm + '-' + dd ;
+            //- document.write(today);
+           document.getElementById("thedate").value=today;
+        }

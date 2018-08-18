@@ -1,0 +1,121 @@
+
+extends ../../../templates/navbaradmin.pug
+
+block content
+    // page content
+    .right_col(role='main')
+        div
+            .page-title
+                .title_left
+                    h5
+                        | Maintenance /&nbsp
+                        b Household Worker Skills
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
+                        .x_panel
+                            .x_content
+                            button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='.bs-add-modal-xs')
+                                i.fa.fa-plus
+                                | &nbspAdd
+                            br
+                            br
+                            table#datatable.table.table-striped.table-bordered
+                                thead
+                                    tr
+                                        //- th ID NO.
+                                        th SKILL
+                                        th TYPE
+                                        th STATUS
+                                        th ACTION
+                                tbody
+                                    each item in itemtab
+                                        tr
+                                        
+                                            //- td #{item.skillID}
+                                            td #{item.skillName}
+                                            td #{item.serviceName}
+                                            td #{item.skillStatus}
+                                                //- input.js-switch(type='checkbox', checked='')
+                                            td
+                                                button.btn.btn-primary(type='button', data-toggle='modal', data-target='#editskill', data-skillid=item.skillID, data-skillname=item.skillName, data-serviceid=item.serviceID, data-servicename=item.serviceName)
+                                                    i.fa.fa-edit
+                                                    |   Edit
+                                                if item.skillStatus=='Active'
+                                                    a(href="disable_skill/"+item.skillID)
+                                                        button.btn.btn-danger(type='button')
+                                                            i.fa.fa-toggle-off
+                                                            |   Disable
+                                                else if item.skillStatus='Inactive'
+                                                    a(href="enable_skill/"+item.skillID)
+                                                        button.btn.btn-danger(type='button')
+                                                            i.fa.fa-toggle-on
+                                                            |   Enable
+                //- Add
+                .modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+                    .modal-dialog.modal-xs
+                        .modal-content
+                            .modal-header
+                                button.close(type='button', data-dismiss='modal')
+                                    span(aria-hidden='true') ×
+                                h4#myModalLabel.modal-title Add a Skill
+                            .modal-body
+                               form#demo-form2.form-horizontal.form-label-left(method="POST" action="add_skill")
+                                .form-group
+                                    label.control-label.col-md-3.col-sm-3.col-xs-12
+                                        | Skill Name
+                                        span.required *
+                                    .col-md-6.col-sm-6.col-xs-12
+                                        input#requirementname.form-control.col-md-7.col-xs-12(type='text', required='required', name='skill')
+                                .form-group
+                                    label.control-label.col-md-3.col-sm-3.col-xs-12 Type of Service
+                                    .col-md-6.col-sm-6.col-xs-12
+                                        select(name='service').form-control
+                                            each items in itemtabs
+                                                option(value=''+items.intID) #{items.strName}
+
+                                .ln_solid
+                                .form-group.pull-right
+                                    button.btn.btn-warning(type='reset') Reset
+                                    button.btn.btn-success(type='submit') Add
+                                    button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
+                //- Edit
+                #editskill.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
+                    .modal-dialog.modal-xs
+                        .modal-content
+                            .modal-header
+                                button.close(type='button', data-dismiss='modal')
+                                    span(aria-hidden='true') ×
+                                h4#myModalLabel.modal-title Edit Skill
+                            .modal-body
+                                form#demo-form2.form-horizontal.form-label-left(method="POST" action="edit_skill")
+                                    .form-group
+                                        input.form-control.col-md-7.col-xs-12(type='number', id='_skillid', required='required', name='skillID' style='display:none;')                          
+                                    .form-group
+                                        label.control-label.col-md-3.col-sm-3.col-xs-12
+                                            | Skill
+                                            span.required *
+                                        .col-md-6.col-sm-6.col-xs-12
+                                            input.form-control.col-md-7.col-xs-12(type='text', id='_skillname', required='required', name='skillname')
+                                    .form-group
+                                        label.control-label.col-md-3.col-sm-3.col-xs-12 Type of Service
+                                        .col-md-6.col-sm-6.col-xs-12
+                                            select(name='serviceid').form-control
+                                                option(id='_serviceid')
+                                                    i same as before.
+                                                each items in itemtabs
+                                                    option(value=''+items.intID) #{items.strName}
+                                    .ln_solid
+                                    .form-group.pull-right
+                                        button.btn.btn-success(type='submit') Update
+                                        button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
+
+        //- script.
+            //- $('#editskill').on('show.bs.modal', function (event) {
+            //- var button = $(event.relatedTarget)
+            //- var name = button.data('skillname')
+            //- var id = button.data('skillid')
+
+            //- var modal = $(this)
+            //- modal.find('.modal-body #_skillid').val(id)
+            //- modal.find('.modal-body #_skillname').val(name)
+            //- });
