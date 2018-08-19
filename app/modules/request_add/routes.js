@@ -298,7 +298,7 @@ function findcreatedlist2(req, res){
 router.get('/contract_:userid',flog, findcreatedlist, findcontractstatus, findcontractstatusforhw, findnoofacceptcontract, findtotnoofacceptcontract, rendercontract);
 function rendercontract(req,res){
   if(req.valid==1)
-    res.render('request_add/views/contract',{usertab: req.user, listtab: req.list, conttab: req.cont, hwtab: req.hw, noacontracttab: req.noacontract, tnocontract: req.tnocontract });
+    res.render('request_add/views/contract',{usertab: req.user, listtab: req.list, conttab: req.cont, hwtab: req.hw, noacontracttab: req.noacontract, tnocontracttab: req.tnocontract });
   else if(req.valid==0)
     res.render('admin/views/invalidpages/normalonly');
   else

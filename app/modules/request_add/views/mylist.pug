@@ -127,34 +127,36 @@ block content
             each list in listtab
                 form(method='POST', action='add_to_mylist_'+list.intRequestID).form-horizontal
                     .modal-content
-                        .modal-header(style="background-color:#54D98C;  color:black")
+                        .modal-header(style="background-color:#2A3F54; color:white")
                             button.close(type='button', data-dismiss='modal')
                                 span(aria-hidden='true') ×
-                            h4#myModalLabel.modal-title Add Service
+                            h3#myModalLabel.modal-title 
+                                p(style="text-align:center; font-weight:bold") Add Service
                         .modal-body
                             .row
                                 .col-md-6
                                     .form-group
-                                        | Service:
+                                        b Service:
                                         select#skil(name='service').form-control
                                             each service in servicetab
                                                 option(value=''+service.intID) #{service.strName}
                             .row
                                 .col-md-3
                                     .form-group
-                                        | No. of Person Needed
+                                        b No. of Person Needed
                                         span.required
                                         input.form-control(type='number' name='quantity' min='1', max='10' value='1' required)
                                 br
                                 .col-md-4
                                     .form-group
-                                        | Gender:
+                                        b Gender:
                                         span.required
                                         select(name='gender').form-control
                                             option(value='Any') Any
                                             option(value='Male') Male
                                             option(value='Female') Female
-                                .form-group &nbsp&nbsp&nbspAge (From - To):
+                                .form-group 
+                                    b &nbsp&nbsp&nbspAge (From - To):
                                     .row
                                         .col-md-2
                                             .form-group
@@ -166,7 +168,7 @@ block content
                             .row
                                 .col-md-6
                                     .form-group
-                                        | Highest Educational Attainment:
+                                        b Highest Educational Attainment:
                                         span.required
                                         select.form-control(name='educ')
                                             option(value='Elementary') Elementary
@@ -175,19 +177,20 @@ block content
                                             option(value='Vocational') Vocational
                                 .col-md-4
                                     .form-group
-                                        | Work Experience (at least):
+                                        b Work Experience (at least):
                                         span.required
                                         input#first-name.form-control.col-md-7.col-xs-12(type='number' name='workexp' value='0')
                             .row
                                 .col-md-4
                                     .form-group
-                                        | Willing to work for a monthly salary of (minimum):&nbspP
+                                        b Willing to work for a monthly salary of (minimum):&nbspP
                                         span.required
                                         input#first-name.form-control.col-md-7.col-xs-12(type='number' name='salary' value='0')     
                                 .col-md-8
                                     .x_panel
                                         .x_title
-                                            h5 Recommended Salary
+                                            h5
+                                                b Recommended Salary
                                             .clearfix
                                         .x_content
                                             .row
@@ -211,7 +214,7 @@ block content
                                                 .col-md-8
                                                     |Php 13k (Stay-in)
                         .modal-footer
-                            button.btn.btn-danger.btn-md(type='button'  data-dismiss='modal') Cancel
+                            button.btn.btn-primary.btn-md(type='button'  data-dismiss='modal') Cancel
                             button.btn.btn-success.btn-md(type='submit') Submit
 
 
@@ -219,7 +222,7 @@ block content
     #view_item.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
         .modal-dialog(role='document')
             .modal-content
-                .modal-header(style="background-color:#5FAEE3; color:black")
+                .modal-header(style="background-color:#2A3F54; color:white")
                     button.close(type='button', data-dismiss='modal')
                         span(aria-hidden='true') ×
                     h4.modal-title#a
@@ -264,7 +267,7 @@ block content
                                 input.form-control.col-md-7.col-xs-12#sal(type='number' name='salary' readonly)     
 
                 .modal-footer
-                    button.btn.btn-danger.btn-md(type='button'  data-dismiss='modal') Close
+                    button.btn.btn-primary.btn-md(type='button'  data-dismiss='modal') Close
     
     //- // View Item Modal
     //- #view_item.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-hidden='true')

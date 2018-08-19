@@ -405,14 +405,22 @@ html(lang='en')
               var d = button.data('gender')
               var e = button.data('educ')
               var f = button.data('exp')
+              var age1 = button.data('age1')
+              var age2 = button.data('age2')
+              var sal  = button.data('sal')
 
               var modal = $(this)
                 modal.find('.modal-header #a').text(' '+a)
+                modal.find('.modal-header #title').text(b)
+
                 modal.find('.modal-body #b').text(' '+b)
                 modal.find('.modal-body #c').text(' '+c)
                 modal.find('.modal-body #d').text(' '+d)
                 modal.find('.modal-body #e').text(' '+e)
                 modal.find('.modal-body #f').text(' '+f)
+                modal.find('.modal-body #sal').text(' '+sal)
+                modal.find('.modal-body #age1').text(' '+age1)
+                modal.find('.modal-body #age2').text(' '+age2)
             });
 
             //- settle transcation
