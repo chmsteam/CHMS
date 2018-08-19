@@ -29,19 +29,21 @@
     "express-fileupload": "^0.2.0",
     "express-mailer": "^0.3.1",
     "express-session": "^1.15.5",
+    "fresh": "^0.5.2",
+    "lodash": "^4.17.10",
+    "mime": "^1.4.1",
+    "moment": "^2.22.2",
     "morgan": "^1.8.2",
     "mysql": "^2.13.0",
     "node-mailer": "^0.1.1",
     "nodemailer-smtp-transport": "^2.7.4",
     "nodemon": "^1.17.5",
     "npm": "^5.4.2",
+    "pdfkit": "^0.8.3",
     "pug": "^2.0.0-rc.2",
     "serve-static": "^1.12.3",
     "sweetalert": "^2.1.0",
     "winston": "^2.3.1",
-    "xoauth2": "^1.2.0",
-    "mime": "^1.4.1",
-    "lodash": "^4.17.10",
-    "fresh": "^0.5.2"
+    "xoauth2": "^1.2.0"
   }
 }
