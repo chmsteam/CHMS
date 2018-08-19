@@ -2,6 +2,8 @@ var express = require('express');
 var flog = require( '../login/loggedin');
 var router = express.Router();
 var moment = require('moment');
+var pdf = require('pdfkit');
+var fs = require('fs');
 
 
 //Request Add Page
@@ -174,9 +176,6 @@ function findresult(req,res,next){
   var db = require('../../lib/database')();
   db.query(`SELECT strName, strFName, strLName, strGender, strPicture, strRClientStatus, intRHWID, intRRequestID, intRRequest_No, intRHWID, TIMESTAMPDIFF(YEAR,datBirthDay,CURDATE()) AS age FROM tblresults AS a INNER JOIN tbluser AS b ON a.intRHWID = b.intID INNER JOIN tblhouseholdworker AS c ON b.intID=c.intHWID INNER JOIN tblmservice AS d ON d.intID = c.intServiceID
               WHERE strRHWStatus = 'Approved' AND strRClientStatus IN ('Approved') AND intRRequestID = ?`,[req.params.userid], function (err, results) {
-    if (err) return res.send(err);
-    if (!results[0])
-    console.log('xxxxxxxxxxxxxxxxxxxx'+req.params.requestid);
     req.hw= results;
     return next();
   });
@@ -184,10 +183,17 @@ function findresult(req,res,next){
 // ---------------------------------------------------------------------------DECISION MADE BY CLIENT
 function clientdecision(req,res){
   var db = require('../../lib/database')();
+  var db2 = require('../../lib/database')();
+  var db3 = require('../../lib/database')();
   if(req.body.btn1 == 'approve'){
     db.query(`UPDATE tblresults SET strRClientStatus= 'Approved' WHERE strRClientStatus='Waiting' AND intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}'`,function (err) {
       console.log('xxxxxxxxxxxxxx'+err);
-      res.redirect('/request_add/mylist_'+req.body.transid, flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, rendermylist);
+      db2.query(`SELECT * FROM tblresults as a INNER JOIN tblinitialrequest as b on a.intRRequestID = b.intIRequestID WHERE intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}' AND strRClientStatus = 'Approved'`, function (err,results){
+        db3.query(`INSERT INTO tblcontract VALUES ('${req.body.transid}', '${req.body.hwid}', '${results[0].deciRequestSalary}', '')`, function(err,results2){
+          console.log('yyyyyyyyyyyyy'+err)
+          res.redirect('/request_add/mylist_'+req.body.transid, flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, rendermylist);
+        })
+      })
     })
   }
   else if(req.body.btn1 == 'reject'){
@@ -267,6 +273,7 @@ function renderviewlist(req,res){
 
 // ---------------------------------------------------------------------DEPLOYMENT PROCESS
 router.post('/contract', flog, findcreatedlist2);
+
 function findcreatedlist2(req, res){
   var db = require('../../lib/database')();
   var db2 = require('../../lib/database')();
@@ -288,53 +295,86 @@ function findcreatedlist2(req, res){
   });
 }
 
-router.get('/contract_:userid',flog, findcreatedlist, rendercontract);
+router.get('/contract_:userid',flog, findcreatedlist, findcontractstatus, findcontractstatusforhw, findnoofacceptcontract, findtotnoofacceptcontract, rendercontract);
 function rendercontract(req,res){
   if(req.valid==1)
-    res.render('request_add/views/contract',{usertab: req.user, listtab: req.list});
+    res.render('request_add/views/contract',{usertab: req.user, listtab: req.list, conttab: req.cont, hwtab: req.hw, noacontracttab: req.noacontract, tnocontract: req.tnocontract });
   else if(req.valid==0)
     res.render('admin/views/invalidpages/normalonly');
   else
     res.render('login/views/invalid');
 }
-// function contracts(req,next){
-//   var db = require('../../lib/database')();
-//   db.query(`SELECT * FROM tblcontract WHERE intConTransID = ? `,[req.params.userid], function (err, results) {
-//     console.log(err);
-//     req.hw= results;
-//     console.log(req.hw);
-//     return next();
-//   });
-// }
-// function contractresponse(req,res,next){
-//   var db = require('../../lib/database')();
-//   console.log('xxxxxxxxxxxxxxx'+req.params.userid)
-//   db.query(`SELECT strName, strFName, strLName, intRHWID, intRRequestID, deciRequestSalary FROM tblresults AS a INNER JOIN tbluser AS b ON a.intRHWID = b.intID INNER JOIN tblhouseholdworker AS c ON b.intID=c.intHWID INNER JOIN tblmservice AS d ON d.intID = c.intServiceID
-// 		    INNER JOIN tblfinalrequest on intRequestID =  intRRequestID INNER JOIN tblinitialrequest ON intIRequest_No = intRRequest_No
-//         WHERE strRHWStatus = 'Approved' AND strRClientStatus IN ('Approved') AND intRRequestID = ?`,[req.params.userid], function(err, results, fields){
-//           db.query(`INSERT INTO tblcontract VALUES ('${results[0].intRRequestID}', '${results[0].intRHWID}', '${results[0].deciRequestSalary}', '')`, function(err, results){
+function findcontractstatus(req,res,next){
+    var db = require('../../lib/database')();
+    db.query(`SELECT * FROM tbltransaction WHERE intTRequestID = '${req.params.userid}'`, function(err, results){
+      console.log('error: '+err);
+      req.cont = results;
+      return next();
+    })
+}
+function findcontractstatusforhw(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT a.*, strName, strFName, strLName FROM tblcontract AS a INNER JOIN tblhouseholdworker as b on a.intConHWID = b.intHWID INNER JOIN tblmservice as c on c.intID = b.intServiceID INNER JOIN tbluser as d on d.intID = b.intHWID WHERE intConTransID = '${req.params.userid}'`, function(err, results){
+    console.log('error: '+err);
+    req.hw = results;
+    return next();
+  })
+}
 
-//           })
+function findnoofacceptcontract(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) as noa FROM tblcontract WHERE strConStatus='Approved' AND intConTransID='${req.params.userid}'`,function(err,results){
+    console.log(err)
+    req.noacontract = results;
+    return next();
+  })
+}
+function findtotnoofacceptcontract(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) as tno FROM tblcontract WHERE intConTransID='${req.params.userid}'`,function(err,results){
+    console.log(err)
+    req.tnocontract = results;
+    return next();
+  })
+}
 
-//           return next();
-//           })
-// }
+// -------------------------------------------------------------------------------------SEND CONTRACT TO HW
+router.post('/send_contract_hw', flog, sendcontracttohw)
+function sendcontracttohw (req,res){
+  var db = require('../../lib/database')();
+    if (req.body.btn1 == 'sendtohw'){
+      db.query(`UPDATE tblcontract SET strConStatus='Waiting' WHERE intConHWID = '${req.body.hwid}' and intConTransID = '${req.body.transid}'`, function(err){
+        res.redirect('/request_add/contract_'+req.body.transid,flog, findcreatedlist,rendercontract)
+      })
+    }
+}
+
+// ------------------------------------------------------------------------------------------SEND REQ TO ADMIN
 
 router.post('/deccontract',flog, contractstatus);
 function contractstatus (req,res){
   var db = require('../../lib/database')();
-  var db2 = require('../../lib/database')();
-  console.log('xxxxxxxxxxxxxxxxxxxxxxxx');
   if(req.body.btn1 == 'accept'){
     db.query(`UPDATE tbltransaction SET strContractStatus = 'Accepted' WHERE intTClientID = '${req.session.user}' AND intTRequestID = '${req.body.transid}'`,function(err){
       console.log(err);
-      db.query(`UPDATE tblfinalrequest SET strRequestStatus = 'Pending' WHERE intRequest_ClientID = '${req.session.user}' AND intRequestID = '${req.body.transid}'`,function(err){
-        console.log(err);
-        res.redirect('/request_add/invoice_'+req.body.transid);
-      })
+      res.redirect('/request_add/contract_'+req.body.transid,flog, findcreatedlist, findcontractstatus, rendercontract);
     })
   }
 }
+// db.query(`UPDATE tblfinalrequest SET strRequestStatus = 'Pending' WHERE intRequest_ClientID = '${req.session.user}' AND intRequestID = '${req.body.transid}'`,function(err){
+//   console.log(err);
+//   res.redirect('/request_add/invoice_'+req.body.transid);
+// })
+// router.get('/pdfsmp',flog, pdfsmp);
+// function pdfsmp(req,res){
+//   var myDoc = new pdf;
+//   myDoc.pipe(fs.createWriteStream('node.pdf'));
+//   // myDoc.font('Times New Roman')
+//   //       .fontSize(48)
+//   //       .text('NodeJS PDF Document', 100, 100);
+//   myDoc.end();
+//   console.log('----Finish');
+// }
 
 //------------------------------------------------------------------------------------------- INVOICE 
 router.get('/invoice_:userid',flog, findagency, findclient, findtrans, finditems, findagencyfee, findotherfee, renderinvoice);

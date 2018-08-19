@@ -15,6 +15,19 @@ function render(req,res){
 router.get('/', flog, render);
 
 //--------------------------------------------------------------------------------------MAINTENANCE
+router.get('/maintenance_contractofservices',flog,rendermaintcontractofservices)
+function rendermaintcontractofservices(req,res){
+  if(req.valid==0)
+    res.render('admin/views/maintenance_contractofservices',{usertab: req.user});
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+
+
+
+
 function rendermaintenanceIR(req,res){
   if(req.valid==0)
     res.render('admin/views/maintenance_ir',{usertab: req.user, itemtab:req.item});

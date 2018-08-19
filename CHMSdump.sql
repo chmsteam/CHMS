@@ -199,14 +199,11 @@ DROP TABLE IF EXISTS `tblMskills`;
 CREATE TABLE IF NOT EXISTS `CHMS`.`tblMskills` (
 	`intID` INT NOT NULL auto_increment,
     `strName` VARCHAR(100) NULL,
-    `intSkillID_intID` int NULL,
-    `strStatus` VARCHAR(45) NULL,
-    KEY `intSkillID_idx`(`intID`),
-    CONSTRAINT `intSkillID_intID` FOREIGN KEY (`intSkillID_intID`) REFERENCES `tblMservice` (`intID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+    `strStatus` VARCHAR(45) NULL
 )
 ENGINE = InnoDB;
 INSERT INTO `tblMskills` VALUES
-('1','Can international course.','2','Active'),('2','Knows how to iron clothes','1','Inactive');
+('1','Can international course.','Active'),('2','Knows how to iron clothes','Inactive');
 
 DROP TABLE IF EXISTS `tblmcity`;
 CREATE TABLE IF NOT EXISTS `CHMS`.`tblmcity` (

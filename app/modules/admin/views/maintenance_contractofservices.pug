@@ -1,0 +1,59 @@
+extends ../../../templates/navbaradmin.pug
+
+block content
+    // page content
+    .right_col(role='main')
+        div
+            .page-title
+                .title_left
+                    h5
+                        | Maintenance /&nbsp
+                        b Contract of Services
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
+                        .x_panel
+                            br
+                            br
+                            table#datatable.table.table-striped.table-bordered
+                                thead
+                                    tr
+                                        //- th ID NO.
+                                        th SECTION
+                                        th Content
+                                        th ACTION
+                                tbody
+                                    tr
+                                        td Header
+                                        td
+                                            p 73 F Shaw Blvd. Brgy Daang Bakal, Mandaluyong City KNOW ALL MEN BY THESE PRESENTS: This contract of Services entered into on this ____ day of _______________, At the City of Mandaluyong, by and between: MEGA PACIFIC SERVICES, a local manpower service provider registered under and by virtue of the Republic of the Philippines, with principal place of business at No. 73F Shaw Blvd. Brgy. Daang Bakal, mandaluyong City represented by its owner and proprietor MS. BENILDA D. LAZARO, hereinafter referred to as the “AGENCY”, ____________________________, Filipino, single/ married, of legal age, and with residence address at _____________________________________ herein after referred to as the “EMPLOYEE”; -AND- ____________________________, Filipino, single/ married, of legal age, and with residence address at _____________________________________ herein after referred to as the “EMPLOYER”. WITNESSETH:  WHEREAS, the EMPLOYER is in need of manpower services necessary for his business/household;  WHEREAS, the EMPLOYEE, thru the AGENCY, offers nampower services needed by the EMPLOYER and the EMPLOYEE is also in need of an EMPLOYER from where he can have gainful employment;  WHEREAS, the EMPLOYER has interviewed the EMPLOYEE thoroughly and that the EMPLOYER personally chose the EMPLOYEE. Likewise, the EMPLOYEE hereby accepts salary and position offered by the EMPLOYER on his own free will and decision; WHEREAS, the EMPLOYER hereby accepts the offer of the EMPLOYEE, thru the AGENCY, under the following terms and conditions
+                                    tr
+                                        td Duties of Employee and Employer, Salaries and Living Conditions
+                                    tr   
+                                        td Fees and Charges
+                                    tr    
+                                        td Agency's Responsibilities
+                                    tr    
+                                        td Termination of Contract and Replacement
+                                    tr    
+                                        td Witness
+                                    tr    
+                                        td Acknowledgement
+                                    //- each item in itemtab
+                                    //-     tr
+                                    //-         td #{item.strName}
+                                    //-         td #{item.strStatus}
+                                    //-             //- input.js-switch(type='checkbox', checked='')
+                                    //-         td
+                                    //-             button.btn.btn-primary(type='button', data-toggle='modal', data-target='#edit_city', data-id=item.intID, data-name=item.strName)
+                                    //-                 i.fa.fa-edit
+                                    //-                 |   Edit
+                                    //-             if item.strStatus=='Active'
+                                    //-                 a(href="disable_city/"+item.intID)
+                                    //-                     button.btn.btn-danger(type='button')
+                                    //-                         i.fa.fa-toggle-off
+                                    //-                         |   Disable
+                                    //-             else if item.strStatus=='Inactive'
+                                    //-                 a(href="enable_city/"+item.intID)
+                                    //-                     button.btn.btn-danger(type='button')
+                                    //-                         i.fa.fa-toggle-on
+                                    //-                         |   Enable
