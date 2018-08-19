@@ -103,7 +103,7 @@ function rendermaintenanceskills(req,res){
 function findmskills(req, res, next){
   var db = require('../../lib/database')();
   var db2 = require('../../lib/database')();
-  db.query("SELECT a.intID AS skillID, a.strName AS skillName, b.intID AS serviceID, b.strName AS serviceName, a.strStatus AS skillStatus FROM tblmskills as a INNER JOIN tblmservice as b ON a.intSkillID_intID = b.intID", function (err, results) {
+  db.query("SELECT a.intID AS skillID, a.strName AS skillName, a.strStatus AS skillStatus FROM tblmskills AS a", function (err, results) {
     if (err) return res.send(err);
     if (!results[0])
     console.log('');
@@ -111,17 +111,17 @@ function findmskills(req, res, next){
     return next();
   });
 }
-function findms(req, res, next){
-  var db = require('../../lib/database')();
-  var db2 = require('../../lib/database')();
-  db.query("SELECT * FROM tblmservice", function (err, results) {
-    if (err) return res.send(err);
-    if (!results[0])
-    console.log('');
-    req.items = results;
-    return next();
-  });
-}
+// function findms(req, res, next){
+//   var db = require('../../lib/database')();
+//   var db2 = require('../../lib/database')();
+//   db.query("SELECT * FROM tblmservice", function (err, results) {
+//     if (err) return res.send(err);
+//     if (!results[0])
+//     console.log('');
+//     req.items = results;
+//     return next();
+//   });
+// }
 function rendermaintenancecity(req,res){
   if(req.valid==0)
     res.render('admin/views/maintenance_c',{usertab: req.user, itemtab: req.item});
@@ -266,7 +266,7 @@ router.get('/maintenance_incident_report', flog, findmincidentreport, rendermain
 router.get('/maintenance_requirements', flog, findmrequirements, rendermaintenanceR);
 router.get('/maintenance_type_of_leave', flog, findmleave, rendermaintenanceTL);
 router.get('/maintenance_type_of_services', flog, findmservice, rendermaintenanceTS);
-router.get('/maintenance_householdworker_skills', flog, findmskills, findms, rendermaintenanceskills);
+router.get('/maintenance_householdworker_skills', flog, findmskills, rendermaintenanceskills);
 router.get('/maintenance_city', flog, findmcity, rendermaintenancecity);
 
 router.get('/enable_requirement/:userid',flog,enableRequirement);
@@ -345,7 +345,7 @@ router.post('/edit_service',(req, res) => {
 
 router.post('/add_skill',(req, res) => {
   var db = require('../../lib/database')();
-  db.query(`INSERT INTO tblmskills (strName, intSkillID_intID, strStatus)  VALUES ("${req.body.skill}", "${req.body.service}", "Active")`, (err) => {
+  db.query(`INSERT INTO tblmskills (strName, strStatus)  VALUES ("${req.body.skill}", "Active")`, (err) => {
     if (err) console.log(err);
     res.redirect('/admin/maintenance_householdworker_skills');
   });
@@ -893,18 +893,27 @@ function renderprofhw(req,res){
 
 
 //---------------------------------------------------------------------------------HOUSEHOLD WORKER REGISTRATION
+//dropdown(other skills)
+function dropSkills(req, res, next){
+  var db = require('../../lib/database')();
+  db.query('SELECT * FROM tblmskills WHERE strStatus = "Active" ', function (err, results, fields) {
+      if (err) return res.send(err);
+      req.dropSkills = results;
+      return next();
+  });
+}
 function renderregistrationHW(req,res){
   // var educelem = ['hey', req.body.elemname, req.body.elemadd, req.body.elemyear];
   // console.log('xxxxxxxxxxxxx'+educelem[0]);
   if(req.valid==0)
-    res.render('admin/views/registration_household_worker',{usertab: req.user, itemtab: req.item});
+    res.render('admin/views/registration_household_worker',{usertab: req.user, itemtab: req.item, dropskills: req.dropSkills});
   else if(req.valid==1)
     res.render('admin/views/invalidpages/normalonly');
   else
     res.render('login/views/invalid');
 
 }
-router.get('/registration_household_worker', flog, findmservice, renderregistrationHW);
+router.get('/registration_household_worker', flog, findmservice, dropSkills,  renderregistrationHW);
 
 
 router.post('/register_householdworker',(req, res) => {
@@ -970,7 +979,8 @@ router.post('/register_householdworker',(req, res) => {
                  '${req.body.municipality}',
                  '${req.body.city}',
                  '${req.body.paddress}',
-                 '${req.body.baddress}')`, (err) => {
+                 '${req.body.baddress}',
+                 '${req.body.skills}')`, (err) => {
                   if (err) console.log(err);
 
         if(req.body.elemname==''){

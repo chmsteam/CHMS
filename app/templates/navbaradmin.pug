@@ -412,4 +412,8 @@ html(lang='en')
               modal.find('.modal-body #_id').val(id)
               modal.find('.modal-header #a').text(id)
             });
-            
+            //other skills
+            $('select.SelectTemplate').change(function() {
+                    var currentVal = $('textarea').val();
+                    $('textarea.AddMessage').val(currentVal + $(this).val()); 
+            });

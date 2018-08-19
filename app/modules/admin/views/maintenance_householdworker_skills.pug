@@ -23,17 +23,17 @@ block content
                                 thead
                                     tr
                                         //- th ID NO.
-                                        th SKILL
-                                        th TYPE
-                                        th STATUS
-                                        th ACTION
+                                        th(style="text-align:center")  SKILL
+                                        //- th TYPE
+                                        th(style="text-align:center")  STATUS
+                                        th(style="text-align:center")  ACTION
                                 tbody
                                     each item in itemtab
-                                        tr
+                                        tr(style="text-align:center") 
                                         
                                             //- td #{item.skillID}
                                             td #{item.skillName}
-                                            td #{item.serviceName}
+                                            //- td #{item.serviceName}
                                             td #{item.skillStatus}
                                                 //- input.js-switch(type='checkbox', checked='')
                                             td
@@ -66,12 +66,12 @@ block content
                                         span.required *
                                     .col-md-6.col-sm-6.col-xs-12
                                         input#requirementname.form-control.col-md-7.col-xs-12(type='text', required='required', name='skill')
-                                .form-group
-                                    label.control-label.col-md-3.col-sm-3.col-xs-12 Type of Service
-                                    .col-md-6.col-sm-6.col-xs-12
-                                        select(name='service').form-control
-                                            each items in itemtabs
-                                                option(value=''+items.intID) #{items.strName}
+                                //- .form-group
+                                //-     label.control-label.col-md-3.col-sm-3.col-xs-12 Type of Service
+                                //-     .col-md-6.col-sm-6.col-xs-12
+                                //-         select(name='service').form-control
+                                //-             each items in itemtabs
+                                //-                 option(value=''+items.intID) #{items.strName}
 
                                 .ln_solid
                                 .form-group.pull-right
@@ -96,14 +96,14 @@ block content
                                             span.required *
                                         .col-md-6.col-sm-6.col-xs-12
                                             input.form-control.col-md-7.col-xs-12(type='text', id='_skillname', required='required', name='skillname')
-                                    .form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12 Type of Service
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            select(name='serviceid').form-control
-                                                option(id='_serviceid')
-                                                    i same as before.
-                                                each items in itemtabs
-                                                    option(value=''+items.intID) #{items.strName}
+                                    //- .form-group
+                                    //-     label.control-label.col-md-3.col-sm-3.col-xs-12 Type of Service
+                                    //-     .col-md-6.col-sm-6.col-xs-12
+                                    //-         select(name='serviceid').form-control
+                                    //-             option(id='_serviceid')
+                                    //-                 i same as before.
+                                    //-             each items in itemtabs
+                                    //-                 option(value=''+items.intID) #{items.strName}
                                     .ln_solid
                                     .form-group.pull-right
                                         button.btn.btn-success(type='submit') Update

@@ -9,7 +9,7 @@ block content
                         .x_panel
                             .x_title
                                 each list in listtab
-                                    h1 My List: "#{list.strRequestName}"
+                                    p(style="font-size:30px;") List: #{list.strRequestName}
                                     .clearfix
                             br
                             each list in listtab
@@ -50,7 +50,7 @@ block content
                                             td
                                                 button.btn.btn-info.btn-xs(type='button' data-toggle="modal" data-target="#view_item"
                                                                         , data-requestno=item.intIRequest_No, data-servicename=item.strName, data-quantity=item.intIQuantity, data-gender=item.strIRequestGender, data-educ=item.strIRequestEduc, data-exp=item.intIRequestExp
-                                                                        ) View
+                                                                        , data-sal= item.deciRequestSalary, data-age=item.intIRequestAge1 , data-ages=item.intIRequestAge2) View
                                                     if list.strRequestStatus == 'Draft'
                                                         button.btn.btn-warning.btn-xs(type='button' data-toggle="modal" data-target="#edit_item") Edit
                                                         button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item") Delete
@@ -122,133 +122,179 @@ block content
     // /modals
 
     // Add Service Modal
-    #Add.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-hidden='true')
-        .modal-dialog.modal-lg
-            .modal-content
-                .modal-header
-                    button.close(type='button', data-dismiss='modal')
-                        span(aria-hidden='true') ×
-                    h4#myModalLabel.modal-title Add Service
-                .modal-body
-                    .x_panel
-                        .x_content
-                            br
-                            each list in listtab
-                                form(method='POST', action='add_to_mylist_'+list.intRequestID).form-horizontal
+    #Add.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog(role='document')
+            each list in listtab
+                form(method='POST', action='add_to_mylist_'+list.intRequestID).form-horizontal
+                    .modal-content
+                        .modal-header(style="background-color:#54D98C;  color:black")
+                            button.close(type='button', data-dismiss='modal')
+                                span(aria-hidden='true') ×
+                            h4#myModalLabel.modal-title Add Service
+                        .modal-body
+                            .row
+                                .col-md-6
                                     .form-group
-                                        label.control-label.col-md-5.col-sm-3.col-xs-12
-                                            | Service:
-                                            span.required
-                                        .col-md-2.col-sm-9.col-xs-12
-                                            select#skil(name='service').form-control
-                                                each service in servicetab
-                                                    option(value=''+service.intID) #{service.strName}
+                                        | Service:
+                                        select#skil(name='service').form-control
+                                            each service in servicetab
+                                                option(value=''+service.intID) #{service.strName}
+                            .row
+                                .col-md-3
                                     .form-group
-                                        label.control-label.col-md-5.col-sm-12.col-xs-12
-                                            | Quantity
-                                            span.required
-                                        .col-xs-1
-                                            input.form-control(type='number' name='quantity' min='1', max='10' value='1' required)
+                                        | No. of Person Needed
+                                        span.required
+                                        input.form-control(type='number' name='quantity' min='1', max='10' value='1' required)
+                                br
+                                .col-md-4
                                     .form-group
-                                        label.control-label.col-md-5.col-sm-12.col-xs-12
-                                            | Age (From - To):
-                                            span.required
-                                        .col-xs-2
-                                            input.form-control(type='number' name='age1' min='18', max='100' value='18' required)
-                                        .col-xs-2
-                                            input.form-control(type='number' name='age2' min='18', max='100' value='18' required)   
+                                        | Gender:
+                                        span.required
+                                        select(name='gender').form-control
+                                            option(value='Any') Any
+                                            option(value='Male') Male
+                                            option(value='Female') Female
+                                .form-group &nbsp&nbsp&nbspAge (From - To):
+                                    .row
+                                        .col-md-2
+                                            .form-group
+                                                input.form-control(type='number' name='age1' min='18', max='100' value='18' required)
+                                        .col-md-2
+                                            .form-group
+                                                input.form-control(type='number' name='age2' min='18', max='100' value='18' required)  
+                                
+                            .row
+                                .col-md-6
                                     .form-group
-                                        label.control-label.col-md-5.col-sm-3.col-xs-12
-                                            | Gender:
-                                            span.required
-                                        .col-md-2.col-sm-9.col-xs-12
-                                            select(name='gender').form-control
-                                                option(value='Any') Any
-                                                option(value='Male') Male
-                                                option(value='Female') Female
+                                        | Highest Educational Attainment:
+                                        span.required
+                                        select.form-control(name='educ')
+                                            option(value='Elementary') Elementary
+                                            option(value='High School') High School
+                                            option(value='College') College
+                                            option(value='Vocational') Vocational
+                                .col-md-4
                                     .form-group
-                                        label.control-label.col-md-5.col-sm-3.col-xs-12
-                                            | Highest Educational Attainment:
-                                            span.required
-                                        .col-md-2.col-sm-9.col-xs-12
-                                            select.form-control(name='educ')
-                                                option(value='Elementary') Elementary
-                                                option(value='High School') High School
-                                                option(value='College') College
-                                                option(value='Vocational') Vocational
+                                        | Work Experience (at least):
+                                        span.required
+                                        input#first-name.form-control.col-md-7.col-xs-12(type='number' name='workexp' value='0')
+                            .row
+                                .col-md-4
                                     .form-group
-                                        label.control-label.col-md-5.col-sm-3.col-xs-12
-                                            | Work Experience (at least):
-                                            span.required
-                                        .col-md-2.col-sm-6.col-xs-12
-                                            input#first-name.form-control.col-md-7.col-xs-12(type='number' name='workexp' value='0')
-                                    .form-group
-                                        label.control-label.col-md-5.col-sm-3.col-xs-12
-                                            | Willing to work for a monthly salary of (minimum):&nbspP
-                                            span.required
-                                        .col-md-2.col-sm-6.col-xs-12
-                                            input#first-name.form-control.col-md-7.col-xs-12(type='number' name='salary' value='0')     
-                                    //- .form-group
-                                    //-     label.control-label.col-md-5.col-sm-3.col-xs-12
-                                    //-         | Work Type:
-                                    //-         span.required
-                                    //-     .col-md-5.col-sm-6.col-xs-12
-                                    //-         input#optionsRadios1(type='radio', checked='', value='stayin', name='worktype')
-                                    //-         |  Stay in &nbsp
-                                    //-         input#optionsRadios1(type='radio', checked='', value='stayout', name='worktype')
-                                    //-         |  Stay out
-
-
-                                            //- label
-                                            //-     input#optionsRadios1(type='radio', checked='', value='option1', name='optionsRadios')
-                                            //-     |  Option one. only select one option
-                                        
+                                        | Willing to work for a monthly salary of (minimum):&nbspP
+                                        span.required
+                                        input#first-name.form-control.col-md-7.col-xs-12(type='number' name='salary' value='0')     
+                                .col-md-8
                                     .x_panel
-                                        //- br
-                                        //- h5 Other Attributes : 
-                                        //- br  
-                                        //- .form-group
-                                        //- each skill in skilltab
-                                        //-     .form-group
-                                        //-         .checkbox
-                                        //-             label
-                                        //-                 input.flat(id=''+skill.intID, type='checkbox')
-                                        //-                 |  #{skill.strName}
-                                        .form-group.pull-right
-                                            .col-md-12.col-sm-9.col-xs-12.pull-right
-                                                button.btn.btn-danger.btn-lg(type='button'  data-dismiss='modal') Cancel
-                                                button.btn.btn-success.btn-lg(type='submit') Submit
+                                        .x_title
+                                            h5 Recommended Salary
+                                            .clearfix
+                                        .x_content
+                                            .row
+                                                .col-md-4
+                                                    p(style="font-weight:bold") Housemaids
+                                                .col-md-8
+                                                    |Php 6000 (Negotiable)
+                                            .row
+                                                .col-md-4
+                                                    p(style="font-weight:bold") Yaya
+                                                .col-md-8
+                                                    |Php 6000 (Negotiable)
+                                            .row
+                                                .col-md-4
+                                                    p(style="font-weight:bold") Cook
+                                                .col-md-8
+                                                    |Php 8000 (Negotiable)
+                                            .row
+                                                .col-md-4
+                                                    p(style="font-weight:bold") Driver
+                                                .col-md-8
+                                                    |Php 13k (Stay-in)
+                        .modal-footer
+                            button.btn.btn-danger.btn-md(type='button'  data-dismiss='modal') Cancel
+                            button.btn.btn-success.btn-md(type='submit') Submit
 
-    
-    // View Item Modal
-    #view_item.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-hidden='true')
-        .modal-dialog.modal-sm
+
+
+    #view_item.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog(role='document')
             .modal-content
-                .modal-header
+                .modal-header(style="background-color:#5FAEE3; color:black")
                     button.close(type='button', data-dismiss='modal')
                         span(aria-hidden='true') ×
-                    h4
-                        b Number: 
-                        i#a
+                    h4.modal-title#a
                 .modal-body
-                    .tile-stats
-                        ul
-                            li 
-                                b Type Of Service:
-                                i#b
-                            li 
-                                b Quantity:
-                                i#c
-                            li Age:
-                            li 
-                                b Gender:
-                                i#d
-                            li 
-                                b Educational Attainment:
-                                i#e
-                            li 
-                                b Work Experience:
-                                i#f
+                    .row
+                        .col-md-3
+                            .form-group
+                                | No. of Person Needed
+                                span.required
+                                input.form-control#c(type='number' readonly)
+                        br
+                        .col-md-4
+                            .form-group
+                                | Gender:
+                                span.required
+                                input.form-control#d(type='text' readonly)
+                        .form-group &nbsp&nbsp&nbspAge (From - To):
+                            .row
+                                .col-md-2
+                                    .form-group
+                                        input.form-control#age1(type='number' readonly)
+                                .col-md-2
+                                    .form-group
+                                        input.form-control#age2(type='number' readonly)  
+                        
+                    .row
+                        .col-md-6
+                            .form-group
+                                | Highest Educational Attainment:
+                                span.required
+                                input.form-control#e(type='text' readonly)
+                        .col-md-4
+                            .form-group
+                                | Work Experience (at least):
+                                span.required
+                                input#f.form-control.col-md-7.col-xs-12(type='number' name='workexp' readonly)
+                    .row
+                        .col-md-7
+                            .form-group
+                                | Willing to work for a monthly salary of (minimum): PHP
+                                span.required
+                                input.form-control.col-md-7.col-xs-12#sal(type='number' name='salary' readonly)     
+
+                .modal-footer
+                    button.btn.btn-danger.btn-md(type='button'  data-dismiss='modal') Close
+    
+    //- // View Item Modal
+    //- #view_item.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-hidden='true')
+    //-     .modal-dialog.modal-sm
+    //-         .modal-content
+    //-             .modal-header
+    //-                 button.close(type='button', data-dismiss='modal')
+    //-                     span(aria-hidden='true') ×
+    //-                 h4
+    //-                     b Number: 
+    //-                     i#a
+    //-             .modal-body
+    //-                 .tile-stats
+    //-                     ul
+    //-                         li 
+    //-                             b Type Of Service:
+    //-                             i#b
+    //-                         li 
+    //-                             b Quantity:
+    //-                             i#c
+    //-                         li Age:
+    //-                         li 
+    //-                             b Gender:
+    //-                             i#d
+    //-                         li 
+    //-                             b Educational Attainment:
+    //-                             i#e
+    //-                         li 
+    //-                             b Work Experience:
+    //-                             i#f
     
     // Deployment Modal
     #deployment.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-hidden='true')
