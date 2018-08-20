@@ -23,13 +23,13 @@ block content
                                 thead
                                     tr
                                         //- th ID NO.
-                                        th INCIDENT REPORT
-                                        th DESCRIPTION
-                                        th STATUS
-                                        th ACTION
+                                        th(style="text-align:center")  INCIDENT REPORT
+                                        th(style="text-align:center")  DESCRIPTION
+                                        th(style="text-align:center")  STATUS
+                                        th(style="text-align:center")  ACTION
                                 tbody
                                     each item in itemtab
-                                        tr
+                                        tr(style="text-align:center") 
                                         
                                             //- td #{item.intID}
                                             td #{item.strName}

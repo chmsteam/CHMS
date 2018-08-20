@@ -92,31 +92,31 @@ block content
                                         button.btn.btn-danger.btn-lg(type='submit' name='btn1' value='delete') Delete
     #Add.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
         .modal-dialog.modal-md
-            .modal-content
-                .modal-header
-                    button.close(type='button', data-dismiss='modal')
-                        span(aria-hidden='true') ×
-                    h4#myModalLabel.modal-title Create List
-                .modal-body
-                    .x_panel
-                        .x_content
-                            form.form-horizontal(method='POST' action='/request_add/createlist_services/createlist')
+            form.form-horizontal(method='POST' action='/request_add/createlist_services/createlist')
+                .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal')
+                            span(aria-hidden='true') ×
+                        h4#myModalLabel.modal-title Create List
+                    .modal-body
+                        .row
+                            .col-md-6
                                 .form-group
-                                    label.control-label.col-md-4.col-sm-3.col-xs-12 Name of list:
-                                    .col-md-4.col-sm-9.col-xs-12
-                                        input.form-control(type='text', name='reqname', required='')
-                                        input.form-control(id='thedate' type='date', name='reqdate' style='display:none;')
+                                    | List Name
+                                    input.form-control(type='text', name='reqname', required)
+                                    input.form-control(id='thedate' type='date', name='reqdate' style='display:none;')
+                            .col-md-6
                                 .form-group
-                                    label.control-label.col-md-4.col-sm-3.col-xs-12 Date needed:
-                                    .col-md-4.col-sm-9.col-xs-12
-                                        input.form-control(type='date', name='dateneed' required)
+                                    | Date Needed
+                                    input.form-control(type='date', name='dateneed' required)
+                        
+                        .row
+                            .col-md-10
                                 .form-group
-                                    label.control-label.col-md-4.col-sm-3.col-xs-12 Description:
-                                    .col-md-4.col-sm-9.col-xs-12
-                                        textarea.form-control(rows='5', name='reqdesc')
-                                .form-group.pull-right
-                                    .col-md-12.col-sm-9.col-xs-12.pull-right
-                                        button.btn.btn-success.btn-lg(type='submit',  onCLick='time();') Create
+                                    |Description
+                                    textarea.form-control.AddMessage(rows='10' name='reqdesc')
+                    .modal-footer
+                        button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Create
     
     //- scripts
     script.

@@ -44,7 +44,7 @@ html(lang='en')
               #sidebar-menu.main_menu
                 .menu_section
                     h3
-                    ul.side-menu(style='padding-left:30%')
+                    ul.side-menu
                         li
                             | &nbsp&nbsp
                             a(href='hwRegi')
@@ -163,14 +163,20 @@ html(lang='en')
         var d = button.data('gender')
         var e = button.data('educ')
         var f = button.data('exp')
+        var sal = button.data('sal')
+        var age1 = button.data('age')
+        var age2 = button.data('ages')
 
         var modal = $(this)
-          modal.find('.modal-header #a').text(' '+a)
-          modal.find('.modal-body #b').text(' '+b)
-          modal.find('.modal-body #c').text(' '+c)
-          modal.find('.modal-body #d').text(' '+d)
-          modal.find('.modal-body #e').text(' '+e)
-          modal.find('.modal-body #f').text(' '+f)
+          modal.find('.modal-header #a').text(b)
+          modal.find('.modal-body #b').val(b)
+          modal.find('.modal-body #c').val(c)
+          modal.find('.modal-body #d').val(d)
+          modal.find('.modal-body #e').val(e)
+          modal.find('.modal-body #f').val(f)
+          modal.find('.modal-body #age1').val(age1)
+          modal.find('.modal-body #age2').val(age2)
+          modal.find('.modal-body #sal').val(sal)
         });
 
         //- ----------------------------------------------------request_add index

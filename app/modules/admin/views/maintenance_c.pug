@@ -23,12 +23,12 @@ block content
                                 thead
                                     tr
                                         //- th ID NO.
-                                        th CITY
-                                        th STATUS
-                                        th ACTION
+                                        th(style="text-align:center")  CITY
+                                        th(style="text-align:center")  STATUS
+                                        th(style="text-align:center")  ACTION
                                 tbody
                                     each item in itemtab
-                                        tr
+                                        tr(style="text-align:center") 
                                             td #{item.strName}
                                             td #{item.strStatus}
                                                 //- input.js-switch(type='checkbox', checked='')

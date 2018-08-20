@@ -58,7 +58,8 @@ block content
                                                     td 
                                                     td
                                                         button.btn.btn-info(type='button', data-toggle="modal" data-target="#view_item"
-                                                                        , data-requestno=request.intIRequest_No, data-servicename=request.strName, data-quantity=request.intIQuantity, data-gender=request.strIRequestGender, data-educ=request.strIRequestEduc, data-exp=request.intIRequestExp)
+                                                                        , data-requestno=request.intIRequest_No, data-servicename=request.strName, data-quantity=request.intIQuantity, data-gender=request.strIRequestGender, data-educ=request.strIRequestEduc,
+                                                                         data-exp=request.intIRequestExp, data-sal= request.deciRequestSalary, data-age1=request.intIRequestAge1, data-age2=request.intIRequestAge2)
                                                             i.fa.fa-eye
                                                             |   View
                                                         each list in listtab
@@ -280,33 +281,47 @@ block content
                                                                     |  View Profile
                             
     //- modals
-    #view_item.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-hidden='true')
-        .modal-dialog.modal-sm
-            .modal-content
-                .modal-header
+    #view_item.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog(role='document')
+            .modal-content.modal-md
+                .modal-header(style="background-color:#2A3F54; color:white")
                     button.close(type='button', data-dismiss='modal')
                         span(aria-hidden='true') ×
                     h4
-                        b Number: 
-                        i#a
+                        b Type of Service: 
+                        i#title
                 .modal-body
-                    .tile-stats
-                        ul
-                            li 
-                                b Type Of Service:
-                                i#b
-                            li 
-                                b Quantity:
-                                i#c
-                            li Age:
-                            li 
-                                b Gender:
-                                i#d
-                            li 
-                                b Educational Attainment:
-                                i#e
-                            li 
-                                b Work Experience:
-                                i#f
+                    .row
+                        .col-md-6
+                            b No. of Person Needed:
+                            i#c
+                        .col-md-6
+                            b Gender:
+                            i#d
+                    hr
+                    .row
+                        .col-md-6
+                            b Educational Attainment:
+                            i#e
+                        .col-md-6
+                            b Work Experience:
+                            i#f
+                    hr
+                    .row
+                        .col-md-6
+                            b Desired Salary: Php
+                            i#sal
+                    hr
+
+                            
+                        //-  Age:
+                            
+                            
+                            
+                        //-     b Educational Attainment:
+                        //-     i#e
+                            
+                        //-     b Work Experience:
+                        //-     i#f
                             
                 

@@ -541,20 +541,25 @@ block content
                                                                     input.form-control.col-md-7.col-xs-12(type='text', name='add6', placeholder='')
                             
                                 #step-5
-                                    x_panel(style='background-color:#f1f1f1')
+                                    .x_panel(style='background-color:#f1f1f1')
                                         | Disclaimer!
                                         ul
-                                            li Select the checkbox of all the activities that you can do. 	 
+                                            li Select the all the activities that you can do. 	 
                                     .x_panel
-                                        .col-md-12
-                                            .col-md-6
-                                                div(style='padding-left:20px')
-                                                    br
-                                                    input.flat(type='checkbox')
-                                                    |  Can operate an ordinary iron.
+                                        .row
+                                            .col-md-5(style="float:right")
+                                                .form-group
+                                                    |Your Other Skills
+                                                    select.form-control.SelectTemplate(name='drop')
+                                                        each skill in dropskills
+                                                            -var kaalaman = " " + skill.strName + ","
+                                                            option(value=kaalaman readonly) #{skill.strName}
+                                        .row    
+                                            .col-md-7
+                                                .form-group
+                                                    textarea.form-control.AddMessage(rows='10' name="skills" required)
 
                                 // End SmartWizard Content
-    
     script(type='text/javascript').
         function haha(){
             if(document.getElementById("elemname").value == '' && document.getElementById("secondname").value != ''){
@@ -609,7 +614,6 @@ block content
                 document.getElementById("educskill").disabled = false;      
             }
         }
-
         //- function hoho(){
         //-     if(documement.getElementById("workfrom1").value == "" && documement.getElementById("workfrom2").value != ""){
         //-         document.getElementById("workfrom2").value = "";
