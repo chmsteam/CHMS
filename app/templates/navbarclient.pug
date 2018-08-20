@@ -114,7 +114,7 @@ html(lang='en')
                     li
                       a(href='/request_add') Add Household Worker
                     li
-                      a(href='javascript:;') Replace Household Worker
+                      a(href='/request_replacement') Replace Household Worker
                     li
                       a(href='javascript:;') Report Household Worker
                 li
@@ -172,4 +172,12 @@ html(lang='en')
           modal.find('.modal-body #e').text(' '+e)
           modal.find('.modal-body #f').text(' '+f)
         });
-        //- For mylist
+
+        //- ----------------------------------------------------request_add index
+        $('#delete_draftlist').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+
+            var modal = $(this)
+            modal.find('.modal-body #listid').val(id)
+        });

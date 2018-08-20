@@ -50,7 +50,7 @@ function countcontract(req, res, next){
 function offerdecision(req,res){
   var db = require('../../lib/database')();
   if(req.body.btn1 == 'accept'){
-    db.query(`UPDATE tblresults SET strRHWStatus= 'Approved', strRClientStatus='Waiting' WHERE strRHWStatus='Waiting' AND intRRequestID = '${req.body.transID}' AND intRRequest_No = '${req.body.reqno}' AND intRHWID = '${req.session.user}'`,function (err) {
+    db.query(`UPDATE tblresults SET strRHWStatus= 'Approved' WHERE strRHWStatus='Waiting' AND intRRequestID = '${req.body.transID}' AND intRRequest_No = '${req.body.reqno}' AND intRHWID = '${req.session.user}'`,function (err) {
       console.log(''+err);
       db.query(`UPDATE tblresults SET strRHWStatus='Rejected' WHERE strRHWStatus NOT IN ('Approved') AND intRHWID = '${req.session.user}'`,function (err) {
         console.log(''+err);

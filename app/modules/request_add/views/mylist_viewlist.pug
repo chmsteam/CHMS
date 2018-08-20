@@ -37,7 +37,8 @@ block content
                                                 tr
                                                 form#demo-form2.form-horizontal.form-label-left(method="POST" action="/request_add/decision_"+hw.intRRequest_No)
                                                     input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='hwid', value=''+hw.intRHWID, style="display:none;")
-                                                    input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transid', value=''+hw.intRRequestID, style="display:none;")                             
+                                                    input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transid', value=''+hw.intRRequestID, style="display:none;")
+                                                    input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='reqno', value=''+hw.intRRequest_No, style="display:none;")                                 
                                                     td #{hw.intRHWID}
                                                         //- input(type="number" name= 'hwid' style='visibility:hidden;', value=''+resulta.intHWID)
                                                     td #{hw.stFName} #{hw.strLName}
