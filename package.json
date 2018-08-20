@@ -36,6 +36,8 @@
     "morgan": "^1.8.2",
     "mysql": "^2.13.0",
     "node-mailer": "^0.1.1",
+    "nodemailer": "^4.6.8",
+    "nodemailer-express-handlebars": "^3.0.0",
     "nodemailer-smtp-transport": "^2.7.4",
     "nodemon": "^1.17.5",
     "npm": "^5.4.2",

@@ -547,17 +547,19 @@ block content
                                             li Select the all the activities that you can do. 	 
                                     .x_panel
                                         .row
-                                            .col-md-5(style="float:right")
+                                            .col-md-5(style="float:left")
                                                 .form-group
-                                                    |Your Other Skills
-                                                    select.form-control.SelectTemplate(name='drop')
+                                                    h2
+                                                        b Your Other Skills:
+                                                    select.select2_multiple.form-control.SelectTemplate(multiple='multiple', style="height:300px")
                                                         each skill in dropskills
                                                             -var kaalaman = " " + skill.strName + ","
-                                                            option(value=kaalaman readonly) #{skill.strName}
-                                        .row    
-                                            .col-md-7
+                                                            option(value=kaalaman readonly) #{skill.strName}   
+                                            br
+                                            br
+                                            .col-md-7(style="float:right")
                                                 .form-group
-                                                    textarea.form-control.AddMessage(rows='10' name="skills" required)
+                                                    textarea.form-control.AddMessage(rows='10' name="skills" required placeholder="Selected Skills")
 
                                 // End SmartWizard Content
     script(type='text/javascript').

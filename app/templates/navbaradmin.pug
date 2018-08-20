@@ -8,21 +8,24 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     title Admin
     // Bootstrap
-    link(href='../admin/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css', rel='stylesheet')
+    link(href='/admin/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css', rel='stylesheet')
     // Font Awesome
-    link(href='../admin/gentelella/vendors/font-awesome/css/font-awesome.min.css', rel='stylesheet')
+    link(href='/admin/gentelella/vendors/font-awesome/css/font-awesome.min.css', rel='stylesheet')
     // NProgress
-    link(href='../admin/gentelella/vendors/nprogress/nprogress.css', rel='stylesheet')
+    link(href='/admin/gentelella/vendors/nprogress/nprogress.css', rel='stylesheet')
     // iCheck
-    link(href='../admin/gentelella/vendors/iCheck/skins/flat/green.css', rel='stylesheet')
+    link(href='/admin/gentelella/vendors/iCheck/skins/flat/green.css', rel='stylesheet')
     // Custom Theme Style
-    link(href='../admin/gentelella/build/css/custom.min.css', rel='stylesheet')
+    link(href='/admin/gentelella/build/css/custom.min.css', rel='stylesheet')
     // For dynamic date and time
     meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
-    script(type='text/javascript', src='../admin/gentelalla/production/js/date_time.js')
+    script(type='text/javascript', src='/admin/gentelalla/production/js/date_time.js')
     // Switchery
-    link(href='../admin/gentelella/vendors/switchery/dist/switchery.min.css', rel='stylesheet')
-    
+    link(href='/admin/gentelella/vendors/switchery/dist/switchery.min.css', rel='stylesheet')
+    //preloader
+    link(href='/assets4/css/style1.css', rel='stylesheet')
+
+  #preloader
   body.nav-md.footer_fixed
     each user in usertab
       .container.body
@@ -37,7 +40,7 @@ html(lang='en')
               // menu profile quick info
               .profile.clearfix
                 .profile_pic
-                  img.img-circle.profile_img(src='../images/'+user.strPicture, alt='...')
+                  img.img-circle.profile_img(src='/images/'+user.strPicture, alt='...')
                 .profile_info
                   span Welcome,
                     h2 #{user.strFName}
@@ -188,7 +191,7 @@ html(lang='en')
                       li
                         a
                           span.image
-                            img(src='images/img.jpg', alt='Profile Image')
+                            img(src='/images/img.jpg', alt='Profile Image')
                           span
                             span John Smith
                             span.time 3 mins ago
@@ -197,7 +200,7 @@ html(lang='en')
                       li
                         a
                           span.image
-                            img(src='images/img.jpg', alt='Profile Image')
+                            img(src='/images/img.jpg', alt='Profile Image')
                           span
                             span John Smith
                             span.time 3 mins ago
@@ -206,7 +209,7 @@ html(lang='en')
                       li
                         a
                           span.image
-                            img(src='images/img.jpg', alt='Profile Image')
+                            img(src='/images/img.jpg', alt='Profile Image')
                           span
                             span John Smith
                             span.time 3 mins ago
@@ -215,7 +218,7 @@ html(lang='en')
                       li
                         a
                           span.image
-                            img(src='images/img.jpg', alt='Profile Image')
+                            img(src='/images/img.jpg', alt='Profile Image')
                           span
                             span John Smith
                             span.time 3 mins ago
@@ -234,7 +237,7 @@ html(lang='en')
                       li
                         a
                           span.image
-                            img(src='images/img.jpg', alt='Profile Image')
+                            img(src='/images/img.jpg', alt='Profile Image')
                           span
                             span John Smith
                             span.time 3 mins ago
@@ -243,7 +246,7 @@ html(lang='en')
                       li
                         a
                           span.image
-                            img(src='images/img.jpg', alt='Profile Image')
+                            img(src='/images/img.jpg', alt='Profile Image')
                           span
                             span John Smith
                             span.time 3 mins ago
@@ -252,7 +255,7 @@ html(lang='en')
                       li
                         a
                           span.image
-                            img(src='images/img.jpg', alt='Profile Image')
+                            img(src='/images/img.jpg', alt='Profile Image')
                           span
                             span John Smith
                             span.time 3 mins ago
@@ -261,7 +264,7 @@ html(lang='en')
                       li
                         a
                           span.image
-                            img(src='images/img.jpg', alt='Profile Image')
+                            img(src='/images/img.jpg', alt='Profile Image')
                           span
                             span John Smith
                             span.time 3 mins ago
@@ -287,22 +290,26 @@ html(lang='en')
           // /footer content
           
           // jQuery
-          script(src='../admin/gentelella/vendors/jquery/dist/jquery.min.js')
+          script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
           // Bootstrap
-          script(src='../admin/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js')
+          script(src='/admin/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js')
           // Datatables
-          script(src='../admin/gentelella/vendors/datatables.net/js/jquery.dataTables.min.js')
-          script(src='../admin/gentelella/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')
-          script(src='../admin/gentelella/build/js/custom.min.js')
+          script(src='/admin/gentelella/vendors/datatables.net/js/jquery.dataTables.min.js')
+          script(src='/admin/gentelella/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')
+          script(src='/admin/gentelella/build/js/custom.min.js')
           // Switchery
-          script(src='../admin/gentelella/vendors/switchery/dist/switchery.min.js')
+          script(src='/admin/gentelella/vendors/switchery/dist/switchery.min.js')
           // Form wizard
-          script(src='../admin/gentelella/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js')
+          script(src='/admin/gentelella/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js')
           // starrr
-          script(src='../admin/gentelella/vendors/starrr/dist/starrr.js')
+          script(src='/admin/gentelella/vendors/starrr/dist/starrr.js')
           // iCheck
-          script(src='../admin/gentelella/vendors/iCheck/icheck.min.js')      
+          script(src='/admin/gentelella/vendors/iCheck/icheck.min.js')      
           //for edit
+          //preloader
+          script(src='/assets4/js/custom1.js')
+          script(src='/assets4/lib/wow/wow.min.js')
+
           script.
             //maintenance requirement
             $('#edit_requirement').on('show.bs.modal', function (event) {
@@ -369,10 +376,17 @@ html(lang='en')
             $('#req_unregistered_hw').on('show.bs.modal', function (event) {
               var button = $(event.relatedTarget)
               var id = button.data('id')
+              var email = button.data('email')
+              var fname = button.data('fname')
+              var lname = button.data('lname')
 
               var modal = $(this)
               modal.find('.modal-body #_id').val(id)
+              modal.find('.modal-body #email').val(email)
+              modal.find('.modal-body #fname').val(fname)
+              modal.find('.modal-body #lname').val(lname)
             });
+
             $('#req_rejected_hw').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget)
                 var id = button.data('id')
@@ -436,4 +450,19 @@ html(lang='en')
             $('select.SelectTemplate').change(function() {
                     var currentVal = $('textarea').val();
                     $('textarea.AddMessage').val(currentVal + $(this).val()); 
+            });
+            //profile picture
+            function PreviewImage1() {
+                var oFReader = new FileReader();
+                oFReader.readAsDataURL(document.getElementById("uploadImage1").files[0]);
+                oFReader.onload = function (oFREvent) {
+                document.getElementById("uploadPreview1").src = oFREvent.target.result;
+                };
+              };
+            $('#editpic').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('id')
+
+              var modal = $(this)
+              modal.find('.modal-body #id').val(id)
             });

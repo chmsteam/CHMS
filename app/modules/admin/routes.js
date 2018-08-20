@@ -2,7 +2,39 @@ var express = require('express');
 var flog = require( '../login/loggedin');
 var router = express.Router();
 var moment = require('moment');
+//nodemailer
+var nodemailer = require('nodemailer');
+var hbs = require('nodemailer-express-handlebars');
+var mailer =  nodemailer.createTransport({
+	service: 'gmail',
+	port: 25,
+	secure: true,
+	auth:{
+		user: 'testchms123@gmail.com',
+		pass: 'wordpass123456' //pass ng email
+	}
+});
 
+//-------------------------------------------------------------------function- auto-gen(code)
+function numberWithCommas(x) {
+  var parts = x.toString().split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+}
+function passwordgen() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvqxyz1234567890";
+  for (var i = 0; i < 6; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  return text;
+}
+function makeid() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvqxyz1234567890";
+  for (var i = 0; i < 10; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  return text;
+}
 //-------------------------------------------------------------------------------------DASHBOARD
 function render(req,res){
   if(req.valid==0)
@@ -839,17 +871,58 @@ function renderhwlist(req,res){
 
 }
 router.get('/householdworker_list', flog, findhwlist, findmrequirementshw, renderhwlist);
-
+//-------------------------------------------------------------------------
+//function- auto-gen(code)
+function numberWithCommas(x) {
+  var parts = x.toString().split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+}
+function passwordgen() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvqxyz1234567890";
+  for (var i = 0; i < 6; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  return text;
+}
+//-------
 // HW APPROVE/REJECT/REVERT
 function hwoptions(req,res){
+  var autogen= passwordgen();
+  code = autogen;
+  fullname =(req.body.fname +" "+ req.body.lname);
   var db = require('../../lib/database')();
   var db2 = require('../../lib/database')();
   console.log('xxxxxxxxxxxxx'+req.body.hwID)
   if(req.body.btn1 == 'approve'){
-    var sql = "UPDATE tbluser SET strStatus= 'Registered' WHERE strStatus='Unregistered' AND intID = ?";
-    db.query(sql,[req.body.hwID],function (err) {
+    var sql = "UPDATE tbluser SET strStatus= 'Registered', strPassword = ? WHERE strStatus='Unregistered' AND intID = ?";
+    db.query(sql,[code , req.body.hwID],function (err) {
     if (err) return res.send(err)
-    res.redirect('/admin/householdworker_list');
+        else{
+          mailer.sendMail({
+              from: 'testchms123@gmail.com',
+              to: req.body.email,
+              subject: 'User Password',
+              html:
+                  "<center>"+
+                  "<h2 style='font-size:28px;'> CHMS </h2> </center>"+ "<hr>"+
+                  "<p>Good Day " +fullname+ ", your user password is "+
+                  "<b style='font-size:15px;'>" +code+ "</b></p>"+
+                  "<p> You may change your password in your dashboard account </p>",
+              template: 'send', //name ng html file na irerender
+              },
+              function(err, response){
+                  if(err){
+                      console.log("Bad email");
+                      console.log(err);
+                  }
+                  else{
+                      console.log("passcode sent");
+                      }
+                  }
+              );
+          res.redirect('/admin/householdworker_list');
+          }
     })
   }
   else if (req.body.btn1 == 'reject'){
@@ -902,6 +975,17 @@ function renderprofhw(req,res){
   else
   res.render('login/views/invalid');
 }
+router.post('/profile_hw_:hwid/updatePic',(req, res) =>{
+  var db = require('../../lib/database')();
+  var randomId= makeid();
+  jpeg= req.body.id+('-'+randomId+'.jpg');
+  req.files.postimage.mv('public/images/'+jpeg, function(err) {
+    db.query("UPDATE tbluser SET strPicture = ? WHERE intID = ?",[jpeg, req.body.id], (err, results, fields)=>{
+        if (err) console.log(err);
+        return res.redirect('/admin/profile_hw_'+req.body.id, flog, findhw, findhweduc, findhwwork, renderprofhw);
+      });
+    });
+});
 
 
 

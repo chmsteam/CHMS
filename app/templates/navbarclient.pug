@@ -8,21 +8,24 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     title Client
     // Bootstrap
-    link(href='../admin/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css', rel='stylesheet')
+    link(href='/admin/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css', rel='stylesheet')
     // Font Awesome
-    link(href='../admin/gentelella/vendors/font-awesome/css/font-awesome.min.css', rel='stylesheet')
+    link(href='/admin/gentelella/vendors/font-awesome/css/font-awesome.min.css', rel='stylesheet')
     // NProgress
-    link(href='../admin/gentelella/vendors/nprogress/nprogress.css', rel='stylesheet')
+    link(href='/admin/gentelella/vendors/nprogress/nprogress.css', rel='stylesheet')
     // iCheck
-    link(href='../admin/gentelella/vendors/iCheck/skins/flat/green.css', rel='stylesheet')
+    link(href='/admin/gentelella/vendors/iCheck/skins/flat/green.css', rel='stylesheet')
     // Custom Theme Style
-    link(href='../admin/gentelella/build/css/custom1.min.css', rel='stylesheet')
+    link(href='/admin/gentelella/build/css/custom1.min.css', rel='stylesheet')
     // For dynamic date and time
     meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
-    script(type='text/javascript', src='../admin/gentelella/production/js/date_time.js')
+    script(type='text/javascript', src='/admin/gentelella/production/js/date_time.js')
     // Switchery
-    link(href='../admin/gentelella/vendors/switchery/dist/switchery.min.css', rel='stylesheet')
+    link(href='/admin/gentelella/vendors/switchery/dist/switchery.min.css', rel='stylesheet')
+    //preloader
+    link(href='/assets4/css/style1.css', rel='stylesheet')
 
+  #preloader
   body.nav-md.footer_fixed(style='background-color:#f7f7f7' onpageshow='total();')
     each user in usertab
       .container.body
@@ -33,46 +36,47 @@ html(lang='en')
                 | &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                 img(src='')
               // menu profile quick info
-              .profile.clearfix
-                div
-                  img.img-circle.profile_img(src='../images/'+user.strPicture, alt='...')
-                div
-                  h2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp #{user.strFName} #{user.strLName}
-              // /menu profile quick info
-              br
-              // sidebar menu
-              #sidebar-menu.main_menu
-                .menu_section
-                    h3
-                    ul.side-menu
-                        li
-                            | &nbsp&nbsp
-                            a(href='hwRegi')
-                                i.fa.fa-user
-                                |  Profile
-                        li
-                            | &nbsp&nbsp
-                            a(href='CreateList')
-                                i.fa.fa-edit
-                                |  My List
-                        li
-                            | &nbsp&nbsp
-                            a(href='hwRegi')
-                                i.fa.fa-envelope
-                                |  Messages
-                        li
-                            | &nbsp&nbsp
-                            a(href='utilities')
-                                i.fa.fa-cogs
-                                |  Settings
-                        li
-                            | &nbsp&nbsp
-                            a(href='utilities')
-                                i.fa.fa-sign-out
-                                |  Logout
-              // /sidebar menu
-              // /menu footer buttons
-              .sidebar-footer
+              section#services
+                .profile.clearfix
+                  div
+                    img.img-circle.profile_img(src='/images/'+user.strPicture, alt='...')
+                  div
+                    h2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp #{user.strFName} #{user.strLName}
+                // /menu profile quick info
+                br
+                // sidebar menu
+                #sidebar-menu.main_menu
+                  .menu_section
+                      h3
+                      ul.side-menu
+                          li
+                              | &nbsp&nbsp
+                              a(href='hwRegi')
+                                  i.fa.fa-user
+                                  |  Profile
+                          li
+                              | &nbsp&nbsp
+                              a(href='CreateList')
+                                  i.fa.fa-edit
+                                  |  My List
+                          li
+                              | &nbsp&nbsp
+                              a(href='hwRegi')
+                                  i.fa.fa-envelope
+                                  |  Messages
+                          li
+                              | &nbsp&nbsp
+                              a(href='utilities')
+                                  i.fa.fa-cogs
+                                  |  Settings
+                          li
+                              | &nbsp&nbsp
+                              a(href='utilities')
+                                  i.fa.fa-sign-out
+                                  |  Logout
+                // /sidebar menu
+                // /menu footer buttons
+                .sidebar-footer
               // /menu footer buttons
           // top navigation
           .top_nav
@@ -124,27 +128,35 @@ html(lang='en')
           block content
           // /page content
       // jQuery
-      script(src='../admin/gentelella/vendors/jquery/dist/jquery.min.js')
+      script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
       // Bootstrap
-      script(src='../admin/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js')
+      script(src='/admin/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js')
       // Datatables
-      script(src='../admin/gentelella/vendors/datatables.net/js/jquery.dataTables.min.js')
-      script(src='../admin/gentelella/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')
-      script(src='../admin/gentelella/build/js/custom.min.js')
+      script(src='/admin/gentelella/vendors/datatables.net/js/jquery.dataTables.min.js')
+      script(src='/admin/gentelella/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')
+      script(src='/admin/gentelella/build/js/custom.min.js')
       // Switchery
-      script(src='../admin/gentelella/vendors/switchery/dist/switchery.min.js')
+      script(src='/admin/gentelella/vendors/switchery/dist/switchery.min.js')
       // starrr
-      script(src='../admin/gentelella/vendors/starrr/dist/starrr.js')
+      script(src='/admin/gentelella/vendors/starrr/dist/starrr.js')
       // iCheck
-      script(src='../admin/gentelella/vendors/iCheck/icheck.min.js')
+      script(src='/admin/gentelella/vendors/iCheck/icheck.min.js')
 
       //for deployment page
-      script(src='../admin/gentelella/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js')
+      script(src='/admin/gentelella/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js')
       // bootstrap-daterangepicker
-      script(src='../admin/gentelella/vendors/moment/min/moment.min.js')
-      script(src='../admin/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.js')
+      script(src='/admin/gentelella/vendors/moment/min/moment.min.js')
+      script(src='/admin/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.js')
       // bootstrap-datetimepicker
-      script(src='../admin/gentelella/vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js')
+      script(src='/admin/gentelella/vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js')
+      //preloader
+      script(src='/assets4/js/custom1.js')
+      script(src='/assets4/lib/wow/wow.min.js')
+      // NProgress
+      script(src='/admin/gentelella/vendors/nprogress/nprogress.js')
+      // Custom Theme Scripts
+      script(src='/admin/gentelella/build/js/custom.min.js')
+
       script.
         $('#datatable2').DataTable();
         $('#datatable3').DataTable();

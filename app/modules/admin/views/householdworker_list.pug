@@ -45,7 +45,7 @@ block content
                                                     i.fa.fa-list
                                                     |   Requirements
                                             else if item.stat == "Unregistered"
-                                                button.btn.btn-warning(type='button', data-toggle='modal', data-target='#req_unregistered_hw', data-id=item.intHWID)
+                                                button.btn.btn-warning(type='button', data-toggle='modal', data-target='#req_unregistered_hw', data-id=item.intHWID, data-email=item.strEmail, data-fname=item.strFName, data-lname=item.strLName)
                                                     i.fa.fa-list
                                                     |   Requirements
                                             else if item.stat == "Rejected"
@@ -88,6 +88,9 @@ block content
                 .modal-body
                     form#myform.form-horizontal.form-label-left(method="POST" action="tr_approve_hw")
                         input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='hwID' style='display:none;')                              
+                        input#email(type="text", name="email" hidden)
+                        input#fname(type="text" name="fname" hidden)
+                        input#lname(type="text" name="lname" hidden)
                         each requirement in requirementtab
                             .form-group
                                 .col-md-6.col-sm-6.col-xs-12
