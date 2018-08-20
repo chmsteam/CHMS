@@ -21,12 +21,20 @@ html(lang='en')
     meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
     script(type='text/javascript', src='/admin/gentelalla/production/js/date_time.js')
     // Switchery
+<<<<<<< HEAD
     link(href='/admin/gentelella/vendors/switchery/dist/switchery.min.css', rel='stylesheet')
     //preloader
     link(href='/assets4/css/style1.css', rel='stylesheet')
 
   #preloader
   body.nav-md.footer_fixed
+=======
+    link(href='../admin/gentelella/vendors/switchery/dist/switchery.min.css', rel='stylesheet')
+    script(src="../sweetalert/dist/sweetalert.min.js")
+    
+    
+  body.nav-md.footer_fixed(onpageshow='total();')
+>>>>>>> 725ba34b66587e42b44b63e65c942495f6f1d971
     each user in usertab
       .container.body
         .main_container
@@ -65,17 +73,17 @@ html(lang='en')
                           a(href='/admin/maintenance_requirements') Requirements
                         li
                           a(href='/admin/maintenance_type_of_services') Services
-                        li 
-                          a
-                            | Contracts
-                            span.fa.fa-chevron-down
-                          ul.nav.child_menu
-                            li.sub_menu
-                              a(href='/admin/maintenance_contractofservices') Contract of Services
-                            li.sub_menu
-                              a Replacement Contract
-                            li.sub_menu
-                              a Household Worker Contract
+                        //- li 
+                        //-   a
+                        //-     | Contracts
+                        //-     span.fa.fa-chevron-down
+                        //-   ul.nav.child_menu
+                        //-     li.sub_menu
+                        //-       a(href='/admin/maintenance_contractofservices') Contract of Services
+                        //-     li.sub_menu
+                        //-       a Replacement Contract
+                        //-     li.sub_menu
+                        //-       a Household Worker Contract
 
                         li
                           a(href='/admin/maintenance_householdworker_skills') Household Worker Skills
@@ -100,13 +108,6 @@ html(lang='en')
                               a(href='client_list') Client
                             li.sub_menu 
                               a(href='householdworker_list') Household Worker
-                            //- li.sub_menu
-                            //-   a(href='transaction_pending_registration') Pending Registration   
-                        
-                        //- li
-                        //-   a(href='transaction_settle') Settle Finished Requests
-                        //- li
-                        //-   a(href='transaction_settled') Settled Transactions
                         li 
                           a
                             | Request
@@ -135,6 +136,8 @@ html(lang='en')
                           a(href='utilities_staff') Staff
                         li
                           a(href='utilities_fees') Fees
+                        li
+                          a(href='utilities_freereplacement') Free Replacement
                     li
                       a
                         i.fa.fa-pie-chart
@@ -147,14 +150,6 @@ html(lang='en')
                       a()
                         i.fa.fa-cubes
                         |  Query
-                    //- li
-                    //-   a(href='client_list')
-                    //-     i.fa.fa-user
-                    //-     |  Client
-                    //- li
-                    //-   a(href='householdworker_list')
-                    //-     i.fa.fa-users
-                    //-     |  Household Worker
                   
               // /sidebar menu
           // top navigation
@@ -306,10 +301,14 @@ html(lang='en')
           // iCheck
           script(src='/admin/gentelella/vendors/iCheck/icheck.min.js')      
           //for edit
+<<<<<<< HEAD
           //preloader
           script(src='/assets4/js/custom1.js')
           script(src='/assets4/lib/wow/wow.min.js')
 
+=======
+          
+>>>>>>> 725ba34b66587e42b44b63e65c942495f6f1d971
           script.
             //maintenance requirement
             $('#edit_requirement').on('show.bs.modal', function (event) {

@@ -1,0 +1,36 @@
+
+extends ../../../templates/navbaradmin.pug
+
+block content
+    // page content
+    .right_col(role='main')
+        div
+            .page-title
+                .title_left
+                    h5
+                        | Utilities /&nbsp
+                        b Replacement Fee
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
+                        .x_panel
+                            .x_content
+                            //- center
+                            //-     button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='.bs-add-modal-lg')
+                            //-         i.fa.fa-plus
+                            //-         | &nbspAdd
+                            table#datatable.table.table-striped.table-bordered
+                                thead
+                                    tr
+                                        th FREE REPLACEMENT 
+                                        th STATUS
+                                        th ACTION
+                                tbody
+                                    each item in itemtab
+                                        tr
+                                            td #{item.intFreeReplacement}
+                                            td #{item.strStatus}
+                                            td
+                                                button.btn.btn-primary(type='button', data-toggle='modal', data-target='#edit', data-id=item.intID, data-name=item.strName)
+                                                    i.fa.fa-edit
+                                                    |   Edit
+            // /page content

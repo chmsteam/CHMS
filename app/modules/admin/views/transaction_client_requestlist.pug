@@ -81,23 +81,68 @@ block content
                                                         th Date of Deployment
                                                         th Time of Deployment
                                                         th Type of Deployment
-                                                        th Contract
-                                        else
-                                            div(align='center')
-                                                .x_panel(style='background:#f1f1f1')
-                                                    h2
-                                                        b Contract
-                                            table.table.table-striped.table-bordered
-                                                thead
-                                                    tr
                                                         th 
-                                                            center
-                                                                button.btn.btn-primary(type='button')
+                                                tbody
+                                                    each contractdetails in contractdetailstab
+                                                        tr
+                                                            //- td #{contractdetails.}
+                                                            td #{contractdetails.datDateofDeployment}
+                                                            td #{contractdetails.timTimeofDeployment}
+                                                            td #{contractdetails.intTypeofDeployment}
+                                                            td 
+                                                                button.btn.btn-info(type='button')
                                                                     i.fa.fa-list
-                                                                    |   Contract
-                                                        th 
-                                                            center
-                                                                p 
+                                                                    |   View Contract
+                                                                a(href="/admin/invoice_"+contractdetails.intTRequestID)
+                                                                    button.btn.btn-primary(type='button')
+                                                                        i.fa.fa-list
+                                                                        |   View Invoice
+                                        else if list.strRequestStatus == 'On process'
+                                            each contract in contracttab
+                                                if contract.contract == 0
+                                                    h1 wala
+
+                                                else if contract.contract != 0
+                                                    div(align='center')
+                                                        .x_panel(style='background:#f1f1f1')
+                                                            h2
+                                                                b Contract
+                                                    table.table.table-striped.table-bordered
+                                                        thead
+                                                            tr
+                                                                th Status
+                                                                th Action
+                                                        tbody
+                                                            each contractdetails in contractdetailstab
+                                                                tr
+                                                                    td #{contractdetails.strContractStatus}
+                                                                    td
+                                                                        button.btn.btn-info(type='button')
+                                                                            i.fa.fa-list
+                                                                            |   View Contract
+                                                                        if contractdetails.strContractStatus == 'Rejected'
+                                                                            button.btn.btn-warning(type='button')
+                                                                                i.fa.fa-edit
+                                                                                |   Edit Contract
+                                                                            button.btn.btn-success(type='button')
+                                                                                i.fa.fa-envelope
+                                                                                |   Re-Send Contract
+                                                                            button.btn.btn-primary(type='button')
+                                                                                i.fa.fa-eye
+                                                                                |   View Reason
+                                                                        else if contractdetails.strContractStatus == 'For client confirmation'
+                                                                        else if contractdetails.strContractStatus == 'Accepted'
+                                                                        else
+
+                                                            //- tr
+                                                            //-     th 
+                                                            //-         center
+                                                            //-             button.btn.btn-primary(type='button')
+                                                            //-                 i.fa.fa-list
+                                                            //-                 |   Contract
+                                                            //-     th 
+                                                            //-         center
+                                                            //-             p 
                                                         
                     .x_panel
                         br

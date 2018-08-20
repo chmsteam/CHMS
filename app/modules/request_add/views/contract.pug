@@ -88,9 +88,14 @@ block content
                         each noacontract in noacontracttab
                             each tnocontract in tnocontracttab
                                 if noacontract.noa == tnocontract.tno
-                                    h1 COMPLETE!
+                                    .pull-right
+                                        each list in listtab
+                                            form(method='POST', action = '/request_add/send_to_admin')
+                                                input(type='text', name='transid', value=''+list.intRequestID, style="display:none;")
+                                                button.btn.btn-success.btn-md(type='submit' name='btn1' value='send') Send Request To Admin  
+                                    
                                 else
-                                    h1 hindi pa   
+                                    //- h1 hindi pa   
 
 
         #maincontract.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-hidden='true')
