@@ -783,9 +783,15 @@ function clientsettledecision(req,res){
       console.log(err);
       db.query(`UPDATE tblfinalrequest SET strRequestStatus ='Finished' WHERE intRequestID='${req.body.transid}'`, function (err) {
         console.log(err);
-        db.query(`UPDATE tblcontract SET datDateStarted ='${req.body.datesettled}', strCurStatus='Current' WHERE intConTransID='${req.body.transid}'`, function (err) {
+        db.query(`SELECT * FROM tblfreereplacement`, function (err,result) {
           console.log(err);
-          res.redirect('/admin/transaction_settle')
+          db.query(`UPDATE tblcontract SET datDateStarted ='${req.body.datesettled}', strCurStatus='Current', intConReplacementLeft='${result[0].intFreeReplacement}' WHERE intConTransID='${req.body.transid}'`, function (err) {
+            console.log(err);
+            db.query(`UPDATE tbluser SET strStatus='Deployed' WHERE intConTransID='${req.body.transid}'`, function (err) {
+              console.log(err);
+              res.redirect('/admin/transaction_settle')
+            });
+          });
         });
       });
     });
@@ -1244,178 +1250,178 @@ router.post('/register_client',(req, res) => {
 // 
 // --------------------------------------------------------------------------------CLIENT
 // Reinstate client
-function reinstateClient(req,res){
-  var db = require('../../lib/database')();
-  var sql = "UPDATE tbluser SET strStatus= 'Registered' WHERE strStatus='Banned' AND intID = ?";
-  db.query(sql,[req.params.userid],function (err) {
-    if (err) return res.send(err);
-    res.redirect('/admin/client_list');
-  });
-}
-// Ban Client
-function banClient(req,res){
-var db = require('../../lib/database')();
-var sql = "UPDATE tbluser SET strStatus= 'Banned' WHERE strStatus='Registered' AND intID = ?";
-db.query(sql,[req.params.userid],function (err) {
-  if (err) return res.send(err);
-  res.redirect('/admin/client_list');
-});
-}
-router.get('/reinstate_client/:userid',flog,reinstateClient);
-router.get('/ban_client/:userid',flog,banClient);
+// function reinstateClient(req,res){
+//   var db = require('../../lib/database')();
+//   var sql = "UPDATE tbluser SET strStatus= 'Registered' WHERE strStatus='Banned' AND intID = ?";
+//   db.query(sql,[req.params.userid],function (err) {
+//     if (err) return res.send(err);
+//     res.redirect('/admin/client_list');
+//   });
+// }
+// // Ban Client
+// function banClient(req,res){
+// var db = require('../../lib/database')();
+// var sql = "UPDATE tbluser SET strStatus= 'Banned' WHERE strStatus='Registered' AND intID = ?";
+// db.query(sql,[req.params.userid],function (err) {
+//   if (err) return res.send(err);
+//   res.redirect('/admin/client_list');
+// });
+// }
+// router.get('/reinstate_client/:userid',flog,reinstateClient);
+// router.get('/ban_client/:userid',flog,banClient);
 
-function findclientlist(req, res, next){
-  var db = require('../../lib/database')();
-  db.query("SELECT *, CONCAT(strFName,' ', strLName) AS strName FROM tbluser WHERE strType='Client' AND (strStatus='Registered' OR strStatus='Banned')", function (err, results) {
-    if (err) return res.send(err);
-    if (!results[0])
-    console.log('');
-    req.item = results;
-    return next();
-  });
-}
-function renderclientlist(req,res){
-  if(req.valid==0)
-    res.render('admin/views/client_list',{usertab: req.user, itemtab: req.item});
-  else if(req.valid==1)
-    res.render('admin/views/invalidpages/normalonly');
-  else
-    res.render('login/views/invalid');
+// function findclientlist(req, res, next){
+//   var db = require('../../lib/database')();
+//   db.query("SELECT *, CONCAT(strFName,' ', strLName) AS strName FROM tbluser WHERE strType='Client' AND (strStatus='Registered' OR strStatus='Banned')", function (err, results) {
+//     if (err) return res.send(err);
+//     if (!results[0])
+//     console.log('');
+//     req.item = results;
+//     return next();
+//   });
+// }
+// function renderclientlist(req,res){
+//   if(req.valid==0)
+//     res.render('admin/views/client_list',{usertab: req.user, itemtab: req.item});
+//   else if(req.valid==1)
+//     res.render('admin/views/invalidpages/normalonly');
+//   else
+//     res.render('login/views/invalid');
 
-}
-router.get('/client_list', flog, findclientlist, renderclientlist);
+// }
+// router.get('/client_list', flog, findclientlist, renderclientlist);
 
 // -------------------------------------------------------------------------------ClIENT PENDING REGISTRATION
 // Approve client
-function approveClient(req,res){
-  var db = require('../../lib/database')();
-  var sql = "UPDATE tbluser SET strStatus= 'Registered' WHERE strStatus='Unregistered' AND intID = ?";
-  db.query(sql,[req.params.userid],function (err) {
-    if (err) return res.send(err);
-    res.redirect('/admin/client_pending_registration');
-  });
-}
-// Revert client
-function revertClient(req,res){
-  var db = require('../../lib/database')();
-  var sql = "UPDATE tbluser SET strStatus= 'Unregistered' WHERE strStatus='Rejected' AND intID = ?";
-  db.query(sql,[req.params.userid],function (err) {
-    if (err) return res.send(err);
-    res.redirect('/admin/client_pending_registration');
-  });
-}
-// reject Client
-function rejectClient(req,res){
-  var db = require('../../lib/database')();
-  var sql = "UPDATE tbluser SET strStatus= 'Rejected' WHERE strStatus='Unregistered' AND intID = ?";
-  db.query(sql,[req.params.userid],function (err) {
-    if (err) return res.send(err);
-    res.redirect('/admin/client_pending_registration');
-  });
-}
-router.get('/approve_client/:userid',flog,approveClient);
-router.get('/revert_client/:userid',flog,revertClient);
-router.get('/reject_client/:userid',flog,rejectClient);
+// // // // function approveClient(req,res){
+// // // //   var db = require('../../lib/database')();
+// // // //   var sql = "UPDATE tbluser SET strStatus= 'Registered' WHERE strStatus='Unregistered' AND intID = ?";
+// // // //   db.query(sql,[req.params.userid],function (err) {
+// // // //     if (err) return res.send(err);
+// // // //     res.redirect('/admin/client_pending_registration');
+// // // //   });
+// // // // }
+// // // // // Revert client
+// // // // function revertClient(req,res){
+// // // //   var db = require('../../lib/database')();
+// // // //   var sql = "UPDATE tbluser SET strStatus= 'Unregistered' WHERE strStatus='Rejected' AND intID = ?";
+// // // //   db.query(sql,[req.params.userid],function (err) {
+// // // //     if (err) return res.send(err);
+// // // //     res.redirect('/admin/client_pending_registration');
+// // // //   });
+// // // // }
+// // // // reject Client
+// // // function rejectClient(req,res){
+// // //   var db = require('../../lib/database')();
+// // //   var sql = "UPDATE tbluser SET strStatus= 'Rejected' WHERE strStatus='Unregistered' AND intID = ?";
+// // //   db.query(sql,[req.params.userid],function (err) {
+// // //     if (err) return res.send(err);
+// // //     res.redirect('/admin/client_pending_registration');
+// // //   });
+// // // }
+// // // router.get('/approve_client/:userid',flog,approveClient);
+// // // router.get('/revert_client/:userid',flog,revertClient);
+// // // router.get('/reject_client/:userid',flog,rejectClient);
 
-function findclientregi(req, res, next){
-  var db = require('../../lib/database')();
-  db.query("SELECT *, CONCAT(strFName,' ', strLName) AS strName FROM tbluser WHERE strType='Client' AND (strStatus='Unregistered' OR strStatus='Rejected') ", function (err, results) {
-    if (err) return res.send(err);
-    if (!results[0])
-    console.log('');
-    req.item = results;
-    return next();
-  });
-}
-function renderclientregi(req,res){
-  if(req.valid==0)
-    res.render('admin/views/client_pending_registration',{usertab: req.user, itemtab: req.item});
-  else if(req.valid==1)
-    res.render('admin/views/invalidpages/normalonly');
-  else
-    res.render('login/views/invalid');
+// // function findclientregi(req, res, next){
+// //   var db = require('../../lib/database')();
+// //   db.query("SELECT *, CONCAT(strFName,' ', strLName) AS strName FROM tbluser WHERE strType='Client' AND (strStatus='Unregistered' OR strStatus='Rejected') ", function (err, results) {
+// //     if (err) return res.send(err);
+// //     if (!results[0])
+// //     console.log('');
+// //     req.item = results;
+// //     return next();
+// //   });
+// // }
+// // function renderclientregi(req,res){
+// //   if(req.valid==0)
+// //     res.render('admin/views/client_pending_registration',{usertab: req.user, itemtab: req.item});
+// //   else if(req.valid==1)
+// //     res.render('admin/views/invalidpages/normalonly');
+// //   else
+// //     res.render('login/views/invalid');
 
-}
-router.get('/client_pending_registration', flog, findclientregi, renderclientregi);
-
-
-// ---------------------------------------------------------------------------------HOUSEHOLD WORKER
-// Reinstate Household Worker
-function reinstateHW(req,res){
-  var db = require('../../lib/database')();
-  var sql = "UPDATE tbluser SET strStatus= 'Registered' WHERE strStatus='Banned' AND intID = ?";
-  db.query(sql,[req.params.userid],function (err) {
-    if (err) return res.send(err);
-    res.redirect('/admin/householdworker_list');
-  });
-}
-// Ban Household Worker
-function banHW(req,res){
-var db = require('../../lib/database')();
-var sql = "UPDATE tbluser SET strStatus= 'Banned' WHERE strStatus='Registered' AND intID = ?";
-db.query(sql,[req.params.userid],function (err) {
-  if (err) return res.send(err);
-  res.redirect('/admin/householdworker_list');
-});
-}
-router.get('/reinstate_householdworker/:userid',flog,reinstateHW);
-router.get('/ban_householdworker/:userid',flog,banHW);
+// // }
+// // router.get('/client_pending_registration', flog, findclientregi, renderclientregi);
 
 
+// // ---------------------------------------------------------------------------------HOUSEHOLD WORKER
+// // Reinstate Household Worker
+// function reinstateHW(req,res){
+//   var db = require('../../lib/database')();
+//   var sql = "UPDATE tbluser SET strStatus= 'Registered' WHERE strStatus='Banned' AND intID = ?";
+//   db.query(sql,[req.params.userid],function (err) {
+//     if (err) return res.send(err);
+//     res.redirect('/admin/householdworker_list');
+//   });
+// }
+// // Ban Household Worker
+// function banHW(req,res){
+// var db = require('../../lib/database')();
+// var sql = "UPDATE tbluser SET strStatus= 'Banned' WHERE strStatus='Registered' AND intID = ?";
+// db.query(sql,[req.params.userid],function (err) {
+//   if (err) return res.send(err);
+//   res.redirect('/admin/householdworker_list');
+// });
+// }
+// router.get('/reinstate_householdworker/:userid',flog,reinstateHW);
+// router.get('/ban_householdworker/:userid',flog,banHW);
 
 
-// -------------------------------------------------------------------------------Household Worker PENDING REGISTRATION
-// Approve HW
-function approveHW(req,res){
-  var db = require('../../lib/database')();
-  var sql = "UPDATE tbluser SET strStatus= 'Registered' WHERE strStatus='Unregistered' AND intID = ?";
-  db.query(sql,[req.params.userid],function (err) {
-    if (err) return res.send(err);
-    res.redirect('/admin/householdworker_pending_registration');
-  });
-}
-// Revert HW
-function revertHW(req,res){
-  var db = require('../../lib/database')();
-  var sql = "UPDATE tbluser SET strStatus= 'Unregistered' WHERE strStatus='Rejected' AND intID = ?";
-  db.query(sql,[req.params.userid],function (err) {
-    if (err) return res.send(err);
-    res.redirect('/admin/householdworker_pending_registration');
-  });
-}
-// reject hw
-function rejectHW(req,res){
-  var db = require('../../lib/database')();
-  var sql = "UPDATE tbluser SET strStatus= 'Rejected' WHERE strStatus='Unregistered' AND intID = ?";
-  db.query(sql,[req.params.userid],function (err) {
-    if (err) return res.send(err);
-    res.redirect('/admin/householdworker_pending_registration');
-  });
-}
-router.get('/approve_householdworker/:userid',flog,approveHW);
-router.get('/revert_householdworker/:userid',flog,revertHW);
-router.get('/reject_householdworker/:userid',flog,rejectHW);
 
-function findhwregi(req, res, next){
-  var db = require('../../lib/database')();
-  db.query("SELECT *, CONCAT(strFName,' ', strLName) AS strName FROM tbluser WHERE strType='Household Worker' AND (strStatus='Unregistered' OR strStatus='Rejected') ", function (err, results) {
-    if (err) return res.send(err);
-    if (!results[0])
-    console.log('');
-    req.item = results;
-    return next();
-  });
-}
-function renderhwregi(req,res){
-  if(req.valid==0)
-    res.render('admin/views/householdworker_pending_registration',{usertab: req.user, itemtab: req.item});
-  else if(req.valid==1)
-    res.render('admin/views/invalidpages/normalonly');
-  else
-    res.render('login/views/invalid');
 
-}
-router.get('/householdworker_pending_registration', flog, findhwregi, renderhwregi);
+// // -------------------------------------------------------------------------------Household Worker PENDING REGISTRATION
+// // Approve HW
+// function approveHW(req,res){
+//   var db = require('../../lib/database')();
+//   var sql = "UPDATE tbluser SET strStatus= 'Registered' WHERE strStatus='Unregistered' AND intID = ?";
+//   db.query(sql,[req.params.userid],function (err) {
+//     if (err) return res.send(err);
+//     res.redirect('/admin/householdworker_pending_registration');
+//   });
+// }
+// // Revert HW
+// function revertHW(req,res){
+//   var db = require('../../lib/database')();
+//   var sql = "UPDATE tbluser SET strStatus= 'Unregistered' WHERE strStatus='Rejected' AND intID = ?";
+//   db.query(sql,[req.params.userid],function (err) {
+//     if (err) return res.send(err);
+//     res.redirect('/admin/householdworker_pending_registration');
+//   });
+// }
+// // reject hw
+// function rejectHW(req,res){
+//   var db = require('../../lib/database')();
+//   var sql = "UPDATE tbluser SET strStatus= 'Rejected' WHERE strStatus='Unregistered' AND intID = ?";
+//   db.query(sql,[req.params.userid],function (err) {
+//     if (err) return res.send(err);
+//     res.redirect('/admin/householdworker_pending_registration');
+//   });
+// }
+// router.get('/approve_householdworker/:userid',flog,approveHW);
+// router.get('/revert_householdworker/:userid',flog,revertHW);
+// router.get('/reject_householdworker/:userid',flog,rejectHW);
+
+// function findhwregi(req, res, next){
+//   var db = require('../../lib/database')();
+//   db.query("SELECT *, CONCAT(strFName,' ', strLName) AS strName FROM tbluser WHERE strType='Household Worker' AND (strStatus='Unregistered' OR strStatus='Rejected') ", function (err, results) {
+//     if (err) return res.send(err);
+//     if (!results[0])
+//     console.log('');
+//     req.item = results;
+//     return next();
+//   });
+// }
+// function renderhwregi(req,res){
+//   if(req.valid==0)
+//     res.render('admin/views/householdworker_pending_registration',{usertab: req.user, itemtab: req.item});
+//   else if(req.valid==1)
+//     res.render('admin/views/invalidpages/normalonly');
+//   else
+//     res.render('login/views/invalid');
+
+// }
+// router.get('/householdworker_pending_registration', flog, findhwregi, renderhwregi);
 
 //----------------------------------------------------------------------------------UTILITIES
 function findustaff(req, res, next){

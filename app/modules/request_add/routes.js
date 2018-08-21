@@ -17,7 +17,7 @@ function render(req,res){
 }
 function findlist(req, res, next){
     var db = require('../../lib/database')();
-    db.query("SELECT * FROM tblfinalrequest WHERE intRequest_ClientID=?",[req.session.user], function (err, results) {
+    db.query("SELECT * FROM tblfinalrequest WHERE intRequest_ClientID=? AND strRequestType='Add'",[req.session.user], function (err, results) {
       console.log('xxxxxxxxxxxxxxxxxxxxx'+results);
       for(var i = 0; i < results.length; i++){
 
@@ -187,7 +187,7 @@ function clientdecision(req,res){
     db.query(`UPDATE tblresults SET strRClientStatus= 'Approved' WHERE strRClientStatus='Waiting' AND intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}'`,function (err) {
       console.log('xxxxxxxxxxxxxx'+err);
       db2.query(`SELECT * FROM tblresults as a INNER JOIN tblinitialrequest as b on a.intRRequestID = b.intIRequestID WHERE intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}' AND strRClientStatus = 'Approved'`, function (err,results){
-        db3.query(`INSERT INTO tblcontract VALUES ('${req.body.transid}', '${req.body.reqno}', '${req.body.hwid}', '${results[0].deciRequestSalary}', '', NULL, '')`, function(err,results2){
+        db3.query(`INSERT INTO tblcontract VALUES ('${req.body.transid}', '${req.body.reqno}', '${req.body.hwid}', '${results[0].deciRequestSalary}', '', NULL, '',NULL)`, function(err,results2){
           console.log('yyyyyyyyyyyyy'+err)
           res.redirect('/request_add/mylist_'+req.body.transid, flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, rendermylist);
         })

@@ -187,3 +187,23 @@ html(lang='en')
             var modal = $(this)
             modal.find('.modal-body #listid').val(id)
         });
+
+        //- -------------------------------------------------request_replace index
+        $('#replace').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var transid  = button.data('transid')
+            var transno = button.data('transno')
+            var hwid = button.data('hwid')
+            var fname = button.data('hwfname')
+            var lname = button.data('hwlname')
+
+            //- fullname = fname+' '+lname;
+
+
+            var modal = $(this)
+            modal.find('.modal-header #hwname').text(fname+' '+lname)
+            modal.find('.modal-body #transid').val(transid)
+            modal.find('.modal-body #transno').val(transno)
+            modal.find('.modal-body #hwid').val(hwid)
+
+            });
