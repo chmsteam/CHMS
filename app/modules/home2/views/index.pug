@@ -59,7 +59,14 @@ block content
                                                                                         p
                                                                                         br
                                                                                 .col-xs-12.bottom.text-center
-                                                                                    button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjob', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No)
+                                                                                    -var fullname = offer.strLName + " " + offer.strFName
+                                                                                    -var address = offer.strCAHouseNo + " " + offer.strCAStreet + " " + offer.strCAProvince + ", " + offer.strCity
+                                                                                    -var JobType = offer.strName
+                                                                                    -console.log('aaaa')
+                                                                                    -console.log(JobType)
+                                                                                    -console.log('dito')
+                                                                                    button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjob', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No,
+                                                                                            data-name=fullname, data-add = address, data-needed= offer.datRequestNeedDate, data-sal=offer.deciRequestSalary)
                                                                                         | View Details
                                                                             else if offer.strRHWStatus == 'Approved' && offer.strRClientStatus ==''
                                                                                 .col-xs-12
@@ -75,7 +82,14 @@ block content
                                                                                         p
                                                                                         br
                                                                                 .col-xs-12.bottom.text-center
-                                                                                    button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjo', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No)
+                                                                                    //- -var fullname = offer.strLName + " " + offer.strFName
+                                                                                    //- -var address = offer.strCAHouseNo + " " + offer.strCAStreet + " " + offer.strCAProvince + ", " + offer.strCity
+                                                                                    //- -console.log(fullname)
+                                                                                    //- -console.log(address)
+                                                                                    //- -console.log("dito")
+                                                                                    //- data-name=fullname, data-add = address, data-needed= offer.datRequestNeedDate, data-sal=offer.deciRequestSalary 
+                                                                                    button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjo', data-id=offer.intRRequestID,
+                                                                                        data-id2=offer.intRRequest_No) 
                                                                                         | View Details
                                                                             else if offer.strRHWStatus == 'Approved' && offer.strRClientStatus =='Waiting'
                                                                                 .col-xs-12
@@ -107,30 +121,45 @@ block content
                                                                                         p
                                                                                         br
                                                                                 .col-xs-12.bottom.text-center
+                                                                                    
                                                                                     button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjob_contract', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No)
                                                                                         | View Details
                                     #tab_content3.tab-pane.fade(role='tabpanel', aria-labelledby='history-tab')
                                         // History                              
     #viewjob.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
         .modal-dialog.modal-xs
-            .modal-content
-                .modal-header
-                    button.close(type='button', data-dismiss='modal')
-                        span(aria-hidden='true') ×
-                    h4#myModalLabel.modal-title Job Details
-                .modal-body
-                    form#demo-form2.form-horizontal.form-label-left(method="POST" action="/home_householdworker/job_offer")
-                        .form-group
-                            input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transID' style="display:none;")
-                            input.form-control.col-md-7.col-xs-12(type='text', id='_id2', required='required', name='reqno' style="display:none;") 
-                        .ln_solid
-                        .form-group.pull-right
-                            button.btn.btn-success(type='submit' name='btn1' value='accept')
-                                i.fa.fa-thumbs-up
-                                |   Accept
-                            button#reject.btn.btn-danger(type='submit' name='btn1' value='reject')
-                                i.fa.fa-trash
-                                |   Reject
+            form#demo-form2.form-horizontal.form-label-left(method="POST" action="/home_householdworker/job_offer")
+                .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal')
+                            span(aria-hidden='true') ×
+                        h4#myModalLabel.modal-title Job Details
+                    .modal-body
+                        input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transID' style="display:none;")
+                        input.form-control.col-md-7.col-xs-12(type='text', id='_id2', required='required', name='reqno' style="display:none;") 
+                        .x_panel
+                            table.table.table-striped
+                                br
+                                tbody
+                                    tr
+                                        th(scope='row')
+                                        td
+                                            b Client's Name:
+                                        td
+                                            #name(style="text-transform: capitalize;")
+                                    tr
+                                        th(scope='row')
+                                        td
+                                            b Date Needed:
+                                        td 
+                                            p#date
+                    .modal-footer
+                        button.btn.btn-success(type='submit' name='btn1' value='accept')
+                            i.fa.fa-thumbs-up
+                            |   Accept
+                        button#reject.btn.btn-danger(type='submit' name='btn1' value='reject')
+                            i.fa.fa-trash
+                            |   Reject
     #viewjob_contract.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
         .modal-dialog.modal-xs
             .modal-content

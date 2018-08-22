@@ -140,8 +140,17 @@ html(lang='en')
               var button = $(event.relatedTarget)
               var id = button.data('id')
               var id2 = button.data('id2')
+              var name = button.data('name')
+              var add = button.data('add')
+              var sal = button.data('sal')
+              var date = button.data('needed')
+
 
               var modal = $(this)
               modal.find('.modal-body #_id').val(id)
               modal.find('.modal-body #_id2').val(id2)
+              modal.find('.modal-body #name').text(name)
+              modal.find('.modal-body #add').text(add)
+              modal.find('.modal-body #sal').text(sal)
+              modal.find('.modal-body #date').text(date)
             });
