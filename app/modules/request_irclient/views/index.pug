@@ -19,11 +19,11 @@ block content
                                         th STATUS
                                         th ACTION
                                 tbody
-                                    each reported in reportedtab
+                                    each rep in reportedtab
                                         tr
-                                            td #{reported.intRecipentID}
-                                            td
-                                            td #{reported.strReportStatus}
+                                            td #{rep.strLName} , #{rep.strFName}
+                                            td #{rep.strName}
+                                            td #{rep.strReportStatus}
                                             td
                                                 button.btn.btn-primary.btn-md(type='button') View
                                                 if strReportStatus == ''
@@ -50,7 +50,9 @@ block content
                                             td #{currenthw.strName}
                                             td #{currenthw.strCurStatus}
                                             td
-                                                button.btn.btn-primary.btn-md(type='button') View Profile
+                                                a(href='/request_irclient/profile_hw_'+currenthw.intHWID)
+                                                    button.btn.btn-info(type='button')
+                                                        |View Profile
                                                 if currenthw.strCurStatus == 'Current'
                                                     button.btn.btn-danger.btn-md(type='button' data-toggle='modal', data-target='#report',  data-hwid=currenthw.intConHWID, data-hwfname=currenthw.strFName, data-hwlname=currenthw.strLName) Report
                                                 //- else if currenthw.strCurStatus == 'To be replaced'
@@ -60,8 +62,8 @@ block content
                                                     
     
     //- ---- modals
-    #report.modal.fade.bs-example-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
-        .modal-dialog.modal-xs
+    #report.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-sm
             form.form-horizontal(method='POST' action='/request_irclient/ir_client')
                 .modal-content
                     .modal-header
@@ -73,14 +75,14 @@ block content
                         input.form-control(id='thedate' type='date', name='daterep' style='display:none;')
                         input.form-control(id='_id' type='text', name='recipentid' style='display:none;')
                         .row
-                            .form-group
-                                label.control-label.col-md-5 Choose Type of Incident
-                                .col-md-3
+                            .col-md-12
+                                .form-group
+                                    b Choose Type of Incident
                                     select.form-control(name='ir')
                                         each ir in irtab
                                             option(value=''+ir.intID) #{ir.strName}
                         .row
-                            .col-md-10
+                            .col-md-12
                                 .form-group
                                     |Reason:
                                     textarea.form-control.AddMessage(rows='10' name='reason')
