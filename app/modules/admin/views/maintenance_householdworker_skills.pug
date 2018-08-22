@@ -34,22 +34,21 @@ block content
                                             //- td #{item.skillID}
                                             td #{item.skillName}
                                             //- td #{item.serviceName}
-                                            td #{item.skillStatus}
-                                                //- input.js-switch(type='checkbox', checked='')
+                                            td 
+                                                if item.skillStatus=='Active'
+                                                    p(hidden="") active
+                                                    a(href="disable_skill/"+item.skillID)
+                                                        input.js-switch(type='checkbox' checked)
+                                                else if item.skillStatus='Inactive'
+                                                    p(hidden="") inactive
+                                                    a(href="enable_skill/"+item.skillID)
+                                                        input.js-switch(type='checkbox' )
+                                                //- input.js-switch(type='checkbox', checked='') #{item.skillStatus}
                                             td
                                                 button.btn.btn-primary(type='button', data-toggle='modal', data-target='#editskill', data-skillid=item.skillID, data-skillname=item.skillName, data-serviceid=item.serviceID, data-servicename=item.serviceName)
                                                     i.fa.fa-edit
                                                     |   Edit
-                                                if item.skillStatus=='Active'
-                                                    a(href="disable_skill/"+item.skillID)
-                                                        button.btn.btn-danger(type='button')
-                                                            i.fa.fa-toggle-off
-                                                            |   Disable
-                                                else if item.skillStatus='Inactive'
-                                                    a(href="enable_skill/"+item.skillID)
-                                                        button.btn.btn-danger(type='button')
-                                                            i.fa.fa-toggle-on
-                                                            |   Enable
+                                                
                 //- Add
                 .modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
                     .modal-dialog.modal-xs

@@ -1007,26 +1007,26 @@ function findhwlist(req, res, next){
     return next();
   });
 }
-function findmrequirementshw(req, res, next){
+function houseHoldReq(req, res, next){
   var db = require('../../lib/database')();
   db.query(`SELECT * FROM tblmrequirements WHERE strType='Household Worker' `, function (err, results) {
     if (err) return res.send(err);
     if (!results[0])
     console.log('');
-    req.requirement = results;
+    req.houseHoldReq = results;
     return next();
   });
 }
 function renderhwlist(req,res){
   if(req.valid==0)
-    res.render('admin/views/householdworker_list',{usertab: req.user, itemtab: req.item, requirementtab: req.requirement});
+    res.render('admin/views/householdworker_list',{usertab: req.user, itemtab: req.item, HWreqtab: req.houseHoldReq});
   else if(req.valid==1)
     res.render('admin/views/invalidpages/normalonly');
   else
     res.render('login/views/invalid');
-
 }
-router.get('/householdworker_list', flog, findhwlist, findmrequirementshw, renderhwlist);
+//list 
+router.get('/householdworker_list', flog, findhwlist, houseHoldReq, renderhwlist);
 //-------------------------------------------------------------------------
 //function- auto-gen(code)
 function numberWithCommas(x) {
