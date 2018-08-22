@@ -487,3 +487,11 @@ html(lang='en')
               var modal = $(this)
               modal.find('.modal-body #id').val(id)
             });
+            //- -------------------------------------------------incident report client
+            $('#view_report').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('id')
+
+              var modal = $(this)
+              modal.find('.modal-body #id').val(id)
+            });

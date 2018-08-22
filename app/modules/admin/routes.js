@@ -576,7 +576,7 @@ function findclient(req,res,next){
 
 function findselected(req,res,next){
   var db = require('../../lib/database')();
-  db.query("SELECT * FROM tblmservice INNER JOIN tblhouseholdworker ON intID = intServiceID INNER JOIN tblresults ON intRHWID = intHWID WHERE intRRequestID=?",[req.params.requestid], function (err, results) {
+  db.query("SELECT * FROM tblmservice INNER JOIN tblhouseholdworker ON intID = intServiceID INNER JOIN tblresults ON intRHWID = intHWID  INNER JOIN tbluser ON tbluser.intID = intHWID WHERE intRRequestID=?",[req.params.requestid], function (err, results) {
     if (err) return res.send(err);
     if (!results[0])
     console.log('');
@@ -925,8 +925,9 @@ function findclient_ir(req,res,next){
 router.post('/tr_ir',flog, irc_actions);
 function irc_actions(req,res){
   var db = require('../../lib/database')();
-  db.query(`UPDATE tblreport SET strValidity =?, strReportStatus=?, strActionTaken=? WHERE intReportID =?`,[],function (err){
-    console.log(err)
+  db.query(`UPDATE tblreport SET strValidity =?, strReportStatus= 'Acknowledge', strActionTaken=? WHERE intReportID =?`,[req.body.validity, req.body.action, req.body.reportid],function (err){
+    console.log( req.body.action)
+    console.log(req.body.reportid)
     res.redirect('/admin/transaction_ir_client')
   })
 }

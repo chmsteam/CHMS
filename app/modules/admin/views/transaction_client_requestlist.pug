@@ -45,8 +45,8 @@ block content
                                                 th Number
                                                 th Service
                                                 th Quantity
-                                                th Approved
-                                                th Reject
+                                                //- th Approved
+                                                //- th Reject
                                                 th Action
                                         tbody
                                             each request in requesttab
@@ -54,8 +54,8 @@ block content
                                                     td #{request.intIRequest_No}
                                                     td #{request.strName}
                                                     td #{request.intIQuantity}
-                                                    td 
-                                                    td 
+                                                    //- td 
+                                                    //- td 
                                                     td
                                                         button.btn.btn-info(type='button', data-toggle="modal" data-target="#view_item"
                                                                         , data-requestno=request.intIRequest_No, data-servicename=request.strName, data-quantity=request.intIQuantity, data-gender=request.strIRequestGender, data-educ=request.strIRequestEduc,
@@ -159,13 +159,13 @@ block content
                                                         h4.brief
                                                             i #{selected.strName}: #{selected.intRHWID}
                                                         .left.col-xs-7
-                                                            h2 Name: 
-                                                            p
+                                                            h2 Name: #{selected.strFName} #{selected.strLName} 
+                                                            p 
                                                                 | Age:
                                                                 strong  
                                                             ul.list-unstyled
                                                                 li
-                                                                    | Gender: 
+                                                                    | Gender: #{selected.age}
                                                                     b 
                                                                 li
                                                                     | Status: #{selected.strRHWStatus}

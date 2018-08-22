@@ -33,7 +33,7 @@ block content
                                             td #{rep.datDateReported}
                                             td #{rep.strReportStatus}
                                             td
-                                                button.btn.btn-primary(type='button' data-toggle='modal', data-target='#view_report', )
+                                                button.btn.btn-primary(type='button' data-toggle='modal', data-target='#view_report', data-id=rep.intReportID)
                                                     i.fa.fa-eye
                                                     |   View
                                                 if rep.strReportStatus == 'Acknowledged'
@@ -49,53 +49,61 @@ block content
                         span(aria-hidden='true') ×
                     h4#myModalLabel.modal-title Report Details
                 .modal-body
-                    form#demo-form2.form-horizontal.form-label-left(method="POST" action="")
+                    form#demo-form2.form-horizontal.form-label-left(method="POST" action="/admin/tr_ir")
+                        input(id='id' name="reportid" hidden)
+                        //- input(type='text' id='id')
                         .form-group
                             label.control-label.col-md-3.col-sm-3.col-xs-12
                                 | Date of Report:
                             .col-md-6.col-sm-6.col-xs-12
-                                input#requirementname.form-control.col-md-7.col-xs-12(type='text', required='required', name='requirementname')
+                                input.form-control.col-md-7.col-xs-12(type='text',  name='')
                         .form-group
                             label.control-label.col-md-3.col-sm-3.col-xs-12
                                 | Type of Incident:
                             .col-md-6.col-sm-6.col-xs-12
-                                input#requirementname.form-control.col-md-7.col-xs-12(type='text', required='required', name='requirementname')
+                                input.form-control.col-md-7.col-xs-12(type='text',  name='')
                         .form-group
                             label.control-label.col-md-3.col-sm-3.col-xs-12
                                 | Description:
                             .col-md-6.col-sm-6.col-xs-12
-                                input#requirementname.form-control.col-md-7.col-xs-12(type='text', required='required', name='requirementname')
+                                input.form-control.col-md-7.col-xs-12(type='text',  name='')
                         .form-group
                             label.control-label.col-md-3.col-sm-3.col-xs-12
                                 | Reason:
                             .col-md-6.col-sm-6.col-xs-12
-                                input#requirementname.form-control.col-md-7.col-xs-12(type='text', required='required', name='requirementname')
+                                input.form-control.col-md-7.col-xs-12(type='text',  name='')
                         .form-group
                             label.control-label.col-md-3.col-sm-3.col-xs-12
                                 | Reporter:
                             .col-md-6.col-sm-6.col-xs-12
-                                input#requirementname.form-control.col-md-7.col-xs-12(type='text', required='required', name='requirementname')
+                                input.form-control.col-md-7.col-xs-12(type='text',  name='')
                         .form-group
                             label.control-label.col-md-3.col-sm-3.col-xs-12
                                 | Recipent:
                             .col-md-6.col-sm-6.col-xs-12
-                                input#requirementname.form-control.col-md-7.col-xs-12(type='text', required='required', name='requirementname')
+                                input.form-control.col-md-7.col-xs-12(type='text',  name='')
                         .form-group
                             label.control-label.col-md-3.col-sm-3.col-xs-12 Validity:
                             .col-md-6.col-sm-6.col-xs-12
-                                select(name='reqtype').form-control
-                                    option(value='Client') Valid
-                                    option(value='Household Worker') Invalid
+                                select(name='validity').form-control
+                                    option(value='Valid') Valid
+                                    option(value='Invalid') Invalid
                         .form-group
                             label.control-label.col-md-3.col-sm-3.col-xs-12 Action Taken:
                             .col-md-6.col-sm-6.col-xs-12
-                                select(name='reqtype').form-control
-                                    option(value='Household Worker') No Action
-                                    option(value='Client') Record Report
-                                    option(value='Client') Record Report and Ban Recipent
+                                select(name='action').form-control
+                                    option(value='No Action') No Action
+                                    option(value='1st offense') 1st offense
+                                    option(value='2nd offense') 2nd offense
+                                    option(value='3rd offense') 3rd offense
+                                    option(value='Ban Recipent') Ban Recipent
+                                    option(value='Block Recipent') Block Recipent
+                                    
+
+                                    
                         .ln_solid
                         .form-group.pull-right
-                            button.btn.btn-success(type='button', data-dismiss='modal') Perform Action
+                            button.btn.btn-success(type='submit') Perform Action
                             button.btn.btn-primary(type='button', data-dismiss='modal') Close
                         
 

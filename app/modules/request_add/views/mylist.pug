@@ -35,8 +35,6 @@ block content
                                         th Number
                                         th Service
                                         th Quantity
-                                        th Approved
-                                        th Reject
                                         th Action
                                 tbody
                                 each item in itemtab
@@ -45,8 +43,6 @@ block content
                                             td #{item.intIRequest_No}
                                             td #{item.strName}
                                             td #{item.intIQuantity}
-                                            td 
-                                            td 
                                             td
                                                 button.btn.btn-info.btn-xs(type='button' data-toggle="modal" data-target="#view_item"
                                                                         , data-requestno=item.intIRequest_No, data-servicename=item.strName, data-quantity=item.intIQuantity, data-gender=item.strIRequestGender, data-educ=item.strIRequestEduc, data-exp=item.intIRequestExp

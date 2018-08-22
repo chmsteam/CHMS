@@ -83,6 +83,7 @@ CREATE TABLE IF NOT EXISTS `CHMS`.`tblhouseholdworker` (
   `strCity` VARCHAR(45) NULL,
   `strPAddress` VARCHAR(70) NULL,
   `strPofBirth` VARCHAR(70) NULL,
+  `strOtherSkills` LONGTEXT,
   KEY `intHWID_idx`(`intHWID`),
   KEY `intServiceID_idx`(`intServiceID`),
   PRIMARY KEY (intHWID),
@@ -151,12 +152,13 @@ CREATE TABLE IF NOT EXISTS `CHMS`.`tblMincidentreport` (
 	`intID` INT NOT NULL auto_increment,
     `strName` VARCHAR(100) NULL,
     `strDesc` VARCHAR(250) NULL,
+    `strLevel` varchar(20) NULL,
     `strStatus` VARCHAR(45) NULL,
     PRIMARY KEY (`intID`))
 ENGINE = InnoDB;
 
 INSERT INTO `tblMincidentreport` VALUES
-('1','Personal Injury',"Physical injury inflicted on a person's body.",'Active');
+('1','Personal Injury',"Physical injury inflicted on a person's body.", 'Low','Active');
 
 
 DROP TABLE IF EXISTS `tblMrequirements`;
@@ -176,12 +178,13 @@ CREATE TABLE IF NOT EXISTS `CHMS`.`tblMleave` (
 	`intID` INT NOT NULL auto_increment,
     `strName` VARCHAR(100) NULL,
     `intDays` INT,
+    `intDaysForFile` INT,
     `strStatus` VARCHAR(45) NULL,
     PRIMARY KEY (`intID`))
 ENGINE = InnoDB;
 
 INSERT INTO `tblMleave` VALUES
-('1','Vacation Leave', '1', 'Active'),('2','Sick Leave', '1', 'Inactive');
+('1','Vacation Leave', '5', '7', 'Active'),('2','Sick Leave', '1', '1', 'Inactive');
 
 DROP TABLE IF EXISTS `tblMservice`;
 CREATE TABLE IF NOT EXISTS `CHMS`.`tblMservice` (
@@ -199,11 +202,14 @@ DROP TABLE IF EXISTS `tblMskills`;
 CREATE TABLE IF NOT EXISTS `CHMS`.`tblMskills` (
 	`intID` INT NOT NULL auto_increment,
     `strName` VARCHAR(100) NULL,
-    `strStatus` VARCHAR(45) NULL
+    `intSkillID_intID` int NULL,
+    `strStatus` VARCHAR(45) NULL,
+    KEY `intSkillID_idx`(`intID`),
+    CONSTRAINT `intSkillID_intID` FOREIGN KEY (`intSkillID_intID`) REFERENCES `tblMservice` (`intID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 )
 ENGINE = InnoDB;
 INSERT INTO `tblMskills` VALUES
-('1','Can international course.','Active'),('2','Knows how to iron clothes','Inactive');
+('1','Can international course.','2','Active'),('2','Knows how to iron clothes','1','Inactive');
 
 DROP TABLE IF EXISTS `tblmcity`;
 CREATE TABLE IF NOT EXISTS `CHMS`.`tblmcity` (
@@ -239,6 +245,16 @@ ENGINE = InnoDB;
 INSERT INTO `tblagency` VALUES 
 ('Mega Pacific Employment Services','Shaw Blvd, Mandaluyong 1552 Metro Manila', '(02)5310618', 'mega@xyz.com');
 
+DROP TABLE IF EXISTS `tblfreereplacement`;
+CREATE TABLE IF NOT EXISTS `CHMS`.`tblfreereplacement` (
+    `intFreeReplacement` INT,
+    `strStatus` VARCHAR(45)
+)
+ENGINE = InnoDB;
+INSERT INTO `tblfreereplacement` VALUES (3,'Active');
+
+
+
 -- Request ADD
 DROP TABLE IF EXISTS `tblfinalrequest`;
 CREATE TABLE IF NOT EXISTS `CHMS`.`tblfinalrequest` (
@@ -270,7 +286,7 @@ CREATE TABLE IF NOT EXISTS `CHMS`.`tblinitialrequest` (
     `deciRequestSalary` decimal (9,2),
     KEY (`intIRequest_No`),
     KEY `intIRequestID_idx`(`intIRequestID`),
-    CONSTRAINT `intIRequestID` FOREIGN KEY (`intIRequestID`) REFERENCES `tblfinalrequest` (`intRequestID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+    CONSTRAINT `intIRequestID` FOREIGN KEY (`intIRequestID`) REFERENCES `tblfinalrequest` (`intRequestID`) ON DELETE CASCADE ON UPDATE CASCADE
 )
 ENGINE = InnoDB;
 
@@ -311,13 +327,60 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `tblcontract`;
 CREATE TABLE IF NOT EXISTS `CHMS`.`tblcontract` (
 	`intConTransID` INT NOT NULL,
+    `intConReqNo`INT NOT NULL,
     `intConHWID` INT,
     `intConSalary` INT,
-    `strConStatus` INT,
+    `strConStatus` VARCHAR(20),
+    `datDateStarted` DATE NULL,
+    `strCurStatus` VARCHAR(20),
+    `intConReplacementLeft` INT,
     KEY (intConTransID),
-    CONSTRAINT `intConTransID` FOREIGN KEY (`intConTransID`) REFERENCES `tbltransaction` (`intTRequestID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+    CONSTRAINT `intConTransID` FOREIGN KEY (`intConTransID`) REFERENCES `tblfinalrequest` (`intRequestID`) ON DELETE CASCADE ON UPDATE CASCADE
 )
 ENGINE = InnoDB;
+
+
+DROP TABLE IF EXISTS `tblreplacement`;
+CREATE TABLE IF NOT EXISTS `CHMS`.`tblreplacement` (
+	`intReplaceReqID` INT,
+    `intReplaceOldHWID` INT,
+    `intReplaceNewHWID` INT,
+    KEY (intReplaceReqID),
+    KEY (intReplaceOldHWID),
+    CONSTRAINT `intReplaceOldHWID` FOREIGN KEY (intReplaceOldHWID) REFERENCES `tblhouseholdworker` (`intHWID`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `intReplaceReqID` FOREIGN KEY (intReplaceReqID) REFERENCES `tblfinalrequest` (`intRequestID`) ON DELETE CASCADE ON UPDATE CASCADE
+)
+ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `tblreport`;
+CREATE TABLE IF NOT EXISTS `CHMS`.`tblreport` (
+	`intReporterID` INT,
+    `intRecipentID` INT,
+    `intTypeofReport` INT,
+    `strReason` VARCHAR(250),
+    `strValidity` VARCHAR(50),
+    `datDateReported` DATE,
+    KEY (intTypeofReport),
+    CONSTRAINT `intTypeofReport` FOREIGN KEY (intTypeofReport) REFERENCES `tblmincidentreport` (`intID`) ON DELETE CASCADE ON UPDATE CASCADE
+)
+ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `tblreport`;
+CREATE TABLE IF NOT EXISTS `CHMS`.`tblreport` (
+	`intReportID` INT auto_increment,
+	`intReporterID` INT,
+    `intRecipentID` INT,
+    `intTypeofReport` INT,
+    `strReason` VARCHAR(250),
+    `strValidity` VARCHAR(50),
+    `datDateReported` DATE,
+    `strReportStatus` VARCHAR(50),
+    `strActionTaken` VARCHAR(50),
+    PRIMARY KEY (intReportID),
+    KEY (intTypeofReport),
+    CONSTRAINT `intTypeofReport` FOREIGN KEY (intTypeofReport) REFERENCES `tblmincidentreport` (`intID`) ON DELETE CASCADE ON UPDATE CASCADE
+)ENGINE = InnoDB;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
