@@ -22,7 +22,12 @@ function noofincomingrequests(req,res,next){
 }
 function findjoboffers(req, res, next){
   var db = require('../../lib/database')();
-  db.query(`SELECT intRRequestID, intRRequest_No, strRequestDesc, strRHWStatus, strRClientStatus, c.*, d.* FROM tblresults AS a INNER JOIN tblfinalRequest AS b ON a.intRRequestID = b.intRequestID INNER JOIN tblclient AS c ON b.intRequest_ClientID = c.intClientID INNER JOIN tbluser AS d ON d.intID= c.intClientID WHERE intRHWID = ? AND (strRHWStatus IN ('Waiting','Approved'))`,[req.session.user], function (err, results) {
+  db.query(`SELECT * FROM (SELECT strFName, strLName, strPicture, strCAHouseNo, strCAstreet, strCAProvince, strCity, datRequestNeedDate, intRRequestID, intRRequest_No FROM tblresults AS a 
+    INNER JOIN tblfinalRequest AS b ON a.intRRequestID = b.intRequestID 
+    INNER JOIN tblclient AS c ON b.intRequest_ClientID = c.intClientID 
+    INNER JOIN tbluser AS d ON d.intID= c.intClientID WHERE intRHWID = ? AND (strRHWStatus IN ('Waiting','Approved'))) as ta 
+    INNER JOIN tblinitialrequest as tb 
+    WHERE ta.intRRequestID = tb.intIRequestID AND ta.intRRequest_No = tb.intIRequest_No`,[req.session.user], function (err, results) {
     if (err) return res.send(err);
     if (!results[0])
     console.log(''+req.params.userid);
