@@ -25,7 +25,11 @@ block content
                                         //- th ID NO.
                                         th(style="text-align:center")  INCIDENT REPORT
                                         th(style="text-align:center")  DESCRIPTION
+<<<<<<< HEAD
                                         th(style="text-align:center")  LEVEL OF SEVERITY
+=======
+                                         th(style="text-align:center") Level of Severity
+>>>>>>> 52b63dcc6a7801a2c861a8e1882d1a6e47bda6c8
                                         th(style="text-align:center")  STATUS
                                         th(style="text-align:center")  ACTION
                                 tbody
@@ -78,9 +82,8 @@ block content
                                         textarea.form-control(rows='3', placeholder='Add a description...' ,name='incidentdesc')
                                 .ln_solid
                                 .form-group.pull-right
-                                    button.btn.btn-warning(type='reset') Reset
                                     button.btn.btn-success(type='submit') Add
-                                    button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
+                                    button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
                 //- Edit
                 .modal.fade.bs-edit-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
                     .modal-dialog.modal-xs
@@ -109,7 +112,7 @@ block content
                                     .ln_solid
                                     .form-group.pull-right
                                         button.btn.btn-success(type='submit') Update
-                                        button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
+                                        button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
 
             // /page content
 

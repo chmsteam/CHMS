@@ -1124,9 +1124,22 @@ function findprofclient(req,res,next){
     console.log('');
     console.log(results[0].intID+'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
     req.client = results;
+    console.log(req.client)
     return next();
   });
 }
+//Update Picture - CLient
+router.post('/profile_client_:userid/updatePic',(req, res) =>{
+  var db = require('../../lib/database')();
+  var randomId= makeid();
+  jpeg= req.body.id+('-'+randomId+'.jpg');
+  req.files.postimage.mv('public/images/'+jpeg, function(err) {
+    db.query("UPDATE tbluser SET strPicture = ? WHERE intID = ?",[jpeg, req.body.id], (err, results, fields)=>{
+        if (err) console.log(err);
+        return res.redirect('/admin/profile_client_'+req.body.id,flog, findprofclient, renderprofclient);
+      });
+    });
+});
 
 // ----------------------------------------------------------------------------------------------------HOUSEHOLD WORKER PROFILE
 router.get('/profile_hw_:hwid',flog, findhw, findhweduc, findhwwork, renderprofhw);
@@ -1138,6 +1151,7 @@ function renderprofhw(req,res){
   else
   res.render('login/views/invalid');
 }
+//Update Picture
 router.post('/profile_hw_:hwid/updatePic',(req, res) =>{
   var db = require('../../lib/database')();
   var randomId= makeid();

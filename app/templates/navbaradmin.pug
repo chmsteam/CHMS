@@ -483,9 +483,11 @@ html(lang='en')
             $('#editpic').on('show.bs.modal', function (event) {
               var button = $(event.relatedTarget)
               var id = button.data('id')
+              var image = button.data('image')
 
               var modal = $(this)
               modal.find('.modal-body #id').val(id)
+              $('#uploadPreview1').attr('src', image);
             });
             //- -------------------------------------------------incident report client
             $('#view_report').on('show.bs.modal', function (event) {
@@ -501,4 +503,24 @@ html(lang='en')
 
               var modal = $(this)
               modal.find('.modal-body #desc').text(text)
+              
+            });
+            //-----------------------------------------------------CLIENT UPDATE PIC
+            //profile picture
+            function PreviewImage2() {
+                var oFReader = new FileReader();
+                oFReader.readAsDataURL(document.getElementById("uploadImage2").files[0]);
+                oFReader.onload = function (oFREvent) {
+                document.getElementById("uploadPreview2").src = oFREvent.target.result;
+                };
+              };
+            $('#editpic1').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('id')
+              var image = button.data('image')
+
+              var modal = $(this)
+              modal.find('.modal-body #id').val(id)
+              $('#uploadPreview2').attr('src', image);
+              
             });

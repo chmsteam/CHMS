@@ -28,11 +28,13 @@ function findjoboffers(req, res, next){
               INNER JOIN tblclient AS c ON b.intRequest_ClientID = c.intClientID 
               INNER JOIN tbluser AS d ON d.intID = c.intClientID WHERE intRHWID = ? AND (strRHWStatus IN ('Waiting','Approved'))) as ta 
               INNER JOIN tblinitialrequest as tb 
+              INNER JOIN tblmservice AS tm ON tb.intITypeOfService = tm.intID
               WHERE ta.intRRequestID = tb.intIRequestID AND ta.intRRequest_No = tb.intIRequest_No`,[req.session.user], function (err, results) {
     if (err) return res.send(err);
     if (!results[0])
     console.log(''+req.params.userid);
     req.offer= results;
+    console.log(req.offer)
     for(var i = 0; i < req.offer.length; i++){
      req.offer[i].datRequestNeedDate =  moment(results[i].datRequestNeedDate).format("LL");
     }
