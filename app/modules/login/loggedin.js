@@ -9,7 +9,7 @@ module.exports= (req,res,next)=>{
         req.valid = 0;
       else if ((results[0].strType =='Client' || results[0].strType =='Household Worker') && results[0].strStatus == 'Banned')
         req.valid = 6;
-      else if(results[0].strType =='Household Worker')
+      else if(results[0].strType =='Household Worker'  && (results[0].strStatus == 'Registered' || results[0].strStatus == 'Deployed' ))
         req.valid = 2;
       else if(results[0].strType =='Client')
         req.valid = 1;
