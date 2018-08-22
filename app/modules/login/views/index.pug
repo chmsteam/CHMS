@@ -361,67 +361,45 @@ html(lang='en')
       .spinner
         .dot1
         .dot2
-    #signinmodal.modal(tabindex='-1', role='dialog', aria-labelledby='exampleModalLongTitle', aria-hidden='true')
-      .modal-dialog(role='document')
-        .modal-content
-          .modal-header
-            h5#exampleModalLongTitle.modal-title Sign in to CHSM
-            button.close(type='button', data-dismiss='modal', aria-label='Close')
-              span(aria-hidden='true') ×
-          .modal-body
-            // modal body
-            form(method='POST', action='/login')
-              .form-group
-                label(for='exampleInputEmail1') Email address
-                input#exampleInputEmail1.form-control(type='text', aria-describedby='emailHelp', placeholder='Enter email', name='email')
-                // <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-              .form-group
-                label(for='exampleInputPassword1') Password
-                input#exampleInputPassword1.form-control(type='password', placeholder='Password', name='password')
-              div
-                | Don't have an account? Sign up 
-                a(href='') here
-              button.btn.btn-primary(type='submit') Sign in
-            // / modal body
-          .modal-footer
-    // modal
-    // jQuery Version 2.1.1
-    script(src='../login/fame/js/jquery-2.1.1.min.js')
-    // Bootstrap Core JavaScript
-    script(src='asset/js/bootstrap.min.js')
-    // Plugin JavaScript
-    script(src='../login/fame/js/jquery.easing.1.3.js')
-    script(src='../login/fame/js/classie.js')
-    script(src='../login/fame/js/count-to.js')
-    script(src='../login/fame/js/jquery.appear.js')
-    script(src='../login/fame/js/cbpAnimatedHeader.js')
-    script(src='../login/fame/js/owl.carousel.min.js')
-    script(src='../login/fame/js/jquery.fitvids.js')
-    script(src='../login/fame/js/styleswitcher.js')
-    // Contact Form JavaScript
-    script(src='../login/fame/js/jqBootstrapValidation.js')
-    //- script(src='../login/fame/js/contact_me.js')
-    // Custom Theme JavaScript
-    script(src='../login/fame/js/script.js')
-    //- #signinmodal.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-labelledby='editprofile', aria-hidden='true')
-    //-     .modal-dialog(role='document')
-    //-         form(method="POST"  action="/login")
-    //-             .modal-content
-    //-                 .modal-header
-    //-                     h4.modal-title(style="") Sign in to CHSM
-    //-                     button.close(type='button', data-dismiss='modal', aria-label='Close')
-    //-                         span(aria-hidden='true') ×
-    //-                 .modal-body
-    //-                     .row
-    //-                         .col-md-8
-    //-                             .form-group
-    //-                                 | Email Address
-    //-                                 input#no.form-control(type='text' name='email')
-    //-                     .row    
-    //-                         .col-md-8
-    //-                             .form-group
-    //-                                 | Password
-    //-                                 input#add.form-control(type='password' name='password')
-    //-                 .modal-footer
-    //-                     button.btn.btn-danger(type='button', data-dismiss='modal') Close
-    //-                     button.btn.btn-success(type='submit') Sign in
+  #signinmodal.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-labelledby='editprofile', aria-hidden='true')
+      .modal-dialog.modal-sm(role='document')
+          form(method="POST"  action="/login")
+              .modal-content
+                  .modal-header
+                      h4.modal-title(style="") Sign in to CHSM
+                        button.close(type='button', data-dismiss='modal', aria-label='Close')
+                            span(aria-hidden='true') ×
+                  .modal-body
+                      .row
+                          .col-md-12
+                              .form-group
+                                  b Email Address:
+                                  input#no.form-control(type='email' name='email' required)
+                      .row    
+                          .col-md-12
+                              .form-group
+                                  b Password:
+                                  input#add.form-control(type='password' name='password' required)
+                      div
+                        | Don't have an account? Sign up 
+                        a(href='') here
+                  .modal-footer
+                      button.btn.btn-info(type='submit') Sign in
+script(src='../login/fame/js/jquery-2.1.1.min.js')
+// Bootstrap Core JavaScript
+script(src='asset/js/bootstrap.min.js')
+// Plugin JavaScript
+script(src='../login/fame/js/jquery.easing.1.3.js')
+script(src='../login/fame/js/classie.js')
+script(src='../login/fame/js/count-to.js')
+script(src='../login/fame/js/jquery.appear.js')
+script(src='../login/fame/js/cbpAnimatedHeader.js')
+script(src='../login/fame/js/owl.carousel.min.js')
+script(src='../login/fame/js/jquery.fitvids.js')
+script(src='../login/fame/js/styleswitcher.js')
+// Contact Form JavaScript
+script(src='../login/fame/js/jqBootstrapValidation.js')
+//- script(src='../login/fame/js/contact_me.js')
+// Custom Theme JavaScript
+script(src='../login/fame/js/script.js')
+    

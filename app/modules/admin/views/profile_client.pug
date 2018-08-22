@@ -22,55 +22,121 @@ block content
                                                 #crop-avatar
                                                     // Current avatar
                                                     img.img-responsive.avatar-view(src='../images/'+client.strPicture, alt='Avatar', title='Change the avatar')
-                                            h3 #{client.strLName}, #{client.strFName} #{client.strMName}
-                                            button.btn.btn-primary(type='button' data-toggle='modal' data-target='#editclient_profile') Edit Profile
-                                        br
-                                        br
-                                        ul.list-unstyled.user_data
-                                            li
-                                                i.fa.fa-user.user-profile-icon
-                                                | &nbsp #{client.strEmail}
-                                            li
-                                                i.fa.fa-phone-square.user-profile-icon
-                                                | &nbsp #{client.strContact}
-                                            li
-                                                i.fa.fa-map-marker.user-profile-icon
-                                                | &nbsp #{client.strEmail}  
-    #editclient_profile.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
-        .modal-dialog.modal-xs
-            .modal-content
-                .modal-header
-                    button.close(type='button', data-dismiss='modal')
-                        span(aria-hidden='true') ×
-                    h4#myModalLabel.modal-title Edit Client Profile
-                .modal-body
-                    form#demo-form2.form-horizontal.form-label-left(method="POST" action="")
-                        input.form-control.col-md-7.col-xs-12(type='number', id='_id', required='required', name='requirementID' style="display:none;")     
-                        .form-group
-                            .input-group
-                                span.input-group-addon
-                                    i.icofont.icofont-picture
-                                img#uploadPreview(style='width: 100px; height: 100px;' )
-                                input.form-control.file-input(id="uploadImage" type='file', name='pic1',accept='image/*' onchange="PreviewImage();")                     
-                        //- .form-group
-                        //-     label.control-label.col-md-3.col-sm-3.col-xs-12
-                        //-         | Requirement Name
-                        //-         span.required *
-                        //-     .col-md-6.col-sm-6.col-xs-12
-                        //-         input.form-control.col-md-7.col-xs-12(type='text', id='_name', required='required', name='requirementname')
-                        //- .form-group
-                        //-     label.control-label.col-md-3.col-sm-3.col-xs-12 Requirement For*:
-                        //-     .col-md-6.col-sm-6.col-xs-12
-                        //-         select(name='reqtype').form-control
-                        //-             option(id='_type') 
-                        //-                 |
-                        //-                 i same as before
-                        //-             option(value='Client') Client
-                        //-             option(value='Household Worker') Household Worker
-                        .ln_solid
-                        .form-group.pull-right
-                            button.btn.btn-success(type='submit') Update
-                            button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
+                                            h4(style="text-transform: capitalize;") #{client.strLName}, #{client.strFName} #{client.strMName}
+                                            button.btn.btn-info(type='button' data-toggle='modal' data-target='#editpic1'  data-id= client.intClientID, data-image=`../images/${client.strPicture}`) Update Picture
+                                        //- ul.list-unstyled.user_data
+                                        //-     li
+                                        //-         i.fa.fa-user.user-profile-icon
+                                        //-         | &nbsp #{client.strEmail}
+                                        //-     li
+                                        //-         i.fa.fa-phone-square.user-profile-icon
+                                        //-         | &nbsp #{client.strContact}
+                                        //-     li
+                                        //-         i.fa.fa-map-marker.user-profile-icon
+                                        //-         | &nbsp #{client.strEmail}
+                                .col-md-9.col-sm-9.col-xs-12
+                                    .x_panel
+                                        div(role='tabpanel', data-example-id='togglable-tabs')
+                                            ul#myTab.nav.nav-tabs.bar_tabs(role='tablist')
+                                                li.active(role='presentation')
+                                                    a#profile-tab(href='#tab_content1', role='tab', data-toggle='tab', aria-expanded='true') Profile
+                                                li(role='presentation')
+                                                    a#educ-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Household Worker
+                                            #myTabContent.tab-content
+                                                #tab_content1.tab-pane.fade.active.in(role='tabpanel', aria-labelledby='profile-tab')
+                                                    // Profile
+                                                    br
+                                                    .col-md-12.col-sm-12.col-xs-12
+                                                        .x_panel
+                                                            table.table.table-striped
+                                                                each client in clienttab
+                                                                    br
+                                                                    tbody
+                                                                        tr
+                                                                            th(scope='row')
+                                                                            td
+                                                                                b Name:
+                                                                            td(style="text-transform: capitalize;") #{client.strLName}, #{client.strFName} #{client.strMName}
+                                                                            td
+                                                                            td
+                                                                        tr
+                                                                            th(scope='row')
+                                                                            td
+                                                                                b Address:
+                                                                            -var curAdd = client.strCAHouseNo + " " + client.strCAStreet + " " + client.strCAProvince + ", " + client.strCity
+                                                                            td #{curAdd}
+                                                                            td
+                                                                            td
+                                                                        tr
+                                                                            th(scope='row')
+                                                                            td
+                                                                                b Email:
+                                                                            td #{client.strEmail}
+                                                                            td
+                                                                            td
+                                                                        tr
+                                                                            th(scope='row')
+                                                                            td
+                                                                                b Contact Details:
+                                                                            td #{client.strContact} / #{client.strOContact}
+                                                                            td
+                                                                            td
+                                                #tab_content2.tab-pane.fade(role='tabpanel', aria-labelledby='educ-tab')
+                                                    .x_content
+                                                        .col-xs-3
+                                                            // required for floating
+                                                            // Nav tabs
+                                                            ul.nav.nav-tabs.tabs-left
+                                                                li.active
+                                                                    a(href='#current', data-toggle='tab') Current
+                                                                li
+                                                                    a(href='#replaced', data-toggle='tab') Replaced
+                                                                li
+                                                                    a(href='#reported', data-toggle='tab') Reported
+
+                                                        .col-xs-9
+                                                            // Tab panes
+                                                            .tab-content
+                                                                #current.tab-pane.active
+                                                                    .col-md-12.col-sm-12.col-xs-12
+                                                                        .x_panel
+                                                                            table.table.table-striped
+                                                                                p Current Household Workers
+                                                                #replaced.tab-pane
+                                                                    .col-md-12.col-sm-12.col-xs-12
+                                                                        .x_panel
+                                                                            table.table.table-striped
+                                                                                p Replaced Household Workers
+                                                                #reported.tab-pane
+                                                                    .col-md-12.col-sm-12.col-xs-12
+                                                                        .x_panel
+                                                                            table.table.table-striped
+                                                                                p Reported Household Workers
+                                                        .clearfix
+
+
+    #editpic1.modal.fade.modal-icon(tabindex='-1', role='dialog')
+        .modal-dialog(role='document')
+            form(method="POST"  action="/admin/profile_client_:userid/updatePic" enctype='multipart/form-data')
+                .modal-content
+                    .modal-header(style="background-color:#EDEDED")
+                        h2.modal-title Update Profile Picture
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') ×
+                    .modal-body
+                        input#id(type='number' name='id' hidden)
+                        .row
+                            .col-md-12.text-center
+                                img#uploadPreview2(src="" style='width: 50%; height: 200px;')
+                                br
+                                br
+                                input.form-control.file-input(id="uploadImage2" type='file', name='postimage', accept='image/*' onchange="PreviewImage2();" style='width: 50%; margin-left:142px;')
+                        //- .row
+                        //-     .col-md-12.text-center
+                        //-         img#pic(src='../images/'+ , alt='User-Profile-Image')
+                    .modal-footer
+                        button.btn.btn-info(type='button', data-dismiss='modal') Close
+                        button.btn.btn-success(type='submit') Update
 
     script.
         function PreviewImage() {

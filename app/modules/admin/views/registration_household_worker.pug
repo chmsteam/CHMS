@@ -144,10 +144,10 @@ block content
                                                         input#occupation.optional.form-control.col-md-7.col-xs-12(type='text', name='baddress')
                                                 .item.form-group
                                                     label.control-label.col-md-3.col-sm-3.col-xs-12
-                                                        | Height (in ft.)
+                                                        | Height (in cm.)
                                                         span.required *
                                                     .col-md-2.col-sm-6.col-xs-12
-                                                        input#occupation.optional.form-control.col-md-7.col-xs-12(type='text', name='height', placeholder="e.g 5'2")
+                                                        input#occupation.optional.form-control.col-md-7.col-xs-12(type='text', name='height')
                                                     label.control-label.col-md-2.col-sm-3.col-xs-12
                                                         | Weight (in lbs.)
                                                         span.required *
@@ -560,6 +560,12 @@ block content
                                             .col-md-7(style="float:right")
                                                 .form-group
                                                     textarea.form-control.AddMessage(rows='10' name="skills" required placeholder="Selected Skills")
+                                            //- .control-group
+                                            //-     label.control-label.col-md-3.col-sm-3.col-xs-12 Input Tags
+                                            //-     .col-md-9.col-sm-9.col-xs-12
+                                            //-         input#tags_1.tags.form-controlAddMessage(type='text', value='social, adverts, sales')
+                                            //-         #suggestions-container(style='position: relative; float: left; width: 250px; margin: 10px;')
+
 
                                 // End SmartWizard Content
     script(type='text/javascript').
