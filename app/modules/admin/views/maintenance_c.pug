@@ -41,7 +41,7 @@ block content
                                                         input.js-switch(type='checkbox')
                                                 //- input.js-switch(type='checkbox', checked='') #{item.strStatus}
                                             td
-                                                button.btn.btn-primary(type='button', data-toggle='modal', data-target='#edit_city', data-id=item.intID, data-name=item.strName)
+                                                button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit_city', data-id=item.intID, data-name=item.strName)
                                                     i.fa.fa-edit
                                                     |   Edit
                                                 
@@ -63,9 +63,8 @@ block content
                                         input#first-name.form-control.col-md-7.col-xs-12(type='text', required='required', name='cityname')
                                 .ln_solid
                                 .form-group.pull-right
-                                    button.btn.btn-warning(type='reset') Reset
                                     button.btn.btn-success(type='submit') Add
-                                    button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
+                                    button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
 
                 //- Edit
                 #edit_city.modal.fade.bs-edit-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
@@ -89,5 +88,5 @@ block content
                                     .ln_solid
                                     .form-group.pull-right
                                         button.btn.btn-success(type='submit') Update
-                                        button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
+                                        button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
             // /page content

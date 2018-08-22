@@ -920,6 +920,9 @@ function findclient_ir(req,res,next){
   db.query(`SELECT * FROM tbluser INNER JOIN tblreport ON intID = intReporterID WHERE strType ='Client'`, function(err, results){
     console.log(err)
     req.rep = results;
+    for(var i = 0; i < req.rep.length; i++){
+      req.rep[i].datDateReported =  moment(req.rep[i].datDateReported).format("LL");   
+    }
     return next();
   })
 }

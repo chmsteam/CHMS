@@ -25,6 +25,7 @@ block content
                                         //- th ID NO.
                                         th(style="text-align:center")  INCIDENT REPORT
                                         th(style="text-align:center")  DESCRIPTION
+                                         th(style="text-align:center") Level of Severity
                                         th(style="text-align:center")  STATUS
                                         th(style="text-align:center")  ACTION
                                 tbody
@@ -34,6 +35,7 @@ block content
                                             //- td #{item.intID}
                                             td #{item.strName}
                                             td #{item.strDesc}
+                                            td #{item.strLevel}
                                             td 
                                                 if item.strStatus=='Active'
                                                     p(hidden="") active
@@ -48,7 +50,7 @@ block content
                                                 //- button.btn.btn-info(type='button')
                                                     i.fa.fa-eye
                                                     |   View
-                                                button.btn.btn-primary(type='button', id=''+item.intID, name=''+item.strName, value=''+item.strDesc, data-toggle='modal', data-target='.bs-edit-modal-xs', onclick=" copyID2(this.id), copyName(this.name), copyValue(this.value);" )
+                                                button.btn.btn-warning(type='button', id=''+item.intID, name=''+item.strName, value=''+item.strDesc, data-toggle='modal', data-target='.bs-edit-modal-xs', onclick=" copyID2(this.id), copyName(this.name), copyValue(this.value);" )
                                                     i.fa.fa-edit
                                                     |   Edit
                                                 
@@ -76,9 +78,8 @@ block content
                                         textarea.form-control(rows='3', placeholder='Add a description...' ,name='incidentdesc')
                                 .ln_solid
                                 .form-group.pull-right
-                                    button.btn.btn-warning(type='reset') Reset
                                     button.btn.btn-success(type='submit') Add
-                                    button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
+                                    button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
                 //- Edit
                 .modal.fade.bs-edit-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
                     .modal-dialog.modal-xs
@@ -107,7 +108,7 @@ block content
                                     .ln_solid
                                     .form-group.pull-right
                                         button.btn.btn-success(type='submit') Update
-                                        button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
+                                        button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
 
             // /page content
 

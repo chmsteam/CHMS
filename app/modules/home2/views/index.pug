@@ -61,6 +61,10 @@ block content
                                                                                 .col-xs-12.bottom.text-center
                                                                                     -var fullname = offer.strLName + " " + offer.strFName
                                                                                     -var address = offer.strCAHouseNo + " " + offer.strCAStreet + " " + offer.strCAProvince + ", " + offer.strCity
+                                                                                    -var JobType = offer.strName
+                                                                                    -console.log('aaaa')
+                                                                                    -console.log(JobType)
+                                                                                    -console.log('dito')
                                                                                     button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjob', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No,
                                                                                             data-name=fullname, data-add = address, data-needed= offer.datRequestNeedDate, data-sal=offer.deciRequestSalary)
                                                                                         | View Details
