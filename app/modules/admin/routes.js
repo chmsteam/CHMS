@@ -819,7 +819,7 @@ function clientsettledecision(req,res){
           console.log(err);
           db.query(`UPDATE tblcontract SET datDateStarted ='${req.body.datesettled}', strCurStatus='Current', intConReplacementLeft='${result[0].intFreeReplacement}' WHERE intConTransID='${req.body.transid}'`, function (err) {
             console.log(err);
-            db.query(`UPDATE tbluser SET strStatus='Deployed' WHERE intConTransID='${req.body.transid}'`, function (err) {
+            db.query(`UPDATE tbluser u INNER JOIN tblcontract c ON u.intID = c.intConHWID SET u.strStatus ='Deployed' WHERE u.strType = 'Household Worker' AND c.intConTransID = '${req.body.transid}'`, function (err) {
               console.log(err);
               res.redirect('/admin/transaction_settle')
             });
@@ -832,6 +832,50 @@ function clientsettledecision(req,res){
     
   }
 }
+router.post('/transaction_settledecision_replacementclient',flog, clientsettledecisionreplacement, clientsettledecisionreplacementleft);
+function clientsettledecisionreplacement(req,res, next){
+  var db = require('../../lib/database')();
+  // var db2 = require('../../lib/database')();
+  if(req.body.btn1='settle'){
+    db.query(`UPDATE tbltransaction SET strORNumber=?, datDateSettled=?, strTStatus='On-going' WHERE intTRequestID='${req.body.transid}'`,[req.body.ornum, req.body.datesettled], function (err) {
+      console.log(err);
+      db.query(`UPDATE tblfinalrequest SET strRequestStatus ='Finished' WHERE intRequestID='${req.body.transid}'`, function (err) {
+        console.log(err);
+        db.query(`SELECT * FROM tblfreereplacement`, function (err,result) {
+          console.log(err);
+          db.query(`UPDATE tblcontract SET datDateStarted ='${req.body.datesettled}', strCurStatus='Current', intConReplacementLeft='${result[0].intFreeReplacement}' WHERE intConTransID='${req.body.transid}'`, function (err) {
+            console.log(err);
+            db.query(`UPDATE tbluser u INNER JOIN tblcontract c ON u.intID = c.intConHWID SET u.strStatus ='Deployed' WHERE u.strType = 'Household Worker' AND c.intConTransID = '${req.body.transid}'`, function (err) {
+              console.log(err);
+              db.query(`UPDATE tblreplacement SET intReplaceNewHWID =(SELECT intConHWID FROM tblcontract WHERE intConTransID = ?) WHERE intReplaceReqID = ?`, [req.body.transid, req.body.transid],function (err) {
+                console.log(err);
+                db.query(`UPDATE tblreplacement SET intReplaceNewHWID =(SELECT intConHWID FROM tblcontract WHERE intConTransID = ?) WHERE intReplaceReqID = ?`, [req.body.transid, req.body.transid],function (err) {
+                  console.log(err);
+                  return next();
+                  // res.redirect('/admin/transaction_settle')
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  }
+  else{
+    
+  }
+}
+
+function clientsettledecisionreplacementleft(req,res){
+  var db = require('../../lib/database')();
+  db.query(`SELECT (intConReplacementLeft-1) AS Remain  FROM tblreplacement INNER JOIN tblcontract ON intReplaceOldHWID=intConHWID WHERE intReplaceReqID='${req.body.transid}'`, function (err, results) {
+    console.log(err)
+    db.query(`UPDATE tblcontract SET intConReplacementLeft = ${results[0].Remain} WHERE intConTransID='${req.body.transid}'`)
+    db.query(`UPDATE tblcontract c INNER JOIN tblreplacement r ON c.intConHWID = r.intReplaceOldHWID SET c.strCurStatus ='Replaced' WHERE  c.strCurStatus ='To be replaced' AND r.intReplaceReqID = '${req.body.transid}'`)
+    res.redirect('/admin/transaction_settle')
+  });
+}
+
 //----------------------------------------------------------------------------------TRANSACTIONS SETTLED
 router.get('/transaction_settled', flog, findtranssettled, rendertranssettled);
 function rendertranssettled(req,res){
@@ -855,26 +899,37 @@ function findtranssettled (req,res,next){
     return next();
   });
 }
-// --------------------------------------------------------------------------------TRANSACTIONS INVOICE
-// function rendertransinvoice(req,res){
-//   if(req.valid==0)
-//     res.render('admin/views/transaction_invoice',{usertab: req.user});
-//   else if(req.valid==1)
-//     res.render('admin/views/invalidpages/normalonly');
-//   else
-//     res.render('login/views/invalid');
-// }
-// router.get('/transaction_invoice', flog, rendertransinvoice);
 
-// function rendertransinvoiceprint(req,res){
-//   if(req.valid==0)
-//     res.render('admin/views/transaction_invoice_print',{usertab: req.user});
-//   else if(req.valid==1)
-//     res.render('admin/views/invalidpages/normalonly');
-//   else
-//     res.render('login/views/invalid');
-// }
-// router.get('/transaction_invoice_print', flog, rendertransinvoiceprint);
+
+// --------------------------------------------------------------------------------TRANSACTION INCIDENT REPORT: Client
+router.get('/transaction_ir_client', flog, findclient_ir, rendertrans_irclient)
+function rendertrans_irclient(req,res){
+  if(req.valid==0)
+    res.render('admin/views/transaction_incidentreport_client',{usertab: req.user, reptab: req.rep});
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+
+function findclient_ir(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * FROM tbluser INNER JOIN tblreport ON intID = intReporterID WHERE strType ='Client'`, function(err, results){
+    console.log(err)
+    req.rep = results;
+    return next();
+  })
+}
+
+// ----------------------------------------------------------------Incident Report Action
+router.post('/tr_ir',flog, irc_actions);
+function irc_actions(req,res){
+  var db = require('../../lib/database')();
+  db.query(`UPDATE tblreport SET strValidity =?, strReportStatus=?, strActionTaken=? WHERE intReportID =?`,[],function (err){
+    console.log(err)
+    res.redirect('/admin/transaction_ir_client')
+  })
+}
 
 
 //=--------------------------------------------------------------------------------TRANSACTION CLIENT LIST
@@ -1155,7 +1210,7 @@ router.post('/register_householdworker',(req, res) => {
   var db65 = require('../../lib/database')();
   var db66 = require('../../lib/database')();
   //tbl user
-  db.query(`INSERT INTO tbluser(strFName, strMName, strLName, strEmail, strPassword, strPicture, strType, strStatus) VALUES ('${req.body.fname}', '${req.body.mname}', '${req.body.lname}', '', ?, 'blank.jpg', 'Household Worker', 'Unregistered')`,[retVal], (err) => {
+  db.query(`INSERT INTO tbluser(strFName, strMName, strLName, strEmail, strPassword, strPicture, strType, strStatus) VALUES ('${req.body.fname}', '${req.body.mname}', '${req.body.lname}', '${req.body.eaddress}', ?, 'blank.jpg', 'Household Worker', 'Unregistered')`,[retVal], (err) => {
     //find hw
     db2.query(`SELECT intID from tbluser WHERE strPassword=?`, [retVal], (err,results) => {
       if (err) console.log(err);
@@ -1165,6 +1220,7 @@ router.post('/register_householdworker',(req, res) => {
                  '${req.body.service}', 
                  '${req.body.bday}',
                  '${req.body.gender}',
+
                  '${req.body.civilstatus}',  
                  '${req.body.citizenship}',
                  '${req.body.religion}',

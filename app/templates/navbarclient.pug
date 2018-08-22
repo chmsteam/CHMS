@@ -25,7 +25,7 @@ html(lang='en')
     //preloader
     link(href='/assets4/css/style1.css', rel='stylesheet')
 
-  #preloader
+  //- #preloader
   body.nav-md.footer_fixed(style='background-color:#f7f7f7' onpageshow='total();')
     each user in usertab
       .container.body
@@ -120,7 +120,7 @@ html(lang='en')
                     li
                       a(href='/request_replacement') Replace Household Worker
                     li
-                      a(href='javascript:;') Report Household Worker
+                      a(href='/request_irclient') Report Household Worker
                 li
                   a(href='/home_client') Home  
           // /top navigation
@@ -219,3 +219,12 @@ html(lang='en')
             modal.find('.modal-body #hwid').val(hwid)
 
             });
+        
+        //- ------------------------------------------------request_irclient index
+        $('#report').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('hwid')
+
+            var modal = $(this)
+            modal.find('.modal-body #_id').val(id)
+        });

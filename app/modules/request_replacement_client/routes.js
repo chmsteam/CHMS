@@ -182,6 +182,241 @@ function submitrequest(req,res){
 }
 router.get('/submit_request_:transid:hwid',flog,submitrequest);
 
+// -----------------------------------------------------------------------------VIEW LIST RESULT
+router.get('/result_:transid:transno:hwid', flog, findviewlist, findcreatedlist, findoldhwservice, renderviewlist)
+function findviewlist(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT strName, strFName, strLName, strGender, strPicture, strRClientStatus, intRHWID, intRRequestID, intRRequest_No, intRHWID, TIMESTAMPDIFF(YEAR,datBirthDay,CURDATE()) AS age FROM tblresults AS a INNER JOIN tbluser AS b ON a.intRHWID = b.intID INNER JOIN tblhouseholdworker AS c ON b.intID=c.intHWID INNER JOIN tblmservice AS d ON d.intID = c.intServiceID
+              WHERE strRHWStatus = 'Approved' AND strRClientStatus IN ('Waiting', 'Rejected', 'Approved') AND intRRequestID = ? AND intRRequest_No = ?`,[req.params.transid, req.params.transno], function (err, results) {
+    if (err) return res.send(err);
+    if (!results[0])
+    console.log('xxxxxxxxxxxxxxxxxxxx');
+    req.hw= results;
+    return next();
+  });
+}
+function renderviewlist(req,res){
+  if(req.valid==1)
+    res.render('request_replacement_client/views/replacement_list_viewlist',{usertab: req.user, hwtab: req.hw, listtab: req.list, oldhwservicetab: req.oldhwservice});
+  else if(req.valid==0)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+// ---------------------------------------------------------------------------View LIST DECISION
+router.post('/decision_:requestno', flog, clientdecision)
+function clientdecision(req,res){
+  var db = require('../../lib/database')();
+  var db2 = require('../../lib/database')();
+  var db3 = require('../../lib/database')();
+  if(req.body.btn1 == 'approve'){
+    db.query(`UPDATE tblresults SET strRClientStatus= 'Approved' WHERE strRClientStatus='Waiting' AND intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}'`,function (err) {
+      console.log('xxxxxxxxxxxxxx'+err);
+      db2.query(`SELECT * FROM tblresults as a INNER JOIN tblinitialrequest as b on a.intRRequestID = b.intIRequestID WHERE intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}' AND strRClientStatus = 'Approved'`, function (err,results){
+        db3.query(`INSERT INTO tblcontract VALUES ('${req.body.transid}', '${req.body.reqno}', '${req.body.hwid}', '${results[0].deciRequestSalary}', '', NULL, '',NULL)`, function(err,results2){
+          console.log('yyyyyyyyyyyyy'+err)
+          res.redirect('/request_replacement/replace_list_'+ req.body.transid + req.body.oldhwid, flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findoldhwservice, renderreplacementlist);
+        })
+      })
+    })
+  }
+  else if(req.body.btn1 == 'reject'){
+    db.query(`UPDATE tblresults SET strRClientStatus= 'Rejected' WHERE strRClientStatus='Waiting' AND intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}'`,function (err) {
+      console.log(''+err);
+      res.redirect('/request_replacement/replace_list_'+ req.params.transid + req.body.oldhwid, flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findoldhwservice, renderreplacementlist);
+    })
+  }
+}
+
+// ------------------------------------------------------------------------------CHOOSE DEPLOYMENT
+router.post('/contract', flog, findcreatedlist2);
+
+function findcreatedlist2(req, res){
+  var db = require('../../lib/database')();
+  var db2 = require('../../lib/database')();
+  var db3 = require('../../lib/database')();
+  db.query("SELECT * FROM tbltransaction WHERE intTRequestID=?",[req.body.transid], function (err, results) {
+    console.log(err);
+    if (!results[0]){
+      db2.query(`INSERT INTO tbltransaction VALUES ('${req.body.transid}', '${req.session.user}', '${req.body.reqdate}', '${req.body.dep}', '${req.body.datedep}', '${req.body.timedep}', '', '', NULL, '','','${req.body.invnum}')`, function(err){
+        console.log(err);
+        res.redirect('/request_replacement/contract_'+req.body.transid+req.body.hwid,flog, findcreatedlist,rendercontract)
+      })  
+    }
+    else{
+      db3.query(`UPDATE tbltransaction SET datDateRequested='${req.body.reqdate}', intTypeofDeployment='${req.body.dep}', datDateofDeployment='${req.body.datedep}', timTimeofDeployment='${req.body.timedep}' WHERE intTClientID = '${req.session.user}' AND intTRequestID = '${req.body.transid}'`,function(err){
+        console.log(err);
+        res.redirect('/request_replacement/contract_'+req.body.transid+req.body.hwid,flog,findcreatedlist, rendercontract)
+      })
+    }
+  });
+}
+
+// -----------------------------------------------------------------------CONTRACT
+router.get('/contract_:transid:hwid',flog, findcreatedlist, findcontractstatus, findcontractstatusforhw, findnoofacceptcontract, findtotnoofacceptcontract, findoldhwservice, rendercontract);
+function rendercontract(req,res){
+  if(req.valid==1)
+    res.render('request_replacement_client/views/contract',{usertab: req.user, listtab: req.list, conttab: req.cont, hwtab: req.hw, noacontracttab: req.noacontract, tnocontracttab: req.tnocontract, oldhwservicetab:req.oldhwservice });
+  else if(req.valid==0)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+function findcontractstatus(req,res,next){
+    var db = require('../../lib/database')();
+    db.query(`SELECT * FROM tbltransaction WHERE intTRequestID = '${req.params.transid}'`, function(err, results){
+      console.log('error: '+err);
+      req.cont = results;
+      return next();
+    })
+}
+function findcontractstatusforhw(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT a.*, strName, strFName, strLName FROM tblcontract AS a INNER JOIN tblhouseholdworker as b on a.intConHWID = b.intHWID INNER JOIN tblmservice as c on c.intID = b.intServiceID INNER JOIN tbluser as d on d.intID = b.intHWID WHERE intConTransID = '${req.params.transid}'`, function(err, results){
+    console.log('error: '+err);
+    req.hw = results;
+    return next();
+  })
+}
+
+function findnoofacceptcontract(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) as noa FROM tblcontract WHERE strConStatus='Approved' AND intConTransID='${req.params.transid}'`,function(err,results){
+    console.log(err)
+    req.noacontract = results;
+    return next();
+  })
+}
+function findtotnoofacceptcontract(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) as tno FROM tblcontract WHERE intConTransID='${req.params.transid}'`,function(err,results){
+    console.log(err)
+    req.tnocontract = results;
+    return next();
+  })
+}
+
+// -------------------------------------------------------------------------------------SEND CONTRACT TO HW
+router.post('/send_contract_hw', flog, sendcontracttohw)
+function sendcontracttohw (req,res){
+  var db = require('../../lib/database')();
+    if (req.body.btn1 == 'sendtohw'){
+      db.query(`UPDATE tblcontract SET strConStatus='Waiting' WHERE intConHWID = '${req.body.hwid}' and intConTransID = '${req.body.transid}'`, function(err){
+        res.redirect('/request_replacement/contract_'+req.body.transid+ req.body.oldhwid,flog, findcreatedlist,rendercontract)
+      })
+    }
+}
+
+// ------------------------------------------------------------------------------------------accept cont / SEND REQ TO ADMIN
+router.post('/deccontract',flog, contractstatus);
+function contractstatus (req,res){
+  var db = require('../../lib/database')();
+  if(req.body.btn1 == 'accept'){
+    db.query(`UPDATE tbltransaction SET strContractStatus = 'Accepted' WHERE intTClientID = '${req.session.user}' AND intTRequestID = '${req.body.transid}'`,function(err){
+      console.log(err);
+      res.redirect('/request_replacement/contract_'+req.body.transid+req.body.oldhwid,flog, findcreatedlist, findcontractstatus, rendercontract);
+    })
+  }
+}
+
+router.post('/send_to_admin',flog, sendtoadmin);
+function sendtoadmin (req,res){
+  var db = require('../../lib/database')();
+  if(req.body.btn1 == 'send'){
+    db.query(`UPDATE tblfinalrequest SET strRequestStatus = 'Pending' WHERE intRequest_ClientID = '${req.session.user}' AND intRequestID = '${req.body.transid}'`,function(err){
+        console.log(err);
+        res.redirect('/request_replacement/invoice_'+req.body.transid+req.body.oldhwid, flog, findagency, findclient, findtrans, finditems, findsubtotal, findotherfee, renderinvoice);
+    })
+  }
+}
+
+//------------------------------------------------------------------------------------------- INVOICE 
+router.get('/invoice_:userid:hwid',flog, findagency, findclient, findtrans, finditems, findsubtotal, findotherfee, renderinvoice);
+function renderinvoice(req,res){
+  if(req.valid==1)
+    res.render('request_replacement_client/views/invoice',{usertab: req.user, agencytab: req.agency, clienttab: req.client, dctab: req.dc, itemtab: req.item, subtotaltab: req.subtotal, otherfeetab: req.otherfee});
+  else if(req.valid==0)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+
+function findagency(req,res,next){
+  var db = require('../../lib/database')();
+  db.query("SELECT * FROM tblagency", function (err, results) {
+    if (err) return res.send(err);
+    if (!results[0])
+    console.log('');
+    req.agency = results;
+    return next();
+  });
+}
+
+function findclient(req,res,next){
+  var db = require('../../lib/database')();
+  db.query("SELECT b.*, strFName, strLName, strEmail FROM tbluser as a inner join tblclient as b on a.intID=b.intClientID where intID = ?",[req.session.user], function (err, results) {
+    if (err) return res.send(err);
+    if (!results[0])
+    console.log('');
+    req.client = results;
+    return next();
+  });
+}
+
+function findtrans (req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT datDateRequested, strInvoiceNum FROM tbltransaction WHERE intTRequestID = ?`,[req.params.userid], function (err, results) {
+
+    if (err) return res.send(err);
+    if (!results[0])
+    console.log('');
+    for(var i = 0; i < results.length; i++){
+      results[i].datDateRequested =  moment(results[i].datDateRequested).format("LL");   
+    }
+    if (err) return res.send(err);
+    req.dc = results;
+    return next();
+  });
+}
+
+function finditems(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT intServiceID,ta.strName, COUNT(intServiceID) AS service, fltFee, (COUNT(intServiceID)*fltfee) as subtotal FROM
+          (SELECT * FROM tblresults INNER JOIN tblhouseholdworker ON intHWID = intRHWID INNER JOIN tblmservice ON intServiceID = intID WHERE strRClientStatus ='Approved' and intRRequestID=?) as ta,
+          (SELECT * FROM tblfee WHERE intID=1) as tb 
+          GROUP BY intServiceID `,[req.params.userid], function (err, results) {
+
+    if (err) return res.send(err);
+    if (!results[0])
+    console.log('');
+    req.item = results;
+    return next();
+  });
+}
+function findsubtotal(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT (COUNT(intServiceID)*fltfee) as subtotal FROM
+            (SELECT * FROM tblresults INNER JOIN tblhouseholdworker ON intHWID = intRHWID INNER JOIN tblmservice ON intServiceID = intID WHERE strRClientStatus ='Approved' and intRRequestID=?) as ta,
+            (SELECT * FROM tblfee WHERE intID=1) as tb`, [req.params.userid], function (err, results) {
+    if (err) return res.send(err);
+    if (!results[0])
+    console.log('');
+    req.subtotal = results;
+    return next();
+  });
+}
+function findotherfee(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT intTypeofDeployment, strName, fltFee, intTRequestID FROM tblfee INNER JOIN tbltransaction ON intID = intTypeofDeployment WHERE intTRequestID = ?`,[req.params.userid], function (err, results) {
+
+    if (err) return res.send(err);
+    if (!results[0])
+    console.log('');
+    req.otherfee = results;
+    return next();
+  });
+}
+
 // ----------------------------------------------------------------------------
 // router.get('/mylist_:userid', flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, rendermylist);
 

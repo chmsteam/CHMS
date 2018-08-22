@@ -25,7 +25,7 @@ html(lang='en')
     //preloader
     link(href='/assets4/css/style1.css', rel='stylesheet')
 
-  #preloader
+  //- #preloader
   body.nav-md.footer_fixed
     each user in usertab
       .container.body
@@ -110,14 +110,23 @@ html(lang='en')
                             li.sub_menu
                               a Household Worker
                         li 
-                            a
-                              | Settlement
-                              span.fa.fa-chevron-down
-                            ul.nav.child_menu
-                              li.sub_menu
-                                a(href='transaction_settle') Settle Request
-                              li.sub_menu
-                                a(href='transaction_settled') Finished Transaction                                    
+                          a
+                            | Settlement
+                            span.fa.fa-chevron-down
+                          ul.nav.child_menu
+                            li.sub_menu
+                              a(href='transaction_settle') Settle Request
+                            li.sub_menu
+                              a(href='transaction_settled') Finished Transaction
+                        li 
+                          a
+                            | Incident Report
+                            span.fa.fa-chevron-down
+                          ul.nav.child_menu
+                            li.sub_menu
+                              a(href='transaction_ir_client') Client
+                            li.sub_menu
+                              a(href='_') Household Worker                                         
                     li
                       a
                         i.fa.fa-gear
@@ -432,6 +441,17 @@ html(lang='en')
               var modal = $(this)
               modal.find('.modal-body #_id').val(id)
               modal.find('.modal-header #a').text(id)
+
+            });
+
+            $('#settle_replacementclient').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('id')
+
+              var modal = $(this)
+              modal.find('.modal-body #_id').val(id)
+              modal.find('.modal-header #a').text(id)
+              
             });
             //other skills
             $('select.SelectTemplate').change(function() {

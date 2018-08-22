@@ -1,0 +1,102 @@
+extends ../../../templates/navbaradmin.pug
+
+block content
+    // page content
+    .right_col(role='main')
+        div
+            .page-title
+                .title_left
+                    h5
+                        | Transaction / Incident Report /&nbsp
+                        b Client
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
+                        .x_panel
+                            .x_content
+                            br
+                            br
+                            table#datatable-responsive.table.table-striped.table-bordered.dt-responsive.nowrap(cellspacing='0', width='100%')
+                                thead
+                                    tr
+                                        th REPORTER
+                                        th RECIPENT
+                                        th INCIDENT REPORT
+                                        th DATE REPORTED
+                                        th STATUS
+                                        th ACTION
+                                tbody 
+                                    each rep in reptab
+                                        tr
+                                            td #{rep.strFName} #{rep.strLName}
+                                            td
+                                            td #{rep.intTypeofReport}
+                                            td #{rep.datDateReported}
+                                            td #{rep.strReportStatus}
+                                            td
+                                                button.btn.btn-primary(type='button' data-toggle='modal', data-target='#view_report', )
+                                                    i.fa.fa-eye
+                                                    |   View
+                                                if rep.strReportStatus == 'Acknowledged'
+                                                    button.btn.btn-info(type='button')
+                                                        i.fa.fa-eye
+                                                        |   View
+    //- modals
+    #view_report.modal.fade.bs-add-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-md
+            .modal-content
+                .modal-header
+                    button.close(type='button', data-dismiss='modal')
+                        span(aria-hidden='true') ×
+                    h4#myModalLabel.modal-title Report Details
+                .modal-body
+                    form#demo-form2.form-horizontal.form-label-left(method="POST" action="")
+                        .form-group
+                            label.control-label.col-md-3.col-sm-3.col-xs-12
+                                | Date of Report:
+                            .col-md-6.col-sm-6.col-xs-12
+                                input#requirementname.form-control.col-md-7.col-xs-12(type='text', required='required', name='requirementname')
+                        .form-group
+                            label.control-label.col-md-3.col-sm-3.col-xs-12
+                                | Type of Incident:
+                            .col-md-6.col-sm-6.col-xs-12
+                                input#requirementname.form-control.col-md-7.col-xs-12(type='text', required='required', name='requirementname')
+                        .form-group
+                            label.control-label.col-md-3.col-sm-3.col-xs-12
+                                | Description:
+                            .col-md-6.col-sm-6.col-xs-12
+                                input#requirementname.form-control.col-md-7.col-xs-12(type='text', required='required', name='requirementname')
+                        .form-group
+                            label.control-label.col-md-3.col-sm-3.col-xs-12
+                                | Reason:
+                            .col-md-6.col-sm-6.col-xs-12
+                                input#requirementname.form-control.col-md-7.col-xs-12(type='text', required='required', name='requirementname')
+                        .form-group
+                            label.control-label.col-md-3.col-sm-3.col-xs-12
+                                | Reporter:
+                            .col-md-6.col-sm-6.col-xs-12
+                                input#requirementname.form-control.col-md-7.col-xs-12(type='text', required='required', name='requirementname')
+                        .form-group
+                            label.control-label.col-md-3.col-sm-3.col-xs-12
+                                | Recipent:
+                            .col-md-6.col-sm-6.col-xs-12
+                                input#requirementname.form-control.col-md-7.col-xs-12(type='text', required='required', name='requirementname')
+                        .form-group
+                            label.control-label.col-md-3.col-sm-3.col-xs-12 Validity:
+                            .col-md-6.col-sm-6.col-xs-12
+                                select(name='reqtype').form-control
+                                    option(value='Client') Valid
+                                    option(value='Household Worker') Invalid
+                        .form-group
+                            label.control-label.col-md-3.col-sm-3.col-xs-12 Action Taken:
+                            .col-md-6.col-sm-6.col-xs-12
+                                select(name='reqtype').form-control
+                                    option(value='Household Worker') No Action
+                                    option(value='Client') Record Report
+                                    option(value='Client') Record Report and Ban Recipent
+                        .ln_solid
+                        .form-group.pull-right
+                            button.btn.btn-success(type='button', data-dismiss='modal') Perform Action
+                            button.btn.btn-primary(type='button', data-dismiss='modal') Close
+                        
+
+        
