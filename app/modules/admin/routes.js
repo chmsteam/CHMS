@@ -576,7 +576,7 @@ function findclient(req,res,next){
 
 function findselected(req,res,next){
   var db = require('../../lib/database')();
-  db.query("SELECT * FROM tblmservice INNER JOIN tblhouseholdworker ON intID = intServiceID INNER JOIN tblresults ON intRHWID = intHWID  INNER JOIN tbluser ON tbluser.intID = intHWID WHERE intRRequestID=?",[req.params.requestid], function (err, results) {
+  db.query("SELECT *,TIMESTAMPDIFF(YEAR,datBirthDay,CURDATE()) as age FROM tblmservice INNER JOIN tblhouseholdworker ON intID = intServiceID INNER JOIN tblresults ON intRHWID = intHWID  INNER JOIN tbluser ON tbluser.intID = intHWID WHERE intRRequestID=?",[req.params.requestid], function (err, results) {
     if (err) return res.send(err);
     if (!results[0])
     console.log('');

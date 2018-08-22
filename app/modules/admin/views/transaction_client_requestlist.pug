@@ -161,17 +161,17 @@ block content
                                                         .left.col-xs-7
                                                             h2 Name: #{selected.strFName} #{selected.strLName} 
                                                             p 
-                                                                | Age:
+                                                                | Age: #{selected.age}
                                                                 strong  
                                                             ul.list-unstyled
                                                                 li
-                                                                    | Gender: #{selected.age}
+                                                                    | Gender: #{selected.strGender}
                                                                     b 
                                                                 li
                                                                     | Status: #{selected.strRHWStatus}
                                                                     b 
                                                         .right.col-xs-5.text-center
-                                                            img.img-circle.img-responsive(src='/assets/gentelella/production/images/alexis.jpg', alt='', style='width:100px; height:100px')
+                                                            img.img-circle.img-responsive(src='../images/'+selected.strPicture, alt='', style='width:100px; height:100px')
                                                     .col-xs-12.bottom.text-center
                                                         //- .col-xs-12.col-sm-4.emphasis
                                                             .x_panel

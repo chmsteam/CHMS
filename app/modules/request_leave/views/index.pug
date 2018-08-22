@@ -16,11 +16,8 @@ block content
                                         label.control-label.col-md-3.col-sm-3.col-xs-12 Type Of Leave
                                         .col-md-9.col-sm-9.col-xs-12
                                             select.form-control
-                                                option Choose option
-                                                option Option one
-                                                option Option two
-                                                option Option three
-                                                option Option four
+                                                each leave in leavetab
+                                                    option #{leave.strName}
                                     .form-group
                                         label.control-label.col-md-3.col-sm-3.col-xs-12 Address While On Leave
                                         .col-md-9.col-sm-9.col-xs-12
@@ -34,19 +31,18 @@ block content
                                     .form-group
                                         label.control-label.col-md-3.col-sm-3.col-xs-12 Starting From:
                                         .col-md-9.col-sm-9.col-xs-12
-                                            input.form-control(type='date')
+                                            input.form-control(type='date' onkeyup='time();')
                                     .form-group
                                         label.control-label.col-md-3.col-sm-3.col-xs-12 To:
                                         .col-md-9.col-sm-9.col-xs-12
-                                            input.form-control(type='date')
+                                            input.form-control(id='thedate' type='date')
                                     .form-group
                                         label.control-label.col-md-3.col-sm-3.col-xs-12 Total Number Of Days:
                                         .col-md-9.col-sm-9.col-xs-12
-                                            input.form-control(type='number')
+                                            input.form-control(type='number' readonly)
                                     .form-group
                                         .pull-right
                                             br
-                                            button.btn-lg.btn-secondary(type='reset') Reset
                                             button.btn-lg.btn-primary(type='submit') Submit
                                         
                     //-     h2 Leave
@@ -68,4 +64,27 @@ block content
                     //-     .clearfix
                     //- .x_content
                     //-     | Add content to the page ...
+    //- script.
+    //-     function time(){
+    //-         var today = new Date();
+    //-         var dd = today.getDate();
+    //-         var mm = today.getMonth()+1; //January is 0!
+    //-         var yyyy = today.getFullYear();
+    //-         var hh = today.getHours();
+    //-         var min = today.getMinutes();
+    //-         var sec = today.getSeconds();
+    //-         var x= document.getElementById("thedate");
+            
+    //-         if(dd<10) {
+    //-             dd = '0'+dd
+    //-         } 
 
+    //-         if(mm<10) {
+    //-             mm = '0'+mm
+    //-         } 
+    //-         dd=dd+2;
+
+    //-         today = yyyy + '-' + mm + '-' + dd;
+    //-         //- document.write(today);
+    //-        document.getElementById("thedate").value=today;
+    //-     }
