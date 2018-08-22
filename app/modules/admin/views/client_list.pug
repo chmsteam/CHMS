@@ -39,7 +39,7 @@ block content
                                                         i.fa.fa-eye
                                                         |   View
                                                 if item.strStatus == "Registered"
-                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#req_registered', data-id=item.intID)
+                                                    button.btn.btn-primary(type='button', data-toggle='modal', data-target='#req_registered', data-id=item.intID)
                                                         i.fa.fa-list
                                                         |   Requirements
                                                 else if item.strStatus == "Unregistered"
@@ -54,20 +54,22 @@ block content
     #req_registered.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
         .modal-dialog.modal-xs
             .modal-content
-                .modal-header
+                .modal-header(style="background-color:#EDEDED")
                     button.close(type='button', data-dismiss='modal')
                         span(aria-hidden='true') ×
                     h4#myModalLabel.modal-title Registered
                 .modal-body
-                    form#demo-form2.form-horizontal.form-label-left(method="POST" action="")
-                        .form-group
-                        .ln_solid
-                        .form-group.pull-right
-                            button.btn.btn-primary(type='button', data-dismiss='modal') Close
+                    p The following requirements and clearances are presented:
+                        .row
+                            .col-md-3
+                                each requirement in requirementtab
+                                    li #{requirement.strName} 
+                .modal-footer
+                    button.btn.btn-primary(type='button', data-dismiss='modal') Close
     #req_unregistered.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
         .modal-dialog.modal-xs
             .modal-content
-                .modal-header
+                .modal-header(style="background-color:#EDEDED")
                     button.close(type='button', data-dismiss='modal')
                         span(aria-hidden='true') ×
                     h4#myModalLabel.modal-title Unregistered
@@ -93,7 +95,7 @@ block content
     #req_rejected.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
         .modal-dialog.modal-xs
             .modal-content
-                .modal-header
+                .modal-header(style="background-color:#EDEDED")
                     button.close(type='button', data-dismiss='modal')
                         span(aria-hidden='true') ×
                     h4#myModalLabel.modal-title Rejected

@@ -1,106 +1,103 @@
-extends ../../../templates/navbarclient.pug
-
+extends ../../../templates/navbarclient
 block content
   .right_col(role='main')
     section#services
-        div
             .page-title
-            .title_left
-                each user in usertab
-                    h1
-                        b Welcome, #{user.strFName}.          
-            
+                .title_left
+                    each user in usertab
+                        h1
+                            b Welcome, #{user.strFName}.          
             .clearfix        
-            .row
-                .col-md-12.col-sm-12.col-xs-12
-                .x_panel
-                    .x_title
-                    h2 Home  
-                    .clearfix
-                    .x_content
-                    br
+                .row
                     .col-md-12.col-sm-12.col-xs-12
-                        .x_panel
-                        div(role='tabpanel', data-example-id='togglable-tabs')
-                                    ul#myTab.nav.nav-tabs.bar_tabs(role='tablist')
-                                        li.active(role='presentation')
-                                            a#home-tab(href='#tab_content1', role='tab', data-toggle='tab', aria-expanded='true') My Request
-                                        li(role='presentation')
-                                            a#profile-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Incoming Request
-                                        li(role='presentation')
-                                            a#profile-tab(href='#tab_content3', role='tab', data-toggle='tab', aria-expanded='false') History	
-                                    #myTabContent.tab-content
-                                        #tab_content1.tab-pane.fade.active.in(role='tabpanel', aria-labelledby='home-tab')
-                                            // My Request
-                                            .row
-                                                .col-md-12
-                                                    br
-                                                    .x_content
-                                                        .row
-                                                            .col-md-12.col-sm-4.col-xs-12.profile_details
-                                                                .well.profile_view(style='width:100%')
-                                                                    .col-xs-12
-                                                                        center
-                                                                            h2
-                                                                                br
-                                                                                | Type of Request:
-                                                                                b &nbsp&nbspAdd Household Worker
-                                                                                br
-                                                                        .col-xs-12.text-center
-                                                                            p
-                                                                            h2 You have successfully sent this request. This request is awaiting for approval.
-                                                                            p
-                                                                            br
-                                                                    .col-xs-12.bottom.text-center
-                                                                        a(href='createlist')
-                                                                            button.btn.btn-primary(type='button')
-                                                                                | View
-                                        // END My Request
-                                        #tab_content2.tab-pane.fade(role='tabpanel', aria-labelledby='profile-tab')
-                                            // Incoming Request
-                                            .row
-                                                .col-md-12
-                                                    br
-                                                    .x_content
-                                                        .row
-                                                            .col-md-12.col-sm-4.col-xs-12.profile_details
-                                                                .well.profile_view(style='width:100%')
-                                                                    .col-xs-12
-                                                                        center
-                                                                            h2
-                                                                                br
-                                                                                | Type of Request:
-                                                                                b &nbsp&nbspLeave
-                                                                                br
-                                                                        .col-xs-12.text-center
-                                                                            p
-                                                                            h2
-                                                                                | Your household worker sent you request. This request is awaiting for your approval.
-                                                                            p
-                                                                            br
-                                                                    .col-xs-12.bottom.text-center
-                                                                        a(href='/home_client/request_leave')
-                                                                            button.btn.btn-primary(type='button') View
-                                        // END Incoming Request
-                                        #tab_content3.tab-pane.fade(role='tabpanel', aria-labelledby='profile-tab')
-                                            // History
-                                            .row
-                                                .col-md-12
-                                                    br
-                                                    .x_content
-                                                        .row
-                                                            .col-md-12.col-sm-4.col-xs-12.profile_details
-                                                                .well.profile_view(style='width:100%')
-                                                                    .col-xs-12
-                                                                        center
-                                                                            h2
-                                                                                br
-                                                                                | This is your previous transaction.
-                                                                        .col-xs-12.text-center
-                                                                            p
-                                                                            h2
+                    .x_panel
+                        .x_title
+                        h2 Home  
+                        .clearfix
+                        .x_content
+                        br
+                        .col-md-12.col-sm-12.col-xs-12
+                            .x_panel
+                            div(role='tabpanel', data-example-id='togglable-tabs')
+                                        ul#myTab.nav.nav-tabs.bar_tabs(role='tablist')
+                                            li.active(role='presentation')
+                                                a#home-tab(href='#tab_content1', role='tab', data-toggle='tab', aria-expanded='true') My Request
+                                            li(role='presentation')
+                                                a#profile-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Incoming Request
+                                            li(role='presentation')
+                                                a#profile-tab(href='#tab_content3', role='tab', data-toggle='tab', aria-expanded='false') History	
+                                        #myTabContent.tab-content
+                                            #tab_content1.tab-pane.fade.active.in(role='tabpanel', aria-labelledby='home-tab')
+                                                // My Request
+                                                .row
+                                                    .col-md-12
+                                                        br
+                                                        .x_content
+                                                            .row
+                                                                .col-md-12.col-sm-4.col-xs-12.profile_details
+                                                                    .well.profile_view(style='width:100%')
+                                                                        .col-xs-12
+                                                                            center
                                                                                 h2
-                                                                                    p
                                                                                     br
-                                                                    .col-xs-12.bottom.text-center
-                                                                        button.btn.btn-primary(type='button')
+                                                                                    | Type of Request:
+                                                                                    b &nbsp&nbspAdd Household Worker
+                                                                                    br
+                                                                            .col-xs-12.text-center
+                                                                                p
+                                                                                h2 You have successfully sent this request. This request is awaiting for approval.
+                                                                                p
+                                                                                br
+                                                                        .col-xs-12.bottom.text-center
+                                                                            a(href='createlist')
+                                                                                button.btn.btn-primary(type='button')
+                                                                                    | View
+                                            // END My Request
+                                            #tab_content2.tab-pane.fade(role='tabpanel', aria-labelledby='profile-tab')
+                                                // Incoming Request
+                                                .row
+                                                    .col-md-12
+                                                        br
+                                                        .x_content
+                                                            .row
+                                                                .col-md-12.col-sm-4.col-xs-12.profile_details
+                                                                    .well.profile_view(style='width:100%')
+                                                                        .col-xs-12
+                                                                            center
+                                                                                h2
+                                                                                    br
+                                                                                    | Type of Request:
+                                                                                    b &nbsp&nbspLeave
+                                                                                    br
+                                                                            .col-xs-12.text-center
+                                                                                p
+                                                                                h2
+                                                                                    | Your household worker sent you request. This request is awaiting for your approval.
+                                                                                p
+                                                                                br
+                                                                        .col-xs-12.bottom.text-center
+                                                                            a(href='/home_client/request_leave')
+                                                                                button.btn.btn-primary(type='button') View
+                                            // END Incoming Request
+                                            #tab_content3.tab-pane.fade(role='tabpanel', aria-labelledby='profile-tab')
+                                                // History
+                                                .row
+                                                    .col-md-12
+                                                        br
+                                                        .x_content
+                                                            .row
+                                                                .col-md-12.col-sm-4.col-xs-12.profile_details
+                                                                    .well.profile_view(style='width:100%')
+                                                                        .col-xs-12
+                                                                            center
+                                                                                h2
+                                                                                    br
+                                                                                    | This is your previous transaction.
+                                                                            .col-xs-12.text-center
+                                                                                p
+                                                                                h2
+                                                                                    h2
+                                                                                        p
+                                                                                        br
+                                                                        .col-xs-12.bottom.text-center
+                                                                            button.btn.btn-primary(type='button')
