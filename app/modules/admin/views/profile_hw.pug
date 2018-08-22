@@ -26,14 +26,14 @@ block content
                                             h5 #{hw1.strName}
                                             button.btn.btn-info(data-toggle='modal', data-target='#editpic', data-id=hw1.intHWID, data-pic=hw1.strPicture) Edit Picture
                                         ul.list-unstyled.user_data
-                                            li Age: &nbsp 
+                                            li Age: &nbsp #{hw1.age}
                                             li Gender: &nbsp #{hw1.strGender}
                                             li
                                                 i.fa.fa-map-marker.user-profile-icon
-                                                |&nbsp Malolos, Bulacan
+                                                |&nbsp #{hw1.strPAddress}
                                             li.m-top-xs
                                                 i.fa.fa-phone-square.user-profile-icon
-                                                |&nbsp  09356031898
+                                                |&nbsp #{hw1.strCellNum} / #{hw1.strTelNum} 
                                         //- a.btn.btn-success
                                         //-     i.fa.fa-edit.m-right-xs
                                         //-     | &nbspEdit Profile
@@ -69,42 +69,35 @@ block content
                                                                             th(scope='row')
                                                                             td
                                                                                 b Place of Birth:
-                                                                            td 
+                                                                            td #{hw1.strPofBirth}
                                                                             td
                                                                             td
                                                                         tr
                                                                             th(scope='row')
                                                                             td
                                                                                 b Civil Status:
-                                                                            td 
+                                                                            td #{hw1.strCivilStatus}
                                                                             td
                                                                             td
                                                                         tr
                                                                             th(scope='row')
                                                                             td
                                                                                 b Height:
-                                                                            td 
+                                                                            td #{hw1.strHeight}
                                                                             td
                                                                             td
                                                                         tr
                                                                             th(scope='row')
                                                                             td
                                                                                 b Weight:
-                                                                            td 
+                                                                            td #{hw1.strWeight}
                                                                             td
                                                                             td
                                                                         tr
                                                                             th(scope='row')
                                                                             td
                                                                                 b Religion:
-                                                                            td 
-                                                                            td
-                                                                            td
-                                                                        tr
-                                                                            th(scope='row')
-                                                                            td
-                                                                                b Color of Eyes:
-                                                                            td 
+                                                                            td #{hw1.strReligion}
                                                                             td
                                                                             td
                                                 #tab_content2.tab-pane.fade(role='tabpanel', aria-labelledby='educ-tab')

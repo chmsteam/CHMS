@@ -504,7 +504,7 @@ function rendertransclient(req,res){
 }
 function findclientrequest(req,res,next){
   var db = require('../../lib/database')();
-  db.query(`SELECT CONCAT(b.strLName,', ', b.strFName) AS strName, strRequestType, datRequestDate, datRequestNeedDate, strRequestStatus, intRequestID FROM tblfinalrequest as a INNER JOIN tbluser as b ON a.intRequest_ClientID = b.intID WHERE a.strRequestStatus IN ('On process', 'On contract', 'Pending') ORDER BY intRequestID Desc`, function (err, results) {
+  db.query(`SELECT CONCAT(b.strLName,', ', b.strFName) AS strName, strRequestType, datRequestDate, datRequestNeedDate, strRequestStatus, intRequestID, strRequestDesc FROM tblfinalrequest as a INNER JOIN tbluser as b ON a.intRequest_ClientID = b.intID WHERE a.strRequestStatus IN ('On process', 'On contract', 'Pending') ORDER BY intRequestID Desc`, function (err, results) {
     if (err) return res.send(err);
     if (!results[0])
     console.log('');
@@ -754,6 +754,9 @@ function findhw(req,res,next){
     if (!results[0])
     console.log('');
     req.hw1 = results;
+    for(var i = 0; i < req.hw1.length; i++){
+      req.hw1[i].datBirthDay =  moment(results[i].datBirthDay).format("LL");
+    }
     return next();
   });
 }

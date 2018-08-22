@@ -495,3 +495,10 @@ html(lang='en')
               var modal = $(this)
               modal.find('.modal-body #id').val(id)
             });
+            $('#dec').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var text = button.data('desc')
+
+              var modal = $(this)
+              modal.find('.modal-body #desc').text(text)
+            });
