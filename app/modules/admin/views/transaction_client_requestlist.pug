@@ -24,11 +24,11 @@ block content
                                 ul.list-unstyled.user_data
                                     li.m-top-xs
                                         i.fa.fa-phone-square.user-profile-icon
-                                        | #{client.strContact}
+                                        | &nbsp#{client.strContact}
                                     li
                                         i.fa.fa-envelope.user-profile-icon
-                                        |  #{client.strEmail}
-                                a.btn.btn-success
+                                        | &nbsp#{client.strEmail}
+                                a.btn.btn-success(href='/admin/profile_client_'+client.intID)
                                     i.fa.fa-edit.m-right-xs
                                     | &nbspView Profile
                                 br
@@ -161,15 +161,15 @@ block content
                                                         .left.col-xs-7
                                                             h2 Name: #{selected.strFName} #{selected.strLName} 
                                                             p 
-                                                                | Age: #{selected.age}
-                                                                strong  
+                                                                | Age: 
+                                                                strong  #{selected.age}
                                                             ul.list-unstyled
                                                                 li
-                                                                    | Gender: #{selected.strGender}
-                                                                    b 
+                                                                    | Gender: 
+                                                                    b #{selected.strGender}
                                                                 li
-                                                                    | Status: #{selected.strRHWStatus}
-                                                                    b 
+                                                                    | Status: 
+                                                                    b #{selected.strRHWStatus}
                                                         .right.col-xs-5.text-center
                                                             img.img-circle.img-responsive(src='../images/'+selected.strPicture, alt='', style='width:100px; height:100px')
                                                     .col-xs-12.bottom.text-center
@@ -178,10 +178,11 @@ block content
                                                                 input#check-all.flat(type='checkbox')
                                                         
                                                         .col-xs-12.col-sm-8.emphasis
-                                                            a(href='/admin/hw_profile_'+selected.intRRequestID+selected.intRHWID)
-                                                                button.btn.btn-primary(type='button')
-                                                                    i.fa.fa-user  
-                                                                    |  View Profile
+                                                                //- a(href='/admin/hw_profile_'+selected.intRRequestID+selected.intRHWID)
+                                                                a(href='/admin/profile_hw_'+selected.intHWID)
+                                                                    button.btn.btn-primary(type='button')
+                                                                        i.fa.fa-user  
+                                                                        |  View Profile
                                                         form(method="POST" action="tr_add_actions_"+selected.intRRequestID)
                                                             .col-xs-12.col-sm-8.emphasis
                                                                 input(type='text' name='hwid' value=''+selected.intRHWID , style="display:none;" )
@@ -214,25 +215,26 @@ block content
                                                         h4.brief
                                                             i #{selected.strName}: #{selected.intRHWID}
                                                         .left.col-xs-7
-                                                            h2 Name
-                                                            p
-                                                                | Age:
-                                                                strong   
+                                                            h2 Name: #{selected.strFName} #{selected.strLName} 
+                                                            p 
+                                                                | Age: 
+                                                                strong #{selected.age}
                                                             ul.list-unstyled
                                                                 li
                                                                     | Gender: 
-                                                                    b 
+                                                                    b #{selected.strGender}
                                                                 li
-                                                                    | Status: #{selected.strRClientStatus}
-                                                                    b 
+                                                                    | Status: 
+                                                                    b #{selected.strRClientStatus}
                                                         .right.col-xs-5.text-center
-                                                            img.img-circle.img-responsive(src='/assets/gentelella/production/images/alexis.jpg', alt='', style='width:100px; height:100px')
+                                                            img.img-circle.img-responsive(src='../images/'+selected.strPicture, alt='', style='width:100px; height:100px')
                                                     .col-xs-12.bottom.text-center
                                                         //- .col-xs-12.col-sm-4.emphasis
                                                             .x_panel
                                                                 input#check-all.flat(type='checkbox')
                                                         .col-xs-12.col-sm-8.emphasis
-                                                            a(href='/admin/hw_profile_'+selected.intRRequestID+selected.intRHWID)
+                                                            //- a(href='/admin/hw_profile_'+selected.intRRequestID+selected.intRHWID)
+                                                            a(href='/admin/profile_hw_'+selected.intHWID)
                                                                 button.btn.btn-primary(type='button')
                                                                     i.fa.fa-user  
                                                                     |  View Profile
@@ -257,25 +259,26 @@ block content
                                                         h4.brief
                                                             i #{selected.strName}: #{selected.intRHWID}
                                                         .left.col-xs-7
-                                                            h2 Name
-                                                            p
+                                                            h2 Name: #{selected.strFName} #{selected.strLName} 
+                                                            p 
                                                                 | Age:
-                                                                strong   
+                                                                strong #{selected.age}  
                                                             ul.list-unstyled
                                                                 li
                                                                     | Gender: 
-                                                                    b 
+                                                                    b #{selected.strGender}
                                                                 li
                                                                     | Status: #{selected.strRClientStatus}
                                                                     b 
                                                         .right.col-xs-5.text-center
-                                                            img.img-circle.img-responsive(src='/assets/gentelella/production/images/alexis.jpg', alt='', style='width:100px; height:100px')
+                                                            img.img-circle.img-responsive(src='../images/'+selected.strPicture, alt='', style='width:100px; height:100px')
                                                     .col-xs-12.bottom.text-center
                                                         //- .col-xs-12.col-sm-4.emphasis
                                                             .x_panel
                                                                 input#check-all.flat(type='checkbox')
                                                         .col-xs-12.col-sm-8.emphasis
-                                                            a(href='/admin/hw_profile_'+selected.intRRequestID+selected.intRHWID)
+                                                            //- a(href='/admin/hw_profile_'+selected.intRRequestID+selected.intRHWID)
+                                                            a(href='/admin/profile_hw_'+selected.intHWID)
                                                                 button.btn.btn-primary(type='button')
                                                                     i.fa.fa-user  
                                                                     |  View Profile
@@ -284,7 +287,7 @@ block content
     #view_item.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
         .modal-dialog(role='document')
             .modal-content.modal-md
-                .modal-header(style="background-color:#2A3F54; color:white")
+                .modal-header(style="background-color:#EDEDED")
                     button.close(type='button', data-dismiss='modal')
                         span(aria-hidden='true') ×
                     h4

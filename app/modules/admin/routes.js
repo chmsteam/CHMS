@@ -874,7 +874,7 @@ function clientsettledecisionreplacementleft(req,res){
   db.query(`SELECT (intConReplacementLeft-1) AS Remain  FROM tblreplacement INNER JOIN tblcontract ON intReplaceOldHWID=intConHWID WHERE intReplaceReqID='${req.body.transid}'`, function (err, results) {
     console.log(err)
     db.query(`UPDATE tblcontract SET intConReplacementLeft = ${results[0].Remain} WHERE intConTransID='${req.body.transid}'`)
-    db.query(`UPDATE tblcontract c INNER JOIN tblreplacement r ON c.intConHWID = r.intReplaceOldHWID SET c.strCurStatus ='Replaced' WHERE  c.strCurStatus ='To be replaced' AND r.intReplaceReqID = '${req.body.transid}'`)
+    db.query(`UPDATE tblcontract c INNER JOIN tblreplacement r ON c.intConHWID = r.intReplaceOldHWID INNER JOIN tbluser ON intID = r.intReplaceOldHWID SET c.strCurStatus ='Replaced', strStatus='Registered' WHERE  c.strCurStatus ='To be replaced' AND strStatus='Deployed' AND r.intReplaceReqID = '${req.body.transid}'`)
     res.redirect('/admin/transaction_settle')
   });
 }
@@ -917,7 +917,30 @@ function rendertrans_irclient(req,res){
 
 function findclient_ir(req,res,next){
   var db = require('../../lib/database')();
-  db.query(`SELECT * FROM tbluser INNER JOIN tblreport ON intID = intReporterID WHERE strType ='Client'`, function(err, results){
+  db.query(`SELECT *,a.strFName AS repFName, a.strLName AS repLName , u.intID AS RecipientID, u.strFName AS RFName, u.strLName AS RLName, strName FROM tbluser As a INNER JOIN tblreport ON intID = intReporterID  INNER JOIN tbluser AS u ON u.intID = intRecipentID INNER JOIN tblmincidentreport as i ON i.intID = intTypeofReport WHERE a.strType ='Client' `, function(err, results){
+    console.log(err)
+    req.rep = results;
+    for(var i = 0; i < req.rep.length; i++){
+      req.rep[i].datDateReported =  moment(req.rep[i].datDateReported).format("LL");   
+    }
+    return next();
+  })
+}
+
+// --------------------------------------------------------------------------------TRANSACTION INCIDENT REPORT: household worker
+router.get('/transaction_ir_hw', flog, findhw_ir, rendertrans_irhw)
+function rendertrans_irhw(req,res){
+  if(req.valid==0)
+    res.render('admin/views/transaction_incidentreport_hw',{usertab: req.user, reptab: req.rep});
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+
+function findhw_ir(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT *,a.strFName AS repFName, a.strLName AS repLName , u.intID AS RecipientID, u.strFName AS RFName, u.strLName AS RLName, strName FROM tbluser As a INNER JOIN tblreport ON intID = intReporterID  INNER JOIN tbluser AS u ON u.intID = intRecipentID INNER JOIN tblmincidentreport as i ON i.intID = intTypeofReport WHERE a.strType ='Household Worker' `, function(err, results){
     console.log(err)
     req.rep = results;
     for(var i = 0; i < req.rep.length; i++){
@@ -931,10 +954,19 @@ function findclient_ir(req,res,next){
 router.post('/tr_ir',flog, irc_actions);
 function irc_actions(req,res){
   var db = require('../../lib/database')();
-  db.query(`UPDATE tblreport SET strValidity =?, strReportStatus= 'Acknowledge', strActionTaken=? WHERE intReportID =?`,[req.body.validity, req.body.action, req.body.reportid],function (err){
+  db.query(`UPDATE tblreport SET strValidity =?, strReportStatus= 'Acknowledged', strActionTaken=? WHERE intReportID =?`,[req.body.validity, req.body.action, req.body.reportid],function (err){
     console.log( req.body.action)
     console.log(req.body.reportid)
     res.redirect('/admin/transaction_ir_client')
+  })
+}
+router.post('/tr_ir_hw',flog, irc_actions);
+function irc_actions(req,res){
+  var db = require('../../lib/database')();
+  db.query(`UPDATE tblreport SET strValidity =?, strReportStatus= 'Acknowledged', strActionTaken=? WHERE intReportID =?`,[req.body.validity, req.body.action, req.body.reportid],function (err){
+    console.log( req.body.action)
+    console.log(req.body.reportid)
+    res.redirect('/admin/transaction_ir_hw')
   })
 }
 
@@ -1142,14 +1174,33 @@ router.post('/profile_client_:userid/updatePic',(req, res) =>{
 });
 
 // ----------------------------------------------------------------------------------------------------HOUSEHOLD WORKER PROFILE
-router.get('/profile_hw_:hwid',flog, findhw, findhweduc, findhwwork, renderprofhw);
+router.get('/profile_hw_:hwid',flog, findhw, findhweduc, findhwwork, findhwref, findhwreports, renderprofhw);
 function renderprofhw(req,res){
   if(req.valid==0)
-  res.render('admin/views/profile_hw',{usertab: req.user, hw1tab: req.hw1, hw2tab: req.hw2, hw3tab: req.hw3});
+  res.render('admin/views/profile_hw',{usertab: req.user, hw1tab: req.hw1, hw2tab: req.hw2, hw3tab: req.hw3, hw4tab: req.hw4, hw5tab: req.hw5});
   else if(req.valid==1)
   res.render('admin/views/invalidpages/normalonly');
   else
   res.render('login/views/invalid');
+}
+function findhwref(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * FROM tblhw_ref WHERE intHWID_ref =?`, [req.params.hwid], function(err,results){
+    console.log(err);
+    req.hw4=results;
+    return next();
+  })
+}
+function findhwreports(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * , a.intID AS ReporterID, a.strFName AS RFName, a.strLName AS RLName, strName FROM tbluser As a INNER JOIN tblreport ON intID = intReporterID  INNER JOIN tblmincidentreport as i ON i.intID = intTypeofReport WHERE intRecipentID =? AND strValidity ='Valid'`, [req.params.hwid], function(err,results){
+    console.log(err);
+    for(var i = 0; i < results.length; i++){
+      results[i].datDateReported =  moment(results[i].datDateReported).format("LL");   
+    }
+    req.hw5=results;
+    return next();
+  })
 }
 //Update Picture
 router.post('/profile_hw_:hwid/updatePic',(req, res) =>{

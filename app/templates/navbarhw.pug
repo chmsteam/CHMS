@@ -118,7 +118,7 @@ html(lang='en')
                     li
                       a(href='javascript:;') Replace Client
                     li
-                      a(href='javascript:;') Report Client
+                      a(href='/request_irhw') Report Client
                 li
                   a(href='/home_householdworker') Home  
           // /top navigation
@@ -156,3 +156,11 @@ html(lang='en')
               modal.find('.modal-body #date').text(date)
               modal.find('.modal-body #serv').text(serv)
             });
+            //- ------------------------------- report client
+          $('#report').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('hwid')
+
+              var modal = $(this)
+              modal.find('.modal-body #_id').val(id)
+          });

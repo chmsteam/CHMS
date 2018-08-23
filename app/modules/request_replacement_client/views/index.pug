@@ -55,8 +55,11 @@ block content
                                             td
                                                 button.btn.btn-primary.btn-md(type='button') View Profile
                                                 if currenthw.strCurStatus == 'Current'
-                                                    button.btn.btn-danger.btn-md(type='button' data-toggle='modal', data-target='#replace', data-transid=currenthw.intConTransID, data-transno=currenthw.intConReqNo, data-hwid=currenthw.intConHWID,
-                                                                                data-hwfname=currenthw.strFName, data-hwlname=currenthw.strLName) Replace
+                                                    if currenthw.intConReplacementLeft !=0
+                                                        button.btn.btn-danger.btn-md(type='button' data-toggle='modal', data-target='#replace', data-transid=currenthw.intConTransID, data-transno=currenthw.intConReqNo, data-hwid=currenthw.intConHWID,
+                                                                                    data-hwfname=currenthw.strFName, data-hwlname=currenthw.strLName) Replace
+                                                    else
+                                                        button.btn.btn-danger.btn-md(type='button') Terminate Contract
                                                 //- else if currenthw.strCurStatus == 'To be replaced'
                                                 //-     a(href='/request_replacement/replace_list_'+currenthw.intConTransID+currenthw.intConHWID)
                                                 //-         button.btn.btn-info.btn-md(type='button') View Details
