@@ -11,7 +11,6 @@ function render(req,res){
       res.render('login/views/invalid');
   }
 // -----------------------------------------------------------------------------------------------
-  
 
 function findtypeofleave(req,res,next){
   var db = require('../../lib/database')();
@@ -21,6 +20,16 @@ function findtypeofleave(req,res,next){
     return next();
   })
 }
+//request leave
+router.post('/', (req, res) =>{
+  var db = require('../../lib/database')();
+    db.query("INSERT INTO tblleaverequest ( intHouseholdID, datDateCreated,  intTypeOfLeave,  strAddressOnLeave, strReason,  datDateFrom, datDateTo, strLeaveStatus) VALUES (?, ?, ?, ?, ?, ?, ?,'Pending') ",
+      [ req.session.user, req.body.created, req.body.type, req.body.addLeave, req.body.reason, req.body.started, req.body.end], (err, results, fields)=>{
+        if (err) console.log(err);
+        console.log('nakapost na')
+      res.redirect('/request_leave')
+      });
+});
 // function findcurrentclient(req,res,next){
 //   var db = require('../../lib/database')();
 //   db.query(`SELECT * FROM tblcontract`, function(err, results){

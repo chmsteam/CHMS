@@ -2,7 +2,6 @@ extends ../../../templates/navbarhw.pug
 
 block content
   .right_col(role='main')
-    div
         .page-title
           .title_left
             each user in usertab
@@ -122,90 +121,90 @@ block content
                                                                                         | View Details
                                     #tab_content3.tab-pane.fade(role='tabpanel', aria-labelledby='history-tab')
                                         // History                              
-    #viewjob.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
-        .modal-dialog.modal-xs
-            form#demo-form2.form-horizontal.form-label-left(method="POST" action="/home_householdworker/job_offer")
+        #viewjob.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog.modal-xs
+                form#demo-form2.form-horizontal.form-label-left(method="POST" action="/home_householdworker/job_offer")
+                    .modal-content
+                        .modal-header(style="background-color:#2A3F54; color:white")
+                            button.close(type='button', data-dismiss='modal')
+                                span(aria-hidden='true' style="color:white") ×
+                            h4#myModalLabel.modal-title Job Details
+                        .modal-body
+                            input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transID' style="display:none;")
+                            input.form-control.col-md-7.col-xs-12(type='text', id='_id2', required='required', name='reqno' style="display:none;") 
+                            .x_panel
+                                table.table.table-striped
+                                    tbody
+                                        tr
+                                            th(scope='row')
+                                            td
+                                                b Client's Name:
+                                            td
+                                                #name(style="text-transform: capitalize;")
+                                            td
+                                            td
+                                        tr
+                                            th(scope='row')
+                                            td
+                                                b Client's Address
+                                            td 
+                                                p#add
+                                            td
+                                            td
+                                        tr
+                                            th(scope='row')
+                                            td
+                                                b Type of Service
+                                            td 
+                                                p#serv
+                                            td
+                                            td
+                                        tr
+                                            th(scope='row')
+                                            td
+                                                b Date Needed:
+                                            td 
+                                                p#date
+                                            td
+                                            td
+                                        tr
+                                            th(scope='row')
+                                            td
+                                                b Salary(Negotiable): Php
+                                            td 
+                                                p(style="font-size:15px")#sal
+                                            td
+                                            td
+                        .modal-footer
+                            button.btn.btn-info(type='submit' name='btn1' value='accept')
+                                i.fa.fa-thumbs-up
+                                |   Accept
+                            button#reject.btn.btn-danger(type='submit' name='btn1' value='reject')
+                                i.fa.fa-trash
+                                |   Reject
+        #viewjob_contract.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog.modal-xs
                 .modal-content
-                    .modal-header(style="background-color:#2A3F54; color:white")
+                    .modal-header
                         button.close(type='button', data-dismiss='modal')
-                            span(aria-hidden='true' style="color:white") ×
-                        h4#myModalLabel.modal-title Job Details
+                            span(aria-hidden='true') ×
+                        h4#myModalLabel.modal-title Contract Details
                     .modal-body
-                        input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transID' style="display:none;")
-                        input.form-control.col-md-7.col-xs-12(type='text', id='_id2', required='required', name='reqno' style="display:none;") 
-                        .x_panel
-                            table.table.table-striped
-                                tbody
-                                    tr
-                                        th(scope='row')
-                                        td
-                                            b Client's Name:
-                                        td
-                                            #name(style="text-transform: capitalize;")
-                                        td
-                                        td
-                                    tr
-                                        th(scope='row')
-                                        td
-                                            b Client's Address
-                                        td 
-                                            p#add
-                                        td
-                                        td
-                                    tr
-                                        th(scope='row')
-                                        td
-                                            b Type of Service
-                                        td 
-                                            p#serv
-                                        td
-                                        td
-                                    tr
-                                        th(scope='row')
-                                        td
-                                            b Date Needed:
-                                        td 
-                                            p#date
-                                        td
-                                        td
-                                    tr
-                                        th(scope='row')
-                                        td
-                                            b Salary(Negotiable): Php
-                                        td 
-                                            p(style="font-size:15px")#sal
-                                        td
-                                        td
-                    .modal-footer
-                        button.btn.btn-info(type='submit' name='btn1' value='accept')
-                            i.fa.fa-thumbs-up
-                            |   Accept
-                        button#reject.btn.btn-danger(type='submit' name='btn1' value='reject')
-                            i.fa.fa-trash
-                            |   Reject
-    #viewjob_contract.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
-        .modal-dialog.modal-xs
-            .modal-content
-                .modal-header
-                    button.close(type='button', data-dismiss='modal')
-                        span(aria-hidden='true') ×
-                    h4#myModalLabel.modal-title Contract Details
-                .modal-body
-                    each count in counttab
-                        if count.numero==0
-                            h1 wala
-                        else
-                            each cont in conttab
-                                form#demo-form2.form-horizontal.form-label-left(method="POST" action="/home_householdworker/contract_decision")
-                                    input(type='text', name='transid', value=''+cont.intConTransID, style="display:none;")
-                                    .form-group
-                                        center
-                                            h1 SALARY: #{cont.intConSalary}
-                                    .ln_solid
-                                    .form-group.pull-right
-                                        button.btn.btn-success(type='submit' name='btn1' value='accept')
-                                            i.fa.fa-thumbs-up
-                                            |   Accept
-                                        button#reject.btn.btn-danger(type='submit' name='btn1' value='reject')
-                                            i.fa.fa-trash
-                                            |   Reject                                           
+                        each count in counttab
+                            if count.numero==0
+                                h1 wala
+                            else
+                                each cont in conttab
+                                    form#demo-form2.form-horizontal.form-label-left(method="POST" action="/home_householdworker/contract_decision")
+                                        input(type='text', name='transid', value=''+cont.intConTransID, style="display:none;")
+                                        .form-group
+                                            center
+                                                h1 SALARY: #{cont.intConSalary}
+                                        .ln_solid
+                                        .form-group.pull-right
+                                            button.btn.btn-success(type='submit' name='btn1' value='accept')
+                                                i.fa.fa-thumbs-up
+                                                |   Accept
+                                            button#reject.btn.btn-danger(type='submit' name='btn1' value='reject')
+                                                i.fa.fa-trash
+                                                |   Reject                                           

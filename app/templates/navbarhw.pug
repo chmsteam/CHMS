@@ -35,7 +35,7 @@ html(lang='en')
                 div
                   img.img-circle.profile_img(src='../images/'+user.strPicture, alt='...')
                 div
-                  h2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp #{user.strFName} #{user.strLName}
+                  h2(style="color:white") &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp #{user.strFName} #{user.strLName}
               // /menu profile quick info
               br
               // sidebar menu
@@ -43,34 +43,34 @@ html(lang='en')
                 .menu_section
                   h3
                   ul.side-menu
-                    li
+                    li.x_panel(align='center', style='padding:5%; margin-left:-20px;')
                       | &nbsp&nbsp
                       a(href='hwRegi')
                         i.fa.fa-user
                         |  Profile
-                    li
+                    li.x_panel(align='center', style='padding:5%; margin-left:-20px;')
                       | &nbsp&nbsp
                       a(href='CreateList')
                         i.fa.fa-edit
                         |  My List
-                    li
+                    li.x_panel(align='center', style='padding:5%; margin-left:-20px;')
                       | &nbsp&nbsp
                       a(href='hwRegi')
                         i.fa.fa-envelope
                         |  Messages
-                    li
+                    li.x_panel(align='center', style='padding:5%; margin-left:-20px;')
                       | &nbsp&nbsp
                       a(href='utilities')
                         i.fa.fa-cogs
                         |  Settings
-                    li
+                    li.x_panel(align='center', style='padding:5%; margin-left:-20px;' )
                       | &nbsp&nbsp
                       a(href='utilities')
                         i.fa.fa-sign-out
                         |  Logout
               // /sidebar menu
               // /menu footer buttons
-              .sidebar-footer
+              //- .sidebar-footer
               // /menu footer buttons
           // top navigation
           .top_nav
@@ -79,12 +79,6 @@ html(lang='en')
                 a#menu_toggle
                   i
               ul.nav1.navbar-nav1.navbar-right
-                li
-                li
-                  a
-                    span#date_time
-                  script(type='text/javascript').
-                    window.onload = date_time('date_time');
                 li
                   a.user-profile.dropdown-toggle(href='javascript:;', data-toggle='dropdown', aria-expanded='false')
                     img(src='images/img.jpg', alt='')
