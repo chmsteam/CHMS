@@ -48,6 +48,10 @@ block content
                                                     a#educ-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Educational Background
                                                 li(role='presentation')
                                                     a#work-tab(href='#tab_content3', role='tab', data-toggle='tab', aria-expanded='false') Working Background
+                                                li(role='presentation')
+                                                    a#ref-tab(href='#tab_content4', role='tab', data-toggle='tab', aria-expanded='false') Character References
+                                                li(role='presentation')
+                                                    a#report-tab(href='#tab_content5', role='tab', data-toggle='tab', aria-expanded='false') Reports
                                             #myTabContent.tab-content
                                                 #tab_content1.tab-pane.fade.active.in(role='tabpanel', aria-labelledby='profile-tab')
                                                     // Profile
@@ -138,6 +142,26 @@ block content
                                                                             td #{hw3.strWorkPosition}
                                                                             td #{hw3.intWorkStart}
                                                                             td #{hw3.intWorkEnd}
+                                                #tab_content4.tab-pane.fade(role='tabpanel', aria-labelledby='ref-tab')
+                                                #tab_content5.tab-pane.fade(role='tabpanel', aria-labelledby='report-tab')
+                                                    br
+                                                    .col-md-12.col-sm-12.col-xs-12
+                                                        .x_panel
+                                                            table.table.table-striped
+                                                                thead
+                                                                    th Date of the Report
+                                                                    th Client
+                                                                    th Type of Incident
+                                                                    th Reason
+                                                                    th Action
+                                                                tbody
+                                                                    each hw5 in hw5tab
+                                                                        tr
+                                                                            td #{hw5.datDateReported}
+                                                                            td #{hw5.RFName} #{hw5.RLName}
+                                                                            td #{hw5.strName}
+                                                                            td #{hw5.strReason}
+                                                                            td #{hw5.strActionTaken}
     
     #editpic.modal.fade.modal-icon(tabindex='-1', role='dialog')
         .modal-dialog(role='document')

@@ -53,7 +53,7 @@ function findincidentreport(req,res,next){
 }
 function findreportedhws(req, res, next){
     var db = require('../../lib/database')();
-    db.query(`SELECT * FROM tblreport WHERE intReporterID = ? AND strReportStatus NOT IN ('Hide')`,[req.session.user], function(err, results){
+    db.query(`SELECT *, u.intID AS RecipientID, u.strFName AS RFName, u.strLName AS RLName, strName FROM tbluser As a INNER JOIN tblreport ON intID = intReporterID  INNER JOIN tbluser AS u ON u.intID = intRecipentID INNER JOIN tblmincidentreport as i ON i.intID = intTypeofReport WHERE intReporterID = ? AND strReportStatus NOT IN ('Hide')`,[req.session.user], function(err, results){
         console.log(err)
         req.reported = results;
         return next();
