@@ -1008,7 +1008,7 @@ function findhw_ir(req,res,next){
 router.post('/tr_ir',flog, irc_actions);
 function irc_actions(req,res){
   var db = require('../../lib/database')();
-  db.query(`UPDATE tblreport SET strValidity =?, strReportStatus= 'Acknowledged', strActionTaken=? WHERE intReportID =?`,[req.body.validity, req.body.action, req.body.reportid],function (err){
+  db.query(`UPDATE tblreport SET strValidity =?, strReportStatus= ?, strActionTaken=? WHERE intReportID =?`,[req.body.validity, req.body.stat, req.body.action, req.body.reportid],function (err){
     console.log( req.body.action)
     console.log(req.body.reportid)
     res.redirect('/admin/transaction_ir_client')
@@ -1017,7 +1017,7 @@ function irc_actions(req,res){
 router.post('/tr_ir_hw',flog, irc_actions);
 function irc_actions(req,res){
   var db = require('../../lib/database')();
-  db.query(`UPDATE tblreport SET strValidity =?, strReportStatus= 'Acknowledged', strActionTaken=? WHERE intReportID =?`,[req.body.validity, req.body.action, req.body.reportid],function (err){
+  db.query(`UPDATE tblreport SET strValidity =?, strReportStatus= ?, strActionTaken=? WHERE intReportID =?`,[req.body.validity, req.body.stat, req.body.action, req.body.reportid],function (err){
     console.log( req.body.action)
     console.log(req.body.reportid)
     res.redirect('/admin/transaction_ir_hw')
