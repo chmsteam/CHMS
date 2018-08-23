@@ -1,0 +1,148 @@
+extends ../../../templates/navbarhw.pug
+
+block content
+    //- .right_col(role='main')
+    //-     div
+    //-         .page-title
+    //-             .row
+    //-                 .col-md-12.col-sm-12.col-xs-12
+    //-                     .x_panel
+    //-                         .x_title
+    //-                             //- each list in listtab
+    //-                                 a(href='/admin/transaction_client_request_'+list.intRequestID)
+    //-                                     button.btn.btn-primary.pull-right.btn-lg(type='button') Back
+    //-                             center
+    //-                                 h3
+    //-                                     b Client's Profile
+    //-                         .x_content
+    //-                             each client in clienttab
+    //-                                 .col-md-3.col-sm-3.col-xs-12.profile_left
+    //-                                     center
+    //-                                         .profile_img
+    //-                                             #crop-avatar
+    //-                                                 // Current avatar
+    //-                                                 img.img-responsive.avatar-view(src='../images/'+client.strPicture, alt='Avatar', title='Change the avatar')
+    //-                                         h4(style="text-transform: capitalize;") #{client.strLName}, #{client.strFName} #{client.strMName}
+    //-                                         button.btn.btn-info(type='button' data-toggle='modal' data-target='#editpic1'  data-id= client.intClientID, data-image=`../images/${client.strPicture}`) Update Picture
+    //-                                     //- ul.list-unstyled.user_data
+    //-                                     //-     li
+    //-                                     //-         i.fa.fa-user.user-profile-icon
+    //-                                     //-         | &nbsp #{client.strEmail}
+    //-                                     //-     li
+    //-                                     //-         i.fa.fa-phone-square.user-profile-icon
+    //-                                     //-         | &nbsp #{client.strContact}
+    //-                                     //-     li
+    //-                                     //-         i.fa.fa-map-marker.user-profile-icon
+    //-                                     //-         | &nbsp #{client.strEmail}
+    //-                             .col-md-9.col-sm-9.col-xs-12
+    //-                                 .x_panel
+    //-                                     div(role='tabpanel', data-example-id='togglable-tabs')
+    //-                                         ul#myTab.nav.nav-tabs.bar_tabs(role='tablist')
+    //-                                             li.active(role='presentation')
+    //-                                                 a#profile-tab(href='#tab_content1', role='tab', data-toggle='tab', aria-expanded='true') Profile
+    //-                                             li(role='presentation')
+    //-                                                 a#educ-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Household Worker
+    //-                                         #myTabContent.tab-content
+    //-                                             #tab_content1.tab-pane.fade.active.in(role='tabpanel', aria-labelledby='profile-tab')
+    //-                                                 // Profile
+    //-                                                 br
+    //-                                                 .col-md-12.col-sm-12.col-xs-12
+    //-                                                     .x_panel
+    //-                                                         table.table.table-striped
+    //-                                                             each client in clienttab
+    //-                                                                 br
+    //-                                                                 tbody
+    //-                                                                     tr
+    //-                                                                         th(scope='row')
+    //-                                                                         td
+    //-                                                                             b Name:
+    //-                                                                         td(style="text-transform: capitalize;") #{client.strLName}, #{client.strFName} #{client.strMName}
+    //-                                                                         td
+    //-                                                                         td
+    //-                                                                     tr
+    //-                                                                         th(scope='row')
+    //-                                                                         td
+    //-                                                                             b Address:
+    //-                                                                         -var curAdd = client.strCAHouseNo + " " + client.strCAStreet + " " + client.strCAProvince + ", " + client.strCity
+    //-                                                                         td #{curAdd}
+    //-                                                                         td
+    //-                                                                         td
+    //-                                                                     tr
+    //-                                                                         th(scope='row')
+    //-                                                                         td
+    //-                                                                             b Email:
+    //-                                                                         td #{client.strEmail}
+    //-                                                                         td
+    //-                                                                         td
+    //-                                                                     tr
+    //-                                                                         th(scope='row')
+    //-                                                                         td
+    //-                                                                             b Contact Details:
+    //-                                                                         td #{client.strContact} / #{client.strOContact}
+    //-                                                                         td
+    //-                                                                         td
+    //-                                             #tab_content2.tab-pane.fade(role='tabpanel', aria-labelledby='educ-tab')
+    //-                                                 .x_content
+    //-                                                     .col-xs-3
+    //-                                                         // required for floating
+    //-                                                         // Nav tabs
+    //-                                                         ul.nav.nav-tabs.tabs-left
+    //-                                                             li.active
+    //-                                                                 a(href='#current', data-toggle='tab') Current
+    //-                                                             li
+    //-                                                                 a(href='#replaced', data-toggle='tab') Replaced
+    //-                                                             li
+    //-                                                                 a(href='#reported', data-toggle='tab') Reported
+
+    //-                                                     .col-xs-9
+    //-                                                         // Tab panes
+    //-                                                         .tab-content
+    //-                                                             #current.tab-pane.active
+    //-                                                                 .col-md-12.col-sm-12.col-xs-12
+    //-                                                                     .x_panel
+    //-                                                                         table.table.table-striped
+    //-                                                                             p Current Household Workers
+    //-                                                             #replaced.tab-pane
+    //-                                                                 .col-md-12.col-sm-12.col-xs-12
+    //-                                                                     .x_panel
+    //-                                                                         table.table.table-striped
+    //-                                                                             p Replaced Household Workers
+    //-                                                             #reported.tab-pane
+    //-                                                                 .col-md-12.col-sm-12.col-xs-12
+    //-                                                                     .x_panel
+    //-                                                                         table.table.table-striped
+    //-                                                                             p Reported Household Workers
+    //-                                                     .clearfix
+
+
+    //- #editpic1.modal.fade.modal-icon(tabindex='-1', role='dialog')
+    //-     .modal-dialog(role='document')
+    //-         form(method="POST"  action="/admin/profile_client_:userid/updatePic" enctype='multipart/form-data')
+    //-             .modal-content
+    //-                 .modal-header(style="background-color:#EDEDED")
+    //-                     h2.modal-title Update Profile Picture
+    //-                         button.close(type='button', data-dismiss='modal', aria-label='Close')
+    //-                             span(aria-hidden='true') ×
+    //-                 .modal-body
+    //-                     input#id(type='number' name='id' hidden)
+    //-                     .row
+    //-                         .col-md-12.text-center
+    //-                             img#uploadPreview2(src="" style='width: 50%; height: 200px;')
+    //-                             br
+    //-                             br
+    //-                             input.form-control.file-input(id="uploadImage2" type='file', name='postimage', accept='image/*' onchange="PreviewImage2();" style='width: 50%; margin-left:142px;')
+    //-                     //- .row
+    //-                     //-     .col-md-12.text-center
+    //-                     //-         img#pic(src='../images/'+ , alt='User-Profile-Image')
+    //-                 .modal-footer
+    //-                     button.btn.btn-info(type='button', data-dismiss='modal') Close
+    //-                     button.btn.btn-success(type='submit') Update
+
+    //- script.
+    //-     function PreviewImage() {
+    //-         var oFReader = new FileReader();
+    //-         oFReader.readAsDataURL(document.getElementById("uploadImage").files[0]);
+    //-         oFReader.onload = function (oFREvent) {
+    //-         document.getElementById("uploadPreview").src = oFREvent.target.result;
+    //-         };
+    //-     };

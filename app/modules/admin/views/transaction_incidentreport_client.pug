@@ -33,13 +33,14 @@ block content
                                             td #{rep.datDateReported}
                                             td #{rep.strReportStatus}
                                             td
-                                                button.btn.btn-primary(type='button' data-toggle='modal', data-target='#view_report', data-id=rep.intReportID)
+                                                button.btn.btn-primary(type='button' data-toggle='modal', data-target='#view_report', data-id=rep.intReportID, data-doreport=rep.datDateReported,
+                                                                        data-reportname=rep.strName, data-desc=rep.strDesc, data-reason=rep.strReason, data-recfname=rep.RFName, data-reclname=rep.RLName, data-rec=rep.intRecipentID)
                                                     i.fa.fa-eye
                                                     |   View
-                                                if rep.strReportStatus == 'Acknowledged'
-                                                    button.btn.btn-info(type='button')
-                                                        i.fa.fa-eye
-                                                        |   View
+                                                //- if rep.strReportStatus == 'Acknowledged'
+                                                //-     button.btn.btn-info(type='button')
+                                                //-         i.fa.fa-eye
+                                                //-         |   View
     //- modals
     #view_report.modal.fade.bs-add-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
         .modal-dialog.modal-md
@@ -56,32 +57,28 @@ block content
                             label.control-label.col-md-3.col-sm-3.col-xs-12
                                 | Date of Report:
                             .col-md-6.col-sm-6.col-xs-12
-                                input.form-control.col-md-7.col-xs-12(type='text',  name='')
+                                input.form-control.col-md-7.col-xs-12(id='doreport' type='text',  readonly)
+                                input.form-control.col-md-7.col-xs-12(id='rec' type='text' style='display:none;')
                         .form-group
                             label.control-label.col-md-3.col-sm-3.col-xs-12
                                 | Type of Incident:
                             .col-md-6.col-sm-6.col-xs-12
-                                input.form-control.col-md-7.col-xs-12(type='text',  name='')
+                                textarea.form-control.col-md-7.col-xs-12(id='reportname'  type='text', rows='3'  readonly)
                         .form-group
                             label.control-label.col-md-3.col-sm-3.col-xs-12
                                 | Description:
                             .col-md-6.col-sm-6.col-xs-12
-                                input.form-control.col-md-7.col-xs-12(type='text',  name='')
+                                textarea.form-control.col-md-7.col-xs-12(id='desc' type='text', rows='3' readonly)
                         .form-group
                             label.control-label.col-md-3.col-sm-3.col-xs-12
                                 | Reason:
                             .col-md-6.col-sm-6.col-xs-12
-                                input.form-control.col-md-7.col-xs-12(type='text',  name='')
-                        .form-group
-                            label.control-label.col-md-3.col-sm-3.col-xs-12
-                                | Reporter:
-                            .col-md-6.col-sm-6.col-xs-12
-                                input.form-control.col-md-7.col-xs-12(type='text',  name='')
+                                input.form-control.col-md-7.col-xs-12(id='reason' type='text',  readonly)
                         .form-group
                             label.control-label.col-md-3.col-sm-3.col-xs-12
                                 | Household Worker:
                             .col-md-6.col-sm-6.col-xs-12
-                                input.form-control.col-md-7.col-xs-12(type='text',  name='')
+                                input.form-control.col-md-7.col-xs-12(id='recfname' type='text',  readonly)
                         .form-group
                             label.control-label.col-md-3.col-sm-3.col-xs-12 Validity:
                             .col-md-6.col-sm-6.col-xs-12
@@ -96,10 +93,8 @@ block content
                                     option(value='1st offense') 1st offense
                                     option(value='2nd offense') 2nd offense
                                     option(value='3rd offense') 3rd offense
-                                    option(value='Ban Household Worker') Ban Household Worker
-                                    
-
-                                    
+                                    option(value='Ban') Ban 
+                                    option(value='Suspend') Suspend                           
                         .ln_solid
                         .form-group.pull-right
                             button.btn.btn-success(type='submit') Perform Action

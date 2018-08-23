@@ -493,10 +493,25 @@ html(lang='en')
             $('#view_report').on('show.bs.modal', function (event) {
               var button = $(event.relatedTarget)
               var id = button.data('id')
+              var doreport = button.data('doreport')
+              var reportname= button.data('reportname')
+              var desc= button.data('desc')
+              var reason= button.data('reason')
+              var recfname= button.data('recfname')
+              var reclname= button.data('reclname')
+              var rec= button.data('rec')
 
               var modal = $(this)
+
               modal.find('.modal-body #id').val(id)
+              modal.find('.modal-body #doreport').val(doreport)
+              modal.find('.modal-body #reportname').val(reportname)
+              modal.find('.modal-body #desc').val(desc)
+              modal.find('.modal-body #reason').val(reason)
+              modal.find('.modal-body #recfname').val(recfname +' '+ reclname)
+              modal.find('.modal-body #rec').val(rec)
             });
+            
             $('#dec').on('show.bs.modal', function (event) {
               var button = $(event.relatedTarget)
               var text = button.data('desc')
