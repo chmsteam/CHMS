@@ -11,39 +11,41 @@ block content
                                     b Request For Leave
                                 .clearfix
                             .x_content
-                                form.form-horizontal.form-label-left
-                                    .form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12 Type Of Leave
-                                        .col-md-9.col-sm-9.col-xs-12
-                                            select.form-control
-                                                each leave in leavetab
-                                                    option #{leave.strName}
-                                    .form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12 Address While On Leave
-                                        .col-md-9.col-sm-9.col-xs-12
-                                            input.form-control(type='text')
-                                    .form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12
-                                            | Reason 
-                                            span.required *
-                                        .col-md-9.col-sm-9.col-xs-12
-                                            textarea.form-control(rows='10')
-                                    .form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12 Starting From:
-                                        .col-md-9.col-sm-9.col-xs-12
-                                            input.form-control(type='date' onkeyup='time();')
-                                    .form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12 To:
-                                        .col-md-9.col-sm-9.col-xs-12
-                                            input.form-control(id='thedate' type='date')
-                                    .form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12 Total Number Of Days:
-                                        .col-md-9.col-sm-9.col-xs-12
-                                            input.form-control(type='number' readonly)
-                                    .form-group
-                                        .pull-right
-                                            br
-                                            button.btn-lg.btn-primary(type='submit') Submit
+                                form(method="POST"  action="/")
+                                    .row-lg-10
+                                        .col-md-4
+                                            .form-group
+                                                label Type Of Leave
+                                                select#sort.form-control(name='type')
+                                                    each leave in leavetab
+                                                        option(value=''+leave.intID readonly) #{leave.strName}
+                                        .col-md-6
+                                            .form-group
+                                                label Address While On Leave
+                                                input.form-control(type='text' name="addLeave" required)
+                                    .row-lg-12
+                                        .col-md-5
+                                            .form-group
+                                                label Reason of Leave
+                                                textarea#exampleTextarea.form-control(rows='10' placeholder='Reason' name="reason" required)
+                                        .row
+                                            .col-md-3
+                                                .form-group
+                                                    label Starting From:
+                                                    input(type='date' id='thedate'  onkeyup='time();' name="created"  hidden)
+                                                    input.form-control(type='date' name="started")
+                                            .col-md-3
+                                                .form-group
+                                                    label To:
+                                                    input.form-control( type='date' name="end")
+                                            .col-md-6    
+                                                .form-group
+                                                    label Total Number Of Days:
+                                                    input.form-control(type='number' readonly)
+                                        .form-group
+                                            .pull-right
+                                                br
+                                                button.btn-lg.btn-primary(type='submit' onclick="time();" ) Submit
                                         
                     //-     h2 Leave
                     //-     ul.nav.navbar-right.panel_toolbox
@@ -64,27 +66,27 @@ block content
                     //-     .clearfix
                     //- .x_content
                     //-     | Add content to the page ...
-    //- script.
-    //-     function time(){
-    //-         var today = new Date();
-    //-         var dd = today.getDate();
-    //-         var mm = today.getMonth()+1; //January is 0!
-    //-         var yyyy = today.getFullYear();
-    //-         var hh = today.getHours();
-    //-         var min = today.getMinutes();
-    //-         var sec = today.getSeconds();
-    //-         var x= document.getElementById("thedate");
+    script.
+        function time(){
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; //January is 0!
+            var yyyy = today.getFullYear();
+            var hh = today.getHours();
+            var min = today.getMinutes();
+            var sec = today.getSeconds();
+            var x= document.getElementById("thedate");
             
-    //-         if(dd<10) {
-    //-             dd = '0'+dd
-    //-         } 
+            if(dd<10) {
+                dd = '0'+dd
+            } 
 
-    //-         if(mm<10) {
-    //-             mm = '0'+mm
-    //-         } 
-    //-         dd=dd+2;
+            if(mm<10) {
+                mm = '0'+mm
+            } 
+            dd=dd+2;
 
-    //-         today = yyyy + '-' + mm + '-' + dd;
-    //-         //- document.write(today);
-    //-        document.getElementById("thedate").value=today;
-    //-     }
+            today = yyyy + '-' + mm + '-' + dd;
+            //- document.write(today);
+           document.getElementById("thedate").value=today;
+        }
