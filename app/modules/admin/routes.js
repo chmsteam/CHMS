@@ -35,6 +35,60 @@ function makeid() {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   return text;
 }
+//------------------------------------------------------Household Request (LEAVE)
+//-render request Household - Leave
+function hhReqLeave_render(req,res){
+  if(req.valid==0)
+    res.render('admin/views/transaction_hhRequest_leave',
+      {
+        usertab: req.user,
+        leaveReq: req.displayLeaveReq
+      });
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+//function display hhw Leave request
+function displayLeaveReq(req, res, next){
+  var db = require('../../lib/database')();
+  db.query('SELECT * FROM tblleaverequest AS tl INNER JOIN tbluser AS ts ON tl.intHouseholdID = ts.intID INNER JOIN tblmleave AS lt ON tl.intTypeOfLeave = lt.intID', function (err, results, fields) {
+      if (err) return res.send(err);
+      req.displayLeaveReq = results;
+      //moments submitted
+      for(var i = 0; i < req.displayLeaveReq.length; i++){
+        req.displayLeaveReq[i].datDateCreated =  moment(results[i].datDateCreated).format("LL");
+      }
+      //moments start
+      for(var i = 0; i < req.displayLeaveReq.length; i++){
+        req.displayLeaveReq[i].datDateFrom =  moment(results[i].datDateFrom).format("LL");
+      }
+      //moments end
+      for(var i = 0; i < req.displayLeaveReq.length; i++){
+        req.displayLeaveReq[i].datDateTo =  moment(results[i].datDateTo).format("LL");
+      }
+      return next();
+  });
+}
+//Reject Household Request
+router.post('/transaction_hhRequest_leave/reject', (req, res) =>{
+  var db = require('../../lib/database')();
+    db.query("UPDATE tblleaverequest SET strLeaveStatus = 'Rejected', strRejReas = ? WHERE intLeaveRequestID = ? ",
+      [req.body.reason, req.body.id], (err, results, fields)=>{
+        if (err) console.log(err);
+      res.redirect('/admin/transaction_hhRequest_leave')
+      });
+})
+//Reject Household Request
+router.post('/transaction_hhRequest_leave/approve', (req, res) =>{
+  var db = require('../../lib/database')();
+    db.query("UPDATE tblleaverequest SET strLeaveStatus = 'For Client Approval' WHERE intLeaveRequestID = ? ",
+      [req.body.id], (err, results, fields)=>{
+        if (err) console.log(err);
+      res.redirect('/admin/transaction_hhRequest_leave')
+      });
+})
+
 //-------------------------------------------------------------------------------------DASHBOARD
 function render(req,res){
   if(req.valid==0)
@@ -1653,5 +1707,7 @@ function findfreereplacement(req, res, next){
     return next();
   });
 }
-
+//-------------------------------------------Router.get(household request)
+var leaveReqFunc = [displayLeaveReq]
+router.get('/transaction_hhRequest_leave', flog, leaveReqFunc, hhReqLeave_render );
 exports.admin= router;

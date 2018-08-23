@@ -2,16 +2,20 @@ var express = require('express');
 var flog = require( '../login/loggedin');
 var router = express.Router();
 
+//------------------------------RENDERING PAGES
 function render(req,res){
     if(req.valid==1)
-      res.render('home/views/index',{usertab: req.user});
+      res.render('home/views/index',
+        {
+          usertab: req.user,
+          leaveReq: req.displayLeaveReq
+        });
     else if(req.valid==0)
       res.render('admin/views/invalidpages/normalonly');
     else
       res.render('login/views/invalid');
   }
-router.get('/', flog, render);
-//-------------------------------------------------------------------------REQUEST LEAVE
+//-----------------Leave Page
 function renderrequestleave(req,res){
   if(req.valid==1)
     res.render('home/views/request_leave',{usertab: req.user});
@@ -20,10 +24,7 @@ function renderrequestleave(req,res){
   else
     res.render('login/views/invalid');
 }
-router.get('/request_leave', flog, renderrequestleave);
-
-
-//-------------------------------------------------------------------------HOUSHOLD WORKER LIST
+//-----------------hhwList
 function renderhwlist(req,res){
   if(req.valid==1)
     res.render('home/views/householdworker_list',{usertab: req.user});
@@ -32,11 +33,32 @@ function renderhwlist(req,res){
   else
     res.render('login/views/invalid');
 }
-router.get('/householdworker_list', flog, renderhwlist);
-
-
-
-
+//---------------------------------------------------------------------
+//function display hhw Leave request
+function displayLeaveReq(req, res, next){
+  var db = require('../../lib/database')();
+  db.query('SELECT * FROM tblleaverequest AS tl INNER JOIN tbluser AS ts ON tl.intHouseholdID = ts.intID INNER JOIN tblmleave AS lt ON tl.intTypeOfLeave = lt.intID WHERE intClientID = ? AND strLeaveStatus = "For Client Approval"', [req.session.user], function (err, results, fields) {
+      if (err) return res.send(err);
+      req.displayLeaveReq = results;
+      //moments submitted
+      for(var i = 0; i < req.displayLeaveReq.length; i++){
+        req.displayLeaveReq[i].datDateCreated =  moment(results[i].datDateCreated).format("LL");
+      }
+      //moments start
+      for(var i = 0; i < req.displayLeaveReq.length; i++){
+        req.displayLeaveReq[i].datDateFrom =  moment(results[i].datDateFrom).format("LL");
+      }
+      //moments end
+      for(var i = 0; i < req.displayLeaveReq.length; i++){
+        req.displayLeaveReq[i].datDateTo =  moment(results[i].datDateTo).format("LL");
+      }
+      return next();
+  });
+}
+var renderFunctions = [displayLeaveReq, ]
+router.get('/', flog, renderFunctions, render);
+router.get('/request_leave', flog, renderFunctions, renderrequestleave);
+router.get('/householdworker_list', flog, renderFunctions, renderhwlist);
 
 
 function smp(req,res){

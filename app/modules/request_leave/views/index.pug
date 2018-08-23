@@ -11,7 +11,7 @@ block content
                                     b Request For Leave
                                 .clearfix
                             .x_content
-                                form(method="POST"  action="/")
+                                form(method="POST"  action="/request_leave")
                                     .row-lg-10
                                         .col-md-4
                                             .form-group
@@ -84,7 +84,6 @@ block content
             if(mm<10) {
                 mm = '0'+mm
             } 
-            dd=dd+2;
 
             today = yyyy + '-' + mm + '-' + dd;
             //- document.write(today);

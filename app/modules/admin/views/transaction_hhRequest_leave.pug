@@ -1,0 +1,112 @@
+extends ../../../templates/navbaradmin
+block content
+    // page content
+    .right_col(role='main')
+        div
+            .page-title
+                .title_left
+                    h5
+                        | Transaction / Request / Household Worker /&nbsp
+                        b Leave
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
+                        .x_panel
+                            .x_content
+                            br
+                            br
+                            table#datatable-responsive.table.table-striped.table-bordered.dt-responsive.nowrap(cellspacing='0', width='100%')
+                                thead
+                                    tr
+                                        th(style="text-align:center") NAME
+                                        th(style="text-align:center") DATE FILED
+                                        th(style="text-align:center") TYPE OF LEAVE
+                                        th(style="text-align:center") STATUS
+                                        th(style="text-align:center") ACTION
+                                tbody
+                                    each lr in leaveReq
+                                        tr(style="text-align:center")
+                                            td #{lr.strLName}, #{lr.strFName} #{lr.strMName}
+                                            td #{lr.datDateCreated}
+                                            td #{lr.strName}
+                                            td #{lr.strLeaveStatus}
+                                            td
+                                                if lr.strLeaveStatus == "Pending"
+                                                    button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLReport' 
+                                                        data-start= lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View
+                                                    button.btn.btn-secondary.btn-sm(data-toggle='modal', data-target='#rejectLReq' 
+                                                        data-id = lr.intLeaveRequestID) Reject
+                                                    form.btn.btn-sm(method="POST"  action="/admin/transaction_hhRequest_leave/approve")
+                                                        input(value=lr.intLeaveRequestID  name="id" required, hidden)
+                                                        button.btn.btn-primary.btn-sm(type='submit') Approve
+                                                
+                                                if lr.strLeaveStatus == "For Client Approval"
+                                                    button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLReport' 
+                                                        data-start= lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View
+                                                
+    
+    
+    
+    
+    
+    #viewLReport.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-xs
+            .modal-content
+                .modal-header(style="background-color:#EDEDED;")
+                    button.close(type='button', data-dismiss='modal')
+                        span(aria-hidden='true') ×
+                    h4#myModalLabel.modal-title Leave Request Details
+                .modal-body
+                    .x_panel
+                        table.table.table-striped
+                            tbody
+                                tr
+                                    th(scope='row')
+                                    td
+                                        b Start Date:
+                                    td
+                                        #start
+                                    td
+                                    td
+                                tr
+                                    th(scope='row')
+                                    td
+                                        b End Date:
+                                    td 
+                                        p#end
+                                    td
+                                    td
+                                tr
+                                    th(scope='row')
+                                    td
+                                        b Address
+                                    td 
+                                        p#add
+                                    td
+                                    td
+                                tr
+                                    th(scope='row')
+                                    td
+                                        label Reason:
+                                        p#reason
+                                    td
+                                    td
+                .modal-footer
+                    button.btn.btn-info(type='button', data-dismiss='modal') Close
+    
+    #rejectLReq.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-xs
+            form(method="POST"  action="/admin/transaction_hhRequest_leave/reject")
+                .modal-content
+                    .modal-header(style="background-color:#EDEDED;")
+                        button.close(type='button', data-dismiss='modal')
+                            span(aria-hidden='true') ×
+                        h4#myModalLabel.modal-title Reject Leave Request?
+                    .modal-body
+                        input#id(name="id" required hidden)
+                        .row
+                            .col-md-12
+                                .form-group
+                                textarea#exampleTextarea.form-control(rows='4' placeholder='Reason' name="reason" required)
+                    .modal-footer
+                        button.btn.btn-primary(type='submit') Reject
+                        button.btn.btn-info(type='button', data-dismiss='modal') Cancel
