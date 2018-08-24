@@ -84,7 +84,7 @@ function findcreatedlist(req, res, next){
   }
   function findcountcreateditem(req, res, next){
     var db = require('../../lib/database')();
-    db.query("SELECT SUM(intIQuantity) AS count FROM tblinitialrequest WHERE intIRequestID=?",[req.params.userid], function (err, results) {
+    db.query("SELECT * FROM tblinitialrequest WHERE intIRequestID=?",[req.params.userid], function (err, results) {
       if (err) return res.send(err);
       if (!results[0])
       console.log('');
@@ -295,7 +295,7 @@ function findcreatedlist2(req, res){
   db.query("SELECT * FROM tbltransaction WHERE intTRequestID=?",[req.body.transid], function (err, results) {
     console.log(err);
     if (!results[0]){
-      db2.query(`INSERT INTO tbltransaction VALUES ('${req.body.transid}', '${req.session.user}', '${req.body.reqdate}', '${req.body.dep}', '${req.body.datedep}', '${req.body.timedep}', '', '', NULL, '','','${req.body.invnum}')`, function(err){
+      db2.query(`INSERT INTO tbltransaction VALUES ('${req.body.transid}', '${req.session.user}', '${req.body.reqdate}', '${req.body.dep}', '${req.body.datedep}', '${req.body.timedep}', '', '', NULL, NULL, '','','${req.body.invnum}')`, function(err){
         console.log(err);
         res.redirect('/request_add/contract_'+req.body.transid,flog, findcreatedlist,rendercontract)
       })  

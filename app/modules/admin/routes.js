@@ -791,8 +791,8 @@ function resultothers(req,res,next){
                           FROM tblhw_workbg
                           Group by intHWID_workbg) as tb 
                     ON tb.intHWID_workbg =  ta.intHWID
-                    WHERE (((strStatus = 'Registered') AND (intServiceID = ${results[0].intITypeOfService})) OR (age BETWEEN ${results[0].intIRequestAge1} AND ${results[0].intIRequestAge2})
-                            OR (strGender IN ('Male', 'Female')) OR (strType="${results[0].strIRequestEduc}")) AND intHWID NOT IN(SELECT intRHWID FROM tblresults WHERE intRRequestID = ${req.params.requestid})
+                    WHERE (((strStatus = 'Registered') AND (intServiceID = ${results[0].intITypeOfService})) AND ((age BETWEEN ${results[0].intIRequestAge1} AND ${results[0].intIRequestAge2})
+                            OR (strGender IN ('Male', 'Female')) OR (strType="${results[0].strIRequestEduc}"))) AND intHWID NOT IN(SELECT intRHWID FROM tblresults WHERE intRRequestID = ${req.params.requestid})
                     HAVING Work_exp >= ${results[0].intIRequestExp} `,function(err,results2){
           console.log('query1');
           if (err) return res.send(err);
@@ -810,8 +810,8 @@ function resultothers(req,res,next){
                           FROM tblhw_workbg
                           Group by intHWID_workbg) as tb 
                     ON tb.intHWID_workbg =  ta.intHWID
-                    WHERE (((strStatus = 'Registered') AND (intServiceID = ${results[0].intITypeOfService})) OR (age BETWEEN ${results[0].intIRequestAge1} AND ${results[0].intIRequestAge2})
-                            OR (strGender = '${results[0].strIRequestGender}') OR (strType="${results[0].strIRequestEduc}")) AND intHWID NOT IN(SELECT intRHWID FROM tblresults WHERE intRRequestID = ${req.params.requestid})
+                    WHERE (((strStatus = 'Registered') AND (intServiceID = ${results[0].intITypeOfService})) AND ((age BETWEEN ${results[0].intIRequestAge1} AND ${results[0].intIRequestAge2})
+                            OR (strGender = '${results[0].strIRequestGender}') OR (strType="${results[0].strIRequestEduc}"))) AND intHWID NOT IN(SELECT intRHWID FROM tblresults WHERE intRRequestID = ${req.params.requestid})
                     HAVING Work_exp >= ${results[0].intIRequestExp} `,function(err,results2){
           console.log('query2');
           if (err) return res.send(err);
@@ -952,8 +952,8 @@ function findtranssettle(req,res,next){
   });
 }
 
-router.post('/transaction_settledecision',flog, clientsettledecision);
-function clientsettledecision(req,res){
+router.post('/transaction_settledecision',flog, clientsettledecision, contractexpiry);
+function clientsettledecision(req,res,next){
   var db = require('../../lib/database')();
   // var db2 = require('../../lib/database')();
   if(req.body.btn1='settle'){
@@ -967,7 +967,8 @@ function clientsettledecision(req,res){
             console.log(err);
             db.query(`UPDATE tbluser u INNER JOIN tblcontract c ON u.intID = c.intConHWID SET u.strStatus ='Deployed' WHERE u.strType = 'Household Worker' AND c.intConTransID = '${req.body.transid}'`, function (err) {
               console.log(err);
-              res.redirect('/admin/transaction_settle')
+              // res.redirect('/admin/transaction_settle')
+              return next();
             });
           });
         });
@@ -977,6 +978,16 @@ function clientsettledecision(req,res){
   else{
     
   }
+}
+function contractexpiry(req,res){
+  var db = require('../../lib/database')();
+  db.query(`SELECT DATE_ADD(datDateSettled, INTERVAL 6 MONTH) AS dateexpire FROM tbltransaction WHERE intTRequestID =?`, [req.body.transid], function (err,results){
+    console.log(err);
+    db.query(`UPDATE tbltransaction SET datDateExpiry =? WHERE intTRequestID = ?`,[results[0].dateexpire, req.body.transid], function(err){
+      console.log(err);
+      res.redirect('/admin/transaction_settle')
+    })
+  })
 }
 
 router.post('/transaction_settledecision_replacementclient',flog, clientsettledecisionreplacement, clientsettledecisionreplacementleft);
@@ -1049,20 +1060,29 @@ function clientsettledecisionreplaceclient(req,res, next){
 
 function clientsettledecisionreplacementleft(req,res){
   var db = require('../../lib/database')();
-  db.query(`SELECT (intConReplacementLeft-1) AS Remain  FROM tblreplacement INNER JOIN tblcontract ON intReplaceOldHWID=intConHWID WHERE intReplaceReqID='${req.body.transid}'`, function (err, results) {
+  db.query(`SELECT  (intConReplacementLeft-1) AS Remain, datDateExpiry as dateexpire  FROM tblreplacement INNER JOIN tblcontract ON intReplaceOldHWID=intConHWID INNER JOIN tbltransaction on intTRequestID = intConTransID  WHERE intReplaceReqID= ? ORDER BY datDateofDeployment DESC LIMIT 1`,[req.body.transid] ,function (err, results) {
     console.log(err)
     db.query(`UPDATE tblcontract SET intConReplacementLeft = ${results[0].Remain} WHERE intConTransID='${req.body.transid}'`)
     db.query(`UPDATE tblcontract c INNER JOIN tblreplacement r ON c.intConHWID = r.intReplaceOldHWID INNER JOIN tbluser ON intID = r.intReplaceOldHWID SET c.strCurStatus ='Replaced', strStatus='Registered' WHERE  c.strCurStatus ='To be replaced' AND strStatus='Deployed' AND r.intReplaceReqID = '${req.body.transid}'`)
-    res.redirect('/admin/transaction_settle')
+    // db.query(`SELECT DATE_ADD(datDateSettled, INTERVAL 6 MONTH) AS dateexpire FROM tbltransaction WHERE intTRequestID =?`, [req.body.transid], function (err,results2){
+      // console.log(err);
+      db.query(`UPDATE tbltransaction SET datDateExpiry =? WHERE intTRequestID = ?`,[results[0].dateexpire, req.body.transid], function(err){
+        console.log(err);
+        res.redirect('/admin/transaction_settle')
+      })
+    // })
   });
 }
 function clientsettledecisionreplacementleft2(req,res){
   var db = require('../../lib/database')();
-  db.query(`SELECT (intConReplacementLeft) AS Remain  FROM tblreplacement INNER JOIN tblcontract ON intReplaceOldHWID=intConHWID WHERE intReplaceReqID='${req.body.transid}'`, function (err, results) {
+  db.query(`SELECT (intConReplacementLeft) AS Remain, datDateExpiry as dateexpire  FROM tblreplacement INNER JOIN tblcontract ON intReplaceOldHWID=intConHWID INNER JOIN tbltransaction on intTRequestID = intConTransID WHERE intReplaceReqID='${req.body.transid}' ORDER BY datDateofDeployment DESC LIMIT 1`, function (err, results) {
     console.log(err)
     db.query(`UPDATE tblcontract SET intConReplacementLeft = ${results[0].Remain} WHERE intConTransID='${req.body.transid}'`)
     db.query(`UPDATE tblcontract c INNER JOIN tblreplacement r ON c.intConHWID = r.intReplaceOldHWID INNER JOIN tbluser ON intID = r.intReplaceOldHWID SET c.strCurStatus ='Replaced', strStatus='Registered' WHERE  c.strCurStatus ='To be replaced' AND strStatus='Deployed' AND r.intReplaceReqID = '${req.body.transid}'`)
-    res.redirect('/admin/transaction_settle')
+    db.query(`UPDATE tbltransaction SET datDateExpiry =? WHERE intTRequestID = ?`,[results[0].dateexpire, req.body.transid], function(err){
+      console.log(err);
+      res.redirect('/admin/transaction_settle')
+    })
   });
 }
 
@@ -1079,7 +1099,7 @@ function rendertranssettled(req,res){
 
 function findtranssettled (req,res,next){
   var db = require('../../lib/database')();
-  db.query(`SELECT CONCAT(b.strLName,', ', b.strFName) AS strName, intTRequestID, datDateSettled, strTStatus, DATE_ADD(datDateSettled, INTERVAL 6 MONTH) AS dateexpire FROM tbltransaction as a INNER JOIN tbluser as b ON a.intTClientID = b.intID WHERE a.strTStatus IN ('On-going') ORDER BY datDateSettled Desc`, function (err, results) {
+  db.query(`SELECT CONCAT(b.strLName,', ', b.strFName) AS strName, intTRequestID, datDateSettled, strTStatus, datDateExpiry AS dateexpire FROM tbltransaction as a INNER JOIN tbluser as b ON a.intTClientID = b.intID WHERE a.strTStatus IN ('On-going') ORDER BY datDateSettled Desc`, function (err, results) {
     console.log(err)
     for(var i = 0; i < results.length; i++){
       results[i].datDateSettled =  moment(results[i].datDateSettled).format("LL");
