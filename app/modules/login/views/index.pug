@@ -1,405 +1,400 @@
-doctype html
-html(lang='en')
-  head
+head
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     meta(name='description', content='')
     meta(name='author', content='')
     title Mega Pacific
+    // <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
-    //- script(src='../login/fame/js/bootstrap.min.js')
-    //- script(src='../login/fame/js/jquery-3.3.1.min.js')
     // Bootstrap Core CSS
-    link(href='../login/fame/asset/css/bootstrap.min.css', rel='stylesheet')
+    link(href='/login/fame/asset/css/bootstrap.min.css', rel='stylesheet')
     // Font Awesome CSS
-    link(href='../login/fame/css/font-awesome.min.css', rel='stylesheet')
+    link(href='/login/fame/css/font-awesome.min.css', rel='stylesheet')
     // Animate CSS
-    link(href='../login/fame/css/animate.css', rel='stylesheet')
+    link(href='/login/fame/css/animate.css', rel='stylesheet')
     // Owl-Carousel
-    link(rel='stylesheet', href='../login/fame/css/owl.carousel.css')
-    link(rel='stylesheet', href='../login/fame/css/owl.theme.css')
-    link(rel='stylesheet', href='../login/fame/css/owl.transitions.css')
+    link(rel='stylesheet', href='/login/fame/css/owl.carousel.css')
+    link(rel='stylesheet', href='/login/fame/css/owl.theme.css')
+    link(rel='stylesheet', href='/login/fame/css/owl.transitions.css')
     // Custom CSS
-    link(href='../login/css/style.css', rel='stylesheet')
-    link(href='../login/fame/css/responsive.css', rel='stylesheet')
+    link(href='/login/css/style.css', rel='stylesheet')
+    link(href='/login/fame/css/responsive.css', rel='stylesheet')
     // Colors CSS
-    link(rel='stylesheet', type='text/css', href='../login/fame/css/color/green.css')
+    link(rel='stylesheet', type='text/css', href='/login/fame/css/color/green.css')
     // Colors CSS
-    link(rel='stylesheet', type='text/css', href='../login/fame/css/color/green.css', title='green')
-    link(rel='stylesheet', type='text/css', href='../login/fame/css/color/light-red.css', title='light-red')
-    link(rel='stylesheet', type='text/css', href='../login/fame/css/color/blue.css', title='blue')
-    link(rel='stylesheet', type='text/css', href='../login/fame/css/color/light-blue.css', title='light-blue')
-    link(rel='stylesheet', type='text/css', href='../login/fame/css/color/yellow.css', title='yellow')
-    link(rel='stylesheet', type='text/css', href='../login/fame/css/color/light-green.css', title='light-green')
+    link(rel='stylesheet', type='text/css', href='/login/fame/css/color/green.css', title='green')
+    link(rel='stylesheet', type='text/css', href='/login/fame/css/color/light-red.css', title='light-red')
+    link(rel='stylesheet', type='text/css', href='/login/fame/css/color/blue.css', title='blue')
+    link(rel='stylesheet', type='text/css', href='/login/fame/css/color/light-blue.css', title='light-blue')
+    link(rel='stylesheet', type='text/css', href='/login/fame/css/color/yellow.css', title='yellow')
+    link(rel='stylesheet', type='text/css', href='/login/fame/css/color/light-green.css', title='light-green')
     // Custom Fonts
     link(href='http://fonts.googleapis.com/css?family=Kaushan+Script', rel='stylesheet', type='text/css')
     // Modernizer js
     script(src='js/modernizr.custom.js')
     //if lt IE 9
-      script(src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
-      script(src='https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js')
-  body.index
-    //
-      Styleswitcher
-      ==================================================
-      <div class="colors-switcher">
-      <a id="show-panel" class="hide-panel"><i class="fa fa-tint"></i></a>
-      <ul class="colors-list">
-      <li><a title="Light Red" onClick="setActiveStyleSheet('light-red'); return false;" class="light-red"></a></li>
-      <li><a title="Blue" class="blue" onClick="setActiveStyleSheet('blue'); return false;"></a></li>
-      <li class="no-margin"><a title="Light Blue" onClick="setActiveStyleSheet('light-blue'); return false;" class="light-blue"></a></li>
-      <li><a title="Green" class="green" onClick="setActiveStyleSheet('green'); return false;"></a></li>
-      <li class="no-margin"><a title="light-green" class="light-green" onClick="setActiveStyleSheet('light-green'); return false;"></a></li>
-      <li><a title="Yellow" class="yellow" onClick="setActiveStyleSheet('yellow'); return false;"></a></li>
-      </ul>
-      </div>
-      Styleswitcher End
-      ==================================================
-    // Navigation
-    nav.navbar.navbar-default.navbar-fixed-top
-      .container
-        // Brand and toggle get grouped for better mobile display
-        .navbar-header.page-scroll
-          a.navbar-brand.page-scroll
-            img(src='', width='height=')
-            b
-        // Collect the nav links, forms, and other content for toggling
-        #bs-example-navbar-collapse-1.collapse.navbar-collapse
-          ul.nav.navbar-nav.navbar-right
-            li.pull-left
-            li
-              a.page-scroll(href='#page-top') Home
-            li
-              a.page-scroll(href='#about-us') About
-            //
-              <li>
-              <a class="page-scroll" href="#feature">Feature</a>
-              </li>
-            li
-              a.page-scroll(href='#portfolio') Portfolio
-            li
-              a.page-scroll(href='#contact') Contact
-            li
-              a.btn.btn-primary(data-toggle='modal', data-target='#signinmodal') Sign in
-            li
-              a.page-scroll(href='#about-us') Sign up
-        // /.navbar-collapse
-      // /.container-fluid
-    // Start Home Page Slider
-    section#page-top
-      // Carousel
-      #main-slide.carousel.slide(data-ride='carousel')
-        // Indicators
-        ol
-          li.active(data-target='#main-slide', data-slide-to='0')
-        // / Indicators end
-        // Carousel inner
-        .carousel-inner
-          .item.active
-            img.img-responsive(src='../login/fame/images/container_image.jpg', alt='slider')
-            .slider-content
-              .col-md-12.text-center
-                h1.animated3
-                  span(style='font-size:100%')
-                    strong Client And Household Worker Management System
-                p.animated2
-                  b
-                    b
-                a.page-scroll.btn.btn-primary.animated1(href='#feature') Our Services
-          // / Carousel item end
-      // /carousel
-    // End Home Page Slider
-    // Start About Us Section
-    section#about-us.about-us-section-1
-      .container(style='background-color: #f7f7f7')
-        .row
-          .col-md-12.col-sm-12
-            .section-title.text-center
-              h3 About Us
-              p
-                br
-                | &nbsp&nbsp&nbsp&nbspMega Pacific Manpower Services, is a private employment agency that recruits and employ maids 
-                br
-                | and other household worker like nanny, cook, and even driver that provide great services at home. 
-                br
-                | It was established in Mandaluyong in year 2012. Its fast, reliable and convenient service rapidly 
-                br
-                | escalated it to be one of the top manpower services company in the country. They offer services 
-                br
-                | in the field of child and elderly care, home management,and any other domestic-related works. 
-                br
-                br
-                | &nbsp&nbsp&nbsp&nbspMega Pacific Manpower Services found the manpower services industry slumbering when it joined the market.
-                br
-                |  It was hard to find maid and household workers. Employers can't seem to find a manpower agency.
-                br
-                |  And when they find one, the service just doesn't address the concerns at home. Household workers were stealing.
-                br
-                |  Household workers were incompetent. That is why they established this manpower services to provide a trusted,
-                br
-                |  skilled, and professional household worker that can address the concerns at home through great services.
-      // /.container
-    // End About Us Section
-    // Start Call to Action Section
-    section(id='#signup')
-      .container
-        .row
-          .col-md-12
-            center
-              h2
-                b Be part of us!
-                |    Sign up as...
-              a.btn.btn-primary(data-toggle='modal', data-target='#applicantLogin') Applicant
-              a.btn.btn-primary(data-toggle='modal', href='#BusinessmanSignUp') Client
-    // End Call to Action Section
-    // <a data-toggle="modal" data-target="applicantLogin">hey</a>
+        script(src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
+        script(src='https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js')
+    body
+        nav.navbar.navbar-default.navbar-fixed-top
+            .container
+                // Brand and toggle get grouped for better mobile display
+                .navbar-header.page-scroll
+                    a.navbar-brand.page-scroll
+                        img(src='', width='height=')
+                        b
+                    a.navbar-brand.page-scroll(href='#page-top')
+                // Collect the nav links, forms, and other content for toggling
+                #bs-example-navbar-collapse-1.collapse.navbar-collapse
+                    ul.nav.navbar-nav.navbar-right
+                        li
+                            a.page-scroll(href='#page-top') Home
+                        li
+                            a.page-scroll(href='#about-us') About
+                        li
+                            a.page-scroll(href='#Services') Services
+                        li
+                            a.page-scroll(href='#portfolio') Portfolio
+                        li
+                            a.page-scroll(href='#contact') Contact
+                        li
+                            a.page-scroll.btn.btn-primary(data-toggle='modal', data-target='#signinmodal') Log in
+                        li
+                            a.page-scroll(href='#page-top') Sign up
 
+        section#page-top
+            // Carousel
+            #main-slide.carousel.slide(data-ride='carousel')
+                // Indicators
+                ol
+                    li.active(data-target='#main-slide', data-slide-to='1')
+                // / Indicators end
+                // Carousel inner
+                .carousel-inner
+                    .item.active
+                        img.img-responsive(src='/login/fame/images/container_image.jpg', alt='slider')
+                        .slider-content
+                            .col-md-12.text-center
+                                h1.animated1
+                                    span(style='font-size:100%')
+                                        strong Mega Pacific Employment Services
+                                p.animated2
+                                    b Be part of us!
+                                    |  Sign up as...
+                                a.animated3.slider.btn.btn-primary.btn-min-block(href='#')
+                                    b Household Worker
+                                a.animated3.slider.btn.btn-default.btn-min-block(href='#')
+                                    b Client
 
+        // Start About Us Section 2
+        #about-us.about-us-section-2
+            .container
+                .row
+                    .col-md-6
+                        .skill-shortcode
+                            .section-title
+                                h3 About Us
+                                p
+                                    br
+                                    | &nbsp&nbsp&nbsp&nbspMega Pacific Manpower Services, is a private employment agency that recruits and employ maids 
+                                    | 							and other household worker like nanny, cook, and even driver that provide great services at home. 
+                                    | 							It was establisehd in Mandaluyong in year 2012.
+                                    | 							Its fast, reliable and convenient service rapidly 
+                                    | 							escalated it to be one
+                                    br
+                                    |  of the top manpower services company in the country. They offer services
+                                    | 							in the field of child and elderly care, home management,and any other domestic-related works.
+                    .col-md-6
+                        #carousel-example-generic.carousel.slide.about-slide(data-ride='carousel')
+                            // Indicators
+                            ol.carousel-indicators
+                                li.active(data-target='#carousel-example-generic', data-slide-to='0')
+                                li(data-target='#carousel-example-generic', data-slide-to='1')
+                                li(data-target='#carousel-example-generic', data-slide-to='2')
+                            // Wrapper for slides
+                            .carousel-inner
+                                .item.active
+                                    img(src='/assets/fame/images/map.png', alt='')
+                                .item
+                                    img(src='/assets/fame/images/place.png', alt='')
+                                .item
+                                    img(src='/assets/fame/images/mega.png', alt='')
 
+        // Start Fun Facts Section
+        section#Services.contact1
+            .container
+                .row
+                    .col-xs-12.col-sm-6.col-md-3
+                        .counter-item
+                            i.fa.fa-users
+                              #item1.timer(data-to='991', data-speed='5000')
+                            h5 Highly-trained and qualified service provider 
+                    .col-xs-12.col-sm-6.col-md-3
+                        .counter-item
+                            i.fa.fa-exchange
+                              #item2.timer(data-to='7394', data-speed='5000')
+                            h5 3x Free Replacement
+                    .col-xs-12.col-sm-6.col-md-3
+                        .counter-item
+                            i.fa.fa-truck
+                              #item3.timer(data-to='18745', data-speed='5000')
+                            h5 We deliver
+                    .col-xs-12.col-sm-6.col-md-3
+                        .counter-item
+                            i.fa.fa-desktop
+                              #item4.timer(data-to='8423', data-speed='5000')
+                            h5 Automated management system
+        
+        // Start Portfolio Section
+        section#portfolio.portfolio-section-1
+            .container
+                .row
+                    .col-md-12
+                        .section-title.text-center
+                            h3 Our Portfolio
+                            p
+                .row
+                    .col-md-12
+                        // Start Portfolio items
+                        ul#portfolio-list
+                            li
+                                .portfolio-item
+                                    img.img-responsive(src='/assets/fame/images/portfolio/nurse.jpg', alt='')
+                                    .portfolio-caption
+                                        p
+                                            br
+                                            br
+                                            br
+                                            br
+                                            | Having a skill in taking care of the elderly is rare for a maid 
+                                            br
+                                            | but because we provide a diverse pool of maids,
+                                            br
+                                            |  we can provide you a maid that will fit for the job.
+                                            br
+                                            |  "Care giving often calls us to lean into love
+                                            br
+                                            |  we didn't know possible." -Tia Walker
+                            li
+                                .portfolio-item
+                                    img.img-responsive(src='/assets/fame/images/portfolio/cleaning.jpg', alt='')
+                                    .portfolio-caption
+                                        p
+                                            br
+                                            br
+                                            br
+                                            br
+                                            | Cleaning is the most common skill that a maid has.
+                                            br
+                                            | "Your home is living space, not storage space" 
+                                            br
+                                            | -Francine Jay.
+                                            br
+                                            |  Need a cleaner? Hire one now!
+                            li
+                                .portfolio-item
+                                    img.img-responsive(src='/assets/fame/images/portfolio/chef.jpg', alt='')
+                                    .portfolio-caption
+                                        p
+                                            br
+                                            br
+                                            br
+                                            br
+                                            br
+                                            | Prepared food items such as snacks and main meals, 
+                                            br
+                                            | and helped serve or pack them.
+                            li
+                                .portfolio-item
+                                    img.img-responsive(src='/assets/fame/images/portfolio/tutor.jpg', alt='')
+                                    .portfolio-caption
+                                        p
+                                            br
+                                            br
+                                            br
+                                            br
+                                            br
+                                            br
+                                            | Helping and assisting children with their school activity.
+                            li
+                                .portfolio-item
+                                    img.img-responsive(src='/assets/fame/images/portfolio/wash.jpg', alt='')
+                                    .portfolio-caption
+                                        p
+                                            br
+                                            br
+                                            br
+                                            br
+                                            | Tired of dealing with laundry every week?
+                                            br
+                                            |  A maid can do it for you! 
+                                            br
+                                            | Remember, having an empty basket
+                                            br
+                                            |  is the best part of the week!
+                            li
+                                .portfolio-item
+                                    img.img-responsive(src='/assets/fame/images/portfolio/caring.jpg', alt='')
+                                    .portfolio-caption
+                                        p
+                                            br
+                                            br
+                                            br
+                                            br
+                                            | Care for children and/or elderly persons by
+                                            br
+                                            |  overseeing their activities, providing companionship,
+                                            br
+                                            |  and assisting them with dressing, bathing, 
+                                            br
+                                            | eating, and other needs
 
-    // /page content
-      .text-center
-        a.btn.btn-secondary.btn-sm(href='index.html')
-          i.fa.fa-arrow-left
-          |  Back to dashboard
-    // Start Feature Section
-    section#feature.feature-section
-      .container
-        .row
-          .col-md-3.col-sm-6.col-xs-12
-        // /.row
-      // /.container
-    // End Feature Section
-    // Start Portfolio Section
-    section#portfolio.portfolio-section-1
-      .container
-        .row
-          .col-md-12
-            .section-title.text-center
-              h3 Our Portfolio
-              p
-        .row
-          .col-md-12
-            // Start Portfolio items
-            ul#portfolio-list
-              li
-                .portfolio-item
-                  img.img-responsive(src='../login/fame/images/portfolio/nurse.jpg', alt='')
-                  .portfolio-caption
-                    p
-                      br
-                      br
-                      br
-                      br
-                      | Having a skill in taking care of the elderly is rare for a maid 
-                      br
-                      | but because we provide a diverse pool of maids,
-                      br
-                      |  we can provide you a maid that will fit for the job.
-                      br
-                      |  "Care giving often calls us to lean into love
-                      br
-                      |  we didn't know possible." -Tia Walker
-              li
-                .portfolio-item
-                  img.img-responsive(src='../login/fame/images/portfolio/cleaning.jpg', alt='')
-                  .portfolio-caption
-                    p
-                      br
-                      br
-                      br
-                      br
-                      | Cleaning is the most common skill that a maid has.
-                      br
-                      | "Your home is living space, not storage space" 
-                      br
-                      | -Francine Jay.
-                      br
-                      |  Need a cleaner? Hire one now!
-              li
-                .portfolio-item
-                  img.img-responsive(src='../login/fame/images/portfolio/chef.jpg', alt='')
-                  .portfolio-caption
-                    p
-                      br
-                      br
-                      br
-                      br
-                      br
-                      | Prepared food items such as snacks and main meals, 
-                      br
-                      | and helped serve or pack them.
-              li
-                .portfolio-item
-                  img.img-responsive(src='../login/fame/images/portfolio/tutor.jpg', alt='')
-                  .portfolio-caption
-                    p
-                      br
-                      br
-                      br
-                      br
-                      br
-                      br
-                      | Helping and assisting children with their school activity.
-              li
-                .portfolio-item
-                  img.img-responsive(src='../login/fame/images/portfolio/wash.jpg', alt='')
-                  .portfolio-caption
-                    p
-                      br
-                      br
-                      br
-                      br
-                      | Tired of dealing with laundry every week?
-                      br
-                      |  A maid can do it for you! 
-                      br
-                      | Remember, having an empty basket
-                      br
-                      |  is the best part of the week!
-              li
-                .portfolio-item
-                  img.img-responsive(src='../login/fame/images/portfolio/caring.jpg', alt='')
-                  .portfolio-caption
-                    p
-                      br
-                      br
-                      br
-                      br
-                      | Care for children and/or elderly persons by
-                      br
-                      |  overseeing their activities, providing companionship,
-                      br
-                      |  and assisting them with dressing, bathing, 
-                      br
-                      | eating, and other needs
-            // End Portfolio items
-    // End Portfolio Section
-    section#contact.contact
-      .container
-        .row
-          .col-lg-12
-            .section-title.text-center
-              h3 Contact With Us
-              p.white-text
-        .row
-          .col-lg-12
-            form#contactForm(name='sentMessage', novalidate='')
-              .row
-                .col-md-6
-                  .form-group
-                    input#name.form-control(type='text', placeholder='Your Name *', required='', data-validation-required-message='Please enter your name.')
-                    p.help-block.text-danger
-                  .form-group
-                    input#email.form-control(type='email', placeholder='Your Email *', required='', data-validation-required-message='Please enter your email address.')
-                    p.help-block.text-danger
-                  .form-group
-                    input#phone.form-control(type='tel', placeholder='Your Phone *', required='', data-validation-required-message='Please enter your phone number.')
-                    p.help-block.text-danger
-                .col-md-6
-                  .form-group
-                    textarea#message.form-control(placeholder='Your Message *', required='', data-validation-required-message='Please enter a message.')
-                    p.help-block.text-danger
-                .clearfix
-                .col-lg-12.text-center
-                  #success
-                  button.btn.btn-primary(type='submit') Send Message
-        .row
-          .col-md-4
-            .footer-contact-info
-              h4 Contact info
-              ul
-                li
-                  strong E-mail :
-                  |  your-email@mail.com
-                li
-                  strong Phone :
-                  |  +8801-6778776
-                li
-                  strong Web :
-                  |  yourdomain.com
-          .col-md-4.col-md-offset-4
-            .footer-contact-info
-              h4 Working Hours
-              ul
-                li
-                  strong Mon-Sun :
-                  |  9 am to 6 pm
-                li
-                  strong Holiday:
-                  |  Close
-                li
-                  strong
-                  br
-      footer.style-1
-        .container
-          .row
-            .col-md-4.col-xs-12
-              span.copyright.text-center Copyright © Mega Pacific Manpower Services 2017. Alright Rights Reserved.
-            //
-              <div class="col-md-4 col-xs-12">
-              <div class="footer-social text-center">
-              <ul>
-              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-              <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-              <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-              <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-              </ul>
-              </div>
-              </div>
-            .col-md-4.col-xs-12
-              .footer-link
-                ul.pull-right
-                  li
-                    a(href='#')
-                  li
-                    a(href='#')
+        section#contact.contact
+            .container
+                .row
+                    .col-lg-12
+                        .section-title.text-center
+                            h3 Contact With Us
+                            p.white-text
+                .row
+                    .col-lg-12
+                        form#contactForm(name='sentMessage', novalidate='')
+                            .row
+                                .col-md-6
+                                    .form-group
+                                        input#name.form-control(type='text', placeholder='Your Name *', required='', data-validation-required-message='Please enter your name.')
+                                        p.help-block.text-danger
+                                    .form-group
+                                        input#email.form-control(type='email', placeholder='Your Email *', required='', data-validation-required-message='Please enter your email address.')
+                                        p.help-block.text-danger
+                                    .form-group
+                                        input#phone.form-control(type='tel', placeholder='Your Phone *', required='', data-validation-required-message='Please enter your phone number.')
+                                        p.help-block.text-danger
+                                .col-md-6
+                                    .form-group
+                                        textarea#message.form-control(placeholder='Your Message *', required='', data-validation-required-message='Please enter a message.')
+                                        p.help-block.text-danger
+                                .clearfix
+                                .col-lg-12.text-center
+                                    #success
+                                    button.btn.btn-primary(type='submit') Send Message
+                .row
+                    .col-md-4
+                        .footer-contact-info
+                            h4 Contact info
+                            ul
+                                li
+                                    strong E-mail :
+                                    |  your-email@mail.com
+                                li
+                                    strong Phone :
+                                    |  +8801-6778776
+                                li
+                                    strong Web :
+                                    |  yourdomain.com
+                    .col-md-4.col-md-offset-4
+                        .footer-contact-info
+                            h4 Working Hours
+                            ul
+                                li
+                                    strong Mon-Sun :
+                                    |  9 am to 6 pm
+                                li
+                                    strong Holiday:
+                                    |  Close
+                                li
+                                    strong
+                                    br
+
+        footer.style-1
+            .container
+                .row
+                    .col-md-4.col-xs-12
+                        span.copyright.text-center Copyright © Mega Pacific Manpower Services 2017. Alright Rights Reserved.
+                    //
+                        <div class="col-md-4 col-xs-12">
+                        <div class="footer-social text-center">
+                        <ul>
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                        </ul>
+                        </div>
+                        </div>
+                    .col-md-4.col-xs-12
+                        .footer-link
+                            ul.pull-right
+                                li
+                                    a(href='#')
+                                li
+                                    a(href='#')
+
     #loader
-      .spinner
-        .dot1
-        .dot2
-  #signinmodal.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-labelledby='editprofile', aria-hidden='true')
-      .modal-dialog.modal-sm(role='document')
-          form(method="POST"  action="/login")
-              .modal-content
-                  .modal-header
-                      h4.modal-title(style="") Sign in to CHSM
-                        button.close(type='button', data-dismiss='modal', aria-label='Close')
-                            span(aria-hidden='true') ×
-                  .modal-body
-                      .row
-                          .col-md-12
-                              .form-group
-                                  b Email Address:
-                                  input#no.form-control(type='email' name='email' required)
-                      .row    
-                          .col-md-12
-                              .form-group
-                                  b Password:
-                                  input#add.form-control(type='password' name='password' required)
-                      div
-                        | Don't have an account? Sign up 
-                        a(href='') here
-                  .modal-footer
-                      button.btn.btn-info(type='submit') Sign in
-script(src='../login/fame/js/jquery-2.1.1.min.js')
+        .spinner
+            .dot1
+            .dot2
+
+    // Large modal
+    #signinmodal.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-labelledby='exampleModalLongTitle', aria-hidden='true')
+        .modal-dialog
+          form(method='POST', ,='', action='/login')
+            .modal-content(align='center')
+                .modal-header(style='background-color:#5BB12F')
+                    button.close(type='button', data-dismiss='modal')
+                        span(aria-hidden='true') ×
+                    h3#signinmodal.modal-title.btn-primary(style='font:white')
+                        b Log-in Form
+                .modal-body
+                    h4
+                    div(col-lg-12='')
+                        table(style='width:70%')
+                            tbody
+                                tr
+                                    td
+                                        label(for='exampleInputEmail1')  E-mail Address: 
+                                    td
+                                        | &nbsp
+                                    td
+                                        input.form-control(type='email', placeholder=' Enter e-mail', name='email', style='width:100%')
+                                tr
+                                    td
+                                        | &nbsp
+                                tr
+                                    td
+                                        label(for='exampleInputPassword1"')  Password: 
+                                    td
+                                        | &nbsp
+                                    td
+                                        input.form-control(type='password', placeholder=' Password', name='password', style='width:100%')
+                    br
+                    div
+                        | Don't  have an account? 
+                        a(href='')  Sign up 
+                        |  here
+                br
+                br
+                .modal-footer
+                    button.btn.btn-default(type='button', data-dismiss='modal') Close
+                    button.btn.btn-primary(type='submit') Sign In
+
+script(src='/login/fame/js/jquery-2.1.1.min.js')
 // Bootstrap Core JavaScript
 script(src='asset/js/bootstrap.min.js')
 // Plugin JavaScript
-script(src='../login/fame/js/jquery.easing.1.3.js')
-script(src='../login/fame/js/classie.js')
-script(src='../login/fame/js/count-to.js')
-script(src='../login/fame/js/jquery.appear.js')
-script(src='../login/fame/js/cbpAnimatedHeader.js')
-script(src='../login/fame/js/owl.carousel.min.js')
-script(src='../login/fame/js/jquery.fitvids.js')
-script(src='../login/fame/js/styleswitcher.js')
+script(src='/login/fame/js/jquery.easing.1.3.js')
+script(src='/login/fame/js/classie.js')
+script(src='/login/fame/js/count-to.js')
+script(src='/login/fame/js/jquery.appear.js')
+script(src='/login/fame/js/cbpAnimatedHeader.js')
+script(src='/login/fame/js/owl.carousel.min.js')
+script(src='/login/fame/js/jquery.fitvids.js')
+script(src='/login/fame/js/styleswitcher.js')
 // Contact Form JavaScript
-script(src='../login/fame/js/jqBootstrapValidation.js')
-//- script(src='../login/fame/js/contact_me.js')
+script(src='/login/fame/js/jqBootstrapValidation.js')
+//- script(src='/login/fame/js/contact_me.js')
 // Custom Theme JavaScript
-script(src='../login/fame/js/script.js')
-    
+script(src='/login/fame/js/script.js')
