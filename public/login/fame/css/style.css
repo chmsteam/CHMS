@@ -1037,7 +1037,7 @@ and (min-width : 551px){
    font-size: 18px;
    padding: 10px;
    background: #fff;
-   //margin: 20px 0 0 0;
+   margin: 20px 0 0 0;
     position: relative;
     top: 14%;
     font-family: 'Oswald', sans-serif;
@@ -1055,7 +1055,7 @@ and (min-width : 551px){
     background: #fff;
     position: absolute;
     top: 60%;
-    //left: 40%;
+    left: 40%;
 }
 
 .portfolio-caption a.link-1 i {
