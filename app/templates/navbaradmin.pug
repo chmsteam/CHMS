@@ -121,6 +121,8 @@ html(lang='en')
                               ul.nav.child_menu
                                 li.sub_menu
                                   a(href='transaction_hhRequest_leave') Leave
+                                li.sub_menu
+                                  a(href='transaction_replacement_of_client') Replacement of Client
                             
                         li 
                           a
@@ -465,6 +467,16 @@ html(lang='en')
             });
 
             $('#settle_replacementclient').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('id')
+
+              var modal = $(this)
+              modal.find('.modal-body #_id').val(id)
+              modal.find('.modal-header #a').text(id)
+              
+            });
+
+            $('#settle_replaceclient').on('show.bs.modal', function (event) {
               var button = $(event.relatedTarget)
               var id = button.data('id')
 

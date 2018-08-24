@@ -48,7 +48,11 @@ block content
                                                 else if list.strRequestType == 'Replacement'
                                                     button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_replacementclient', data-id=list.intRequestID)
                                                         i.fa.fa-check
-                                                        |   Settles 
+                                                        |   Settle
+                                                else if list.strRequestType == 'Replace Client'
+                                                    button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_replaceclient', data-id=list.intRequestID)
+                                                        i.fa.fa-check
+                                                        |   Settle
 
         #settle.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog.modal-sm
@@ -85,6 +89,25 @@ block content
                                 br
                                 input#_id(type="text", name="transid", style='display:none;')
                                 input(id='thedate2' type='date', name='datesettled' style='display:none;')
+                                input#ss(type="text", name="ornum" required)
+                        .modal-footer.center
+                            button.btn.btn-success(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
+        #settle_replaceclient.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog.modal-sm
+                .modal-content
+                    form(method='POST' action='transaction_settledecision_replaceclient')
+                        .modal-header
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') ×
+                            h4.modal-title Settle Transaction :
+                                i#a
+                        .modal-body
+                            center
+                                h3
+                                    b Enter O.R. Number:
+                                br
+                                input#_id(type="text", name="transid", style='display:none;')
+                                input(id='thedate3' type='date', name='datesettled' style='display:none;')
                                 input#ss(type="text", name="ornum" required)
                         .modal-footer.center
                             button.btn.btn-success(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
@@ -132,4 +155,5 @@ block content
             today = yyyy + '-' + mm + '-' + dd ;
             //- document.write(today);
            document.getElementById("thedate2").value=today;
+           document.getElementById("thedate3").value=today;
         }

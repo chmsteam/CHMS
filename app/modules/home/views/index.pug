@@ -79,7 +79,31 @@ block content
                                                                             .col-xs-12.bottom.text-center
                                                                                 //- a(href='/home_client/request_leave')
                                                                                 button.btn.btn-primary(type='button') View
-                                                
+                                                each replace in replacetab
+                                                    .row
+                                                        .col-md-12
+                                                            br
+                                                            .x_content
+                                                                .row
+                                                                    .col-md-12.col-sm-4.col-xs-12.profile_details
+                                                                        .well.profile_view(style='width:100%')
+                                                                            .col-xs-12
+                                                                                center
+                                                                                    h2
+                                                                                        br
+                                                                                        | Type of Request:
+                                                                                        b &nbsp&nbsp Replacement of Client
+                                                                                        br
+                                                                                .col-xs-12.text-center
+                                                                                    p
+                                                                                    h2
+                                                                                        | Your household worker wants you to replace him/her. Your reamaining replacement will not decrease when you found a replacement because this is not your request. This is a valid request and was validated by the agency. Failure to find a replacement for the household worker 
+                                                                                        | will result to termination of his/her contract.
+                                                                                    p
+                                                                                    br
+                                                                            .col-xs-12.bottom.text-center
+                                                                                a(href='/request_replacement/replace_list_'+replace.intRequestID+replace.hwid)
+                                                                                    button.btn.btn-primary(type='button') Find Replacement
                                             // END Incoming Request
                                             #tab_content3.tab-pane.fade(role='tabpanel', aria-labelledby='profile-tab')
                                                 // History

@@ -158,3 +158,20 @@ html(lang='en')
               var modal = $(this)
               modal.find('.modal-body #_id').val(id)
           });
+          //- ------------------------------ replace client
+          $('#replacementofclient').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var id  = button.data('id')
+            var hwid = button.data('hwid')
+            var clfname = button.data('clfname')
+            var cllname = button.data('cllname')
+
+
+
+            var modal = $(this)
+            modal.find('.modal-header #hwname').text(clfname+' '+cllname)
+            modal.find('.modal-body #id').val(id)
+            //- modal.find('.modal-body #transno').val(transno)
+            modal.find('.modal-body #hwid').val(hwid)
+
+            });

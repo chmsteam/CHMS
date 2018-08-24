@@ -14,17 +14,25 @@ block content
                             br         
                             br
                             each list in listtab
-                                if list.strRequestStatus == 'Draft'
-                                    button.btn.btn-success.btn-lg(type='button' data-toggle="modal" data-target="#setattritbutes")
+                                each item in itemtab
+                                    if list.strRequestStatus == 'Draft' && item.itemnum == 0
+                                        button.btn.btn-success.btn-lg(type='button' data-toggle="modal" data-target="#setattritbutes")
                                             i.fa.fa-plus
                                             | &nbsp Set Attributes
-                                else 
+                                    else if list.strRequestStatus == 'Draft' && item.itemnum == 1
                             each count in counttab
                                 each list in listtab
                                     each oldhwservice in oldhwservicetab
-                                        if (list.strRequestStatus == 'Draft' && count.count != 0)
-                                            a(href='/request_replacement/submit_request_'+list.intRequestID+ oldhwservice.intHWID)
-                                                button.btn.pull-right.btn-success.btn-lg(type='button')
+                                        if (list.strRequestStatus == 'Draft' && count.count != 0 && list.strRequestType =='Replacement')
+                                            //- a(href='/request_replacement/submit_request_'+list.intRequestID+ oldhwservice.intHWID)
+                                            form(action="/request_replacement/submit_request_"+list.intRequestID+ oldhwservice.intHWID, method="post")
+                                                button.btn.pull-right.btn-success.btn-lg(type='submit')
+                                                    i.fa.fa-envelope
+                                                    |   Submit List
+                                        if (list.strRequestStatus == 'Draft' && count.count != 0 && list.strRequestType =='Replace Client')
+                                            //- a(href='/request_replacement/submit_request_replaceclient_'+list.intRequestID+ oldhwservice.intHWID)
+                                            form(action="/request_replacement/submit_replaceclient_"+list.intRequestID+ oldhwservice.intHWID, method="post")
+                                                button.btn.pull-right.btn-success.btn-lg(type='submit')
                                                     i.fa.fa-envelope
                                                     |   Submit List
                                         else if list.strRequestStatus == 'On process' || list.strRequestStatus == 'Pending'

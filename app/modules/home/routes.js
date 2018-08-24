@@ -8,7 +8,8 @@ function render(req,res){
       res.render('home/views/index',
         {
           usertab: req.user,
-          leaveReq: req.displayLeaveReq
+          leaveReq: req.displayLeaveReq,
+          replacetab: req.replace
         });
     else if(req.valid==0)
       res.render('admin/views/invalidpages/normalonly');
@@ -55,16 +56,27 @@ function displayLeaveReq(req, res, next){
       return next();
   });
 }
-var renderFunctions = [displayLeaveReq, ]
-router.get('/', flog, renderFunctions, render);
+var renderFunctions = [displayLeaveReq]
+router.get('/', flog, renderFunctions,findreplacementofclient, render);
 router.get('/request_leave', flog, renderFunctions, renderrequestleave);
 router.get('/householdworker_list', flog, renderFunctions, renderhwlist);
 
+// -----------function display hhw replacement of client request
+function findreplacementofclient(req,res, next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT *, u.intID AS clientid, u.strFName AS clientfname, u.strLName AS clientlname, uu.intID AS hwid, uu.strFName AS hwfname, uu.strLName AS hwlname FROM tblfinalrequest INNER JOIN tbluser as u on u.intID = intRequest_ClientID INNER JOIN tblreplacement ON intReplaceReqID = intRequestID INNER JOIN tbluser AS uu ON uu.intID = intReplaceOldHWID
+  WHERE strRequestType='Replace Client' AND intRequest_ClientID=? `,[req.session.user], function(err,results) {
+    console.log(err)
+    req.replace = results;
+    return next();
+  });
+}
 
 function smp(req,res){
     res.render('home/views/smp');
 }
 router.get('/smp', smp);
+
 exports.home_client= router;
 
                       
