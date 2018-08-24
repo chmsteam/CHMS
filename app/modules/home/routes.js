@@ -1,6 +1,7 @@
 var express = require('express');
 var flog = require( '../login/loggedin');
 var router = express.Router();
+var moment = require('moment');
 
 //------------------------------RENDERING PAGES
 function render(req,res){
@@ -55,6 +56,27 @@ function displayLeaveReq(req, res, next){
       return next();
   });
 }
+//accept leave request
+router.post('/', (req, res) =>{
+  var db = require('../../lib/database')();
+    var relie = req.body.reliever;
+      if(relie === "No"){
+        db.query("UPDATE tblleaverequest SET strLeaveStatus = 'Approved' WHERE intLeaveRequestID= ? ",
+          [req.body.id], (err, results, fields)=>{
+            if (err) console.log(err);
+          res.redirect('/home_client')
+          });
+      }
+      else{
+        db.query("UPDATE tblleaverequest SET strLeaveStatus = 'On-going' WHERE intLeaveRequestID= ? ",
+          [req.body.id], (err, results, fields)=>{
+            if (err) console.log(err);
+          res.redirect('/home_client')
+          });
+      }
+})
+
+//------------------------------------------------------- ROUTER GET
 var renderFunctions = [displayLeaveReq, ]
 router.get('/', flog, renderFunctions, render);
 router.get('/request_leave', flog, renderFunctions, renderrequestleave);

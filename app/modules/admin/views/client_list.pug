@@ -39,7 +39,7 @@ block content
                                                         i.fa.fa-eye
                                                         |   View
                                                 if item.strStatus == "Registered"
-                                                    button.btn.btn-primary(type='button', data-toggle='modal', data-target='#req_registered', data-id=item.intID)
+                                                    button.btn.btn-default(type='button', data-toggle='modal', data-target='#req_registered', data-id=item.intID)
                                                         i.fa.fa-list
                                                         |   Requirements
                                                 else if item.strStatus == "Unregistered"
@@ -81,7 +81,7 @@ block content
                             .form-group
                                 .col-md-6.col-sm-6.col-xs-12
                                     label
-                                        input(id=requirement.intID, type='checkbox', value=requirement.intID, name='requ' onClick='getreq(this.id);')
+                                        input.flat(id=requirement.intID, type='checkbox', value=requirement.intID, name='requ' onClick='getreq(this.id);')
                                         | &nbsp #{requirement.strName}           
                         .ln_solid
                         .form-group.pull-right

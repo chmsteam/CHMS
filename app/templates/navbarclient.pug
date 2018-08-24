@@ -30,7 +30,7 @@ html(lang='en')
     link(href='/admin/gentelella/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css', rel='stylesheet')
 
   //- #preloader
-  body.nav-md.footer_fixed(style='background-color:#f7f7f7' onpageshow='total();')
+  body.nav-md.footer_fixed(style='background-color:transpaarent' onpageshow='total();')
     each user in usertab
       .container.body
         .main_container
@@ -110,7 +110,7 @@ html(lang='en')
 
 
                 // /menu footer buttons
-                .sidebar-footer
+                .sidebar-footer(style="background-color:transparent")
               // /menu footer buttons
           // top navigation
           .top_nav
@@ -264,4 +264,29 @@ html(lang='en')
 
             var modal = $(this)
             modal.find('.modal-body #_id').val(id)
+        });
+        $('#viewLeave').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var fullname = button.data('name')
+            var type = button.data('ty')
+            var hwID = button.data('na')
+            var start = button.data('start')
+            var end = button.data('end')
+            var add = button.data('add')
+            var reason = button.data('reason')
+            var image = button.data('image')
+            console.log(fullname)
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id) // id ng leave report -  form
+            modal.find('.modal-body #hwID').val(hwID) // id ng household worker - form
+
+            modal.find('.modal-body #fullname').text(fullname) // pangalan ng household worker
+            modal.find('.modal-body #type').text(type) // type ng report
+            modal.find('.modal-body #start').text(start) // date kelan start
+            modal.find('.modal-body #end').text(end) // date kelan end
+            modal.find('.modal-body #add').text(add) // address ng pupuntahan
+            modal.find('.modal-body #exampleTextarea').val(reason) // reason kung bakit
+            $('#imagepre').attr('src', image); // image
         });

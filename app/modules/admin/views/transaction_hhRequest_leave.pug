@@ -42,7 +42,10 @@ block content
                                                 if lr.strLeaveStatus == "For Client Approval"
                                                     button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLReport' 
                                                         data-start= lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View
-                                                
+                                                if lr.strLeaveStatus == "Approved"
+                                                    button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLReport' 
+                                                        data-start= lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View
+
     
     
     
