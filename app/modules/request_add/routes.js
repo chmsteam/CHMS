@@ -84,7 +84,7 @@ function findcreatedlist(req, res, next){
   }
   function findcountcreateditem(req, res, next){
     var db = require('../../lib/database')();
-    db.query("SELECT COUNT(intIRequestID) AS count FROM tblinitialrequest WHERE intIRequestID=?",[req.params.userid], function (err, results) {
+    db.query("SELECT SUM(intIQuantity) AS count FROM tblinitialrequest WHERE intIRequestID=?",[req.params.userid], function (err, results) {
       if (err) return res.send(err);
       if (!results[0])
       console.log('');
@@ -181,27 +181,43 @@ function findresult(req,res,next){
 // ---------------------------------------------------------------------------DECISION MADE BY CLIENT
 function clientdecision(req,res){
   var db = require('../../lib/database')();
-  var db2 = require('../../lib/database')();
-  var db3 = require('../../lib/database')();
+  console.log(req.body.btn1);
   if(req.body.btn1 == 'approve'){
     db.query(`UPDATE tblresults SET strRClientStatus= 'Approved' WHERE strRClientStatus='Waiting' AND intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}'`,function (err) {
       console.log('xxxxxxxxxxxxxx'+err);
-      db2.query(`SELECT * FROM tblresults as a INNER JOIN tblinitialrequest as b on a.intRRequestID = b.intIRequestID WHERE intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}' AND strRClientStatus = 'Approved'`, function (err,results){
-        db3.query(`INSERT INTO tblcontract VALUES ('${req.body.transid}', '${req.body.reqno}', '${req.body.hwid}', '${results[0].deciRequestSalary}', '', NULL, '',NULL)`, function(err,results2){
+      db.query(`SELECT * FROM tblresults as a INNER JOIN tblinitialrequest as b on a.intRRequestID = b.intIRequestID WHERE intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}' AND strRClientStatus = 'Approved'`, function (err,results){
+        db.query(`INSERT INTO tblcontract VALUES ('${req.body.transid}', '${req.body.reqno}', '${req.body.hwid}', '${results[0].deciRequestSalary}', '', NULL, '',NULL)`, function(err,results2){
           console.log('yyyyyyyyyyyyy'+err)
-          res.redirect('/request_add/mylist_'+req.body.transid, flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, rendermylist);
+          res.redirect('/request_add/result_'+req.params.transid + req.params.requestno, flog, findviewlist, findcreatedlist, renderviewlist);
         })
       })
     })
   }
   else if(req.body.btn1 == 'reject'){
     db.query(`UPDATE tblresults SET strRClientStatus= 'Rejected' WHERE strRClientStatus='Waiting' AND intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}'`,function (err) {
-      console.log(''+err);
-      res.redirect('/request_add/mylist_'+req.body.transid, flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, rendermylist);
+      console.log(err);
+      res.redirect('/request_add/result_'+req.params.transid + req.params.requestno, flog, findviewlist, findcreatedlist, renderviewlist);
     })
   }
+  else if(req.body.btn1 == 'revert'){
+    db.query(`UPDATE tblresults SET strRClientStatus= 'Waiting' WHERE strRClientStatus IN('Rejected','Approved') AND intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}'`,function (err, results) {
+      console.log(err);
+      db.query(`SELECT COUNT(*) bato FROM tblcontract WHERE intConTransID = ? AND intConHWID =?`,[req.body.transid, req.body.hwid], function(err,results){
+        console.log(err);
+        if(results[0].bato == 0){
+          res.redirect('/request_add/result_'+req.params.transid + req.params.requestno, flog, findviewlist, findcreatedlist, renderviewlist);
+        }
+        else{
+          db.query(`DELETE FROM tblcontract WHERE intConTransID = ? AND intConHWID =? `, [req.body.transid, req.body.hwid], function(err){
+            res.redirect('/request_add/result_'+req.params.transid + req.params.requestno, flog, findviewlist, findcreatedlist, renderviewlist);
+          })
+        }
+      })
+    })
+  }
+
 }
-router.post('/decision_:requestno', flog, clientdecision)
+router.post('/decision_:transid:requestno', flog, clientdecision)
 
 
 // ----------------------------------------------------------------------------------VIEW HW PROFILE
@@ -335,6 +351,17 @@ function findtotnoofacceptcontract(req,res,next){
     return next();
   })
 }
+
+// -------------------------------------------------------------------------------------EDIT SALARY
+router.post('/edit_salary', flog, editsalary)
+function editsalary (req,res){
+  var db = require('../../lib/database')();
+    db.query(`UPDATE tblcontract SET intConSalary=? WHERE intConHWID = ? and intConTransID = ?`, [req.body.salary, req.body.hwid , req.body.transid], function(err){
+      console.log('xxxxxxx'+req.body.id)
+      res.redirect('/request_add/contract_'+req.body.transid,flog, findcreatedlist,rendercontract)
+  })
+}
+
 
 // -------------------------------------------------------------------------------------SEND CONTRACT TO HW
 router.post('/send_contract_hw', flog, sendcontracttohw)

@@ -58,7 +58,7 @@ block content
                         .clearfix
                             each hw in hwtab
                                 .col-md-4.col-sm-4.col-xs-12.profile_details
-                                    form#demo-form2.form-horizontal.form-label-left(method="POST" action="/request_add/decision_"+hw.intRRequest_No)
+                                    form(method="POST" action="/request_add/decision_"+hw.intRRequestID+hw.intRRequest_No)
                                         input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='hwid', value=''+hw.intRHWID, style="display:none;")
                                         input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transid', value=''+hw.intRRequestID, style="display:none;")                              
                                         .well.profile_view
@@ -87,6 +87,7 @@ block content
                                                         button.btn.btn-primary(type='button')
                                                             i.fa.fa-user  
                                                             |  View Profile
+                                                        button.btn.btn-warning.btn-md(type='submit' name='btn1' value='revert') Revert
                         .form-group.pull-right
                             .col-md-12.col-sm-9.col-xs-12.pull-right
                                 br
@@ -95,7 +96,7 @@ block content
                                 each noofapprove in noofapprovetab
                                     each list in listtab
                                         if noofapprove.NOOFapprove > 0 && (list.strRequestStatus!='Pending' && list.strRequestStatus!='Finished')
-                                            button.btn.btn-success.btn-lg(type='button' data-toggle="modal" data-target="#deployment") Proceed to Deployment
+                                            button.btn.btn-success.btn-lg(type='button' data-toggle="modal" data-target="#deployment") Deployment Details
                                         else
     // Small modal
     #myListCancel1.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
@@ -264,36 +265,6 @@ block content
 
                 .modal-footer
                     button.btn.btn-primary.btn-md(type='button'  data-dismiss='modal') Close
-    
-    //- // View Item Modal
-    //- #view_item.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-hidden='true')
-    //-     .modal-dialog.modal-sm
-    //-         .modal-content
-    //-             .modal-header
-    //-                 button.close(type='button', data-dismiss='modal')
-    //-                     span(aria-hidden='true') ×
-    //-                 h4
-    //-                     b Number: 
-    //-                     i#a
-    //-             .modal-body
-    //-                 .tile-stats
-    //-                     ul
-    //-                         li 
-    //-                             b Type Of Service:
-    //-                             i#b
-    //-                         li 
-    //-                             b Quantity:
-    //-                             i#c
-    //-                         li Age:
-    //-                         li 
-    //-                             b Gender:
-    //-                             i#d
-    //-                         li 
-    //-                             b Educational Attainment:
-    //-                             i#e
-    //-                         li 
-    //-                             b Work Experience:
-    //-                             i#f
     
     // Deployment Modal
     #deployment.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-hidden='true')

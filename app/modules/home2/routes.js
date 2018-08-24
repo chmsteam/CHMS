@@ -26,7 +26,7 @@ function findjoboffers(req, res, next){
   db.query(`SELECT * FROM (SELECT * FROM tblresults AS a 
               INNER JOIN tblfinalRequest AS b ON a.intRRequestID = b.intRequestID 
               INNER JOIN tblclient AS c ON b.intRequest_ClientID = c.intClientID 
-              INNER JOIN tbluser AS d ON d.intID = c.intClientID WHERE intRHWID = ? AND (strRHWStatus IN ('Waiting','Approved'))) as ta 
+              INNER JOIN tbluser AS d ON d.intID = c.intClientID WHERE intRHWID = ? AND (strRHWStatus IN ('Waiting','Approved','Rejected'))) as ta 
               INNER JOIN tblinitialrequest as tb 
               INNER JOIN tblmservice AS tm ON tb.intITypeOfService = tm.intID
               WHERE ta.intRRequestID = tb.intIRequestID AND ta.intRRequest_No = tb.intIRequest_No`,[req.session.user], function (err, results) {
@@ -61,7 +61,7 @@ function countcontract(req, res, next){
 function offerdecision(req,res){
   var db = require('../../lib/database')();
   if(req.body.btn1 == 'accept'){
-    db.query(`UPDATE tblresults SET strRHWStatus= 'Approved' WHERE strRHWStatus='Waiting' AND intRRequestID = '${req.body.transID}' AND intRRequest_No = '${req.body.reqno}' AND intRHWID = '${req.session.user}'`,function (err) {
+    db.query(`UPDATE tblresults SET strRHWStatus= 'Approved' WHERE  intRRequestID = '${req.body.transID}' AND intRRequest_No = '${req.body.reqno}' AND intRHWID = '${req.session.user}'`,function (err) {
       console.log(''+err);
       db.query(`UPDATE tblresults SET strRHWStatus='Rejected' WHERE strRHWStatus NOT IN ('Approved') AND intRHWID = '${req.session.user}'`,function (err) {
         console.log(''+err);
@@ -70,7 +70,7 @@ function offerdecision(req,res){
     })
   }
   else if(req.body.btn1 == 'reject'){
-    db.query(`UPDATE tblresults SET strRHWStatus= 'Rejected' WHERE strRHWStatus='Waiting' AND intRRequestID = '${req.body.transID}' AND intRRequest_No = '${req.body.reqno}' AND intRHWID = '${req.session.user}'`,function (err) {
+    db.query(`UPDATE tblresults SET strRHWStatus= 'Rejected' WHERE intRRequestID = '${req.body.transID}' AND intRRequest_No = '${req.body.reqno}' AND intRHWID = '${req.session.user}'`,function (err) {
       console.log(''+err);
       res.redirect('/home_householdworker', flog, findjoboffers,noofincomingrequests, countcontract, findcontract, render);
     })

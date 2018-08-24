@@ -191,6 +191,9 @@ block content
                                                                     button.btn.btn-success(type='submit' name='btn1' value='sendtohw')
                                                                         i.fa.fa-paper-plane 
                                                                         |  Send Request
+                                                                    button.btn.btn-danger(type='submit' name='btn1' value='removefromlist')
+                                                                        i.fa.fa-trash
+                                                                        |  Remove From List
                                                                 else if selected.strRHWStatus == 'Waiting' && selected.strRClientStatus ==''
                                                                     button.btn.btn-warning(type='submit' name='btn1' value='cancelsendtohw')
                                                                         i.fa.fa-times  
@@ -201,7 +204,7 @@ block content
                                                                         |  Send to Client
                                                                 else if selected.strRHWStatus == 'Rejected' && selected.strRClientStatus ==''
                                                                     button.btn.btn-danger(type='submit' name='btn1' value='removefromlist')
-                                                                        i.fa.fa-eye-lash 
+                                                                        i.fa.fa-fa-trash
                                                                         |  Remove
                         
                                 center

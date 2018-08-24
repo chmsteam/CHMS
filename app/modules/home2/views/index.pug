@@ -77,14 +77,29 @@ block content
                                                                                         p
                                                                                         br
                                                                                 .col-xs-12.bottom.text-center
-                                                                                    //- -var fullname = offer.strLName + " " + offer.strFName
-                                                                                    //- -var address = offer.strCAHouseNo + " " + offer.strCAStreet + " " + offer.strCAProvince + ", " + offer.strCity
-                                                                                    //- -console.log(fullname)
-                                                                                    //- -console.log(address)
-                                                                                    //- -console.log("dito")
-                                                                                    //- data-name=fullname, data-add = address, data-needed= offer.datRequestNeedDate, data-sal=offer.deciRequestSalary 
-                                                                                    button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjo', data-id=offer.intRRequestID,
-                                                                                        data-id2=offer.intRRequest_No) 
+                                                                                    -var fullname = offer.strLName + " " + offer.strFName
+                                                                                    -var address = offer.strCAHouseNo + " " + offer.strCAStreet + " " + offer.strCAProvince + ", " + offer.strCity
+                                                                                    button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjob', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No,
+                                                                                            data-name=fullname, data-add = address, data-needed= offer.datRequestNeedDate, data-sal=offer.deciRequestSalary, data-serv=offer.strName)
+                                                                                        | View Details
+                                                                            else if offer.strRHWStatus == 'Rejected' && offer.strRClientStatus ==''
+                                                                                .col-xs-12
+                                                                                    center
+                                                                                        h2
+                                                                                            br
+                                                                                            | Type of Request:
+                                                                                            b &nbsp&nbspAdd Household Worker
+                                                                                            br
+                                                                                    .col-xs-12.text-center
+                                                                                        p
+                                                                                        h2 You rejected this job offer from #{offer.strFName} #{offer.strLName} .
+                                                                                        p
+                                                                                        br
+                                                                                .col-xs-12.bottom.text-center
+                                                                                    -var fullname = offer.strLName + " " + offer.strFName
+                                                                                    -var address = offer.strCAHouseNo + " " + offer.strCAStreet + " " + offer.strCAProvince + ", " + offer.strCity
+                                                                                    button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjob', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No,
+                                                                                            data-name=fullname, data-add = address, data-needed= offer.datRequestNeedDate, data-sal=offer.deciRequestSalary, data-serv=offer.strName)
                                                                                         | View Details
                                                                             else if offer.strRHWStatus == 'Approved' && offer.strRClientStatus =='Waiting'
                                                                                 .col-xs-12

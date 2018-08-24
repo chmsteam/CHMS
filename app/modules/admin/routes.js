@@ -700,7 +700,7 @@ router.get('/transaction_client_request_:requestid', flog, findclientrequestspec
 //----------------------------------------------------------------------------------------------------- 
 function rendertransclientno(req,res){
   if(req.valid==0)
-    res.render('admin/views/transaction_client_request_result',{usertab: req.user, listtab:req.list, requesttab: req.request, resultatab:req.resulta});
+    res.render('admin/views/transaction_client_request_result',{usertab: req.user, listtab:req.list, requesttab: req.request, resultatab:req.resulta, otherresultatab: req.otherresulta});
   else if(req.valid==1)
     res.render('admin/views/invalidpages/normalonly');
   else
@@ -744,7 +744,7 @@ function resultquery(req,res,next){
                           Group by intHWID_workbg) as tb 
                     ON tb.intHWID_workbg =  ta.intHWID
                     WHERE ((strStatus = 'Registered') AND (intServiceID = ${results[0].intITypeOfService}) AND (age BETWEEN ${results[0].intIRequestAge1} AND ${results[0].intIRequestAge2})
-                            AND (strGender IN ('Male', 'Female')) AND (strType="${results[0].strIRequestEduc}")) AND intHWID NOT IN(SELECT intRHWID FROM tblresults WHERE intRRequestID = ${req.params.requestid} AND intRRequest_No =${req.params.requestno})
+                            AND (strGender IN ('Male', 'Female')) AND (strType="${results[0].strIRequestEduc}")) AND intHWID NOT IN(SELECT intRHWID FROM tblresults WHERE intRRequestID = ${req.params.requestid} )
                     HAVING Work_exp >= ${results[0].intIRequestExp} `,function(err,results2){
           console.log('query1');
           if (err) return res.send(err);
@@ -763,7 +763,7 @@ function resultquery(req,res,next){
                           Group by intHWID_workbg) as tb 
                     ON tb.intHWID_workbg =  ta.intHWID
                     WHERE ((strStatus = 'Registered') AND (intServiceID = ${results[0].intITypeOfService}) AND (age BETWEEN ${results[0].intIRequestAge1} AND ${results[0].intIRequestAge2})
-                            AND (strGender = '${results[0].strIRequestGender}') AND (strType="${results[0].strIRequestEduc}")) AND intHWID NOT IN(SELECT intRHWID FROM tblresults WHERE intRRequestID = ${req.params.requestid} AND intRRequest_No =${req.params.requestno})
+                            AND (strGender = '${results[0].strIRequestGender}') AND (strType="${results[0].strIRequestEduc}")) AND intHWID NOT IN(SELECT intRHWID FROM tblresults WHERE intRRequestID = ${req.params.requestid})
                     HAVING Work_exp >= ${results[0].intIRequestExp} `,function(err,results2){
           console.log('query2');
           if (err) return res.send(err);
@@ -774,7 +774,56 @@ function resultquery(req,res,next){
       }
   });
 }
-router.get('/transaction_result_:requestid:requestno', flog, findclientrequestspecific2, resultquery, findclientlistno, rendertransclientno);
+function resultothers(req,res,next){
+  var db = require('../../lib/database')();
+  var db2 = require('../../lib/database')();
+  db.query(`SELECT * FROM tblinitialrequest WHERE intIRequestID=? AND intIRequest_No=?`,[req.params.requestid, req.params.requestno], function (err, results) {
+    if (!results[0])
+    if (err) return res.send(err);
+    console.log('');
+      if (results[0].strIRequestGender == 'Any'){
+        db2.query(`SELECT *
+                    FROM
+                        (SELECT a.intHWID, b.strType, g.strName, f.strStatus, CONCAT(f.strFName,' ', f.strLName) AS hwname, a.intServiceID, a.strGender, TIMESTAMPDIFF(YEAR,a.datBirthDay,CURDATE()) as age
+                        FROM tblhouseholdworker as a INNER JOIN tblhw_educbg as b on a.intHWID= b.intHWID_educbg  inner join tblmservice as g on a.intServiceID=g.intID inner join tbluser as f on a.intHWID = f.intID
+                        ) as ta INNER JOIN
+                        (SELECT intHWID_workbg, sum(intWorkEnd - intWorkStart) AS Work_exp
+                          FROM tblhw_workbg
+                          Group by intHWID_workbg) as tb 
+                    ON tb.intHWID_workbg =  ta.intHWID
+                    WHERE (((strStatus = 'Registered') AND (intServiceID = ${results[0].intITypeOfService})) OR (age BETWEEN ${results[0].intIRequestAge1} AND ${results[0].intIRequestAge2})
+                            OR (strGender IN ('Male', 'Female')) OR (strType="${results[0].strIRequestEduc}")) AND intHWID NOT IN(SELECT intRHWID FROM tblresults WHERE intRRequestID = ${req.params.requestid})
+                    HAVING Work_exp >= ${results[0].intIRequestExp} `,function(err,results2){
+          console.log('query1');
+          if (err) return res.send(err);
+          req.otherresulta = results2; 
+          return next();
+        })
+      }
+      else {
+        db2.query(`SELECT *
+                    FROM
+                        (SELECT a.intHWID, b.strType, g.strName, f.strStatus, CONCAT(f.strFName,' ', f.strLName) AS hwname, a.intServiceID, a.strGender, TIMESTAMPDIFF(YEAR,a.datBirthDay,CURDATE()) as age
+                        FROM tblhouseholdworker as a INNER JOIN tblhw_educbg as b on a.intHWID= b.intHWID_educbg  inner join tblmservice as g on a.intServiceID=g.intID inner join tbluser as f on a.intHWID = f.intID
+                        ) as ta INNER JOIN
+                        (SELECT intHWID_workbg, sum(intWorkEnd - intWorkStart) AS Work_exp
+                          FROM tblhw_workbg
+                          Group by intHWID_workbg) as tb 
+                    ON tb.intHWID_workbg =  ta.intHWID
+                    WHERE (((strStatus = 'Registered') AND (intServiceID = ${results[0].intITypeOfService})) OR (age BETWEEN ${results[0].intIRequestAge1} AND ${results[0].intIRequestAge2})
+                            OR (strGender = '${results[0].strIRequestGender}') OR (strType="${results[0].strIRequestEduc}")) AND intHWID NOT IN(SELECT intRHWID FROM tblresults WHERE intRRequestID = ${req.params.requestid})
+                    HAVING Work_exp >= ${results[0].intIRequestExp} `,function(err,results2){
+          console.log('query2');
+          if (err) return res.send(err);
+          req.otherresulta = results2; 
+          return next();
+        })
+
+      }
+  });
+
+}
+router.get('/transaction_result_:requestid:requestno', flog, findclientrequestspecific2, resultquery, resultothers, findclientlistno, rendertransclientno);
 
 // --------------------------------------------------------------------------------TRANSACTIONS ADD TO LIST
 router.post('/transaction_add_to_list_:requestid:requestno:requesthw', flog, findclientrequestspecific2, resultquery, findclientlistno, addtolist);

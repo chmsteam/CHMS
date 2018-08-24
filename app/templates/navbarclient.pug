@@ -290,3 +290,17 @@ html(lang='en')
             modal.find('.modal-body #exampleTextarea').val(reason) // reason kung bakit
             $('#imagepre').attr('src', image); // image
         });
+
+        //----------- edit salary
+          $('#edit_salary').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('id')
+              var hwid = button.data('hwid')
+              var salary = button.data('salary')
+
+              var modal = $(this)
+              modal.find('.modal-body #id').val(id)
+              modal.find('.modal-body #hwid').val(hwid)
+              modal.find('.modal-body #salary').val(salary)
+              
+            });
