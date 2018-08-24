@@ -89,6 +89,46 @@ router.post('/transaction_hhRequest_leave/approve', (req, res) =>{
       });
 })
 
+//------------------------------------------------------Household Request (REPLACEMENT OF CLIENT)
+function hhReqReplacementrender(req,res){
+  if(req.valid==0)
+    res.render('admin/views/transaction_replacement_of_client',{usertab: req.user, replacetab: req.replace});
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+
+function findreplacementofclient(req,res, next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT *, u.intID AS clientid, u.strFName AS clientfname, u.strLName AS clientlname, uu.intID AS hwid, uu.strFName AS hwfname, uu.strLName AS hwlname FROM tblfinalrequest INNER JOIN tbluser as u on u.intID = intRequest_ClientID INNER JOIN tblreplacement ON intReplaceReqID = intRequestID INNER JOIN tbluser AS uu ON uu.intID = intReplaceOldHWID
+  WHERE strRequestType='Replace Client'`, function(err,results) {
+    console.log(err)
+    req.replace = results
+    return next();
+  });
+}
+//Reject Household Request Replacement
+router.post('/transaction_replacement_of_client/actions',flog, repofcliaction);
+function repofcliaction (req,res){
+  var db = require('../../lib/database')();
+  if (req.body.name='accept'){
+    db.query(`UPDATE tblfinalrequest SET strRequestStatus='Draft' WHERE intRequestID = ?`,[req.body.transid], function(err,results){
+      res.redirect('/admin/transaction_replacement_of_client', flog, findreplacementofclient, hhReqReplacementrender)
+    })
+  }
+  else if (req.body.name='reject'){
+    db.query(`UPDATE tblfinalrequest SET strRequestStatus='Rejected' WHERE intRequestID = ?`,[req.body.transid], function(err,results){
+      res.redirect('/admin/transaction_replacement_of_client', flog, findreplacementofclient, hhReqReplacementrender)
+    })
+  }
+}
+
+
+
+
+
+
 //-------------------------------------------------------------------------------------DASHBOARD
 function render(req,res){
   if(req.valid==0)
@@ -889,8 +929,43 @@ function clientsettledecision(req,res){
     
   }
 }
+
 router.post('/transaction_settledecision_replacementclient',flog, clientsettledecisionreplacement, clientsettledecisionreplacementleft);
 function clientsettledecisionreplacement(req,res, next){
+  var db = require('../../lib/database')();
+  // var db2 = require('../../lib/database')();
+  if(req.body.btn1='settle'){
+    db.query(`UPDATE tbltransaction SET strORNumber=?, datDateSettled=?, strTStatus='On-going' WHERE intTRequestID='${req.body.transid}'`,[req.body.ornum, req.body.datesettled], function (err) {
+      console.log(err);
+      db.query(`UPDATE tblfinalrequest SET strRequestStatus ='Finished' WHERE intRequestID='${req.body.transid}'`, function (err) {
+        console.log(err);
+        db.query(`SELECT * FROM tblfreereplacement`, function (err,result) {
+          console.log(err);
+          db.query(`UPDATE tblcontract SET datDateStarted ='${req.body.datesettled}', strCurStatus='Current', intConReplacementLeft='${result[0].intFreeReplacement}' WHERE intConTransID='${req.body.transid}'`, function (err) {
+            console.log(err);
+            db.query(`UPDATE tbluser u INNER JOIN tblcontract c ON u.intID = c.intConHWID SET u.strStatus ='Deployed' WHERE u.strType = 'Household Worker' AND c.intConTransID = '${req.body.transid}'`, function (err) {
+              console.log(err);
+              db.query(`UPDATE tblreplacement SET intReplaceNewHWID =(SELECT intConHWID FROM tblcontract WHERE intConTransID = ?) WHERE intReplaceReqID = ?`, [req.body.transid, req.body.transid],function (err) {
+                console.log(err);
+                db.query(`UPDATE tblreplacement SET intReplaceNewHWID =(SELECT intConHWID FROM tblcontract WHERE intConTransID = ?) WHERE intReplaceReqID = ?`, [req.body.transid, req.body.transid],function (err) {
+                  console.log(err);
+                  return next();
+                  // res.redirect('/admin/transaction_settle')
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  }
+  else{
+    
+  }
+}
+
+router.post('/transaction_settledecision_replaceclient',flog, clientsettledecisionreplaceclient, clientsettledecisionreplacementleft2);
+function clientsettledecisionreplaceclient(req,res, next){
   var db = require('../../lib/database')();
   // var db2 = require('../../lib/database')();
   if(req.body.btn1='settle'){
@@ -926,6 +1001,15 @@ function clientsettledecisionreplacement(req,res, next){
 function clientsettledecisionreplacementleft(req,res){
   var db = require('../../lib/database')();
   db.query(`SELECT (intConReplacementLeft-1) AS Remain  FROM tblreplacement INNER JOIN tblcontract ON intReplaceOldHWID=intConHWID WHERE intReplaceReqID='${req.body.transid}'`, function (err, results) {
+    console.log(err)
+    db.query(`UPDATE tblcontract SET intConReplacementLeft = ${results[0].Remain} WHERE intConTransID='${req.body.transid}'`)
+    db.query(`UPDATE tblcontract c INNER JOIN tblreplacement r ON c.intConHWID = r.intReplaceOldHWID INNER JOIN tbluser ON intID = r.intReplaceOldHWID SET c.strCurStatus ='Replaced', strStatus='Registered' WHERE  c.strCurStatus ='To be replaced' AND strStatus='Deployed' AND r.intReplaceReqID = '${req.body.transid}'`)
+    res.redirect('/admin/transaction_settle')
+  });
+}
+function clientsettledecisionreplacementleft2(req,res){
+  var db = require('../../lib/database')();
+  db.query(`SELECT (intConReplacementLeft) AS Remain  FROM tblreplacement INNER JOIN tblcontract ON intReplaceOldHWID=intConHWID WHERE intReplaceReqID='${req.body.transid}'`, function (err, results) {
     console.log(err)
     db.query(`UPDATE tblcontract SET intConReplacementLeft = ${results[0].Remain} WHERE intConTransID='${req.body.transid}'`)
     db.query(`UPDATE tblcontract c INNER JOIN tblreplacement r ON c.intConHWID = r.intReplaceOldHWID INNER JOIN tbluser ON intID = r.intReplaceOldHWID SET c.strCurStatus ='Replaced', strStatus='Registered' WHERE  c.strCurStatus ='To be replaced' AND strStatus='Deployed' AND r.intReplaceReqID = '${req.body.transid}'`)
@@ -1761,4 +1845,7 @@ function findfreereplacement(req, res, next){
 //-------------------------------------------Router.get(household request)
 var leaveReqFunc = [displayLeaveReq]
 router.get('/transaction_hhRequest_leave', flog, leaveReqFunc, hhReqLeave_render );
+router.get('/transaction_replacement_of_client', flog, findreplacementofclient, hhReqReplacementrender)
+
+
 exports.admin= router;

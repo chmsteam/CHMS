@@ -81,7 +81,7 @@ db.query("SELECT * FROM tblfinalrequest WHERE intRequestID=? AND intRequest_Clie
 }
 function findcreateditem(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT * FROM tblinitialrequest INNER JOIN tblMservice ON intITypeOfService = intID WHERE intIRequestID=?",[req.params.transid], function (err, results) {
+  db.query("SELECT *, count(*) as itemnum FROM tblinitialrequest INNER JOIN tblMservice ON intITypeOfService = intID WHERE intIRequestID=?",[req.params.transid], function (err, results) {
     if (err) return res.send(err);
     if (!results[0])
     console.log('');
@@ -180,7 +180,21 @@ function submitrequest(req,res){
     res.redirect('/request_replacement/replace_list_'+ req.params.transid + req.params.hwid, flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findoldhwservice, renderreplacementlist);
   });
 }
-router.get('/submit_request_:transid:hwid',flog,submitrequest);
+
+router.post('/submit_request_:transid:hwid',flog,submitrequest);
+
+function submitrequest2(req,res){
+  var db = require('../../lib/database')();
+  var sql = "UPDATE tblfinalrequest SET strRequestStatus= 'On process' WHERE intRequestID = ?";
+  db.query(sql,[req.params.transid],function (err) {
+    if (err) return res.send(err);
+    db.query(`UPDATE tblcontract SET strCurStatus = 'To be replaced' WHERE intConHWID = ?`,[req.params.hwid], function (err){
+      console.log(err)
+      res.redirect('/request_replacement/replace_list_'+ req.params.transid + req.params.hwid, flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findoldhwservice, renderreplacementlist);
+    })
+  });
+}
+router.post('/submit_replaceclient_:transid:hwid',flog,submitrequest2);
 
 // -----------------------------------------------------------------------------VIEW LIST RESULT
 router.get('/result_:transid:transno:hwid', flog, findviewlist, findcreatedlist, findoldhwservice, renderviewlist)

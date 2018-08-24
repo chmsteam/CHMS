@@ -121,6 +121,8 @@ html(lang='en')
                               ul.nav.child_menu
                                 li.sub_menu
                                   a(href='transaction_hhRequest_leave') Leave
+                                li.sub_menu
+                                  a(href='transaction_replacement_of_client') Replacement of Client
                             
                         li 
                           a
@@ -298,272 +300,282 @@ html(lang='en')
               .clearfix
           // /footer content
           
-      // jQuery
-      script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
-      // Bootstrap
-      script(src='/admin/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js')
-      // Datatables
-      script(src='/admin/gentelella/vendors/datatables.net/js/jquery.dataTables.min.js')
-      script(src='/admin/gentelella/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')
-      script(src='/admin/gentelella/build/js/custom.min.js')
-      // Switchery
-      script(src='/admin/gentelella/vendors/switchery/dist/switchery.min.js')
-      // Form wizard
-      script(src='/admin/gentelella/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js')
-      // starrr
-      script(src='/admin/gentelella/vendors/starrr/dist/starrr.js')
-      // iCheck
-      script(src='/admin/gentelella/vendors/iCheck/icheck.min.js')      
-      //for edit
-      // bootstrap-daterangepicker
-      script(src='/admin/gentelella/vendors/moment/min/moment.min.js')
-      script(src='/admin/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.js')
-      // jQuery Tags Input
-      script(src='/admin/gentelella/vendors/jquery.tagsinput/src/jquery.tagsinput.js')
+          // jQuery
+          script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+          // Bootstrap
+          script(src='/admin/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js')
+          // Datatables
+          script(src='/admin/gentelella/vendors/datatables.net/js/jquery.dataTables.min.js')
+          script(src='/admin/gentelella/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')
+          script(src='/admin/gentelella/build/js/custom.min.js')
+          // Switchery
+          script(src='/admin/gentelella/vendors/switchery/dist/switchery.min.js')
+          // Form wizard
+          script(src='/admin/gentelella/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js')
+          // starrr
+          script(src='/admin/gentelella/vendors/starrr/dist/starrr.js')
+          // iCheck
+          script(src='/admin/gentelella/vendors/iCheck/icheck.min.js')      
+          //for edit
+          // bootstrap-daterangepicker
+          script(src='/admin/gentelella/vendors/moment/min/moment.min.js')
+          script(src='/admin/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.js')
+          // jQuery Tags Input
+          script(src='/admin/gentelella/vendors/jquery.tagsinput/src/jquery.tagsinput.js')
 
 
-      //preloader
-      script(src='/assets4/js/custom1.js')
-      script(src='/assets4/lib/wow/wow.min.js')
+          //preloader
+          script(src='/assets4/js/custom1.js')
+          script(src='/assets4/lib/wow/wow.min.js')
 
-      script.
-        //maintenance requirement
-        $('#edit_requirement').on('show.bs.modal', function (event) {
-          var button = $(event.relatedTarget)
-          var id = button.data('id')
-          var name = button.data('name')
-          var type = button.data('type')
+          script.
+            //maintenance requirement
+            $('#edit_requirement').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('id')
+              var name = button.data('name')
+              var type = button.data('type')
 
-          var modal = $(this)
-          modal.find('.modal-body #_id').val(id)
-          modal.find('.modal-body #_name').val(name)
-          modal.find('.modal-body #_type').val(type)
-        });
-        $('#edit_city').on('show.bs.modal', function (event) {
-          var button = $(event.relatedTarget)
-          var id = button.data('id')
-          var name = button.data('name')
+              var modal = $(this)
+              modal.find('.modal-body #_id').val(id)
+              modal.find('.modal-body #_name').val(name)
+              modal.find('.modal-body #_type').val(type)
+            });
+            $('#edit_city').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('id')
+              var name = button.data('name')
 
-          var modal = $(this)
-          modal.find('.modal-body #_id').val(id)
-          modal.find('.modal-body #_name').val(name)
-        });
-        $('#edit_leave').on('show.bs.modal', function (event) {
-          var button = $(event.relatedTarget)
-          var id = button.data('id')
-          var name = button.data('name')
-          var day = button.data('day')
+              var modal = $(this)
+              modal.find('.modal-body #_id').val(id)
+              modal.find('.modal-body #_name').val(name)
+            });
+            $('#edit_leave').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('id')
+              var name = button.data('name')
+              var day = button.data('day')
 
-          var modal = $(this)
-          modal.find('.modal-body #_id').val(id)
-          modal.find('.modal-body #_name').val(name)
-          modal.find('.modal-body #_day').val(day)
-        });
-        $('#editskill').on('show.bs.modal', function (event) {
-          var button = $(event.relatedTarget)
-          var name = button.data('skillname')
-          var id = button.data('skillid')
-          var servid = button.data('serviceid')
-          var servname = button.data('servicename')
+              var modal = $(this)
+              modal.find('.modal-body #_id').val(id)
+              modal.find('.modal-body #_name').val(name)
+              modal.find('.modal-body #_day').val(day)
+            });
+            $('#editskill').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var name = button.data('skillname')
+              var id = button.data('skillid')
+              var servid = button.data('serviceid')
+              var servname = button.data('servicename')
 
-          var modal = $(this)
-          modal.find('.modal-body #_skillid').val(id)
-          modal.find('.modal-body #_skillname').val(name)
-          modal.find('.modal-body #_serviceid').val(servid)
-          modal.find('.modal-body #_servicename').val(servname)
-          });
-        //- client list
-        $('#req_unregistered').on('show.bs.modal', function (event) {
-          var button = $(event.relatedTarget)
-          var id = button.data('id')
+              var modal = $(this)
+              modal.find('.modal-body #_skillid').val(id)
+              modal.find('.modal-body #_skillname').val(name)
+              modal.find('.modal-body #_serviceid').val(servid)
+              modal.find('.modal-body #_servicename').val(servname)
+              });
+            //- client list
+            $('#req_unregistered').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('id')
 
-          var modal = $(this)
-          modal.find('.modal-body #_id').val(id)
-        });
-        $('#req_rejected').on('show.bs.modal', function (event) {
-          var button = $(event.relatedTarget)
-          var id = button.data('id')
+              var modal = $(this)
+              modal.find('.modal-body #_id').val(id)
+            });
+            $('#req_rejected').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('id')
 
-          var modal = $(this)
-          modal.find('.modal-body #_id').val(id)
-        });
+              var modal = $(this)
+              modal.find('.modal-body #_id').val(id)
+            });
 
-        //hwlist
-        $('#req_unregistered_hw').on('show.bs.modal', function (event) {
-          var button = $(event.relatedTarget)
-          var id = button.data('id')
-          var email = button.data('email')
-          var fname = button.data('fname')
-          var lname = button.data('lname')
+            //hwlist
+            $('#req_unregistered_hw').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('id')
+              var email = button.data('email')
+              var fname = button.data('fname')
+              var lname = button.data('lname')
 
-          var modal = $(this)
-          modal.find('.modal-body #_id').val(id)
-          modal.find('.modal-body #email').val(email)
-          modal.find('.modal-body #fname').val(fname)
-          modal.find('.modal-body #lname').val(lname)
-        });
+              var modal = $(this)
+              modal.find('.modal-body #_id').val(id)
+              modal.find('.modal-body #email').val(email)
+              modal.find('.modal-body #fname').val(fname)
+              modal.find('.modal-body #lname').val(lname)
+            });
 
-        $('#req_rejected_hw').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget)
-            var id = button.data('id')
+            $('#req_rejected_hw').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget)
+                var id = button.data('id')
 
-            var modal = $(this)
-            modal.find('.modal-body #_id').val(id)
-        });
+                var modal = $(this)
+                modal.find('.modal-body #_id').val(id)
+            });
 
-        $('#datatable2').DataTable();
-        $('#datatable3').DataTable();
-        //- utilities
-        $('#edit_fee').on('show.bs.modal', function (event) {
-          var button = $(event.relatedTarget)
-          var id = button.data('id')
-          var name = button.data('name')
-          var fee = button.data('fee')
+            $('#datatable2').DataTable();
+            $('#datatable3').DataTable();
+            //- utilities
+            $('#edit_fee').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('id')
+              var name = button.data('name')
+              var fee = button.data('fee')
 
-          var modal = $(this)
-          modal.find('.modal-body #_id').val(id)
-          modal.find('.modal-body #_name').val(name)
-          modal.find('.modal-body #_fee').val(fee)
-        });
+              var modal = $(this)
+              modal.find('.modal-body #_id').val(id)
+              modal.find('.modal-body #_name').val(name)
+              modal.find('.modal-body #_fee').val(fee)
+            });
 
-        //- transaction view request modal
-        $('#view_item').on('show.bs.modal', function (event) {
-          var button = $(event.relatedTarget)
-          var a = button.data('requestno')
-          var b = button.data('servicename')
-          var c = button.data('quantity')
-          var d = button.data('gender')
-          var e = button.data('educ')
-          var f = button.data('exp')
-          var age1 = button.data('age1')
-          var age2 = button.data('age2')
-          var sal  = button.data('sal')
+            //- transaction view request modal
+            $('#view_item').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var a = button.data('requestno')
+              var b = button.data('servicename')
+              var c = button.data('quantity')
+              var d = button.data('gender')
+              var e = button.data('educ')
+              var f = button.data('exp')
+              var age1 = button.data('age1')
+              var age2 = button.data('age2')
+              var sal  = button.data('sal')
 
-          var modal = $(this)
-            modal.find('.modal-header #a').text(' '+a)
-            modal.find('.modal-header #title').text(b)
+              var modal = $(this)
+                modal.find('.modal-header #a').text(' '+a)
+                modal.find('.modal-header #title').text(b)
 
-            modal.find('.modal-body #b').text(' '+b)
-            modal.find('.modal-body #c').text(' '+c)
-            modal.find('.modal-body #d').text(' '+d)
-            modal.find('.modal-body #e').text(' '+e)
-            modal.find('.modal-body #f').text(' '+f)
-            modal.find('.modal-body #sal').text(' '+sal)
-            modal.find('.modal-body #age1').text(' '+age1)
-            modal.find('.modal-body #age2').text(' '+age2)
-        });
+                modal.find('.modal-body #b').text(' '+b)
+                modal.find('.modal-body #c').text(' '+c)
+                modal.find('.modal-body #d').text(' '+d)
+                modal.find('.modal-body #e').text(' '+e)
+                modal.find('.modal-body #f').text(' '+f)
+                modal.find('.modal-body #sal').text(' '+sal)
+                modal.find('.modal-body #age1').text(' '+age1)
+                modal.find('.modal-body #age2').text(' '+age2)
+            });
 
-        //- settle transcation
-        $('#settle').on('show.bs.modal', function (event) {
-          var button = $(event.relatedTarget)
-          var id = button.data('id')
+            //- settle transcation
+            $('#settle').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('id')
 
-          var modal = $(this)
-          modal.find('.modal-body #_id').val(id)
-          modal.find('.modal-header #a').text(id)
+              var modal = $(this)
+              modal.find('.modal-body #_id').val(id)
+              modal.find('.modal-header #a').text(id)
 
-        });
+            });
 
-        $('#settle_replacementclient').on('show.bs.modal', function (event) {
-          var button = $(event.relatedTarget)
-          var id = button.data('id')
+            $('#settle_replacementclient').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('id')
 
-          var modal = $(this)
-          modal.find('.modal-body #_id').val(id)
-          modal.find('.modal-header #a').text(id)
-          
-        });
-        //other skills
-        $('select.SelectTemplate').change(function() {
-                var currentVal = $('textarea').val();
-                $('textarea.AddMessage').val(currentVal + $(this).val()); 
-        });
-        //profile picture
-        function PreviewImage1() {
-            var oFReader = new FileReader();
-            oFReader.readAsDataURL(document.getElementById("uploadImage1").files[0]);
-            oFReader.onload = function (oFREvent) {
-            document.getElementById("uploadPreview1").src = oFREvent.target.result;
-            };
-          };
-        $('#editpic').on('show.bs.modal', function (event) {
-          var button = $(event.relatedTarget)
-          var id = button.data('id')
-          var image = button.data('image')
+              var modal = $(this)
+              modal.find('.modal-body #_id').val(id)
+              modal.find('.modal-header #a').text(id)
+              
+            });
 
-          var modal = $(this)
-          modal.find('.modal-body #id').val(id)
-          $('#uploadPreview1').attr('src', image);
-        });
-        //- -------------------------------------------------incident report client
-        $('#view_report').on('show.bs.modal', function (event) {
-          var button = $(event.relatedTarget)
-          var id = button.data('id')
-          var doreport = button.data('doreport')
-          var reportname= button.data('reportname')
-          var desc= button.data('desc')
-          var reason= button.data('reason')
-          var recfname= button.data('recfname')
-          var reclname= button.data('reclname')
-          var rec= button.data('rec')
+            $('#settle_replaceclient').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('id')
 
-          var modal = $(this)
+              var modal = $(this)
+              modal.find('.modal-body #_id').val(id)
+              modal.find('.modal-header #a').text(id)
+              
+            });
+            //other skills
+            $('select.SelectTemplate').change(function() {
+                    var currentVal = $('textarea').val();
+                    $('textarea.AddMessage').val(currentVal + $(this).val()); 
+            });
+            //profile picture
+            function PreviewImage1() {
+                var oFReader = new FileReader();
+                oFReader.readAsDataURL(document.getElementById("uploadImage1").files[0]);
+                oFReader.onload = function (oFREvent) {
+                document.getElementById("uploadPreview1").src = oFREvent.target.result;
+                };
+              };
+            $('#editpic').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('id')
+              var image = button.data('image')
 
-          modal.find('.modal-body #id').val(id)
-          modal.find('.modal-body #doreport').val(doreport)
-          modal.find('.modal-body #reportname').val(reportname)
-          modal.find('.modal-body #desc').val(desc)
-          modal.find('.modal-body #reason').val(reason)
-          modal.find('.modal-body #recfname').val(recfname +' '+ reclname)
-          modal.find('.modal-body #rec').val(rec)
-        });
-        
-        $('#dec').on('show.bs.modal', function (event) {
-          var button = $(event.relatedTarget)
-          var text = button.data('desc')
+              var modal = $(this)
+              modal.find('.modal-body #id').val(id)
+              $('#uploadPreview1').attr('src', image);
+            });
+            //- -------------------------------------------------incident report client
+            $('#view_report').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('id')
+              var doreport = button.data('doreport')
+              var reportname= button.data('reportname')
+              var desc= button.data('desc')
+              var reason= button.data('reason')
+              var recfname= button.data('recfname')
+              var reclname= button.data('reclname')
+              var rec= button.data('rec')
 
-          var modal = $(this)
-          modal.find('.modal-body #desc').text(text)
-          
-        });
-        //-----------------------------------------------------CLIENT UPDATE PIC
-        //profile picture
-        function PreviewImage2() {
-            var oFReader = new FileReader();
-            oFReader.readAsDataURL(document.getElementById("uploadImage2").files[0]);
-            oFReader.onload = function (oFREvent) {
-            document.getElementById("uploadPreview2").src = oFREvent.target.result;
-            };
-          };
-        $('#editpic1').on('show.bs.modal', function (event) {
-          var button = $(event.relatedTarget)
-          var id = button.data('id')
-          var image = button.data('image')
+              var modal = $(this)
 
-          var modal = $(this)
-          modal.find('.modal-body #id').val(id)
-          $('#uploadPreview2').attr('src', image);
-          
-        });
-        //view leave request
-        $('#viewLReport').on('show.bs.modal', function (event) {
-          var button = $(event.relatedTarget)
-          var start = button.data('start')
-          var end = button.data('end')
-          var add = button.data('add')
-          var reason = button.data('reason')
+              modal.find('.modal-body #id').val(id)
+              modal.find('.modal-body #doreport').val(doreport)
+              modal.find('.modal-body #reportname').val(reportname)
+              modal.find('.modal-body #desc').val(desc)
+              modal.find('.modal-body #reason').val(reason)
+              modal.find('.modal-body #recfname').val(recfname +' '+ reclname)
+              modal.find('.modal-body #rec').val(rec)
+            });
+            
+            $('#dec').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var text = button.data('desc')
 
-          var modal = $(this)
-          modal.find('.modal-body #start').text(start)
-          modal.find('.modal-body #end').text(end)
-          modal.find('.modal-body #add').text(add)
-          modal.find('.modal-body #reason').text(reason)
-        });
-        $('#rejectLReq').on('show.bs.modal', function (event) {
-          var button = $(event.relatedTarget)
-          var id = button.data('id')
+              var modal = $(this)
+              modal.find('.modal-body #desc').text(text)
+              
+            });
+            //-----------------------------------------------------CLIENT UPDATE PIC
+            //profile picture
+            function PreviewImage2() {
+                var oFReader = new FileReader();
+                oFReader.readAsDataURL(document.getElementById("uploadImage2").files[0]);
+                oFReader.onload = function (oFREvent) {
+                document.getElementById("uploadPreview2").src = oFREvent.target.result;
+                };
+              };
+            $('#editpic1').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('id')
+              var image = button.data('image')
 
-          var modal = $(this)
-          modal.find('.modal-body #id').val(id)
+              var modal = $(this)
+              modal.find('.modal-body #id').val(id)
+              $('#uploadPreview2').attr('src', image);
+              
+            });
+            //view leave request
+            $('#viewLReport').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var start = button.data('start')
+              var end = button.data('end')
+              var add = button.data('add')
+              var reason = button.data('reason')
 
-        });
+              var modal = $(this)
+              modal.find('.modal-body #start').text(start)
+              modal.find('.modal-body #end').text(end)
+              modal.find('.modal-body #add').text(add)
+              modal.find('.modal-body #reason').text(reason)
+            });
+            $('#rejectLReq').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('id')
+
+              var modal = $(this)
+              modal.find('.modal-body #id').val(id)
+
+            });
