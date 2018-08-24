@@ -56,33 +56,86 @@ block content
                                             #tab_content2.tab-pane.fade(role='tabpanel', aria-labelledby='profile-tab')
                                                 // Incoming Request
                                                 each lr in leaveReq
-                                                    .row
-                                                        .col-md-12
-                                                            br
-                                                            .x_content
-                                                                .row
-                                                                    .col-md-12.col-sm-4.col-xs-12.profile_details
-                                                                        .well.profile_view(style='width:100%')
-                                                                            .col-xs-12
-                                                                                center
-                                                                                    h2
+                                                    if lr.strLeaveStatus == 'For Client Approval'
+                                                        .row
+                                                            .col-md-12
+                                                                br
+                                                                .x_content
+                                                                    .row
+                                                                        .col-md-12.col-sm-4.col-xs-12.profile_details
+                                                                            .well.profile_view(style='width:100%')
+                                                                                .col-xs-12
+                                                                                    center
+                                                                                        h2
+                                                                                            br
+                                                                                            | Type of Request:
+                                                                                            b &nbsp&nbspLeave
+                                                                                            br
+                                                                                    .col-xs-12.text-center
+                                                                                        p
+                                                                                        h2
+                                                                                            | #{lr.strFName} #{lr.strLName} sent you request. This request is awaiting for your approval.
+                                                                                        p
                                                                                         br
-                                                                                        | Type of Request:
-                                                                                        b &nbsp&nbspLeave
+                                                                                -var fullname = lr.strLName + " " + lr.strFName + " " + lr.strMName
+                                                                                .col-xs-12.bottom.text-center
+                                                                                    button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLeave',
+                                                                                        data-name=fullname, data-image=`../images/${lr.strPicture}`, data-ty=lr.strName, data-na=lr.intHouseholdID, data-id=lr.intLeaveRequestID,
+                                                                                        data-start=lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View
+                                                    else if lr.strLeaveStatus == 'On-going'
+                                                        .row
+                                                            .col-md-12
+                                                                br
+                                                                .x_content
+                                                                    .row
+                                                                        .col-md-12.col-sm-4.col-xs-12.profile_details
+                                                                            .well.profile_view(style='width:100%')
+                                                                                .col-xs-12
+                                                                                    center
+                                                                                        h2
+                                                                                            br
+                                                                                            | Type of Request:
+                                                                                            b &nbsp&nbspLeave
+                                                                                            br
+                                                                                    .col-xs-12.text-center
+                                                                                        p
+                                                                                        h2
+                                                                                            |  You may choose a reliever while #{lr.strFName} #{lr.strLName} is on Leave. #{lr.strFName} #{lr.strLName} will be on leave on #{lr.datDateFrom}.
+                                                                                        p
                                                                                         br
-                                                                                .col-xs-12.text-center
-                                                                                    p
-                                                                                    h2
-                                                                                        | #{lr.strFName} #{lr.strLName} sent you request. This request is awaiting for your approval.
-                                                                                    p
-                                                                                    br
-                                                                            -var fullname = lr.strLName + " " + lr.strFName + " " + lr.strMName
-                                                                            .col-xs-12.bottom.text-center
-                                                                                //- a(href='/home_client/request_leave')
-                                                                                //- button.btn.btn-primary(type='button') View
-                                                                                button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLeave',
-                                                                                    data-name=fullname, data-image=`../images/${lr.strPicture}`, data-ty=lr.strName, data-na=lr.intHouseholdID, data-id=lr.intLeaveRequestID,
-                                                                                    data-start=lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View
+                                                                                -var fullname = lr.strLName + " " + lr.strFName + " " + lr.strMName
+                                                                                .col-xs-12.bottom.text-center
+                                                                                    button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLeave',
+                                                                                        data-name=fullname, data-image=`../images/${lr.strPicture}`, data-ty=lr.strName, data-na=lr.intHouseholdID, data-id=lr.intLeaveRequestID,
+                                                                                        data-start=lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View Leave Details
+                                                                                    button.btn.btn-primary-sm(type='button') Choose a Reliver
+                                                    else if lr.strLeaveStatus == 'Approved'
+                                                        .row
+                                                            .col-md-12
+                                                                br
+                                                                .x_content
+                                                                    .row
+                                                                        .col-md-12.col-sm-4.col-xs-12.profile_details
+                                                                            .well.profile_view(style='width:100%')
+                                                                                .col-xs-12
+                                                                                    center
+                                                                                        h2
+                                                                                            br
+                                                                                            | Type of Request:
+                                                                                            b &nbsp&nbspLeave
+                                                                                            br
+                                                                                    .col-xs-12.text-center
+                                                                                        p
+                                                                                        h2
+                                                                                            | #{lr.strFName} #{lr.strLName} will be on leave on #{lr.datDateFrom}. You did not choose a reliver.
+                                                                                        p
+                                                                                        br
+                                                                                -var fullname = lr.strLName + " " + lr.strFName + " " + lr.strMName
+                                                                                .col-xs-12.bottom.text-center
+                                                                                    button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLeave',
+                                                                                        data-name=fullname, data-image=`../images/${lr.strPicture}`, data-ty=lr.strName, data-na=lr.intHouseholdID, data-id=lr.intLeaveRequestID,
+                                                                                        data-start=lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View Leave Details
+                                                                                    button.btn.btn-primary-sm(type='button') Choose a Reliver
                                                 each replace in replacetab
                                                     .row
                                                         .col-md-12
@@ -181,3 +234,27 @@ block content
                                         textarea#exampleTextarea.form-control(rows='3' readonly)
                     .modal-footer
                         button.btn.btn-primary(type='submit') Approve
+        //- scripts
+    script.
+        function time(){
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; //January is 0!
+            var yyyy = today.getFullYear();
+            var hh = today.getHours();
+            var min = today.getMinutes();
+            var sec = today.getSeconds();
+            var x= document.getElementById("thedate");
+            
+            if(dd<10) {
+                dd = '0'+dd
+            } 
+
+            if(mm<10) {
+                mm = '0'+mm
+            } 
+
+            today = yyyy + '-' + mm + '-' + dd ;
+            //- document.write(today);
+           document.getElementById("thedate").value=today;
+        }

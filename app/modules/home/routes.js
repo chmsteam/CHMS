@@ -39,7 +39,7 @@ function renderhwlist(req,res){
 //function display hhw Leave request
 function displayLeaveReq(req, res, next){
   var db = require('../../lib/database')();
-  db.query('SELECT * FROM tblleaverequest AS tl INNER JOIN tbluser AS ts ON tl.intHouseholdID = ts.intID INNER JOIN tblmleave AS lt ON tl.intTypeOfLeave = lt.intID WHERE intClientID = ? AND strLeaveStatus = "For Client Approval"', [req.session.user], function (err, results, fields) {
+  db.query('SELECT * FROM tblleaverequest AS tl INNER JOIN tbluser AS ts ON tl.intHouseholdID = ts.intID INNER JOIN tblmleave AS lt ON tl.intTypeOfLeave = lt.intID WHERE intClientID = ? AND strLeaveStatus IN ("For Client Approval", "On-going", "Approved")', [req.session.user], function (err, results, fields) {
       if (err) return res.send(err);
       req.displayLeaveReq = results;
       //moments submitted
@@ -69,10 +69,18 @@ router.post('/', (req, res) =>{
           });
       }
       else{
-        db.query("UPDATE tblleaverequest SET strLeaveStatus = 'On-going' WHERE intLeaveRequestID= ? ",
-          [req.body.id], (err, results, fields)=>{
+          var length = 8,
+            charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+            retVal = "";
+          for (var i = 0, n = charset.length; i < length; ++i) {
+              retVal += charset.charAt(Math.floor(Math.random() * n));
+          }
+          db.query("UPDATE tblleaverequest SET strLeaveStatus = 'On-going' WHERE intLeaveRequestID= ? ",[req.body.id], (err)=>{
             if (err) console.log(err);
-          res.redirect('/home_client')
+            // db.query(`INSERT INTO tblfinalrequest (intRequest_ClientID, strRequestType,strRequestName, strRequestDesc, datRequestDate, strRequestStatus, datRequestNeedDate)  VALUES ("${req.session.user}", 'Reliever', '${retVal}','Send a Reliever', "${req.body.reqdate}", "Draft", "${req.body.dateneed}")`, function(err) {
+              // console.log(err);
+              res.redirect('/home_client')
+            // });
           });
       }
 })

@@ -22,9 +22,15 @@ block content
                                                 #crop-avatar
                                                     // Current avatar
                                                     img.img-responsive.avatar-view(src='../images/'+hw1.strPicture, alt='Avatar', title='Change the avatar')
-                                            h3 #{hw1.strLName}, #{hw1.strFName} #{hw1.strMName}
+                                            h3 #{hw1.strLName}, #{hw1.strFName} #{hw1.strMName} 
                                             h5 #{hw1.strName}
                                             button.btn.btn-info(data-toggle='modal', data-target='#editpic', data-id=hw1.intHWID, data-image=`../images/${hw1.strPicture}`) Update Picture
+                                            br
+                                            each hw1 in hw1tab
+                                                if  hw1.strStatus == 'Deployed'
+                                                    button.btn.btn-danger(type='button') Ban
+                                                else if hw1.strStatus =='Banned'
+                                                    button.btn.btn-warning(type='button') Reinstate
                                         ul.list-unstyled.user_data
                                             li Age: &nbsp #{hw1.age}
                                             li Gender: &nbsp #{hw1.strGender}
