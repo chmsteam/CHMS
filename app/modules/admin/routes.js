@@ -1109,6 +1109,37 @@ function findtranssettled (req,res,next){
     return next();
   });
 }
+//----------------------------------------------------------------------------------TRANSACTIONS SETTLED VIEW
+router.get('/transaction_settled_:transid', flog, findtransaction,  findcontractstatusforhw, rendertranssettledview);
+function rendertranssettledview(req,res){
+  if(req.valid==0)
+    res.render('admin/views/transaction_settled_view',{usertab: req.user, transtab: req.trans, hwtab: req.hw});
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+function findtransaction(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT *, c.intID AS clientid, c.strFName AS clientFName, c.strLName AS clientLName, f.strName as deployment FROM tbltransaction INNER JOIN tbluser AS c ON c.intID = intTClientID INNER JOIN tblfee as f ON f.intID = intTypeofDeployment WHERE intTRequestID =  ?`, [req.params.transid], function(err,results){
+    console.log(err)
+    console.log('xxxxxx'+req.params.transid);
+    for(var i = 0; i < results.length; i++){
+      results[i].datDateSettled =  moment(results[i].datDateSettled).format("LL");
+      results[i].datDateExpiry =  moment(results[i].datDateExpiry).format("LL");     
+    }
+    req.trans = results;
+    return next();
+  })
+}
+function findcontractstatusforhw(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT a.*, strName, strFName, strLName FROM tblcontract AS a INNER JOIN tblhouseholdworker as b on a.intConHWID = b.intHWID INNER JOIN tblmservice as c on c.intID = b.intServiceID INNER JOIN tbluser as d on d.intID = b.intHWID WHERE intConTransID = '${req.params.transid}'`, function(err, results){
+    console.log('error: '+err);
+    req.hw = results;
+    return next();
+  })
+}
 
 
 // --------------------------------------------------------------------------------TRANSACTION INCIDENT REPORT: Client
