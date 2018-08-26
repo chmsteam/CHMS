@@ -25,7 +25,7 @@ block content
                                             li(role='presentation')
                                                 a#profile-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Incoming Request
                                             li(role='presentation')
-                                                a#profile-tab(href='#tab_content3', role='tab', data-toggle='tab', aria-expanded='false') History	
+                                                a#history-tab(href='#tab_content3', role='tab', data-toggle='tab', aria-expanded='false') History	
                                         #myTabContent.tab-content
                                             #tab_content1.tab-pane.fade.active.in(role='tabpanel', aria-labelledby='home-tab')
                                                 // My Request
@@ -146,46 +146,67 @@ block content
                                                                         .well.profile_view(style='width:100%')
                                                                             .col-xs-12
                                                                                 center
-                                                                                    h2
+                                                                                    h2     
                                                                                         br
                                                                                         | Type of Request:
                                                                                         b &nbsp&nbsp Replacement of Client
                                                                                         br
                                                                                 .col-xs-12.text-center
-                                                                                    p
-                                                                                    h2
-                                                                                        | Your household worker wants you to replace him/her. Your reamaining replacement will not decrease when you found a replacement because this is not your request. This is a valid request and was validated by the agency. Failure to find a replacement for the household worker 
-                                                                                        | will result to termination of his/her contract.
-                                                                                    p
-                                                                                    br
-                                                                            .col-xs-12.bottom.text-center
-                                                                                a(href='/request_replacement/replace_list_'+replace.intRequestID+replace.hwid)
-                                                                                    button.btn.btn-primary(type='button') Find Replacement
+                                                                                    if replace.strRequestStatus == 'Draft'
+                                                                                        p
+                                                                                        h2
+                                                                                            | Your household worker wants you to replace him/her. Your reamaining replacement will not decrease when you search for a replacement because this is not your request. This is a valid request and was validated by the agency. Failure to find a replacement for the household worker 
+                                                                                            | will result to termination of his/her contract.
+                                                                                        p
+                                                                                        br
+                                                                                    else if replace.strRequestStatus == 'On process'
+                                                                                        p
+                                                                                        h2
+                                                                                            | You can monitor your list for replacement for #{replace.hwfname} here.
+                                                                                        p
+                                                                                        br
+                                                                                    else if replace.strRequestStatus == 'Pending'
+                                                                                        p
+                                                                                        h2
+                                                                                            | Your request for replacement for replacement for #{replace.hwfname} is now awaiting for the approval of the admin. You can monitor your list for replacement here.
+                                                                                        p
+                                                                                        br
 
-                                                
+                                                                            .col-xs-12.bottom.text-center
+                                                                                if replace.strRequestStatus == 'Draft'
+                                                                                    a(href='/request_replacement/replace_list_'+replace.intRequestID+replace.hwid)
+                                                                                        button.btn.btn-primary(type='button') Find Replacement
+                                                                                else if replace.strRequestStatus == 'On process'
+                                                                                    a(href='/request_replacement/replace_list_'+replace.intRequestID+replace.hwid)
+                                                                                        button.btn.btn-primary(type='button') Monitor List
+                                                                                else if replace.strRequestStatus == 'Pending'
+                                                                                    a(href='/request_replacement/replace_list_'+replace.intRequestID+replace.hwid)
+                                                                                        button.btn.btn-primary(type='button') Monitor List
+                                                                                    button.btn.btn-primary(type='button') View Invoice             
                                             // END Incoming Request
                                             #tab_content3.tab-pane.fade(role='tabpanel', aria-labelledby='profile-tab')
                                                 // History
-                                                .row
-                                                    .col-md-12
-                                                        br
-                                                        .x_content
-                                                            .row
-                                                                .col-md-12.col-sm-4.col-xs-12.profile_details
-                                                                    .well.profile_view(style='width:100%')
-                                                                        .col-xs-12
-                                                                            center
-                                                                                h2
-                                                                                    br
-                                                                                    | This is your previous transaction.
-                                                                            .col-xs-12.text-center
-                                                                                p
-                                                                                h2
+                                                each finreq in finreqtab
+                                                    .row
+                                                        .col-md-12
+                                                            br
+                                                            .x_content
+                                                                .row
+                                                                    .col-md-12.col-sm-4.col-xs-12.profile_details
+                                                                        .well.profile_view(style='width:100%')
+                                                                            .col-xs-12
+                                                                                center
                                                                                     h2
-                                                                                        p
                                                                                         br
-                                                                        .col-xs-12.bottom.text-center
-                                                                            button.btn.btn-primary(type='button')
+                                                                                        | Ttype of Request: #{finreq.strRequestType}
+                                                                                .col-xs-12.text-center
+                                                                                    p
+                                                                                    h2
+                                                                                        h2
+                                                                                            p This request is #{finreq.strRequestStatus}.  Date requested: #{finreq.datRequestDate} 
+                                                                                            br
+                                                                            .col-xs-12.bottom.text-center
+                                                                                button.btn.btn-primary(type='button') View Details
 
     #viewLeave.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
         .modal-dialog.modal-xs
