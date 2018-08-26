@@ -1,0 +1,733 @@
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='description', content='')
+    meta(name='author', content='')
+    title Household Registration
+    //- preloader
+    link(href='/login/css/style.css', rel='stylesheet')
+    link(rel='stylesheet', type='text/css', href='/login/fame/css/color/green.css', title='green')
+    link(rel='stylesheet', type='text/css', href='/login/fame/css/color/light-green.css', title='light-green')
+    // Modernizer js
+    script(src='js/modernizr.custom.js')
+    //- form css
+    // Bootstrap
+    link(href='/admin/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css', rel='stylesheet')
+    // Font Awesome
+    link(href='/admin/gentelella/vendors/font-awesome/css/font-awesome.min.css', rel='stylesheet')
+    // NProgress
+    link(href='/admin/gentelella/vendors/nprogress/nprogress.css', rel='stylesheet')
+    // iCheck
+    link(href='/admin/gentelella/vendors/iCheck/skins/flat/green.css', rel='stylesheet')
+    // Custom Theme Style
+    link(href='/admin/gentelella/build/css/custom.min.css', rel='stylesheet')
+    // For dynamic date and time
+    meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
+    script(type='text/javascript', src='/admin/gentelalla/production/js/date_time.js')
+    // bootstrap-daterangepicker
+    link(href='/admin/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.css', rel='stylesheet')
+    // bootstrap-datetimepicker
+    link(href='/admin/gentelella/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css', rel='stylesheet')
+    // Switchery
+    link(href='/admin/gentelella/vendors/switchery/dist/switchery.min.css', rel='stylesheet')
+    //preloader
+    link(href='/assets4/css/style1.css', rel='stylesheet')
+    // iCheck
+    link(href='/admin/gentelella/vendors/iCheck/skins/flat/green.css', rel='stylesheet')
+    // Bootstrap
+    link(href='/admin/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css', rel='stylesheet')
+    // Font Awesome
+    link(href='/admin/gentelella/vendors/font-awesome/css/font-awesome.min.css', rel='stylesheet')
+    // NProgress
+    link(href='/admin/gentelella/vendors/nprogress/nprogress.css', rel='stylesheet')
+    // iCheck
+    link(href='/admin/gentelella/vendors/iCheck/skins/flat/green.css', rel='stylesheet')
+    // Custom Theme Style
+    link(href='/admin/gentelella/build/css/custom.min.css', rel='stylesheet')
+    // For dynamic date and time
+    meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
+    script(type='text/javascript', src='/admin/gentelalla/production/js/date_time.js')
+    // bootstrap-daterangepicker
+    link(href='/admin/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.css', rel='stylesheet')
+    // bootstrap-datetimepicker
+    link(href='/admin/gentelella/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css', rel='stylesheet')
+    // Switchery
+    link(href='/admin/gentelella/vendors/switchery/dist/switchery.min.css', rel='stylesheet')
+    //preloader
+    link(href='/assets4/css/style1.css', rel='stylesheet')
+    // iCheck
+    link(href='/admin/gentelella/vendors/iCheck/skins/flat/green.css', rel='stylesheet')
+    style.
+        body{
+            background-image: url('/login/fame/images/header-back.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+        }
+    body
+        .col-lg-7(style="margin-left:23%;")
+            form.form-horizontal.form-label-left(method='POST' action='/registration/household_worker', onkeyup='haha(), hoho();')
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
+                        .x_panel
+                            .x_title
+                                center
+                                    h1 Household Worker Registration
+                                    a(href='/login' style="text-decoration:underline; margin-left:10px; color:blue; font-style:italic")
+                                        | Back to landing page
+                                    .clearfix
+                            .x_content
+                                br
+                                #wizard.form_wizard.wizard_horizontal
+                                    ul.wizard_steps
+                                        li
+                                            a(href='#step-1')
+                                                span.step_no 1
+                                                span.step_descr
+                                                    | 
+                                                    br
+                                                    small Personal Information
+                                        li
+                                            a(href='#step-2')
+                                                span.step_no 2
+                                                span.step_descr
+                                                    | 
+                                                    br
+                                                    small Educational Background
+                                        li
+                                            a(href='#step-3')
+                                                span.step_no 3
+                                                span.step_descr
+                                                    | 
+                                                    br
+                                                    small Working Background
+                                        li
+                                            a(href='#step-4')
+                                                span.step_no 4
+                                                span.step_descr
+                                                    | 
+                                                    br
+                                                    small Character References
+                                        li
+                                            a(href='#step-5')
+                                                span.step_no 5
+                                                span.step_descr
+                                                    | 
+                                                    br
+                                                    small Other Skills
+                                    #step-1
+                                        div
+                                            .x_panel(style='width:100%; background-color:#f1f1f1')
+                                                .row
+                                                    .col-md-6
+                                                        .form-group
+                                                            label Service*
+                                                            select.form-control(name='service')
+                                                                each serv in services
+                                                                    option(value=''+serv.intID) #{serv.strName}
+                                                .row
+                                                    .col-md-4
+                                                        .form-group
+                                                            label First Name*
+                                                            input.form-control(type='text', name='fname', required)
+                                                    .col-md-4
+                                                        .form-group
+                                                            label Middle Name 
+                                                            input.form-control(data-validate-length-range='6', data-validate-words='2', name='mname', placeholder='(Optional)', type='text')
+                                                    .col-md-4
+                                                        .form-group
+                                                            label Last Name*
+                                                            input.form-control(data-validate-length-range='6', data-validate-words='2', name='lname',  required, type='text')
+                                                .row
+                                                    .col-md-12
+                                                        .form-group
+                                                            label Gender*: &nbsp
+                                                            | Male 
+                                                            input.flat(type='radio', name='gender', value='Male', required)
+                                                            | &nbspFemale:
+                                                            input.flat(type='radio', name='gender', value='Female' checked)
+                                                .row
+                                                    .col-md-6
+                                                        .form-group
+                                                            label Email Address*
+                                                            input.form-control(type='email', name='eaddress' required)
+                                                .row
+                                                    .col-md-3
+                                                        .form-group
+                                                            label Current Address* 
+                                                            input.form-control(id="_1", type='text', name='housenum', placeholder='House/Bldg. no.', required='required')
+                                                    .col-md-3
+                                                        .form-group
+                                                            label &nbsp
+                                                            input.form-control(id="_2", type='text', name='street', placeholder='Street', required='required')
+                                                    .col-md-3
+                                                        .form-group
+                                                            label &nbsp
+                                                            input.form-control(id="_3", type='text', name='municipality', placeholder='Municipality', required='required')
+                                                    .col-md-3
+                                                        .form-group
+                                                            label &nbsp
+                                                            input.form-control(id="_4", type='text', name='city', placeholder='City', required='required')
+                                                .row
+                                                    .col-md-9
+                                                        .form-group
+                                                            label Permanent Address*
+                                                                input.form-control.col-md-7.col-xs-12(id="txtf", type='text', name='paddress', placeholder='', required='required')
+                                                                .checkbox
+                                                                    label
+                                                                        input(id='chb', type='checkbox', value='', onClick="copy();")
+                                                                        |  Same with my Current Address.
+                                                .row
+                                                    .col-md-4
+                                                        .form-group
+                                                            label Cellphone #* 
+                                                            input.form-control(type='text', name='cellnum', placeholder='e.g 09356278841' required)
+                                                    .col-md-4
+                                                        .form-group
+                                                            label Tel. #
+                                                            input.form-control(type='text', name='telnum', placeholder='e.g 245-3423')
+                                                .row
+                                                    .col-md-4
+                                                        .form-group
+                                                            label Date of Birth*
+                                                            input.form-control(type='date', name='bday' required)
+                                                    .col-md-4
+                                                        .form-group
+                                                            label Place of Birth*
+                                                            input.form-control(type='text', name='baddress' required)
+                                                    .col-md-2
+                                                        .form-group
+                                                            label Height(cm.)*
+                                                            input.form-control.col-md-7.col-xs-12(type='text', name='height' required)
+                                                    .col-md-2
+                                                        .form-group
+                                                            label Weight(lbs.)*
+                                                                input.form-control(type='text', name='weight', placeholder='e.g 110' required)
+                                                .row
+                                                    .col-md-4
+                                                        .form-group
+                                                            label Civil Status *
+                                                            select.form-control(name='civilstatus' required)
+                                                                option(value='Single') Single
+                                                                option(value='Married') Married
+                                                                option(value='Divorced') Divorced
+                                                                option(value='Separated') Separated
+                                                                option(value='Widowed') Widowed
+                                                    .col-md-4
+                                                        .form-group
+                                                            label Citizenship
+                                                            input.form-control(type='text', name='citizenship')
+                                                    .col-md-4
+                                                        .form-group
+                                                            label Religion
+                                                            input.form-control(type='text', name='religion')
+                                                br
+                                    #step-2
+                                        br
+                                        .x_panel(style='background-color:#f1f1f1')
+                                            div(align='center')
+                                                form.form-horizontal.form-label-left(novalidate='')
+                                                    br
+                                                    table
+                                                        thead
+                                                            tr
+                                                                td(align='center') EDUCATION
+                                                                td
+                                                                td(align='center') NAME
+                                                                td(align='center') ADDRESS
+                                                                td(align='center') DATE
+                                                            tr
+                                                                td
+                                                                    br
+                                                                td
+                                                                    br
+                                                                td
+                                                                    br
+                                                                td
+                                                                    br
+                                                        tbody
+                                                            tr
+                                                                td Primary :
+                                                                td
+                                                                td
+                                                                    .item.form-group
+                                                                        .col-md-12.col-sm-6.col-xs-12
+                                                                            input.form-control.col-md-7.col-xs-12(type='text', name='type', value='Elementary' style='display:none;')
+                                                                            input.form-control.col-md-7.col-xs-12(id='elemname' type='text', name='elemname', value='')
+                                                                td
+                                                                    .item.form-group
+                                                                        .col-md-12.col-sm-6.col-xs-12
+                                                                            input.form-control.col-md-7.col-xs-12(id='elemadd' type='text', name='elemadd', placeholder='')
+                                                                td
+                                                                    .item.form-group
+                                                                        .col-md-12.col-sm-6.col-xs-12
+                                                                            input.form-control.col-md-7.col-xs-12(id='elemyear' type='number', name='elemyear', placeholder='e.g  2011 ')
+                                                            tr
+                                                                td Secondary:
+                                                                td
+                                                                td
+                                                                    .item.form-group
+                                                                        .col-md-12.col-sm-6.col-xs-12
+                                                                            input.form-control.col-md-7.col-xs-12(type='text', name='type2', value='High School' style='display:none;')
+                                                                            input.form-control.col-md-7.col-xs-12(id='secondname' type='text', name='secondname', value='' disabled)
+                                                                td
+                                                                    .item.form-group
+                                                                        .col-md-12.col-sm-6.col-xs-12
+                                                                            input.form-control.col-md-7.col-xs-12(id='secondadd' type='text', name='secondadd', placeholder='' disabled)
+                                                                td
+                                                                    .item.form-group
+                                                                        .col-md-12.col-sm-6.col-xs-12
+                                                                            input.form-control.col-md-7.col-xs-12(id='secondyear' type='number', name='secondyear', placeholder='2015' disabled)
+                                                            tr
+                                                                td Tertiary:
+                                                                td
+                                                                td
+                                                                    .item.form-group
+                                                                        .col-md-12.col-sm-6.col-xs-12
+                                                                            input.form-control.col-md-7.col-xs-12(type='text', name='type3', value='College' style='display:none;')
+                                                                            input.form-control.col-md-7.col-xs-12(id='tername' type='text', name='tername', value='' disabled)
+                                                                td
+                                                                    .item.form-group
+                                                                        .col-md-12.col-sm-6.col-xs-12
+                                                                            input.form-control.col-md-7.col-xs-12(id='teradd' type='text', name='teradd', placeholder='' disabled)
+                                                                td
+                                                                    .item.form-group
+                                                                        .col-md-12.col-sm-6.col-xs-12
+                                                                            input.form-control.col-md-7.col-xs-12(id='teryear' type='number', name='teryear', placeholder='e.g  2011 - 2015' disabled)
+                                                            tr
+                                                                td
+                                                                    b Vocational
+                                                                td
+                                                                td
+                                                                    .item.form-group
+                                                                        .col-md-12.col-sm-6.col-xs-12
+                                                                            input.form-control.col-md-7.col-xs-12(type='text', name='type4', value='Vocational' style='display:none;')
+                                                                            input.form-control.col-md-7.col-xs-12(id='vocname' type='text', name='vocname', value='' disabled)
+                                                                td
+                                                                    .item.form-group
+                                                                        .col-md-12.col-sm-6.col-xs-12
+                                                                            input.form-control.col-md-7.col-xs-12(id='vocadd' type='text', name='vocadd', placeholder='' disabled)
+                                                                td
+                                                                    .item.form-group
+                                                                        .col-md-12.col-sm-6.col-xs-12
+                                                                            input.form-control.col-md-7.col-xs-12(id='vocyear' type='number', name='vocyear', placeholder='e.g  2011 - 2015' disabled)
+                                                    br
+                                                    .item.form-group
+                                                        label.control-label.col-md-2.col-sm-3.col-xs-12
+                                                            | Course: 
+                                                            span.required
+                                                        .col-md-9.col-sm-6.col-xs-12
+                                                            input.form-control.col-md-7.col-xs-12(id='educskill' type='text', name='educskill', placeholder='', required='required' disabled)
+                                                    br
+                                    #step-3
+                                        br
+                                        .x_panel(style='background-color:#f1f1f1')
+                                            div(align='center')
+                                                br
+                                                table
+                                                    thead
+                                                        tr
+                                                            td(align='center') FROM 
+                                                            td(align='center') TO
+                                                            td(align='center') POSITION/ROLE
+                                                            td(align='center') COMPANY
+                                                            td(align='center') ADDRESS
+                                                        tr
+                                                            td
+                                                                br
+                                                            td
+                                                                br
+                                                            td
+                                                                br
+                                                            td
+                                                                br
+                                                    tbody
+                                                        tr
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(id='workfrom1', type='number', name='workfrom1', placeholder='', value='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(id='workto1', type='number', name='workto1', placeholder='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(id='workpos1', type='text', name='workpos1', placeholder='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(type='text', name='workcomp1', placeholder='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(id='workadd1', type='text', name='workadd1', placeholder='')
+                                                        tr
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(id='workfrom2', type='number', name='workfrom2', placeholder='', value='' )
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(id='workto2', type='number', name='workto2', placeholder='' )
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(id='workpos2', type='text', name='workpos2', placeholder='' )
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(id='workcomp2', type='text', name='workcomp2', placeholder='' )
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(id='workadd2', type='text', name='workadd2', placeholder='' )
+                                                        tr
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(id='workfrom3', type='number', name='workfrom3', placeholder='', value='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(id='workto3', type='number', name='workto3', placeholder='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(id='workpos3', type='text', name='workpos3', placeholder='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(id='workcomp3', type='text', name='workcomp3', placeholder='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(id='workadd3', type='text', name='workadd3', placeholder='')
+                                                        tr
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(id='workfrom4', type='number', name='workfrom4', placeholder='', value='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(id='workto4', type='number', name='workto4', placeholder='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(id='workpos4', type='text', name='workpos4', placeholder='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(id='workcomp4', type='text', name='workcomp4', placeholder='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(id='workadd4', type='text', name='workadd4', placeholder='')
+                                                        tr
+                                                br
+                                    #step-4
+                                        br
+                                        br
+                                        .x_panel(style='background-color:#f1f1f1')
+                                            div(align='center')
+                                                h2
+                                                    u
+                                                        b Relatives
+                                                br
+                                                form.form-horizontal.form-label-left(novalidate='')
+                                                    br
+                                                    table
+                                                        thead
+                                                            tr
+                                                                td(align='center') NAME
+                                                                td(align='center') OCCUPATION
+                                                                td(align='center') CONTACT NUMBER
+                                                                td(align='center') ADDRESS
+                                                            tr
+                                                                td
+                                                                    br
+                                                                td
+                                                                    br
+                                                                td
+                                                                    br
+                                                                td
+                                                                    br
+                                                        tbody
+                                                            tr
+                                                                td
+                                                                    .item.form-group
+                                                                        .col-md-12.col-sm-6.col-xs-12
+                                                                            input.form-control.col-md-7.col-xs-12(type='text', name='name1', placeholder=''  value='')
+                                                                td
+                                                                    .item.form-group
+                                                                        .col-md-12.col-sm-6.col-xs-12
+                                                                            input.form-control.col-md-7.col-xs-12(type='text', name='occ1', placeholder=''  value='')
+                                                                td
+                                                                    .item.form-group
+                                                                        .col-md-12.col-sm-6.col-xs-12
+                                                                            input.form-control.col-md-7.col-xs-12(type='text', name='contact1', placeholder=''  value='')
+                                                                td
+                                                                    .item.form-group
+                                                                        .col-md-12.col-sm-6.col-xs-12
+                                                                            input.form-control.col-md-7.col-xs-12(type='text', name='add1', placeholder=''  value='')
+                                                        tr
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(type='text', name='name2', placeholder=''  value='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(type='text', name='occ2', placeholder=''  value='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(type='text', name='contact2', placeholder=''  value='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(type='text', name='add2', placeholder=''  value='')
+                                                        tr
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(type='text', name='name3', placeholder=''  value='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(type='text', name='occ3', placeholder=''  value='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(type='text', name='contact3', placeholder=''  value='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(type='text', name='add3', placeholder=''  value='')
+                                        br
+                                        br
+                                        .x_panel(style='background-color:#f1f1f1')
+                                            div(align='center')
+                                                h2
+                                                    u
+                                                        b Non-Relatives
+                                                br
+                                                br
+                                                table
+                                                    thead
+                                                        tr
+                                                            td(align='center') NAME
+                                                            td(align='center') OCCUPATION
+                                                            td(align='center') CONTACT NUMBER
+                                                            td(align='center') ADDRESS
+                                                        tr
+                                                            td
+                                                                br
+                                                            td
+                                                                br
+                                                            td
+                                                                br
+                                                            td
+                                                                br
+                                                    tbody
+                                                        tr
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(type='text', name='name4', placeholder='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(type='text', name='occ4', placeholder='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(type='text', name='contact4', placeholder='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(type='text', name='add4', placeholder='')
+                                                        tr
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(type='text', name='name5', placeholder='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(type='text', name='occ5', placeholder='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(type='text', name='contact5', placeholder='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(type='text', name='add5', placeholder='')
+                                                        tr
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(type='text', name='name6', placeholder='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(type='text', name='occ6', placeholder='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(type='text', name='contact6', placeholder='')
+                                                            td
+                                                                .item.form-group
+                                                                    .col-md-12.col-sm-6.col-xs-12
+                                                                        input.form-control.col-md-7.col-xs-12(type='text', name='add6', placeholder='')
+                                
+                                    #step-5
+                                        .x_panel(style='background-color:#f1f1f1')
+                                            | Disclaimer!
+                                            ul
+                                                li Select the all the activities that you can do. 	 
+                                        .x_panel
+                                            .row
+                                                .col-md-5(style="float:left")
+                                                    .form-group
+                                                        h2
+                                                            b Your Other Skills:
+                                                        select.select2_multiple.form-control.SelectTemplate(multiple='multiple', style="height:300px")
+                                                            each skill in dropskills
+                                                                -var kaalaman = " " + skill.strName + ","
+                                                                option(value=kaalaman readonly) #{skill.strName}   
+                                                br
+                                                br
+                                                .col-md-7(style="float:right")
+                                                    .form-group
+                                                        textarea.form-control.AddMessage(rows='10' name="skills" required placeholder="Selected Skills")
+                                                //- .control-group
+                                                //-     label.control-label.col-md-3.col-sm-3.col-xs-12 Input Tags
+                                                //-     .col-md-9.col-sm-9.col-xs-12
+                                                //-         input#tags_1.tags.form-controlAddMessage(type='text', value='social, adverts, sales')
+                                                //-         #suggestions-container(style='position: relative; float: left; width: 250px; margin: 10px;')
+
+
+
+    script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+    // Bootstrap
+    script(src='/admin/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js')
+    // Datatables
+    script(src='/admin/gentelella/vendors/datatables.net/js/jquery.dataTables.min.js')
+    script(src='/admin/gentelella/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')
+    script(src='/admin/gentelella/build/js/custom.min.js')
+    // Switchery
+    script(src='/admin/gentelella/vendors/switchery/dist/switchery.min.js')
+    // Form wizard
+    script(src='/admin/gentelella/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js')
+    // starrr
+    script(src='/admin/gentelella/vendors/starrr/dist/starrr.js')
+    // iCheck
+    script(src='/admin/gentelella/vendors/iCheck/icheck.min.js')      
+    //for edit
+    // bootstrap-daterangepicker
+    script(src='/admin/gentelella/vendors/moment/min/moment.min.js')
+    script(src='/admin/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.js')
+    // jQuery Tags Input
+    script(src='/admin/gentelella/vendors/jquery.tagsinput/src/jquery.tagsinput.js')
+
+
+    //preloader
+    script(src='/assets4/js/custom1.js')
+    script(src='/assets4/lib/wow/wow.min.js')
+    script(type='text/javascript').
+        function haha(){
+            if(document.getElementById("elemname").value == '' && document.getElementById("secondname").value != ''){
+                document.getElementById("secondname").value = '';
+                document.getElementById("secondadd").value = '';
+                document.getElementById("secondyear").value = '';
+                document.getElementById("tername").value = '';
+                document.getElementById("teradd").value = '';
+                document.getElementById("teryear").value = '';
+                document.getElementById("vocname").value = '';
+                document.getElementById("vocadd").value = '';
+                document.getElementById("vocyear").value = '';
+                document.getElementById("educskill").value = '';
+                document.getElementById("secondname").disabled = true;
+                document.getElementById("secondadd").disabled = true;     
+                document.getElementById("secondyear").disabled = true;
+                document.getElementById("tername").disabled = true;
+                document.getElementById("teradd").disabled = true;     
+                document.getElementById("teryear").disabled = true;
+                document.getElementById("vocname").disabled = true;
+                document.getElementById("vocadd").disabled = true;     
+                document.getElementById("vocyear").disabled = true; 
+                document.getElementById("educskill").disabled = true;  
+            }
+            else if(document.getElementById("elemname").value != ''  && document.getElementById("secondname").value == ''){
+                document.getElementById("secondname").disabled = false;
+                document.getElementById("secondadd").disabled = false;     
+                document.getElementById("secondyear").disabled = false; 
+
+                document.getElementById("tername").disabled = true;
+                document.getElementById("teradd").disabled = true;     
+                document.getElementById("teryear").disabled = true;
+                document.getElementById("vocname").disabled = true;
+                document.getElementById("vocadd").disabled = true;     
+                document.getElementById("vocyear").disabled = true;
+                document.getElementById("educskill").disabled = true;
+                document.getElementById("tername").value = '';
+                document.getElementById("teradd").value = '';
+                document.getElementById("teryear").value = '';
+                document.getElementById("vocname").value = '';
+                document.getElementById("vocadd").value = '';
+                document.getElementById("vocyear").value = '';
+                document.getElementById("educskill").value = '';         
+            }
+            else if((document.getElementById("elemname").value != '') && (document.getElementById("secondname").value != '')){
+                document.getElementById("tername").disabled = false;
+                document.getElementById("teradd").disabled = false;     
+                document.getElementById("teryear").disabled = false;
+                document.getElementById("vocname").disabled = false;
+                document.getElementById("vocadd").disabled = false;     
+                document.getElementById("vocyear").disabled = false;
+                document.getElementById("educskill").disabled = false;      
+            }
+        }
+    script(type='text/javascript').
+        function copy() {
+            var txt1 = document.getElementById("_1");
+            var txt2 = document.getElementById("_2");
+            var txt3 = document.getElementById("_3");
+            var txt4 = document.getElementById("_4");
+            var txtf = document.getElementById("txtf");
+            
+            if((txt1.value && txt2.value && txt3.value && txt4.value) == ''){
+                txtf.value= '';
+            }
+            else{
+            txtf.value = txt1.value + ', ' + txt2.value + ', ' + txt3.value + ', ' + txt4.value;                     
+            }
+
+        }
+        function dis(){
+            var txt1 = document.getElementById("_1");
+            var txt2 = document.getElementById("_2");
+            var txt3 = document.getElementById("_3");
+            var txt4 = document.getElementById("_4");
+            var txtf = document.getElementById("txtf");       
+
+            if((txt1.value && txt2.value && txt3.value && txt4.value) == ''){
+                document.getElementById("chb").disabled = true;
+            }
+            else if ((txt1.value)=='1'){
+                document.getElementById("chb").disabled = false;
+            }
+        }
+    //-other skills
+    script(type='text/javascript').
+        $('select.SelectTemplate').change(function() {
+                var currentVal = $('textarea').val();
+                $('textarea.AddMessage').val(currentVal + $(this).val()); 
+        });
