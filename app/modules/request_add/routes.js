@@ -56,7 +56,7 @@ router.post('/delete_draftlist', flog, (req, res) => {
 // My list Page
 function rendermylist(req,res){
     if(req.valid==1)
-      res.render('request_add/views/mylist',{usertab: req.user, itemtab: req.item, listtab: req.list, counttab:req.count, servicetab: req.service, skilltab: req.skill, hwtab: req.hw, noofapprovetab: req.noofapprove, feetab: req.fee});
+      res.render('request_add/views/mylist',{usertab: req.user, itemtab: req.item, listtab: req.list, counttab:req.count, servicetab: req.service, skilltab: req.skill, hwtab: req.hw, noofapprovetab: req.noofapprove, feetab: req.fee, transdetailstab: req.transdetails});
     else if(req.valid==0)
       res.render('admin/views/invalidpages/normalonly');
     else
@@ -121,7 +121,20 @@ function findcreatedlist(req, res, next){
       return next();
     });
   }
-  router.get('/mylist_:userid', flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, rendermylist);
+
+  function findtransaction(req,res,next){
+    var db = require('../../lib/database')();
+    db.query(`SELECT * FROM tbltransaction WHERE intTRequestID = ?`,[req.params.userid], function(err,results){
+      console.log(err);
+      for(var i = 0; i < results.length; i++){
+        results[i].datDateofDeployment =  moment(results[i].datDateofDeployment).format("LL");
+        results[i].timTimeofDeployment = moment(results[i].timTimeofDeployment, 'HH:mm').format('hh:mm a')
+      }
+      req.transdetails = results;
+      return next();
+    })
+  }
+  router.get('/mylist_:userid', flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findtransaction, rendermylist);
 
 
 // Add service to list

@@ -22,53 +22,66 @@ block content
                                             i.fa.fa-plus
                                             | &nbspCreate New List
                                     br
-                                    .row
-                                        .col-md-12
-                                            .x_content
-                                                .row
-                                                    .col-md-12.col-sm-12.col-xs-12.text-center
-                                                    .clearfix
-                                                    each list in listtab
-                                                        .col-md-4.col-sm-4.col-xs-12.profile_details
-                                                            .well.profile_view
-                                                                .col-sm-12
-                                                                    h3.brief #{list.strRequestName}
-                                                                    .left.col-sm-12
-                                                                        br
-                                                                        ul.list-unstyled
-                                                                            li
-                                                                                strong List no: 
-                                                                                |  #{list.intRequestID}
-                                                                            li
-                                                                                strong Date created: 
-                                                                                |  #{list.datRequestDate}
-                                                                            li
-                                                                                strong Date needed: 
-                                                                                |  #{list.datRequestNeedDate}
-                                                                            li
-                                                                                strong Status: 
-                                                                                |  #{list.strRequestStatus}
-                                                                .col-xs-12.bottom.text-center
-                                                                    if list.strRequestStatus == 'Pending' || list.strRequestStatus == 'Approved'
-                                                                        a(href='/request_add/invoice_'+list.intRequestID)
-                                                                            button.btn.btn-info(type='button') View Invoice
-                                                                        a(href='/request_add/mylist_'+list.intRequestID)
-                                                                            button.btn.btn-primary(type='button') View
-                                                                        button.btn.btn-danger(type='button', data-toggle='modal', data-target='#Delete3') Delete
-                                                                    else if list.strRequestStatus == 'Draft'
-                                                                        a(href='/request_add/mylist_'+list.intRequestID)
-                                                                            button.btn.btn-primary(type='button') View
-                                                                        button.btn.btn-danger(type='button', data-toggle='modal', data-target='#delete_draftlist', data-id=list.intRequestID) Delete
-                                                                    else if list.strRequestStatus =='On process'
-                                                                        a(href='/request_add/mylist_'+list.intRequestID)
-                                                                            button.btn.btn-primary(type='button') View
-                                                                        button.btn.btn-danger(type='button', data-toggle='modal', data-target='#D') Delete
-                                                                    else if list.strRequestStatus == 'Finished'
-                                                                        a(href='/request_add/invoice_'+list.intRequestID)
-                                                                            button.btn.btn-info(type='button') View Invoice
-                                                                        a(href='/request_add/mylist_'+list.intRequestID)
-                                                                            button.btn.btn-primary(type='button') View
-    
+                                    each list in listtab
+                                        if list.strRequestStatus != 'Finished'
+                                            .row
+                                                .col-md-12
+                                                    .x_content
+                                                        .row
+                                                            .col-md-12.col-sm-12.col-xs-12.text-center
+                                                            .clearfix
+                                                                .col-md-4.col-sm-4.col-xs-12.profile_details
+                                                                    .well.profile_view
+                                                                        .col-sm-12
+                                                                            h3.brief #{list.strRequestName}
+                                                                            .left.col-sm-12
+                                                                                br
+                                                                                ul.list-unstyled
+                                                                                    li
+                                                                                        strong List no: 
+                                                                                        |  #{list.intRequestID}
+                                                                                    li
+                                                                                        strong Date created: 
+                                                                                        |  #{list.datRequestDate}
+                                                                                    li
+                                                                                        strong Date needed: 
+                                                                                        |  #{list.datRequestNeedDate}
+                                                                                    li
+                                                                                        strong Status: 
+                                                                                        |  #{list.strRequestStatus}
+                                                                        .col-xs-12.bottom.text-center
+                                                                            if list.strRequestStatus == 'Draft'
+                                                                                a(href='/request_add/mylist_'+list.intRequestID)
+                                                                                    button.btn.btn-primary(type='button') View
+                                                                                button.btn.btn-danger(type='button', data-toggle='modal', data-target='#delete_draftlist', data-id=list.intRequestID) Delete
+                                                                            else if list.strRequestStatus =='On process'
+                                                                                a(href='/request_add/mylist_'+list.intRequestID)
+                                                                                    button.btn.btn-primary(type='button') View
+                                                                                button.btn.btn-danger(type='button', data-toggle='modal', data-target='#D') Delete
+                                                                            else if list.strRequestStatus == 'Pending' 
+                                                                                a(href='/request_add/invoice_'+list.intRequestID)
+                                                                                    button.btn.btn-info(type='button') View Invoice
+                                                                                a(href='/request_add/mylist_'+list.intRequestID)
+                                                                                    button.btn.btn-primary(type='button') View
+                                                                                button.btn.btn-danger(type='button', data-toggle='modal', data-target='#Delete3') Cancel
+                                                                            else if list.strRequestStatus == 'Approved' 
+                                                                                a(href='/request_add/invoice_'+list.intRequestID)
+                                                                                    button.btn.btn-info(type='button') View Invoice
+                                                                                a(href='/request_add/mylist_'+list.intRequestID)
+                                                                                    button.btn.btn-primary(type='button') View
+                                                                                button.btn.btn-danger(type='button', data-toggle='modal', data-target='#Delete3') Cancel
+                                                                            else if list.strRequestStatus == 'Rejected'
+                                                                                a(href='/request_add/mylist_'+list.intRequestID)
+                                                                                    button.btn.btn-primary(type='button') View
+                                                                                button.btn.btn-danger(type='button', data-toggle='modal', data-target='#D') Delete
+
+                                                                            //- a(href='/request_add/invoice_'+list.intRequestID)
+                                                                            //-     button.btn.btn-info(type='button') View Invoice
+                                                                            //- a(href='/request_add/mylist_'+list.intRequestID)
+                                                                            //-     button.btn.btn-primary(type='button') View
+                                        else
+
+
     //- modal
     #delete_draftlist.modal.fade.bs-example-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
         .modal-dialog.modal-xs

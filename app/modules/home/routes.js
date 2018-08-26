@@ -10,7 +10,10 @@ function render(req,res){
         {
           usertab: req.user,
           leaveReq: req.displayLeaveReq,
-          replacetab: req.replace
+          replacetab: req.replace,
+          finreqtab: req.finreq,
+          requesttab: req.request,
+          request2tab: req.request2
         });
     else if(req.valid==0)
       res.render('admin/views/invalidpages/normalonly');
@@ -85,16 +88,55 @@ router.post('/', (req, res) =>{
       }
 })
 
+// function display finished Request
+function findfinishedreq(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * FROM tblfinalrequest WHERE strRequestStatus IN ('Finished', 'Rejected', 'Cancelled') AND intRequest_ClientID = ?`, [req.session.user], function(err,results){
+    console.log(err);
+    for(var i = 0; i < results.length; i++){
+      results[i].datRequestDate =  moment(results[i].datRequestDate).format("LL");
+    }
+    req.finreq = results;
+    return next();
+  })
+}
+
+// My request tab ADD
+function myrequest(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * FROM tblfinalrequest WHERE intRequest_ClientID = ?`, [req.session.user], function(err, results){
+    console.log(err);
+    for(var i = 0; i < results.length; i++){
+     results[i].datRequestDate =  moment(results[i].datRequestDate).format("LL");
+    }
+    req.request = results;
+    return next();
+  })
+}
+function myrequest2(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * FROM tblfinalrequest INNER JOIN tblreplacement ON intRequestID=intReplaceReqID WHERE intRequest_ClientID = ?`, [req.session.user], function(err, results){
+    console.log(err);
+    for(var i = 0; i < results.length; i++){
+     results[i].datRequestDate =  moment(results[i].datRequestDate).format("LL");
+    }
+    req.request2 = results;
+    return next();
+  })
+}
+
+
 //------------------------------------------------------- ROUTER GET
 var renderFunctions = [displayLeaveReq, ]
-router.get('/', flog, findreplacementofclient, renderFunctions, render);
+router.get('/', flog, findreplacementofclient,findfinishedreq, myrequest, myrequest2, renderFunctions, render);
 router.get('/request_leave', flog, renderFunctions, renderrequestleave);
 router.get('/householdworker_list', flog, renderFunctions, renderhwlist);
 
 // -----------function display hhw replacement of client request
 function findreplacementofclient(req,res, next){
   var db = require('../../lib/database')();
-  db.query(`SELECT *, u.intID AS clientid, u.strFName AS clientfname, u.strLName AS clientlname, uu.intID AS hwid, uu.strFName AS hwfname, uu.strLName AS hwlname FROM tblfinalrequest INNER JOIN tbluser as u on u.intID = intRequest_ClientID INNER JOIN tblreplacement ON intReplaceReqID = intRequestID INNER JOIN tbluser AS uu ON uu.intID = intReplaceOldHWID
+  db.query(`SELECT *, u.intID AS clientid, u.strFName AS clientfname, u.strLName AS clientlname, uu.intID AS hwid, uu.strFName AS hwfname, uu.strLName AS hwlname 
+  FROM tblfinalrequest INNER JOIN tbluser as u on u.intID = intRequest_ClientID INNER JOIN tblreplacement ON intReplaceReqID = intRequestID INNER JOIN tbluser AS uu ON uu.intID = intReplaceOldHWID
   WHERE strRequestType='Replace Client' AND intRequest_ClientID=? `,[req.session.user], function(err,results) {
     console.log(err)
     req.replace = results;

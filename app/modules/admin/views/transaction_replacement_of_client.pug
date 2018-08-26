@@ -41,7 +41,8 @@ block content
                                                     td Rejected
                                                 td
                                                     if replace.strRequestStatus == ''
-                                                        input(type='number' required='required', name='transid' value=''+replace.intRequestID, style='display:none;')                          
+                                                        input(type='number' required='required', name='transid' value=''+replace.intRequestID, style='display:none;') 
+                                                        input(type='number' required='required', name='hwid' value=''+replace.hwid, style='display:none;')                         
                                                         button.btn.btn-success(type='submit' name='btn1' value='accept')
                                                             i.fa.fa-check
                                                             | &nbspAccept

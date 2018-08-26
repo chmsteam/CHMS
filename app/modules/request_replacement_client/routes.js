@@ -4,10 +4,10 @@ var router = express.Router();
 var moment = require('moment');
 
 // ----------------------------------------------------------------------------------index page
-router.get('/', flog, findcurrenthw, findcurrenthwtobereplaced, renderreplacement)
+router.get('/', flog, findcurrenthw, renderreplacement)
 function renderreplacement(req,res){
     if(req.valid==1)
-    res.render('request_replacement_client/views/index',{usertab: req.user, currenthwtab: req.currenthw,  currenthwtobereplacedtab: req.currenthwtobereplaced});
+    res.render('request_replacement_client/views/index',{usertab: req.user, currenthwtab: req.currenthw});
     else if(req.valid==0)
     res.render('admin/views/invalidpages/normalonly');
     else
@@ -17,7 +17,7 @@ function renderreplacement(req,res){
 function findcurrenthw(req,res,next){
     var db = require('../../lib/database')();
     db.query(`SELECT * FROM tblcontract INNER JOIN tblhouseholdworker ON intConHWID = intHWID INNER JOIN tblmservice ON tblmservice.intID = intServiceID INNER JOIN tbltransaction ON intTRequestID = intConTransID INNER JOIN tbluser ON tbluser.intID = intHWID
-             WHERE strCurStatus IN ('Current') AND intTClientID = '${req.session.user}'`, function(err,results){
+             WHERE strCurStatus IN ('Current', 'To be replaced') AND intTClientID = '${req.session.user}'`, function(err,results){
         console.log(err);
         req.currenthw = results;
         return next();
@@ -26,7 +26,7 @@ function findcurrenthw(req,res,next){
 function findcurrenthwtobereplaced(req,res,next){
   var db = require('../../lib/database')();
   db.query(`SELECT * FROM tblcontract INNER JOIN tblhouseholdworker ON intConHWID = intHWID INNER JOIN tblmservice ON tblmservice.intID = intServiceID INNER JOIN tbltransaction ON intTRequestID = intConTransID INNER JOIN tbluser ON tbluser.intID = intHWID INNER JOIN tblreplacement ON intReplaceOldHWID = intConHWID
-           WHERE strCurStatus IN ('To be replaced') AND intTClientID = '${req.session.user}'`, function(err,results){
+           WHERE strCurStatus IN ('To be replaced') AND intTClientID = ? AND intConHWID = ?`, [req.session.user, req.params.hwid], function(err,results){
       console.log(err);
       req.currenthwtobereplaced = results;
       return next();
@@ -59,116 +59,131 @@ function createreplacement(req,res){
 }
 
 // ------------------------------------------------------------------------------Createed replace list page
-router.get('/replace_list_:transid:hwid', flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findoldhwservice, renderreplacementlist)
 function renderreplacementlist(req,res){
   if(req.valid==1)
-  res.render('request_replacement_client/views/replacement_list',{usertab: req.user, itemtab: req.item, listtab: req.list, counttab:req.count, servicetab: req.service, skilltab: req.skill, hwtab: req.hw, noofapprovetab: req.noofapprove, feetab: req.fee, oldhwservicetab: req.oldhwservice});
-  else if(req.valid==0)
-  res.render('admin/views/invalidpages/normalonly');
-  else
-  res.render('login/views/invalid');
-}
-
-function findcreatedlist(req, res, next){
-var db = require('../../lib/database')();
-db.query("SELECT * FROM tblfinalrequest WHERE intRequestID=? AND intRequest_ClientID=?",[req.params.transid, req.session.user], function (err, results) {
-  if (err) return res.send(err);
-  if (!results[0])
-  console.log('');
-  req.list = results;
-  return next();
-});
-}
-function findcreateditem(req, res, next){
-  var db = require('../../lib/database')();
-  db.query("SELECT *, count(*) as itemnum FROM tblinitialrequest INNER JOIN tblMservice ON intITypeOfService = intID WHERE intIRequestID=?",[req.params.transid], function (err, results) {
-    if (err) return res.send(err);
-    if (!results[0])
-    console.log('');
-    req.item = results;
-    return next();
-  });
-}
-
-function findcountcreateditem(req, res, next){
-  var db = require('../../lib/database')();
-  db.query("SELECT COUNT(intIRequestID) AS count FROM tblinitialrequest WHERE intIRequestID=?",[req.params.transid], function (err, results) {
-    if (err) return res.send(err);
-    if (!results[0])
-    console.log('');
-    req.count= results;
-    return next();
-  });
-}
-function findmservice(req, res, next){
-  var db = require('../../lib/database')();
-  db.query("SELECT * FROM tblmservice ", function (err, results) {
-    if (err) return res.send(err);
-    if (!results[0])
-    console.log('');
-    req.service = results;
-    return next();
-  });
-}
-
-function findskills(req, res, next){
-  var db = require('../../lib/database')();
-  db.query("SELECT * FROM tblmskills", function (err, results) {
-    if (err) return res.send(err);
-    if (!results[0])
-    console.log('');
-    req.skill= results;
-    return next();
-  });
-}
-function findresult(req,res,next){
-  var db = require('../../lib/database')();
-  db.query(`SELECT strName, strFName, strLName, strGender, strPicture, strRClientStatus, intRHWID, intRRequestID, intRRequest_No, intRHWID, TIMESTAMPDIFF(YEAR,datBirthDay,CURDATE()) AS age FROM tblresults AS a INNER JOIN tbluser AS b ON a.intRHWID = b.intID INNER JOIN tblhouseholdworker AS c ON b.intID=c.intHWID INNER JOIN tblmservice AS d ON d.intID = c.intServiceID
-              WHERE strRHWStatus = 'Approved' AND strRClientStatus IN ('Approved') AND intRRequestID = ?`,[req.params.transid], function (err, results) {
-    req.hw= results;
-    return next();
-  });
-}
-function findapprove(req, res, next){
-  var db = require('../../lib/database')();
-  db.query(`SELECT COUNT(*) AS NOOFapprove FROM tblresults WHERE strRClientStatus='Approved' AND intRRequestID ='${req.params.transid}'`, function (err, results) {
-    if (err) return res.send(err);
-    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'+req.params.transid);
-    req.noofapprove= results;
-    return next();
-  });
-}
-function findfees(req, res, next){
-  var db = require('../../lib/database')();
-  db.query("SELECT * FROM tblfee WHERE intID NOT IN('1','4')", function (err, results) {
-    if (err) return res.send(err);
-    if (!results[0])
-    console.log('');
-    req.fee= results;
-    return next();
-  });
-}
-
-function findoldhwservice(req,res,next){
-  var db = require('../../lib/database')();
-  db.query(`SELECT intHWID, intServiceID, strName FROM tblhouseholdworker INNER JOIN tblmservice ON intServiceID=intID WHERE intHWID = '${req.params.hwid}'`, function (err, results) {
-    if (err) return res.send(err);
-    if (!results[0])
-    console.log('');
-    req.oldhwservice= results;
-    return next();
-  });
-}
-
-// -------------------------------------------------------------------------------Set attributes
-router.post('/set_attributes_:transid:hwid',(req,res) =>{
-  var db = require('../../lib/database')();
-  db.query(`SELECT COUNT (intIRequestID) AS Num FROM tblinitialrequest WHERE intIRequestID = ?`, [req.params.transid], function(err,results) {
-    if (err) console.log(err);
-    db.query(`INSERT INTO tblinitialrequest VALUES ("${req.params.transid}", "${results[0].Num + 1}", "${req.body.service}", "${req.body.quantity}", "${req.body.age1}", "${req.body.age2}", "${req.body.gender}", "${req.body.educ}", "${req.body.workexp}", "${req.body.salary}")`, function(err){
-      if (err) console.log(err);
-      res.redirect('/request_replacement/replace_list_'+ req.params.transid + req.params.hwid, flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findoldhwservice, renderreplacementlist);
+  res.render('request_replacement_client/views/replacement_list',
+  {usertab: req.user, itemtab: req.item, listtab: req.list, counttab:req.count, servicetab: req.service, skilltab: req.skill, hwtab: req.hw, 
+    noofapprovetab: req.noofapprove, feetab: req.fee, oldhwservicetab: req.oldhwservice, currenthwtobereplacedtab: req.currenthwtobereplaced,
+    transdetailstab: req.transdetails});
+    else if(req.valid==0)
+    res.render('admin/views/invalidpages/normalonly');
+    else
+    res.render('login/views/invalid');
+  }
+  
+  function findcreatedlist(req, res, next){
+    var db = require('../../lib/database')();
+    db.query("SELECT * FROM tblfinalrequest WHERE intRequestID=? AND intRequest_ClientID=?",[req.params.transid, req.session.user], function (err, results) {
+      if (err) return res.send(err);
+      if (!results[0])
+      console.log('');
+      req.list = results;
+      return next();
+    });
+  }
+  function findcreateditem(req, res, next){
+    var db = require('../../lib/database')();
+    db.query("SELECT *, count(*) as itemnum FROM tblinitialrequest INNER JOIN tblMservice ON intITypeOfService = intID WHERE intIRequestID=?",[req.params.transid], function (err, results) {
+      if (err) return res.send(err);
+      if (!results[0])
+      console.log('');
+      req.item = results;
+      return next();
+    });
+  }
+  
+  function findcountcreateditem(req, res, next){
+    var db = require('../../lib/database')();
+    db.query("SELECT COUNT(intIRequestID) AS count FROM tblinitialrequest WHERE intIRequestID=?",[req.params.transid], function (err, results) {
+      if (err) return res.send(err);
+      if (!results[0])
+      console.log('');
+      req.count= results;
+      return next();
+    });
+  }
+  function findmservice(req, res, next){
+    var db = require('../../lib/database')();
+    db.query("SELECT * FROM tblmservice ", function (err, results) {
+      if (err) return res.send(err);
+      if (!results[0])
+      console.log('');
+      req.service = results;
+      return next();
+    });
+  }
+  
+  function findskills(req, res, next){
+    var db = require('../../lib/database')();
+    db.query("SELECT * FROM tblmskills", function (err, results) {
+      if (err) return res.send(err);
+      if (!results[0])
+      console.log('');
+      req.skill= results;
+      return next();
+    });
+  }
+  function findresult(req,res,next){
+    var db = require('../../lib/database')();
+    db.query(`SELECT strName, strFName, strLName, strGender, strPicture, strRClientStatus, intRHWID, intRRequestID, intRRequest_No, intRHWID, TIMESTAMPDIFF(YEAR,datBirthDay,CURDATE()) AS age FROM tblresults AS a INNER JOIN tbluser AS b ON a.intRHWID = b.intID INNER JOIN tblhouseholdworker AS c ON b.intID=c.intHWID INNER JOIN tblmservice AS d ON d.intID = c.intServiceID
+    WHERE strRHWStatus = 'Approved' AND strRClientStatus IN ('Approved') AND intRRequestID = ?`,[req.params.transid], function (err, results) {
+      req.hw= results;
+      return next();
+    });
+  }
+  function findapprove(req, res, next){
+    var db = require('../../lib/database')();
+    db.query(`SELECT COUNT(*) AS NOOFapprove FROM tblresults WHERE strRClientStatus='Approved' AND intRRequestID ='${req.params.transid}'`, function (err, results) {
+      if (err) return res.send(err);
+      console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'+req.params.transid);
+      req.noofapprove= results;
+      return next();
+    });
+  }
+  function findfees(req, res, next){
+    var db = require('../../lib/database')();
+    db.query("SELECT * FROM tblfee WHERE intID NOT IN('1','4')", function (err, results) {
+      if (err) return res.send(err);
+      if (!results[0])
+      console.log('');
+      req.fee= results;
+      return next();
+    });
+  }
+  
+  function findoldhwservice(req,res,next){
+    var db = require('../../lib/database')();
+    db.query(`SELECT intHWID, intServiceID, strName FROM tblhouseholdworker INNER JOIN tblmservice ON intServiceID=intID WHERE intHWID = '${req.params.hwid}'`, function (err, results) {
+      if (err) return res.send(err);
+      if (!results[0])
+      console.log('');
+      req.oldhwservice= results;
+      return next();
+    });
+  }
+  function findtransaction(req,res,next){
+    var db = require('../../lib/database')();
+    db.query(`SELECT * FROM tbltransaction WHERE intTRequestID = ?`,[req.params.transid], function(err,results){
+      console.log(err);
+      for(var i = 0; i < results.length; i++){
+        results[i].datDateofDeployment =  moment(results[i].datDateofDeployment).format("LL");
+        results[i].timTimeofDeployment = moment(results[i].timTimeofDeployment, 'HH:mm').format('hh:mm a')
+      }
+      req.transdetails = results;
+      return next();
     })
+  }
+  
+  router.get('/replace_list_:transid:hwid', flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findoldhwservice,findcurrenthwtobereplaced, findtransaction, renderreplacementlist)
+  // -------------------------------------------------------------------------------Set attributes
+  router.post('/set_attributes_:transid:hwid',(req,res) =>{
+    var db = require('../../lib/database')();
+    db.query(`SELECT COUNT (intIRequestID) AS Num FROM tblinitialrequest WHERE intIRequestID = ?`, [req.params.transid], function(err,results) {
+      if (err) console.log(err);
+      db.query(`INSERT INTO tblinitialrequest VALUES ("${req.params.transid}", "${results[0].Num + 1}", "${req.body.service}", "${req.body.quantity}", "${req.body.age1}", "${req.body.age2}", "${req.body.gender}", "${req.body.educ}", "${req.body.workexp}", "${req.body.salary}")`, function(err){
+        if (err) console.log(err);
+        res.redirect('/request_replacement/replace_list_'+ req.params.transid + req.params.hwid, flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findoldhwservice, renderreplacementlist);
+      })
   })
 });
 //---------------------------------------------------------------------------------Submit list to admin
@@ -397,7 +412,7 @@ function finditems(req,res,next){
   var db = require('../../lib/database')();
   db.query(`SELECT intServiceID,ta.strName, COUNT(intServiceID) AS service, fltFee, (COUNT(intServiceID)*fltfee) as subtotal FROM
           (SELECT * FROM tblresults INNER JOIN tblhouseholdworker ON intHWID = intRHWID INNER JOIN tblmservice ON intServiceID = intID WHERE strRClientStatus ='Approved' and intRRequestID=?) as ta,
-          (SELECT * FROM tblfee WHERE intID=1) as tb 
+          (SELECT * FROM tblfee WHERE intID=4) as tb 
           GROUP BY intServiceID `,[req.params.userid], function (err, results) {
 
     if (err) return res.send(err);
@@ -411,7 +426,7 @@ function findsubtotal(req,res,next){
   var db = require('../../lib/database')();
   db.query(`SELECT (COUNT(intServiceID)*fltfee) as subtotal FROM
             (SELECT * FROM tblresults INNER JOIN tblhouseholdworker ON intHWID = intRHWID INNER JOIN tblmservice ON intServiceID = intID WHERE strRClientStatus ='Approved' and intRRequestID=?) as ta,
-            (SELECT * FROM tblfee WHERE intID=1) as tb`, [req.params.userid], function (err, results) {
+            (SELECT * FROM tblfee WHERE intID=4) as tb`, [req.params.userid], function (err, results) {
     if (err) return res.send(err);
     if (!results[0])
     console.log('');

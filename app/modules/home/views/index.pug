@@ -19,16 +19,18 @@ block content
                         .col-md-12.col-sm-12.col-xs-12
                             .x_panel
                             div(role='tabpanel', data-example-id='togglable-tabs')
-                                        ul#myTab.nav.nav-tabs.bar_tabs(role='tablist')
-                                            li.active(role='presentation')
-                                                a#home-tab(href='#tab_content1', role='tab', data-toggle='tab', aria-expanded='true') My Request
-                                            li(role='presentation')
-                                                a#profile-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Incoming Request
-                                            li(role='presentation')
-                                                a#profile-tab(href='#tab_content3', role='tab', data-toggle='tab', aria-expanded='false') History	
-                                        #myTabContent.tab-content
-                                            #tab_content1.tab-pane.fade.active.in(role='tabpanel', aria-labelledby='home-tab')
-                                                // My Request
+                                ul#myTab.nav.nav-tabs.bar_tabs(role='tablist')
+                                    li.active(role='presentation')
+                                        a#home-tab(href='#tab_content1', role='tab', data-toggle='tab', aria-expanded='true') My Request
+                                    li(role='presentation')
+                                        a#incoming-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Incoming Request
+                                    li(role='presentation')
+                                        a#history-tab(href='#tab_content3', role='tab', data-toggle='tab', aria-expanded='false') History	
+                                #myTabContent.tab-content
+                                    #tab_content1.tab-pane.fade.active.in(role='tabpanel', aria-labelledby='home-tab')
+                                        //- each request in requesttab
+                                        each request in requesttab
+                                            if request.strRequestType == 'Add' && (request.strRequestStatus == 'Draft' || request.strRequestStatus == 'On process' || request.strRequestStatus == 'Pending' || request.strRequestStatus == 'Approved' || request.strRequestStatus == 'Rejected')
                                                 .row
                                                     .col-md-12
                                                         br
@@ -43,100 +45,43 @@ block content
                                                                                     | Type of Request:
                                                                                     b &nbsp&nbspAdd Household Worker
                                                                                     br
+                                                                                    br
+                                                                                    p Date Created: 
+                                                                                        b &nbsp #{request.datRequestDate}
                                                                             .col-xs-12.text-center
                                                                                 p
-                                                                                h2 You have successfully sent this request. This request is awaiting for approval.
-                                                                                p
+                                                                                if request.strRequestType == 'Add' && request.strRequestStatus == 'Draft'
+                                                                                    h2 You have created a list. The request status is currently on 'Draft'. Please submit your list to be able the agency to see your request.
+                                                                                    p
+                                                                                else if request.strRequestType == 'Add' && request.strRequestStatus == 'On process'
+                                                                                    h2 Your created list has been submitted, please wait for the results that the agency will send to you. The request status is currently 'On process'. You can proceed to deployment and contract negotiations after you completed your list.
+                                                                                    p
+                                                                                else if request.strRequestType == 'Add' && request.strRequestStatus == 'Pending'
+                                                                                    h2 Your request has been sent for approval of the agency. The request status is currently 'On process'.
+                                                                                    p
+                                                                                else if request.strRequestType == 'Add' && request.strRequestStatus == 'Approved'
+                                                                                    h2 Your request has been approved by the agency. Go to your list to view the details of the deployment.
+                                                                                    p
                                                                                 br
                                                                         .col-xs-12.bottom.text-center
-                                                                            a(href='createlist')
-                                                                                button.btn.btn-primary(type='button')
-                                                                                    | View
-                                            // END My Request
-                                            #tab_content2.tab-pane.fade(role='tabpanel', aria-labelledby='profile-tab')
-                                                // Incoming Request
-                                                each lr in leaveReq
-                                                    if lr.strLeaveStatus == 'For Client Approval'
-                                                        .row
-                                                            .col-md-12
-                                                                br
-                                                                .x_content
-                                                                    .row
-                                                                        .col-md-12.col-sm-4.col-xs-12.profile_details
-                                                                            .well.profile_view(style='width:100%')
-                                                                                .col-xs-12
-                                                                                    center
-                                                                                        h2
-                                                                                            br
-                                                                                            | Type of Request:
-                                                                                            b &nbsp&nbspLeave
-                                                                                            br
-                                                                                    .col-xs-12.text-center
-                                                                                        p
-                                                                                        h2
-                                                                                            | #{lr.strFName} #{lr.strLName} sent you request. This request is awaiting for your approval.
-                                                                                        p
-                                                                                        br
-                                                                                -var fullname = lr.strLName + " " + lr.strFName + " " + lr.strMName
-                                                                                .col-xs-12.bottom.text-center
-                                                                                    button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLeave',
-                                                                                        data-name=fullname, data-image=`../images/${lr.strPicture}`, data-ty=lr.strName, data-na=lr.intHouseholdID, data-id=lr.intLeaveRequestID,
-                                                                                        data-start=lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View
-                                                    else if lr.strLeaveStatus == 'On-going'
-                                                        .row
-                                                            .col-md-12
-                                                                br
-                                                                .x_content
-                                                                    .row
-                                                                        .col-md-12.col-sm-4.col-xs-12.profile_details
-                                                                            .well.profile_view(style='width:100%')
-                                                                                .col-xs-12
-                                                                                    center
-                                                                                        h2
-                                                                                            br
-                                                                                            | Type of Request:
-                                                                                            b &nbsp&nbspLeave
-                                                                                            br
-                                                                                    .col-xs-12.text-center
-                                                                                        p
-                                                                                        h2
-                                                                                            |  You may choose a reliever while #{lr.strFName} #{lr.strLName} is on Leave. #{lr.strFName} #{lr.strLName} will be on leave on #{lr.datDateFrom}.
-                                                                                        p
-                                                                                        br
-                                                                                -var fullname = lr.strLName + " " + lr.strFName + " " + lr.strMName
-                                                                                .col-xs-12.bottom.text-center
-                                                                                    button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLeave',
-                                                                                        data-name=fullname, data-image=`../images/${lr.strPicture}`, data-ty=lr.strName, data-na=lr.intHouseholdID, data-id=lr.intLeaveRequestID,
-                                                                                        data-start=lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View Leave Details
-                                                                                    button.btn.btn-primary-sm(type='button') Choose a Reliver
-                                                    else if lr.strLeaveStatus == 'Approved'
-                                                        .row
-                                                            .col-md-12
-                                                                br
-                                                                .x_content
-                                                                    .row
-                                                                        .col-md-12.col-sm-4.col-xs-12.profile_details
-                                                                            .well.profile_view(style='width:100%')
-                                                                                .col-xs-12
-                                                                                    center
-                                                                                        h2
-                                                                                            br
-                                                                                            | Type of Request:
-                                                                                            b &nbsp&nbspLeave
-                                                                                            br
-                                                                                    .col-xs-12.text-center
-                                                                                        p
-                                                                                        h2
-                                                                                            | #{lr.strFName} #{lr.strLName} will be on leave on #{lr.datDateFrom}. You did not choose a reliver.
-                                                                                        p
-                                                                                        br
-                                                                                -var fullname = lr.strLName + " " + lr.strFName + " " + lr.strMName
-                                                                                .col-xs-12.bottom.text-center
-                                                                                    button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLeave',
-                                                                                        data-name=fullname, data-image=`../images/${lr.strPicture}`, data-ty=lr.strName, data-na=lr.intHouseholdID, data-id=lr.intLeaveRequestID,
-                                                                                        data-start=lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View Leave Details
-                                                                                    button.btn.btn-primary-sm(type='button') Choose a Reliver
-                                                each replace in replacetab
+                                                                            if request.strRequestType == 'Add' && request.strRequestStatus == 'Draft'
+                                                                                a(href='/request_add/mylist_'+request.intRequestID)
+                                                                                    button.btn.btn-primary(type='button')
+                                                                                        | Go to My List
+                                                                            else if request.strRequestType == 'Add' && request.strRequestStatus == 'On process'
+                                                                                a(href='/request_add/mylist_'+request.intRequestID)
+                                                                                    button.btn.btn-primary(type='button')
+                                                                                        | Go to My List
+                                                                            else if request.strRequestType == 'Add' && request.strRequestStatus == 'Pending'
+                                                                                a(href='/request_add/mylist_'+request.intRequestID)
+                                                                                    button.btn.btn-primary(type='button')
+                                                                                        | Go to My List
+                                                                            else if request.strRequestType == 'Add' && request.strRequestStatus == 'Approved'
+                                                                                a(href='/request_add/mylist_'+request.intRequestID)
+                                                                                    button.btn.btn-primary(type='button')
+                                                                                        | Go to My List
+                                            else if request.strRequestType == 'Replacement' && (request.strRequestStatus == 'Draft' || request.strRequestStatus == 'On process' || request.strRequestStatus == 'Pending' || request.strRequestStatus == 'Approved' || request.strRequestStatus == 'Rejected')
+                                                each request2 in request2tab
                                                     .row
                                                         .col-md-12
                                                             br
@@ -149,23 +94,47 @@ block content
                                                                                     h2
                                                                                         br
                                                                                         | Type of Request:
-                                                                                        b &nbsp&nbsp Replacement of Client
+                                                                                        b &nbsp&nbspReplacement of Household Worker
                                                                                         br
+                                                                                        br
+                                                                                        p Date Created: 
+                                                                                            b &nbsp #{request2.datRequestDate}
                                                                                 .col-xs-12.text-center
                                                                                     p
-                                                                                    h2
-                                                                                        | Your household worker wants you to replace him/her. Your reamaining replacement will not decrease when you found a replacement because this is not your request. This is a valid request and was validated by the agency. Failure to find a replacement for the household worker 
-                                                                                        | will result to termination of his/her contract.
-                                                                                    p
+                                                                                    if request2.strRequestType == 'Replacement' && request2.strRequestStatus == 'Draft'
+                                                                                        h2 You have created a list for replacement. The request status is currently on 'Draft'. Please submit your list to be able the agency to see your request.
+                                                                                        p
+                                                                                    else if request2.strRequestType == 'Replacement' && request2.strRequestStatus == 'On process'
+                                                                                        h2 Your created list has been submitted, please wait for the results that the agency will send to you. The request status is currently 'On process'. You can proceed to deployment and contract negotiations after you completed your list.
+                                                                                        p
+                                                                                    else if request2.strRequestType == 'Replacement' && request2.strRequestStatus == 'Pending'
+                                                                                        h2 Your request has been sent for approval of the agency. The request status is currently 'On process'.
+                                                                                        p
+                                                                                    else if request2.strRequestType == 'Replacement' && request2.strRequestStatus == 'Approved'
+                                                                                        h2 Your request has been approved by the agency. Go to your list to view the details of the deployment.
+                                                                                        p
                                                                                     br
                                                                             .col-xs-12.bottom.text-center
-                                                                                a(href='/request_replacement/replace_list_'+replace.intRequestID+replace.hwid)
-                                                                                    button.btn.btn-primary(type='button') Find Replacement
-
-                                                
-                                            // END Incoming Request
-                                            #tab_content3.tab-pane.fade(role='tabpanel', aria-labelledby='profile-tab')
-                                                // History
+                                                                                if request2.strRequestType == 'Replacement' && request2.strRequestStatus == 'Draft'
+                                                                                    a(href='/request_replacement/replace_list_'+request2.intRequestID+request2.intReplaceOldHWID)
+                                                                                        button.btn.btn-primary(type='button')
+                                                                                            | Go to My List
+                                                                                else if request2.strRequestType == 'Replacement' && request2.strRequestStatus == 'On process'
+                                                                                    a(href='/request_replacement/replace_list_'+request2.intRequestID+request2.intReplaceOldHWID)
+                                                                                        button.btn.btn-primary(type='button')
+                                                                                            | Go to My List
+                                                                                else if request2.strRequestType == 'Replacement' && request2.strRequestStatus == 'Pending'
+                                                                                    a(href='/request_replacement/replace_list_'+request2.intRequestID+request2.intReplaceOldHWID)
+                                                                                        button.btn.btn-primary(type='button')
+                                                                                            | Go to My List
+                                                                                else if request2.strRequestType == 'Replacement' && request2.strRequestStatus == 'Approved'
+                                                                                    a(href='/request_replacement/replace_list_'+request2.intRequestID+request2.intReplaceOldHWID)
+                                                                                        button.btn.btn-primary(type='button')
+                                                                                            | Go to My List
+                                    #tab_content2.tab-pane.fade(role='tabpanel', aria-labelledby='incoming-tab')
+                                        // Incoming Request
+                                        each lr in leaveReq
+                                            if lr.strLeaveStatus == 'For Client Approval'
                                                 .row
                                                     .col-md-12
                                                         br
@@ -177,16 +146,211 @@ block content
                                                                             center
                                                                                 h2
                                                                                     br
-                                                                                    | This is your previous transaction.
+                                                                                    | Type of Request:
+                                                                                    b &nbsp&nbspLeave
+                                                                                    br
                                                                             .col-xs-12.text-center
                                                                                 p
                                                                                 h2
-                                                                                    h2
-                                                                                        p
-                                                                                        br
+                                                                                    | #{lr.strFName} #{lr.strLName} sent you request. This request is awaiting for your approval.
+                                                                                p
+                                                                                br
+                                                                        -var fullname = lr.strLName + " " + lr.strFName + " " + lr.strMName
                                                                         .col-xs-12.bottom.text-center
-                                                                            button.btn.btn-primary(type='button')
+                                                                            button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLeave',
+                                                                                data-name=fullname, data-image=`../images/${lr.strPicture}`, data-ty=lr.strName, data-na=lr.intHouseholdID, data-id=lr.intLeaveRequestID,
+                                                                                data-start=lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View
+                                            else if lr.strLeaveStatus == 'On-going'
+                                                .row
+                                                    .col-md-12
+                                                        br
+                                                        .x_content
+                                                            .row
+                                                                .col-md-12.col-sm-4.col-xs-12.profile_details
+                                                                    .well.profile_view(style='width:100%')
+                                                                        .col-xs-12
+                                                                            center
+                                                                                h2
+                                                                                    br
+                                                                                    | Type of Request:
+                                                                                    b &nbsp&nbspLeave
+                                                                                    br
+                                                                            .col-xs-12.text-center
+                                                                                p
+                                                                                h2
+                                                                                    |  You may choose a reliever while #{lr.strFName} #{lr.strLName} is on Leave. #{lr.strFName} #{lr.strLName} will be on leave on #{lr.datDateFrom}.
+                                                                                p
+                                                                                br
+                                                                        -var fullname = lr.strLName + " " + lr.strFName + " " + lr.strMName
+                                                                        .col-xs-12.bottom.text-center
+                                                                            button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLeave',
+                                                                                data-name=fullname, data-image=`../images/${lr.strPicture}`, data-ty=lr.strName, data-na=lr.intHouseholdID, data-id=lr.intLeaveRequestID,
+                                                                                data-start=lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View Leave Details
+                                                                            button.btn.btn-primary-sm(type='button') Choose a Reliver
+                                            else if lr.strLeaveStatus == 'Approved'
+                                                .row
+                                                    .col-md-12
+                                                        br
+                                                        .x_content
+                                                            .row
+                                                                .col-md-12.col-sm-4.col-xs-12.profile_details
+                                                                    .well.profile_view(style='width:100%')
+                                                                        .col-xs-12
+                                                                            center
+                                                                                h2
+                                                                                    br
+                                                                                    | Type of Request:
+                                                                                    b &nbsp&nbspLeave
+                                                                                    br
+                                                                            .col-xs-12.text-center
+                                                                                p
+                                                                                h2
+                                                                                    | #{lr.strFName} #{lr.strLName} will be on leave on #{lr.datDateFrom}. You did not choose a reliver.
+                                                                                p
+                                                                                br
+                                                                        -var fullname = lr.strLName + " " + lr.strFName + " " + lr.strMName
+                                                                        .col-xs-12.bottom.text-center
+                                                                            button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLeave',
+                                                                                data-name=fullname, data-image=`../images/${lr.strPicture}`, data-ty=lr.strName, data-na=lr.intHouseholdID, data-id=lr.intLeaveRequestID,
+                                                                                data-start=lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View Leave Details
+                                                                            button.btn.btn-primary-sm(type='button') Choose a Reliver
+                                        each replace in replacetab
+                                            .row
+                                                .col-md-12
+                                                    br
+                                                    .x_content
+                                                        .row
+                                                            .col-md-12.col-sm-4.col-xs-12.profile_details
+                                                                .well.profile_view(style='width:100%')
+                                                                    .col-xs-12
+                                                                        center
+                                                                            h2     
+                                                                                br
+                                                                                | Type of Request:
+                                                                                b &nbsp&nbsp Replacement of Client
+                                                                                br
+                                                                        .col-xs-12.text-center
+                                                                            if replace.strRequestStatus == 'Draft'
+                                                                                p
+                                                                                h2
+                                                                                    | Your household worker wants you to replace him/her. Your reamaining replacement will not decrease when you search for a replacement because this is not your request. This is a valid request and was validated by the agency. Failure to find a replacement for the household worker 
+                                                                                    | will result to termination of his/her contract.
+                                                                                p
+                                                                                br
+                                                                            else if replace.strRequestStatus == 'On process'
+                                                                                p
+                                                                                h2
+                                                                                    | You can monitor your list for replacement for #{replace.hwfname} here.
+                                                                                p
+                                                                                br
+                                                                            else if replace.strRequestStatus == 'Pending'
+                                                                                p
+                                                                                h2
+                                                                                    | Your request for replacement for replacement for #{replace.hwfname} is now awaiting for the approval of the admin. You can monitor your list for replacement here.
+                                                                                p
+                                                                                br
 
+                                                                    .col-xs-12.bottom.text-center
+                                                                        if replace.strRequestStatus == 'Draft'
+                                                                            a(href='/request_replacement/replace_list_'+replace.intRequestID+replace.hwid)
+                                                                                button.btn.btn-primary(type='button') Find Replacement
+                                                                        else if replace.strRequestStatus == 'On process'
+                                                                            a(href='/request_replacement/replace_list_'+replace.intRequestID+replace.hwid)
+                                                                                button.btn.btn-primary(type='button') Monitor List
+                                                                        else if replace.strRequestStatus == 'Pending'
+                                                                            a(href='/request_replacement/replace_list_'+replace.intRequestID+replace.hwid)
+                                                                                button.btn.btn-primary(type='button') Monitor List
+                                                                            button.btn.btn-primary(type='button') View Invoice             
+                                    #tab_content3.tab-pane.fade(role='tabpanel', aria-labelledby='history-tab')
+                                        each request in requesttab
+                                            if request.strRequestType == 'Add' && (request.strRequestStatus == 'Finished' || request.strRequestStatus == 'Rejected' || request.strRequestStatus == 'Cancelled')
+                                                .row
+                                                    .col-md-12
+                                                        br
+                                                        .x_content
+                                                            .row
+                                                                .col-md-12.col-sm-4.col-xs-12.profile_details
+                                                                    .well.profile_view(style='width:100%')
+                                                                        .col-xs-12
+                                                                            center
+                                                                                h2
+                                                                                    br
+                                                                                    | Type of Request:
+                                                                                    b &nbsp&nbspAdd Household Worker
+                                                                                    br
+                                                                                    br
+                                                                                    p Date Created: 
+                                                                                        b &nbsp #{request.datRequestDate}
+                                                                            .col-xs-12.text-center
+                                                                                p
+                                                                                if request.strRequestType == 'Add' && request.strRequestStatus == 'Finished'
+                                                                                    h2 This request is Finished.
+                                                                                    p
+                                                                                else if request.strRequestType == 'Add' && request.strRequestStatus == 'Cancelled'
+                                                                                    h2 You cancelled this request.
+                                                                                    p
+                                                                                else if request.strRequestType == 'Add' && request.strRequestStatus == 'Rejected'
+                                                                                    h2 The agency rejected this request.
+                                                                                    p
+                                                                                br
+                                                                        .col-xs-12.bottom.text-center
+                                                                            if request.strRequestType == 'Add' && request.strRequestStatus == 'Finished'
+                                                                                a(href='/request_add/mylist_'+request.intRequestID)
+                                                                                    button.btn.btn-primary(type='button')
+                                                                                        | View Details
+                                                                            else if request.strRequestType == 'Add' && request.strRequestStatus == 'Cancelled'
+                                                                                a(href='/request_add')
+                                                                                    button.btn.btn-primary(type='button')
+                                                                                        | View Details
+                                                                            else if request.strRequestType == 'Add' && request.strRequestStatus == 'Rejected'
+                                                                                a(href='/request_add')
+                                                                                    button.btn.btn-primary(type='button')
+                                                                                        | View Details
+                                            else if (request.strRequestType == 'Replacement' || request.strRequestType == 'Replace Client') && (request.strRequestStatus == 'Finished' || request.strRequestStatus == 'Rejected' || request.strRequestStatus == 'Cancelled')
+                                                each request2 in request2tab
+                                                    .row
+                                                        .col-md-12
+                                                            br
+                                                            .x_content
+                                                                .row
+                                                                    .col-md-12.col-sm-4.col-xs-12.profile_details
+                                                                        .well.profile_view(style='width:100%')
+                                                                            .col-xs-12
+                                                                                center
+                                                                                    h2
+                                                                                        br
+                                                                                        | Type of Request:
+                                                                                        b &nbsp&nbspReplace Household Worker
+                                                                                        br
+                                                                                        br
+                                                                                        p Date Created: 
+                                                                                            b &nbsp #{request2.datRequestDate}
+                                                                                .col-xs-12.text-center
+                                                                                    p
+                                                                                    if (request2.strRequestType == 'Replacement' || request2.strRequestType == 'Replace Client') && request2.strRequestStatus == 'Finished'
+                                                                                        h2 This request is Finished.
+                                                                                        p
+                                                                                    else if (request2.strRequestType == 'Replacement' || request2.strRequestType == 'Replace Client') && request2.strRequestStatus == 'Cancelled'
+                                                                                        h2 You cancelled this request.
+                                                                                        p
+                                                                                    else if (request2.strRequestType == 'Replacement' || request2.strRequestType == 'Replace Client') && request2.strRequestStatus == 'Rejected'
+                                                                                        h2 The agency rejected this request.
+                                                                                        p
+                                                                                    br
+                                                                            .col-xs-12.bottom.text-center
+                                                                                if (request2.strRequestType == 'Replacement' || request2.strRequestType == 'Replace Client') && request2.strRequestStatus == 'Finished'
+                                                                                    a(href='/request_replacement/replace_list_'+request2.intRequestID+request2.intReplaceOldHWID)
+                                                                                        button.btn.btn-primary(type='button')
+                                                                                            | View Details
+                                                                                else if (request2.strRequestType == 'Replacement' || request2.strRequestType == 'Replace Client') && request2.strRequestStatus == 'Cancelled'
+                                                                                    a(href='/request_replacement')
+                                                                                        button.btn.btn-primary(type='button')
+                                                                                            | View Details
+                                                                                else if (request2.strRequestType == 'Replacement' || request2.strRequestType == 'Replace Client') && request2.strRequestStatus == 'Rejected'
+                                                                                    a(href='/request_replacement')
+                                                                                        button.btn.btn-primary(type='button')
+                                                                                            | View Details
+                                            //- else if request.strRequestType == 'Replace Client'&& (request.strRequestStatus == 'Finished' || request.strRequestStatus == 'Rejected' || request.strRequestStatus == 'Cancelled')
         #viewLeave.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog.modal-xs
                 form(method="POST"  action="/home_client")

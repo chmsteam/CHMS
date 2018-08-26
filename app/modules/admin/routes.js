@@ -104,6 +104,10 @@ function findreplacementofclient(req,res, next){
   db.query(`SELECT *, u.intID AS clientid, u.strFName AS clientfname, u.strLName AS clientlname, uu.intID AS hwid, uu.strFName AS hwfname, uu.strLName AS hwlname FROM tblfinalrequest INNER JOIN tbluser as u on u.intID = intRequest_ClientID INNER JOIN tblreplacement ON intReplaceReqID = intRequestID INNER JOIN tbluser AS uu ON uu.intID = intReplaceOldHWID
   WHERE strRequestType='Replace Client'`, function(err,results) {
     console.log(err)
+    for(var i = 0; i < results.length; i++){
+      results[i].datRequestDate =  moment(results[i].datRequestDate).format("LL");   
+    }
+    req.hw5=results;
     req.replace = results
     return next();
   });
@@ -114,7 +118,9 @@ function repofcliaction (req,res){
   var db = require('../../lib/database')();
   if (req.body.name='accept'){
     db.query(`UPDATE tblfinalrequest SET strRequestStatus='Draft' WHERE intRequestID = ?`,[req.body.transid], function(err,results){
-      res.redirect('/admin/transaction_replacement_of_client', flog, findreplacementofclient, hhReqReplacementrender)
+      db.query(`UPDATE tblcontract SET strCurStatus='To be replaced' WHERE strCurStatus='Current' AND intConHWID =?`,[req.body.hwid], function(err,results){
+        res.redirect('/admin/transaction_replacement_of_client', flog, findreplacementofclient, hhReqReplacementrender)
+      })
     })
   }
   else if (req.body.name='reject'){
@@ -691,6 +697,10 @@ function findthecontract(req,res,next){
   var db = require('../../lib/database')();
   db.query(`SELECT * FROM tbltransaction WHERE intTRequestID = '${req.params.requestid}'`, function(err, results){
     console.log(err);
+    for(var i = 0; i <results.length; i++){
+     results[i].datDateofDeployment =  moment(results[i].datDateofDeployment).format("LL");
+     results[i].timTimeofDeployment =  moment(results[i].timTimeofDeployment, 'HH:mm').format("hh:mm a");
+    }
     req.contractdetails = results;
     return next();
   })

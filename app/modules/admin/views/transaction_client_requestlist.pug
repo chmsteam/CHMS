@@ -88,7 +88,11 @@ block content
                                                             //- td #{contractdetails.}
                                                             td #{contractdetails.datDateofDeployment}
                                                             td #{contractdetails.timTimeofDeployment}
-                                                            td #{contractdetails.intTypeofDeployment}
+                                                            if contractdetails.intTypeofDeployment =='2'
+                                                                td Drop-off
+                                                            else if contractdetails.intTypeofDeployment =='3'
+                                                                td Pick-up
+
                                                             td 
                                                                 button.btn.btn-info(type='button')
                                                                     i.fa.fa-list
