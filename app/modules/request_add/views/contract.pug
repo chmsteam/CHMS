@@ -1,101 +1,102 @@
 extends ../../../templates/navbarclient.pug
 block content
-   .right_col(role='main')
-        div
-            .clearfix
-            .row
-                .col-md-12
-                    .x_panel
-                        .x_title
-                            .pull-right
-                                each list in listtab
-                                    a(href='/request_add/mylist_'+list.intRequestID)
-                                        button.btn.btn-primary.btn-lg(type='button') Back
-                            h1 Contract
-                        .clearfix
-                            table.table.table-striped.table-bordered
-                                thead
-                                    tr
-                                        th MAIN CONTRACT
-                                        th STATUS
-                                        th ACTION
-                                      
-                                tbody
-                                    each cont in conttab
+   section#services
+        .right_col(role='main' style="background-color:transparent;")
+            div
+                .clearfix
+                .row
+                    .col-md-12
+                        .x_panel
+                            .x_title
+                                .pull-right
+                                    each list in listtab
+                                        a(href='/request_add/mylist_'+list.intRequestID)
+                                            button.btn.btn-primary.btn-lg(type='button') Back
+                                h1 Contract
+                            .clearfix
+                                table.table.table-striped.table-bordered
+                                    thead
                                         tr
-                                            td
-                                                center
-                                                        if cont.strContractStatus == '' 
-                                                            button.btn.btn-primary(type='button' data-toggle='modal', data-target='#maincontract')
-                                                                i.fa.fa-list
-                                                                |   Contract
-                                                        else if cont.strContractStatus == 'Accepted'
-                                                            button.btn.btn-primary(type='button' data-toggle='modal', data-target='#maincontract')
-                                                                i.fa.fa-list
-                                                                |   Contract
-                                            td #{cont.strContractStatus}
-                                            td
-                                                center
-                                                    if cont.strContractStatus == ''
-                                                        form.form-horizontal.form-label-center(method='POST' action='deccontract')
-                                                            each list in listtab
-                                                                input(type='text', required='required', name='transid', value=''+list.intRequestID, style="display:none;")
-                                                                button.btn.btn-success.btn-lg(type='submit' name='btn1' value='accept') Accept
-                                                            button.btn.btn-danger.btn-lg(type='button' data-toggle='modal' data-target='#rejectcontract') Reject
-                                                                //- a(href="/request_add/pdfsmp")
-                                                                //-     button.btn.btn-danger.btn-lg(type='button') testpdf
-                                                    else if cont.strContractStatus == 'Accepted'
-                                                        //- h1 cc
-                        
-                        br
-                        each cont in conttab
-                            if cont.strContractStatus == '' 
-                            else if cont.strContractStatus == 'Accepted'
-                                h1 Household Worker Approval:
-                                .clearfix
-                                    table.table.table-striped.table-bordered
-                                        thead
+                                            th MAIN CONTRACT
+                                            th STATUS
+                                            th ACTION
+                                        
+                                    tbody
+                                        each cont in conttab
                                             tr
-                                                th NAME
-                                                th SERVICE
-                                                th SALARY
-                                                th STATUS
-                                                th ACTION
-                                        tbody
-                                            each hw in hwtab
+                                                td
+                                                    center
+                                                            if cont.strContractStatus == '' 
+                                                                button.btn.btn-primary(type='button' data-toggle='modal', data-target='#maincontract')
+                                                                    i.fa.fa-list
+                                                                    |   Contract
+                                                            else if cont.strContractStatus == 'Accepted'
+                                                                button.btn.btn-primary(type='button' data-toggle='modal', data-target='#maincontract')
+                                                                    i.fa.fa-list
+                                                                    |   Contract
+                                                td #{cont.strContractStatus}
+                                                td
+                                                    center
+                                                        if cont.strContractStatus == ''
+                                                            form.form-horizontal.form-label-center(method='POST' action='deccontract')
+                                                                each list in listtab
+                                                                    input(type='text', required='required', name='transid', value=''+list.intRequestID, style="display:none;")
+                                                                    button.btn.btn-success.btn-lg(type='submit' name='btn1' value='accept') Accept
+                                                                button.btn.btn-danger.btn-lg(type='button' data-toggle='modal' data-target='#rejectcontract') Reject
+                                                                    //- a(href="/request_add/pdfsmp")
+                                                                    //-     button.btn.btn-danger.btn-lg(type='button') testpdf
+                                                        else if cont.strContractStatus == 'Accepted'
+                                                            //- h1 cc
+                            
+                            br
+                            each cont in conttab
+                                if cont.strContractStatus == '' 
+                                else if cont.strContractStatus == 'Accepted'
+                                    h1 Household Worker Approval:
+                                    .clearfix
+                                        table.table.table-striped.table-bordered
+                                            thead
                                                 tr
-                                                    td #{hw.strFName} #{hw.strLName}
-                                                    td #{hw.strName}
-                                                    td #{hw.intConSalary}
-                                                    td #{hw.strConStatus}
-                                                    td
-                                                        form(method='POST' action='/request_add/send_contract_hw')
-                                                            input(type='text', name='hwid', value=''+hw.intConHWID, style="display:none;")
-                                                            input(type='text', name='transid', value=''+hw.intConTransID, style="display:none;")
-                                                            if hw.strConStatus == ''
-                                                                button.btn.btn-primary.btn-md(type='button') View Contract
-                                                                button.btn.btn-warning.btn-md(type='button' data-toggle='modal', data-target='#edit_salary' data-id=hw.intConTransID, data-hwid=hw.intConHWID, data-salary=hw.intConSalary) Edit Salary
-                                                                button.btn.btn-success.btn-md(type='submit' name='btn1' value='sendtohw') Send Contract
-                                                            else if hw.strConStatus == 'Waiting'
-                                                                button.btn.btn-primary.btn-md(type='button') View Contract
-                                                            else if hw.strConStatus == 'Approved'
-                                                                button.btn.btn-primary.btn-md(type='button') View Contract
-                                                            else if hw.strConStatus == 'Rejected'
-                                                                button.btn.btn-warning.btn-md(type='button' data-toggle='modal', data-target='#edit_salary' data-id=hw.intConTransID, data-hwid=hw.intConHWID, data-salary=hw.intConSalary) Edit Salary
-                                                                button.btn.btn-success.btn-md(type='button') Send Contract
-                                                                button.btn.btn-primary.btn-md(type='button') Remove from Selection
-                        br
-                        each noacontract in noacontracttab
-                            each tnocontract in tnocontracttab
-                                if noacontract.noa == tnocontract.tno
-                                    .pull-right
-                                        each list in listtab
-                                            form(method='POST', action = '/request_add/send_to_admin')
-                                                input(type='text', name='transid', value=''+list.intRequestID, style="display:none;")
-                                                button.btn.btn-success.btn-md(type='submit' name='btn1' value='send') Send Request To Admin  
-                                    
-                                else
-                                    //- h1 hindi pa   
+                                                    th NAME
+                                                    th SERVICE
+                                                    th SALARY
+                                                    th STATUS
+                                                    th ACTION
+                                            tbody
+                                                each hw in hwtab
+                                                    tr
+                                                        td #{hw.strFName} #{hw.strLName}
+                                                        td #{hw.strName}
+                                                        td #{hw.intConSalary}
+                                                        td #{hw.strConStatus}
+                                                        td
+                                                            form(method='POST' action='/request_add/send_contract_hw')
+                                                                input(type='text', name='hwid', value=''+hw.intConHWID, style="display:none;")
+                                                                input(type='text', name='transid', value=''+hw.intConTransID, style="display:none;")
+                                                                if hw.strConStatus == ''
+                                                                    button.btn.btn-primary.btn-md(type='button') View Contract
+                                                                    button.btn.btn-warning.btn-md(type='button' data-toggle='modal', data-target='#edit_salary' data-id=hw.intConTransID, data-hwid=hw.intConHWID, data-salary=hw.intConSalary) Edit Salary
+                                                                    button.btn.btn-success.btn-md(type='submit' name='btn1' value='sendtohw') Send Contract
+                                                                else if hw.strConStatus == 'Waiting'
+                                                                    button.btn.btn-primary.btn-md(type='button') View Contract
+                                                                else if hw.strConStatus == 'Approved'
+                                                                    button.btn.btn-primary.btn-md(type='button') View Contract
+                                                                else if hw.strConStatus == 'Rejected'
+                                                                    button.btn.btn-warning.btn-md(type='button' data-toggle='modal', data-target='#edit_salary' data-id=hw.intConTransID, data-hwid=hw.intConHWID, data-salary=hw.intConSalary) Edit Salary
+                                                                    button.btn.btn-success.btn-md(type='button') Send Contract
+                                                                    button.btn.btn-primary.btn-md(type='button') Remove from Selection
+                            br
+                            each noacontract in noacontracttab
+                                each tnocontract in tnocontracttab
+                                    if noacontract.noa == tnocontract.tno
+                                        .pull-right
+                                            each list in listtab
+                                                form(method='POST', action = '/request_add/send_to_admin')
+                                                    input(type='text', name='transid', value=''+list.intRequestID, style="display:none;")
+                                                    button.btn.btn-success.btn-md(type='submit' name='btn1' value='send') Send Request To Admin  
+                                        
+                                    else
+                                        //- h1 hindi pa   
 
 
         #maincontract.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-hidden='true')
