@@ -1,7 +1,7 @@
 extends ../../../templates/navbarclient
 block content
-    .right_col(role='main')
-        section#services
+    section#services
+        .right_col(role='main' style="background-color:transparent;")
             .page-title
                 .title_left
                     each user in usertab
@@ -187,74 +187,74 @@ block content
                                                                         .col-xs-12.bottom.text-center
                                                                             button.btn.btn-primary(type='button')
 
-    #viewLeave.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
-        .modal-dialog.modal-xs
-            form(method="POST"  action="/home_client")
-                .modal-content
-                    .modal-header(style="background-color:#2A3F54; color:white")
-                        button.close(type='button', data-dismiss='modal')
-                            span(aria-hidden='true') ×
-                        h4#myModalLabel.modal-title Leave Request Info
-                    .modal-body
-                        input#id(type="number" name="id" hidden)
-                        input#hwID(type="number" name="hwid" hidden)
-                        .row.lg-12
-                            .col-md-5
-                                .profile_img
-                                    img#imagepre(src="" style=' height: 220px;')
-                                    h4(style="margin-left:40px")#fullname
-                            .col-md-7
-                                .row
-                                    .col-md-12
-                                        b Do you need a Reliever?
-                                        select.form-control(name='reliever')
-                                            option(value='Yes') Yes
-                                            option(value='No') No
-                                .row
-                                    h5
-                                        b Type of Leave: 
-                                        l#type
-                                .row
-                                    .col-md-6
+        #viewLeave.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog.modal-xs
+                form(method="POST"  action="/home_client")
+                    .modal-content
+                        .modal-header(style="background-color:#2A3F54; color:white")
+                            button.close(type='button', data-dismiss='modal')
+                                span(aria-hidden='true') ×
+                            h4#myModalLabel.modal-title Leave Request Info
+                        .modal-body
+                            input#id(type="number" name="id" hidden)
+                            input#hwID(type="number" name="hwid" hidden)
+                            .row.lg-12
+                                .col-md-5
+                                    .profile_img
+                                        img#imagepre(src="" style=' height: 220px; width:100%;')
+                                        h4(style="margin-left:40px")#fullname
+                                .col-md-7
+                                    .row
+                                        .col-md-12
+                                            b Do you need a Reliever?
+                                            select.form-control(name='reliever')
+                                                option(value='Yes') Yes
+                                                option(value='No') No
+                                    .row
                                         h5
-                                            b From: 
-                                            l#start
-                                    .col-md-6
+                                            b Type of Leave: 
+                                            l#type
+                                    .row
+                                        .col-md-6
+                                            h5
+                                                b From: 
+                                                l#start
+                                        .col-md-6
+                                            h5
+                                                b To: 
+                                                l#end
+                                    .row
                                         h5
-                                            b To: 
-                                            l#end
-                                .row
-                                    h5
-                                        b Address: 
-                                        l#add
-                                .row
-                                    .form-group
-                                        h5
-                                            b Reason:
-                                        textarea#exampleTextarea.form-control(rows='3' readonly)
-                    .modal-footer
-                        button.btn.btn-primary(type='submit') Approve
-        //- scripts
-    script.
-        function time(){
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth()+1; //January is 0!
-            var yyyy = today.getFullYear();
-            var hh = today.getHours();
-            var min = today.getMinutes();
-            var sec = today.getSeconds();
-            var x= document.getElementById("thedate");
-            
-            if(dd<10) {
-                dd = '0'+dd
-            } 
+                                            b Address: 
+                                            l#add
+                                    .row
+                                        .form-group
+                                            h5
+                                                b Reason:
+                                            textarea#exampleTextarea.form-control(rows='3' readonly)
+                        .modal-footer
+                            button.btn.btn-primary(type='submit') Approve
+            //- scripts
+        script.
+            function time(){
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; //January is 0!
+                var yyyy = today.getFullYear();
+                var hh = today.getHours();
+                var min = today.getMinutes();
+                var sec = today.getSeconds();
+                var x= document.getElementById("thedate");
+                
+                if(dd<10) {
+                    dd = '0'+dd
+                } 
 
-            if(mm<10) {
-                mm = '0'+mm
-            } 
+                if(mm<10) {
+                    mm = '0'+mm
+                } 
 
-            today = yyyy + '-' + mm + '-' + dd ;
-            //- document.write(today);
-           document.getElementById("thedate").value=today;
-        }
+                today = yyyy + '-' + mm + '-' + dd ;
+                //- document.write(today);
+            document.getElementById("thedate").value=today;
+            }

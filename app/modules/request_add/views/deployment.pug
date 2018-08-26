@@ -1,52 +1,52 @@
 extends ../../../templates/navbarclient.pug
-
 block content
-    .right_col(role='main')
-        div
-            .page-title
-                .title_left
-                    h1
-                    b 
-            .clearfix
-            .row
-                .col-md-12.col-sm-12.col-xs-12
-                    .x_panel
+    section#services
+        .right_col(role='main' style="background-color:transparent;")
+            div
+                .page-title
+                    .title_left
+                        h1
+                        b 
+                .clearfix
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
                         .x_panel
-                            .x_title
-                                each list in listtab
-                                    a(href='/request_add/mylist_'+list.intRequestID)
-                                            button.btn.btn-primary.pull-right.btn-lg(type='button') Back
-                                    h1
-                                        b Deployment Process
-                                    .clearfix
                             .x_panel
-                                form.form-horizontal.form-label-center      
-                                    br
-                                    .form-group
-                                        label.control-label.col-md-5 Type of Deployment
-                                        .col-md-3
-                                            select.form-control
-                                                option Choose option
-                                                option Option one
-                                    .form-group
-                                        label.control-label.col-md-5
-                                            | Preferred Date For Deployment
-                                            span.required *
-                                        .col-md-3
-                                            input#single_cal4.form-control.has-feedback-left(type='text', placeholder='First Name', aria-describedby='inputSuccess2Status4')
-                                            span.fa.fa-calendar-o.form-control-feedback.left(aria-hidden='true')
-                                            span#inputSuccess2Status4.sr-only (success)
-                                    .form-group
-                                        label.control-label.col-md-5
-                                            | Preferred Time For Deployment
-                                            span.required *
-                                        .col-md-3
-                                            #myDatepicker3.input-group.date
-                                                input.form-control(type='text')
-                                                span.input-group-addon
-                                                    span.glyphicon.glyphicon-time
-                                    .form-group.pull-right
-                                        .col-md-12.col-sm-9.col-xs-12.pull-right
-                                            br
-                                            button.btn.btn-primary.btn-lg(type='button') View Contract
-                                            button.btn.btn-success.btn-lg(type='button') Send Request
+                                .x_title
+                                    each list in listtab
+                                        a(href='/request_add/mylist_'+list.intRequestID)
+                                                button.btn.btn-primary.pull-right.btn-lg(type='button') Back
+                                        h1
+                                            b Deployment Process
+                                        .clearfix
+                                .x_panel
+                                    form.form-horizontal.form-label-center      
+                                        br
+                                        .form-group
+                                            label.control-label.col-md-5 Type of Deployment
+                                            .col-md-3
+                                                select.form-control
+                                                    option Choose option
+                                                    option Option one
+                                        .form-group
+                                            label.control-label.col-md-5
+                                                | Preferred Date For Deployment
+                                                span.required *
+                                            .col-md-3
+                                                input#single_cal4.form-control.has-feedback-left(type='text', placeholder='First Name', aria-describedby='inputSuccess2Status4')
+                                                span.fa.fa-calendar-o.form-control-feedback.left(aria-hidden='true')
+                                                span#inputSuccess2Status4.sr-only (success)
+                                        .form-group
+                                            label.control-label.col-md-5
+                                                | Preferred Time For Deployment
+                                                span.required *
+                                            .col-md-3
+                                                #myDatepicker3.input-group.date
+                                                    input.form-control(type='text')
+                                                    span.input-group-addon
+                                                        span.glyphicon.glyphicon-time
+                                        .form-group.pull-right
+                                            .col-md-12.col-sm-9.col-xs-12.pull-right
+                                                br
+                                                button.btn.btn-primary.btn-lg(type='button') View Contract
+                                                button.btn.btn-success.btn-lg(type='button') Send Request
