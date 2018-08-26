@@ -11,28 +11,28 @@ block content
                                 h1  Replace Household Worker 
                                 .clearfix
                             br
-                            h3 On Process
-                            table#datatable2-responsive.table.table-striped.table-bordered
-                                thead
-                                    tr
-                                        th NAME
-                                        th SERVICE
-                                        th REPLACEMENT LEFT
-                                        th STATUS
-                                        th ACTION
-                                tbody
-                                    each currenthwtobereplaced in currenthwtobereplacedtab
-                                        tr 
-                                            //- td #{currenthwtobereplaced.}
-                                            td #{currenthwtobereplaced.strFName} #{currenthwtobereplaced.strLName}
-                                            td #{currenthwtobereplaced.strName}
-                                            td #{currenthwtobereplaced.intConReplacementLeft}
-                                            td #{currenthwtobereplaced.strCurStatus}
-                                            td
-                                                button.btn.btn-primary.btn-md(type='button') View Profile
-                                                a(href='/request_replacement/replace_list_'+currenthwtobereplaced.intReplaceReqID + currenthwtobereplaced.intConHWID)
-                                                    button.btn.btn-info.btn-md(type='button') View Details
-                                                button.btn.btn-danger.btn-md(type='button') Cancel
+                            //- h3 On Process
+                            //- table#datatable2-responsive.table.table-striped.table-bordered
+                            //-     thead
+                            //-         tr
+                            //-             th NAME
+                            //-             th SERVICE
+                            //-             th REPLACEMENT LEFT
+                            //-             th STATUS
+                            //-             th ACTION
+                            //-     tbody
+                            //-         each currenthwtobereplaced in currenthwtobereplacedtab
+                            //-             tr 
+                            //-                 //- td #{currenthwtobereplaced.}
+                            //-                 td #{currenthwtobereplaced.strFName} #{currenthwtobereplaced.strLName}
+                            //-                 td #{currenthwtobereplaced.strName}
+                            //-                 td #{currenthwtobereplaced.intConReplacementLeft}
+                            //-                 td #{currenthwtobereplaced.strCurStatus}
+                            //-                 td
+                            //-                     button.btn.btn-primary.btn-md(type='button') View Profile
+                            //-                     a(href='/request_replacement/replace_list_'+currenthwtobereplaced.intReplaceReqID + currenthwtobereplaced.intConHWID)
+                            //-                         button.btn.btn-info.btn-md(type='button') View Details
+                            //-                     button.btn.btn-danger.btn-md(type='button') Cancel
 
                             br
                             h3 Current Household Workers
@@ -60,6 +60,11 @@ block content
                                                                                     data-hwfname=currenthw.strFName, data-hwlname=currenthw.strLName) Replace
                                                     else
                                                         button.btn.btn-danger.btn-md(type='button') Terminate Contract
+                                                else if currenthw.strCurStatus == 'To be replaced'
+                                                    a(href='/request_replacement/replace_list_'+currenthw.intReplaceReqID + currenthw.intConHWID)
+                                                        button.btn.btn-info.btn-md(type='button') View Details
+                                                    button.btn.btn-danger.btn-md(type='button') Cancel
+
                                                 //- else if currenthw.strCurStatus == 'To be replaced'
                                                 //-     a(href='/request_replacement/replace_list_'+currenthw.intConTransID+currenthw.intConHWID)
                                                 //-         button.btn.btn-info.btn-md(type='button') View Details

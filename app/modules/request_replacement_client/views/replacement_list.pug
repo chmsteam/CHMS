@@ -11,6 +11,27 @@ block content
                                 //- each list in listtab
                                 p(style="font-size:30px;") Replacement List:
                                 .clearfix
+                            br
+                            h2 Household Worker to be replaced:
+                            table.table.jambo_table.bulk_action
+                                thead
+                                    tr
+                                        th NAME
+                                        th SERVICE
+                                        th REPLACEMENT LEFT
+                                        th STATUS
+                                        th ACTION
+                                tbody
+                                    each currenthwtobereplaced in currenthwtobereplacedtab
+                                        tr 
+                                            //- td #{currenthwtobereplaced.}
+                                            td #{currenthwtobereplaced.strFName} #{currenthwtobereplaced.strLName}
+                                            td #{currenthwtobereplaced.strName}
+                                            td #{currenthwtobereplaced.intConReplacementLeft}
+                                            td #{currenthwtobereplaced.strCurStatus}
+                                            td
+                                                button.btn.btn-primary.btn-md(type='button') View Profile
+                                                button.btn.btn-danger.btn-md(type='button') Cancel
                             br         
                             br
                             each list in listtab
@@ -37,7 +58,7 @@ block content
                                                     |   Submit List
                                         else if list.strRequestStatus == 'On process' || list.strRequestStatus == 'Pending'
                             br
-                            h2 Services:
+                            h2 Services :
                             table.table.jambo_table.bulk_action
                                 thead
                                     tr
@@ -68,6 +89,29 @@ block content
                                                             a(href='result_'+item.intIRequestID+item.intIRequest_No+oldhwservice.intHWID)
                                                                 button.btn.btn-primary.btn-xs(type='button') View Result
                                                             button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item") Delete
+                            each list in listtab
+                                if list.strRequestStatus == 'Pending' || list.strRequestStatus == 'Approved' || list.strRequestStatus == 'Rejected' || list.strRequestStatus == 'Finished'
+                                    each transdetails in transdetailstab
+                                        h2 Deployment Details:
+                                        table.table.jambo_table.bulk_action
+                                            thead
+                                                tr
+                                                    th Date of Deployment
+                                                    th Time of Deployment
+                                                    th Type of Deployment
+                                                    th Invoice
+                                            tbody
+                                                tr
+                                                    td #{transdetails.datDateofDeployment}
+                                                    td #{transdetails.timTimeofDeployment}
+                                                    if transdetails.intTypeofDeployment == '2'
+                                                        td Drop-off
+                                                    else if transdetails.intTypeofDeployment == '3'
+                                                        td Pick-up
+                                                    td
+                                                        each currenthwtobereplaced in currenthwtobereplacedtab
+                                                            a(href="/request_replacement/invoice_"+transdetails.intTRequestID+currenthwtobereplaced.intConHWID)
+                                                                button.btn.btn-primary.btn-xs(type='button') View
                     .x_panel    
                         h3 Approved:
                         .clearfix
@@ -109,7 +153,7 @@ block content
                                     button.btn.btn-primary.btn-lg(type='button') Back
                                 each noofapprove in noofapprovetab
                                     each list in listtab
-                                        if noofapprove.NOOFapprove > 0 && (list.strRequestStatus!='Pending' && list.strRequestStatus!='Finished')
+                                        if noofapprove.NOOFapprove > 0 && list.strRequestStatus=='On process'
                                             button.btn.btn-success.btn-lg(type='button' data-toggle="modal" data-target="#deployment") Proceed to Deployment
                                         else
     // Small modal

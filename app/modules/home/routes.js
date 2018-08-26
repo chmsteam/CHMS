@@ -11,7 +11,9 @@ function render(req,res){
           usertab: req.user,
           leaveReq: req.displayLeaveReq,
           replacetab: req.replace,
-          finreqtab: req.finreq
+          finreqtab: req.finreq,
+          requesttab: req.request,
+          request2tab: req.request2
         });
     else if(req.valid==0)
       res.render('admin/views/invalidpages/normalonly');
@@ -89,7 +91,7 @@ router.post('/', (req, res) =>{
 // function display finished Request
 function findfinishedreq(req,res,next){
   var db = require('../../lib/database')();
-  db.query(`SELECT * FROM tblfinalrequest WHERE strRequestStatus = 'Finished' AND intRequest_ClientID = ?`, [req.session.user], function(err,results){
+  db.query(`SELECT * FROM tblfinalrequest WHERE strRequestStatus IN ('Finished', 'Rejected', 'Cancelled') AND intRequest_ClientID = ?`, [req.session.user], function(err,results){
     console.log(err);
     for(var i = 0; i < results.length; i++){
       results[i].datRequestDate =  moment(results[i].datRequestDate).format("LL");
@@ -99,10 +101,34 @@ function findfinishedreq(req,res,next){
   })
 }
 
+// My request tab ADD
+function myrequest(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * FROM tblfinalrequest WHERE intRequest_ClientID = ?`, [req.session.user], function(err, results){
+    console.log(err);
+    for(var i = 0; i < results.length; i++){
+     results[i].datRequestDate =  moment(results[i].datRequestDate).format("LL");
+    }
+    req.request = results;
+    return next();
+  })
+}
+function myrequest2(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * FROM tblfinalrequest INNER JOIN tblreplacement ON intRequestID=intReplaceReqID WHERE intRequest_ClientID = ?`, [req.session.user], function(err, results){
+    console.log(err);
+    for(var i = 0; i < results.length; i++){
+     results[i].datRequestDate =  moment(results[i].datRequestDate).format("LL");
+    }
+    req.request2 = results;
+    return next();
+  })
+}
+
 
 //------------------------------------------------------- ROUTER GET
 var renderFunctions = [displayLeaveReq, ]
-router.get('/', flog, findreplacementofclient,findfinishedreq, renderFunctions, render);
+router.get('/', flog, findreplacementofclient,findfinishedreq, myrequest, myrequest2, renderFunctions, render);
 router.get('/request_leave', flog, renderFunctions, renderrequestleave);
 router.get('/householdworker_list', flog, renderFunctions, renderhwlist);
 

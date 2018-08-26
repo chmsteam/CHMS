@@ -55,6 +55,31 @@ block content
                                                             a(href='result_'+item.intIRequestID+item.intIRequest_No)
                                                                 button.btn.btn-primary.btn-xs(type='button') View Result
                                                             button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item") Delete
+                                each list in listtab
+                                    if list.strRequestStatus == 'Pending' || list.strRequestStatus == 'Approved' || list.strRequestStatus == 'Rejected' || list.strRequestStatus == 'Finished'
+                                        each transdetails in transdetailstab
+                                            h2 Deployment Details:
+                                            table.table.jambo_table.bulk_action
+                                                thead
+                                                    tr
+                                                        th Date of Deployment
+                                                        th Time of Deployment
+                                                        th Type of Deployment
+                                                        th Invoice
+                                                tbody
+                                                    tr
+                                                        td #{transdetails.datDateofDeployment}
+                                                        td #{transdetails.timTimeofDeployment}
+                                                        if transdetails.intTypeofDeployment == '2'
+                                                            td Drop-off
+                                                        else if transdetails.intTypeofDeployment == '3'
+                                                            td Pick-up
+                                                        td
+                                                            a(href="/request_add/invoice_"+transdetails.intTRequestID)
+                                                                button.btn.btn-primary.btn-xs(type='button') View
+
+                                //- if request = Pending
+                                //- transaction dets
                             h3 Approved:
                             .clearfix
                                 each hw in hwtab
@@ -88,7 +113,7 @@ block content
                                                             button.btn.btn-primary(type='button')
                                                                 i.fa.fa-user  
                                                                 |  View Profile
-                                                            button.btn.btn-warning.btn-md(type='submit' name='btn1' value='revert') Revert
+                                                            //- button.btn.btn-warning.btn-md(type='submit' name='btn1' value='revert') Revert
                             .form-group.pull-right
                                 .col-md-12.col-sm-9.col-xs-12.pull-right
                                     br
@@ -96,9 +121,9 @@ block content
                                         button.btn.btn-primary.btn-lg(type='button') Back
                                     each noofapprove in noofapprovetab
                                         each list in listtab
-                                            if noofapprove.NOOFapprove > 0 && (list.strRequestStatus!='Pending' && list.strRequestStatus!='Finished')
+                                            if noofapprove.NOOFapprove > 0 && list.strRequestStatus=='On process'
                                                 button.btn.btn-success.btn-lg(type='button' data-toggle="modal" data-target="#deployment") Deployment Details
-                                            else
+                                            else 
     // Small modal
     #myListCancel1.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
         .modal-dialog.modal-sm
