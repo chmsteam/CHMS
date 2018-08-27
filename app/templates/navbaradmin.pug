@@ -487,6 +487,15 @@ html(lang='en')
               modal.find('.modal-header #a').text(id)
               
             });
+            $('#settle_reliever').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('id')
+
+              var modal = $(this)
+              modal.find('.modal-body #_id').val(id)
+              modal.find('.modal-header #a').text(id)
+              
+            });
             //other skills
             $('select.SelectTemplate').change(function() {
                     var currentVal = $('textarea').val();

@@ -186,7 +186,8 @@ block content
                                                                             button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLeave',
                                                                                 data-name=fullname, data-image=`../images/${lr.strPicture}`, data-ty=lr.strName, data-na=lr.intHouseholdID, data-id=lr.intLeaveRequestID,
                                                                                 data-start=lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View Leave Details
-                                                                            button.btn.btn-primary-sm(type='button') Choose a Reliver
+                                                                            a(href='/request_reliever/reliever_list_'+lr.intLeaveRequestID+lr.intHouseholdID)
+                                                                                button.btn.btn-primary-sm(type='button') Choose a Relive
                                             else if lr.strLeaveStatus == 'Approved'
                                                 .row
                                                     .col-md-12
@@ -213,7 +214,8 @@ block content
                                                                             button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLeave',
                                                                                 data-name=fullname, data-image=`../images/${lr.strPicture}`, data-ty=lr.strName, data-na=lr.intHouseholdID, data-id=lr.intLeaveRequestID,
                                                                                 data-start=lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View Leave Details
-                                                                            button.btn.btn-primary-sm(type='button') Choose a Reliver
+                                                                            a(href='/request_reliever/reliever_list_'+lr.intLeaveRequestID+lr.intHouseholdID)
+                                                                                button.btn.btn-primary-sm(type='button') Choose a Reliver
                                         each replace in replacetab
                                             .row
                                                 .col-md-12

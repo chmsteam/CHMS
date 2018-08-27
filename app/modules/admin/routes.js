@@ -1096,8 +1096,55 @@ function clientsettledecisionreplacementleft2(req,res){
   });
 }
 
+
+router.post('/transaction_settledecision_reliever',flog, clientsettledecisionreliever, clientsettledecisionreplacementleft3);
+function clientsettledecisionreliever(req,res, next){
+  var db = require('../../lib/database')();
+  // var db2 = require('../../lib/database')();
+  if(req.body.btn1='settle'){
+    db.query(`UPDATE tbltransaction SET strORNumber=?, datDateSettled=?, strTStatus='On-going' WHERE intTRequestID='${req.body.transid}'`,[req.body.ornum, req.body.datesettled], function (err) {
+      console.log(err);
+      db.query(`UPDATE tblfinalrequest SET strRequestStatus ='Finished' WHERE intRequestID='${req.body.transid}'`, function (err) {
+        console.log(err);
+        db.query(`SELECT * FROM tblfreereplacement`, function (err,result) {
+          console.log(err);
+          db.query(`UPDATE tblcontract SET datDateStarted ='${req.body.datesettled}', strCurStatus='Current', intConReplacementLeft='${result[0].intFreeReplacement}' WHERE intConTransID='${req.body.transid}'`, function (err) {
+            console.log(err);
+            db.query(`UPDATE tbluser u INNER JOIN tblcontract c ON u.intID = c.intConHWID SET u.strStatus ='Deployed' WHERE u.strType = 'Household Worker' AND c.intConTransID = '${req.body.transid}'`, function (err) {
+              console.log(err);
+              db.query(`UPDATE tblreliever SET intRelieverID =(SELECT intConHWID FROM tblcontract WHERE intConTransID = ?), strRelieverStatus='Deployed' WHERE intReq_RelID = ?`, [req.body.transid, req.body.transid],function (err) {
+                console.log(err);
+                // db.query(`UPDATE tblreplacement SET intReplaceNewHWID =(SELECT intConHWID FROM tblcontract WHERE intConTransID = ?) WHERE intReplaceReqID = ?`, [req.body.transid, req.body.transid],function (err) {
+                //   console.log(err);
+                  return next();
+                  // res.redirect('/admin/transaction_settle')
+                // });
+              });
+            });
+          });
+        });
+      });
+    });
+  }
+  else{
+    
+  }
+}
+function clientsettledecisionreplacementleft3(req,res){
+  var db = require('../../lib/database')();
+  db.query(`SELECT datDateTo AS dateexpire,  (intConReplacementLeft) AS Remain FROM tblreliever INNER JOIN tblcontract ON intTobeRelievedID = intConHWID INNER JOIN tblleaverequest ON intLeaveRequestID = intReq_RelID
+            	ORDER BY datDateTo DESC LIMIT 1`, function (err, results) {
+    console.log(err)
+    db.query(`UPDATE tblcontract SET intConReplacementLeft = ${results[0].Remain} WHERE intConTransID='${req.body.transid}'`)
+    db.query(`UPDATE tblcontract c INNER JOIN tblreliever r ON c.intConHWID = r.intTobeRelievedID INNER JOIN tbluser ON intID = r.intTobeRelievedID SET c.strCurStatus ='On leave' WHERE  c.strCurStatus ='Current' AND strStatus='Deployed' AND r.intReq_RelID = '${req.body.transid}'`)
+    db.query(`UPDATE tbltransaction SET datDateExpiry =? WHERE intTRequestID = ?`,[results[0].dateexpire, req.body.transid], function(err){
+      console.log(err);
+      res.redirect('/admin/transaction_settle')
+    })
+  });
+}
 //----------------------------------------------------------------------------------TRANSACTIONS SETTLED
-router.get('/transaction_settled', flog, findtranssettled, rendertranssettled);
+router.get('/transaction_settled', flog, findtranssettled, rendertranssettled); 
 function rendertranssettled(req,res){
   if(req.valid==0)
     res.render('admin/views/transaction_settled',{usertab: req.user, listtab: req.list});

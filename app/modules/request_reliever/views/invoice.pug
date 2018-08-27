@@ -1,4 +1,4 @@
-extends ../../../templates/navbaradmin.pug
+extends ../../../templates/navbarclient.pug
 block content
     .right_col(role='main')
         div
@@ -104,25 +104,25 @@ block content
                                 // this row will not appear when printing
                                 .row.no-print
                                     .col-xs-12
-                                        button.btn.btn-success.pull-right(onclick='window.print();')
-                                            i.fa.fa-print
-                                            |  Print
-                                        // button class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment</button
-                                        button.btn.btn-primary.pull-right(id="cmd" style='margin-right: 5px;')
-                                            i.fa.fa-download
-                                            |  Generate PDF
+                                        //- button.btn.btn-success.pull-right(onclick='window.print();')
+                                        //-     i.fa.fa-print
+                                        //-     |  Print
+                                        //- // button class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment</button
+                                        //- button.btn.btn-primary.pull-right(style='margin-right: 5px;')
+                                        //-     i.fa.fa-download
+                                        //-     |  Generate PDF
                                         br
                                         br
-                                        //- a(href='/request_add')
-                                        //-     button.btn.btn-primary.btn-lg.pull-right(type='button') Back to Lists
+                                        a(href='/home_client')
+                                            button.btn.btn-primary.btn-lg.pull-right(type='button') Back to Lists
 
     script.
         function total(){
-            var subtot=parseInt(document.getElementById("subtot").value)
-            var othfee=parseInt(document.getElementById("othfee").value)
-            var total;
+             var subtot=parseInt(document.getElementById("subtot").value)
+             var othfee=parseInt(document.getElementById("othfee").value)
+             var total;
 
-            total = subtot+othfee;
+             total = subtot+othfee;
 
-            document.getElementById("tots").innerHTML = 'P '+total;
+             document.getElementById("tots").innerHTML = 'P '+total;
         }

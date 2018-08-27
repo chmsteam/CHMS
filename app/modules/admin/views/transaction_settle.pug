@@ -53,6 +53,10 @@ block content
                                                     button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_replaceclient', data-id=list.intRequestID)
                                                         i.fa.fa-check
                                                         |   Settle
+                                                else if list.strRequestType == 'Reliever'
+                                                    button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_reliever', data-id=list.intRequestID)
+                                                        i.fa.fa-check
+                                                        |   Settle
 
         #settle.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog.modal-sm
@@ -111,6 +115,25 @@ block content
                                 input#ss(type="text", name="ornum" required)
                         .modal-footer.center
                             button.btn.btn-success(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
+        #settle_reliever.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog.modal-sm
+                .modal-content
+                    form(method='POST' action='transaction_settledecision_reliever')
+                        .modal-header
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') ×
+                            h4.modal-title Settle Transaction :
+                                i#a
+                        .modal-body
+                            center
+                                h3
+                                    b Enter O.R. Number:
+                                br
+                                input#_id(type="text", name="transid", style='display:none;')
+                                input(id='thedate4' type='date', name='datesettled' style='display:none;')
+                                input#ss(type="text", name="ornum" required)
+                        .modal-footer.center
+                            button.btn.btn-success(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
     script.
         function time(){
             var today = new Date();
@@ -156,4 +179,5 @@ block content
             //- document.write(today);
            document.getElementById("thedate2").value=today;
            document.getElementById("thedate3").value=today;
+           document.getElementById("thedate4").value=today;
         }

@@ -95,7 +95,7 @@ block content
                                 if noacontract.noa == tnocontract.tno
                                     .pull-right
                                         each list in listtab
-                                            form(method='POST', action = '/request_replacement/send_to_admin')
+                                            form(method='POST', action = '/request_reliever/send_to_admin')
                                                 input(type='text', name='transid', value=''+list.intRequestID, style="display:none;")
                                                 each oldhwservice in oldhwservicetab
                                                     input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='oldhwid', value=''+oldhwservice.intHWID, style="display:none;")                                    

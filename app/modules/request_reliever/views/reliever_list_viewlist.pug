@@ -1,0 +1,119 @@
+extends ../../../templates/navbarclient.pug
+
+block content
+    .right_col(role='main')
+        .clearfix
+        .row
+            .col-md-12.col-sm-12.col-xs-12
+                .x_panel
+                    .x_title
+
+                        .pull-right
+                            each list in listtab
+                                each oldhwservice in oldhwservicetab
+                                    a(href='/request_replacement/replace_list_'+list.intRequestID+oldhwservice.intHWID)
+                                        button.btn.btn-primary.btn-lg(type='button') Back
+                        center
+                            h3
+                                b Results
+                    br
+                    br
+                    .x_title
+                        h3 For your Approval
+                        table#datatable-responsive.table.table-striped.table-bordered
+                            thead
+                                tr
+                                    th ID
+                                    th NAME
+                                    th SERVICE
+                                    th AGE
+                                    th Gender
+                                    th EDUCATION
+                                    th WORK EXPERIENCE
+                                    th ACTION
+                                tbody
+                                    each hw in hwtab
+                                        each list in listtab
+                                            if hw.strRClientStatus == 'Waiting'
+                                                tr
+                                                form#demo-form2.form-horizontal.form-label-left(method="POST" action="/request_reliever/request_reliever_"+hw.intRRequest_No)
+                                                    input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='hwid', value=''+hw.intRHWID, style="display:none;")
+                                                    input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transid', value=''+hw.intRRequestID, style="display:none;")
+                                                    input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='reqno', value=''+hw.intRRequest_No, style="display:none;")
+                                                    each oldhwservice in oldhwservicetab
+                                                        input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='oldhwid', value=''+oldhwservice.intHWID, style="display:none;")                                    
+                                                    td #{hw.intRHWID}
+                                                        //- input(type="number" name= 'hwid' style='visibility:hidden;', value=''+resulta.intHWID)
+                                                    td #{hw.stFName} #{hw.strLName}
+                                                    td #{hw.strName}
+                                                    td #{hw.age}
+                                                    td #{hw.strGender}
+                                                    td 
+                                                    td 
+                                                    td
+                                                        a(href='hw_profile_'+hw.intRRequestID+hw.intRHWID)
+                                                            button.btn.btn-primary(type='button') View Profile
+                                                        button.btn.btn-success(type='submit' name='btn1' value='approve') Approve
+                                                        button.btn.btn-danger(type='submit' name='btn1' value='reject') Reject
+                    .x_title
+                        h3 Approved
+                        table#datatable2.table.table-striped.table-bordered
+                            thead
+                                tr
+                                    th ID
+                                    th NAME
+                                    th SERVICE
+                                    th AGE
+                                    th Gender
+                                    th EDUCATION
+                                    th WORK EXPERIENCE
+                                    th ACTION
+                                tbody
+                                    each hw in hwtab
+                                        each list in listtab
+                                            if hw.strRClientStatus == 'Approved'
+                                                tr
+                                                    td #{hw.intRHWID}
+                                                        //- input(type="number" name= 'hwid' style='visibility:hidden;', value=''+resulta.intHWID)
+                                                    td #{hw.stFName} #{hw.strLName}
+                                                    td #{hw.strName}
+                                                    td #{hw.age}
+                                                    td #{hw.strGender}
+                                                    td 
+                                                    td 
+                                                    td
+                                                        a(href='hw_profile_'+hw.intRRequestID+hw.intRHWID)
+                                                            button.btn.btn-primary(type='button') View Profile
+                                                        button.btn.btn-danger.btn-md(type='submit') Remove
+                    .x_title
+                        h3 Rejected
+                        table#datatable3.table.table-striped.table-bordered
+                            thead
+                                tr
+                                    th ID
+                                    th NAME
+                                    th SERVICE
+                                    th AGE
+                                    th Gender
+                                    th EDUCATION
+                                    th WORK EXPERIENCE
+                                    th ACTION
+                                tbody
+                                    each hw in hwtab
+                                        each list in listtab
+                                            if hw.strRClientStatus == 'Rejected'
+                                                tr
+                                                    form(method="POST" action="_")
+                                                        td #{hw.intRHWID}
+                                                            //- input(type="number" name= 'hwid' style='visibility:hidden;', value=''+resulta.intHWID)
+                                                        td #{hw.stFName} #{hw.strLName}
+                                                        td #{hw.strName}
+                                                        td #{hw.age}
+                                                        td #{hw.strGender}
+                                                        td 
+                                                        td 
+                                                        td
+                                                            a(href='hw_profile_'+hw.intRRequestID+hw.intRHWID)
+                                                                button.btn.btn-primary(type='button') View Profile
+                                                            button.btn.btn-danger.btn-md(type='submit') Remove
+                            
