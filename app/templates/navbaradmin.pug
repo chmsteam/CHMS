@@ -99,14 +99,49 @@ html(lang='en')
                         span.fa.fa-chevron-down
                       ul.nav.child_menu
                         li 
+                            a
+                              | Clients
+                              span.fa.fa-chevron-down
+                            ul.nav.child_menu
+                              li.sub_menu
+                                a(href='/admin/transactions/clients/registered') Registered
+                              li.sub_menu
+                                a(href='/admin/transactions/clients/pending') Pending
+                              li.sub_menu
+                                a(href='/admin/transactions/clients/rejected') Rejected
+                              li.sub_menu
+                                a(href='/admin/transactions/clients/banned') Banned
+                        li 
+                            a
+                              | Household Workers
+                              span.fa.fa-chevron-down
+                            ul.nav.child_menu
+                              li.sub_menu
+                                a(href='/admin/transactions/household_workers/registered') Registered
+                              li.sub_menu
+                                a(href='/admin/transactions/household_workers/pending') Pending
+                              li.sub_menu
+                                a(href='/admin/transactions/household_workers/rejected') Rejected
+                              li.sub_menu
+                                a(href='/admin/transactions/household_workers/deployed') Deployed
+                              li.sub_menu
+                                a(href='/admin/transactions/household_workers/suspended') Suspended
+                              li.sub_menu
+                                a(href='/admin/transactions/household_workers/banned') Banned
+                              
+                              
+                        li 
                           a
                             | Registration
                             span.fa.fa-chevron-down
                           ul.nav.child_menu
-                            li.sub_menu
-                              a(href='client_list') Client
                             li.sub_menu 
-                              a(href='householdworker_list') Household Worker
+                              a(href='/admin/registration_client') Client
+                              //-  /admin/client_list
+                            li.sub_menu 
+                              a(href='/admin/registration_household_worker') Household Worker
+                              //- /admin/householdworker_list
+                              
                         li 
                           a
                             | Request

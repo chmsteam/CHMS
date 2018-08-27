@@ -14,7 +14,152 @@ var mailer =  nodemailer.createTransport({
 		pass: 'wordpass123456' //pass ng email
 	}
 });
+//-----------------------------------------------------------------Rendering Transactions of CLIENTS Pages
+//----pending requests
+function renderClientsPending(req,res){
+  if(req.valid==0)
+    res.render('admin/views/client_maintenance/pending',
+    {
+      usertab: req.user,
+      itemtab: req.displayPendingClient,
+      requirementtab: req.requirement
+    });
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
 
+}
+//----Registered
+function renderClientsRegistered(req,res){
+  if(req.valid==0)
+    res.render('admin/views/client_maintenance/registered',
+    {
+      usertab: req.user,
+      itemtab: req.displayRegisteredClient,
+      requirementtab: req.requirement
+    });
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+
+}
+//----Rejected
+function renderClientsRejected(req,res){
+  if(req.valid==0)
+    res.render('admin/views/client_maintenance/rejected',
+    {
+      usertab: req.user,
+      itemtab: req.displayRejectedClient,
+      requirementtab: req.requirement
+    });
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+
+}
+//----Rejected
+function renderClientsBanned(req,res){
+  if(req.valid==0)
+    res.render('admin/views/client_maintenance/banned',
+    {
+      usertab: req.user,
+      itemtab: req.displayBannedClient,
+      requirementtab: req.requirement
+    });
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+
+}
+//-------------------------------------------------------------------Rendering Transactions Household Workers
+//deployed
+function renderHhwDeployed(req,res){
+  if(req.valid==0)
+    res.render('admin/views/household_maintenance/deployed',
+      {
+        usertab: req.user, 
+        itemtab: req.displayDeployedHhworker, 
+        HWreqtab: req.houseHoldReq
+      });
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+//pending
+function renderHhwPending(req,res){
+  if(req.valid==0)
+    res.render('admin/views/household_maintenance/pending',
+      {
+        usertab: req.user, 
+        itemtab: req.displayPendingHhworker, 
+        HWreqtab: req.houseHoldReq
+      });
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+//registered
+function renderHhwRegistered(req,res){
+  if(req.valid==0)
+    res.render('admin/views/household_maintenance/registered',
+      {
+        usertab: req.user, 
+        itemtab: req.displayRegisteredHhworker, 
+        HWreqtab: req.houseHoldReq
+      });
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+//banned
+function renderHhwBanned(req,res){
+  if(req.valid==0)
+    res.render('admin/views/household_maintenance/banned',
+      {
+        usertab: req.user, 
+        itemtab: req.displayBannedHhworker, 
+        HWreqtab: req.houseHoldReq
+      });
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+//suspended
+function renderHhwSuspended(req,res){
+  if(req.valid==0)
+    res.render('admin/views/household_maintenance/suspended',
+      {
+        usertab: req.user, 
+        itemtab: req.displaySuspendedHhworker, 
+        HWreqtab: req.houseHoldReq
+      });
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+//Rejected
+function renderHhwRejected(req,res){
+  if(req.valid==0)
+    res.render('admin/views/household_maintenance/rejected',
+      {
+        usertab: req.user, 
+        itemtab: req.displayRejectedHhworker, 
+        HWreqtab: req.houseHoldReq
+      });
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
 //-------------------------------------------------------------------function- auto-gen(code)
 function numberWithCommas(x) {
   var parts = x.toString().split(".");
@@ -34,6 +179,98 @@ function makeid() {
   for (var i = 0; i < 10; i++)
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   return text;
+}
+//----------------------------------------------------Clients Maintenance
+//pending Clients
+function displayPendingClient(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT *, CONCAT(strFName,' ', strLName) AS strName FROM tbluser WHERE strType='Client' AND strStatus = 'Unregistered' ", function (err, results) {
+    if (err) return res.send(err);
+    req.displayPendingClient = results;
+    return next();
+  });
+}
+//registered Clients
+function displayRegisteredClient(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT *, CONCAT(strFName,' ', strLName) AS strName FROM tbluser WHERE strType='Client' AND strStatus = 'Registered' ", function (err, results) {
+    if (err) return res.send(err);
+    req.displayRegisteredClient = results;
+    return next();
+  });
+}
+//rejected Clients
+function displayRejectedClient(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT *, CONCAT(strFName,' ', strLName) AS strName FROM tbluser WHERE strType='Client' AND strStatus = 'Rejected' ", function (err, results) {
+    if (err) return res.send(err);
+    req.displayRejectedClient = results;
+    return next();
+  });
+}
+//banned Clients
+function displayBannedClient(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT *, CONCAT(strFName,' ', strLName) AS strName FROM tbluser WHERE strType='Client' AND strStatus = 'Banned' ", function (err, results) {
+    if (err) return res.send(err);
+    req.displayBannedClient = results;
+    return next();
+  });
+}
+//------------------------------------------------------Maintenance Household Workers
+//pending
+function displayPendingHhworker(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT *, tbluser.strStatus AS stat, CONCAT(strFName,' ', strLName) AS strNames FROM tbluser INNER JOIN tblhouseholdworker ON intHWID = tbluser.intID INNER JOIN tblmservice ON tblmservice.intID = intServiceID WHERE tbluser.strType='Household Worker' AND tbluser.strStatus = 'Unregistered' ", function (err, results) {
+    if (err) return res.send(err);
+    req.displayPendingHhworker = results;
+    return next();
+  });
+}
+//deployed
+function displayDeployedHhworker(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT *, tbluser.strStatus AS stat, CONCAT(strFName,' ', strLName) AS strNames FROM tbluser INNER JOIN tblhouseholdworker ON intHWID = tbluser.intID INNER JOIN tblmservice ON tblmservice.intID = intServiceID WHERE tbluser.strType='Household Worker' AND tbluser.strStatus = 'Deployed' ", function (err, results) {
+    if (err) return res.send(err);
+    req.displayDeployedHhworker = results;
+    return next();
+  });
+}
+//registered
+function displayRegisteredHhworker(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT *, tbluser.strStatus AS stat, CONCAT(strFName,' ', strLName) AS strNames FROM tbluser INNER JOIN tblhouseholdworker ON intHWID = tbluser.intID INNER JOIN tblmservice ON tblmservice.intID = intServiceID WHERE tbluser.strType='Household Worker' AND tbluser.strStatus = 'Registered' ", function (err, results) {
+    if (err) return res.send(err);
+    req.displayRegisteredHhworker = results;
+    return next();
+  });
+}
+//banned
+function displayBannedHhworker(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT *, tbluser.strStatus AS stat, CONCAT(strFName,' ', strLName) AS strNames FROM tbluser INNER JOIN tblhouseholdworker ON intHWID = tbluser.intID INNER JOIN tblmservice ON tblmservice.intID = intServiceID WHERE tbluser.strType='Household Worker' AND tbluser.strStatus = 'Banned' ", function (err, results) {
+    if (err) return res.send(err);
+    req.displayBannedHhworker = results;
+    return next();
+  });
+}
+//suspended
+function displaySuspendedHhworker(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT *, tbluser.strStatus AS stat, CONCAT(strFName,' ', strLName) AS strNames FROM tbluser INNER JOIN tblhouseholdworker ON intHWID = tbluser.intID INNER JOIN tblmservice ON tblmservice.intID = intServiceID WHERE tbluser.strType='Household Worker' AND tbluser.strStatus = 'Suspended' ", function (err, results) {
+    if (err) return res.send(err);
+    req.displaySuspendedHhworker = results;
+    return next();
+  });
+}
+//Rejected
+function displayRejectedHhworker(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT *, tbluser.strStatus AS stat, CONCAT(strFName,' ', strLName) AS strNames FROM tbluser INNER JOIN tblhouseholdworker ON intHWID = tbluser.intID INNER JOIN tblmservice ON tblmservice.intID = intServiceID WHERE tbluser.strType='Household Worker' AND tbluser.strStatus = 'Rejected' ", function (err, results) {
+    if (err) return res.send(err);
+    req.displayRejectedHhworker = results;
+    return next();
+  });
 }
 //------------------------------------------------------Household Request (LEAVE)
 //-render request Household - Leave
@@ -2003,6 +2240,43 @@ function findfreereplacement(req, res, next){
 var leaveReqFunc = [displayLeaveReq]
 router.get('/transaction_hhRequest_leave', flog, leaveReqFunc, hhReqLeave_render );
 router.get('/transaction_replacement_of_client', flog, findreplacementofclient, hhReqReplacementrender)
+//------------------------------------------ROUTER.get Client Maintenance 
+var clientMaintenance = [
+                          displayPendingClient, findmrequirementscl, //pending
+                          displayRegisteredClient,  // Registered 
+                          displayRejectedClient, // Rejected
+                          displayBannedClient // Banned
+                        ]
+//pending
+router.get('transactions/clients/pending', flog, clientMaintenance ,renderClientsPending);
+//registered
+router.get('transactions/clients/registered', flog, clientMaintenance ,renderClientsRegistered);
+//rejected
+router.get('transactions/clients/rejected', flog, clientMaintenance ,renderClientsRejected);
+//banned
+router.get('transactions/clients/banned', flog, clientMaintenance ,renderClientsBanned);
+
+
+//------------------------------------------ROUTER.get Client Maintenance 
+var hhworkertMaintenance = [ displayPendingHhworker, houseHoldReq, //pending
+                             displayDeployedHhworker,  //deployed
+                             displayRegisteredHhworker, //registered
+                             displayBannedHhworker, //banned
+                             displaySuspendedHhworker, //suspended
+                             displayRejectedHhworker //banned               
+                            ]
+//pending
+router.get('transactions/household_workers/pending', flog, hhworkertMaintenance ,renderHhwPending);
+//deployed
+router.get('transactions/household_workers/deployed', flog, hhworkertMaintenance ,renderHhwDeployed);
+//Rregistered
+router.get('transactions/household_workers/registered', flog, hhworkertMaintenance ,renderHhwRegistered);
+//banned
+router.get('transactions/household_workers/banned', flog, hhworkertMaintenance ,renderHhwBanned);
+//suspended
+router.get('transactions/household_workers/suspended', flog, hhworkertMaintenance ,renderHhwSuspended);
+//Rejected
+router.get('transactions/household_workers/rejected', flog, hhworkertMaintenance ,renderHhwRejected);
 
 
 exports.admin= router;

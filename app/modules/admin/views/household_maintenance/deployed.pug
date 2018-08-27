@@ -1,0 +1,123 @@
+extends ../../../../templates/navbaradmin.pug
+block content
+    .right_col(role='main')
+        .page-title
+            .title_left
+                h5
+                    | Transactions / Household Workers /&nbsp
+                    b Deployed
+            .row
+                .col-md-12.col-sm-12.col-xs-12
+                    .x_panel
+                        .x_content
+                            table#datatable.table.table-striped.table-bordered
+                                thead
+                                    tr
+                                        th ID NO.
+                                        th NAME
+                                        th SERVICE
+                                        th STATUS
+                                        th ACTION
+                                tbody
+                                    each item in itemtab
+                                        tr
+                                        
+                                            td #{item.intHWID}
+                                            td #{item.strNames}
+                                            td #{item.strName}
+                                            td #{item.stat}
+                                                //- input.js-switch(type='checkbox', checked='')
+                                            td
+                                                
+                                                a(href='/admin/profile_hw_'+item.intHWID)
+                                                    button.btn.btn-info(type='button')
+                                                        i.fa.fa-eye
+                                                        |   View
+                                                if item.stat == "Registered"
+                                                    button.btn.btn-default(type='button', data-toggle='modal', data-target='#req_registered_hw', data-id=item.intHWID)
+                                                        i.fa.fa-list
+                                                        |   Requirements
+                                                else if item.stat == "Unregistered"
+                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#req_unregistered_hw', data-id=item.intHWID, data-email=item.strEmail, data-fname=item.strFName, data-lname=item.strLName)
+                                                        i.fa.fa-list
+                                                        |   Requirements
+                                                else if item.stat == "Rejected"
+                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#req_rejected_hw', data-id=item.intHWID)
+                                                        i.fa.fa-list
+                                                        |   Requirements
+                                                //- button.btn.btn-primary(type='button' data-toggle='modal' data-target='#edit')
+                                                //-     i.fa.fa-edit
+                                                //-     |   Edit
+                                                //- if item.strStatus=='Registered'
+                                                //-     a(href="ban_householdworker/"+item.intID)
+                                                //-         button.btn.btn-danger(type='button')
+                                                //-             i.fa.fa-toggle-off
+                                                //-             |   Ban
+                                                //- else if item.strStatus=='Banned'
+                                                    //- a(href="reinstate_householdworker/"+item.intID)
+                                                    //-     button.btn.btn-danger(type='button')
+                                                    //-         i.fa.fa-toggle-on
+                                                    //-         |   Reinstate
+    #req_registered_hw.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-xs
+            .modal-content
+                .modal-header(style="background-color:#EDEDED")
+                    button.close(type='button', data-dismiss='modal')
+                        span(aria-hidden='true') ×
+                    h4#myModalLabel.modal-title Registered
+                .modal-body
+                    p(style="font-size:15px") The following requirements and clearances are presented:
+                        .row
+                            .col-md-12
+                                each requirement in HWreqtab
+                                    li #{requirement.strName}  
+                .modal-footer
+                    button.btn.btn-primary(type='button', data-dismiss='modal') Close
+    #req_unregistered_hw.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-xs
+            .modal-content
+                .modal-header(style="background-color:#EDEDED")
+                    button.close(type='button', data-dismiss='modal')
+                        span(aria-hidden='true') ×
+                    h4#myModalLabel.modal-title Unregistered
+                .modal-body
+                    form#myform.form-horizontal.form-label-left(method="POST" action="tr_approve_hw")
+                        input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='hwID' style='display:none;')                              
+                        input#email(type="text", name="email" hidden)
+                        input#fname(type="text" name="fname" hidden)
+                        input#lname(type="text" name="lname" hidden)
+                        each requirement in HWreqtab
+                            .form-group
+                                .col-md-6.col-sm-6.col-xs-12
+                                    label
+                                        input(id=requirement.intID, type='checkbox', value=requirement.intID, name='requ' onClick='getreq(this.id);')
+                                        | &nbsp #{requirement.strName}
+                        .ln_solid
+                        .form-group.pull-right
+                            button.btn.btn-success(type='submit' name='btn1' value='approve')
+                                i.fa.fa-thumbs-up
+                                |   Approve
+                            button#reject.btn.btn-danger(type='submit' name='btn1' value='reject')
+                                i.fa.fa-trash
+                                |   Reject
+                            button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
+    #req_rejected_hw.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-xs
+            .modal-content
+                .modal-header(style="background-color:#EDEDED")
+                    button.close(type='button', data-dismiss='modal')
+                        span(aria-hidden='true') ×
+                    h4#myModalLabel.modal-title Rejected
+                .modal-body
+                    form#demo-form2.form-horizontal.form-label-left(method="POST" action="tr_approve_hw")
+                        .form-group
+                            .col-md-6.col-sm-6.col-xs-12
+                                input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='hwID' style="display:none;")                              
+                        .ln_solid
+                        .form-group.pull-right
+                            button.btn.btn-danger(type='submit' name='btn1' value='revert')
+                                    i.fa.fa-refresh
+                                    |   Revert
+                            button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
+
+    

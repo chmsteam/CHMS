@@ -1,0 +1,105 @@
+extends ../../../../templates/navbaradmin.pug
+block content
+    // page content
+    .right_col(role='main')
+        div
+            .page-title
+                .title_left
+                    h5
+                        | Transactions / Clients /&nbsp
+                        b Banned
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
+                        .x_panel
+                            .x_content
+                                table#datatable-responsive.table.table-striped.table-bordered.dt-responsive.nowrap(cellspacing='0', width='100%')
+                                    thead
+                                        tr
+                                            th ID NO.
+                                            th NAME
+                                            th STATUS
+                                            th ACTION
+                                    tbody 
+                                        each item in itemtab 
+                                            tr
+                                                td #{item.intID}
+                                                td #{item.strName}
+                                                td #{item.strStatus}
+                                                    //- input.js-switch(type='checkbox', checked='')
+                                                td
+                                                    a(href='/admin/profile_client_'+item.intID)
+                                                        button.btn.btn-info(type='button')
+                                                            i.fa.fa-eye
+                                                            |   View
+                                                    if item.strStatus == "Registered"
+                                                        button.btn.btn-default(type='button', data-toggle='modal', data-target='#req_registered', data-id=item.intID)
+                                                            i.fa.fa-list
+                                                            |   Requirements
+                                                    else if item.strStatus == "Unregistered"
+                                                        button.btn.btn-warning(type='button', data-toggle='modal', data-target='#req_unregistered', data-id=item.intID)
+                                                            i.fa.fa-list
+                                                            |   Requirements
+                                                    else if item.strStatus == "Rejected"
+                                                        button.btn.btn-warning(type='button', data-toggle='modal', data-target='#req_rejected', data-id=item.intID)
+                                                            i.fa.fa-list
+                                                            |   Requirements
+    //- modals
+    #req_registered.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-xs
+            .modal-content
+                .modal-header(style="background-color:#EDEDED")
+                    button.close(type='button', data-dismiss='modal')
+                        span(aria-hidden='true') ×
+                    h4#myModalLabel.modal-title Registered
+                .modal-body
+                    p(style="font-size:15px") The following requirements and clearances are presented:
+                        .row
+                            .col-md-12
+                                each requirement in requirementtab
+                                    li #{requirement.strName} 
+                .modal-footer
+                    button.btn.btn-primary(type='button', data-dismiss='modal') Close
+    #req_unregistered.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-xs
+            .modal-content
+                .modal-header(style="background-color:#EDEDED")
+                    button.close(type='button', data-dismiss='modal')
+                        span(aria-hidden='true') ×
+                    h4#myModalLabel.modal-title Unregistered
+                .modal-body
+                    form#myform.form-horizontal.form-label-left(method="POST" action="tr_approve_client")
+                        //- input#_req(type="text", name="" onClick='etreq();')
+                        input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='clientID' style="display:none;")
+                        each requirement in requirementtab
+                            .form-group
+                                .col-md-6.col-sm-6.col-xs-12
+                                    label
+                                        input.flat(id=requirement.intID, type='checkbox', value=requirement.intID, name='requ' onClick='getreq(this.id);')
+                                        | &nbsp #{requirement.strName}           
+                        .ln_solid
+                        .form-group.pull-right
+                            button.btn.btn-success(type='submit' name='btn1' value='approve')
+                                i.fa.fa-thumbs-up
+                                |   Approve
+                            button#reject.btn.btn-danger(type='submit' name='btn1' value='reject')
+                                i.fa.fa-trash
+                                |   Reject
+                            button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
+    #req_rejected.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-xs
+            .modal-content
+                .modal-header(style="background-color:#EDEDED")
+                    button.close(type='button', data-dismiss='modal')
+                        span(aria-hidden='true') ×
+                    h4#myModalLabel.modal-title Rejected
+                .modal-body
+                    form#demo-form2.form-horizontal.form-label-left(method="POST" action="tr_approve_client")
+                        .form-group
+                            .col-md-6.col-sm-6.col-xs-12
+                                input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='clientID' style="display:none;")                              
+                        .ln_solid
+                        .form-group.pull-right
+                            button.btn.btn-danger(type='submit' name='btn1' value='revert')
+                                    i.fa.fa-refresh
+                                    |   Revert
+                            button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
