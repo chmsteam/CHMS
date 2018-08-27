@@ -16,43 +16,43 @@ block content
                     .col-md-12.col-sm-12.col-xs-12
                         .x_panel
                             .x_content
-                            button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='.bs-add-modal-xs')
-                                i.fa.fa-plus
-                                | &nbspAdd
-                            br
-                            br
-                            table#datatable.table.table-striped.table-bordered
-                                thead
-                                    tr
-                                        //- th ID NO.
-                                        th(style="text-align:center")  REQUIREMENTS AND CLEARANCES
-                                        th(style="text-align:center")  FOR
-                                        th(style="text-align:center")  STATUS
-                                        th(style="text-align:center")  ACTION
-                                tbody
-                                    each item in itemtab
-                                        tr(style="text-align:center") 
-                                        
-                                            //- td #{item.intID}
-                                            td #{item.strName}
-                                            td #{item.strType}
-                                            td
-                                                if item.strStatus=='Active'
-                                                    p(hidden="") active
-                                                    a(href="disable_requirement/"+item.intID)
-                                                        input.js-switch(type='checkbox' checked)
-                                                else if item.strStatus=='Inactive'
-                                                    p(hidden="") inactive
-                                                    a(href="enable_requirement/"+item.intID)
-                                                        input.is-danger.js-switch(type='checkbox')
-                                                //- input.js-switch(type='checkbox', checked='') #{item.strStatus}
-                                            td
-                                                //- button.btn.btn-info(type='button')
-                                                    i.fa.fa-eye
-                                                    |   View
-                                                button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit_requirement', data-id=item.intID, data-name=item.strName, data-type=item.strType)
-                                                    i.fa.fa-edit
-                                                    |   Edit
+                                button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='.bs-add-modal-xs')
+                                    i.fa.fa-plus
+                                    | &nbspAdd
+                                .x_panel
+                                    br
+                                    table#datatable.table.table-striped.table-bordered
+                                        thead
+                                            tr
+                                                //- th ID NO.
+                                                th(style="text-align:center")  REQUIREMENTS AND CLEARANCES
+                                                th(style="text-align:center")  FOR
+                                                th(style="text-align:center")  STATUS
+                                                th(style="text-align:center")  ACTION
+                                        tbody
+                                            each item in itemtab
+                                                tr(style="text-align:center") 
+                                                
+                                                    //- td #{item.intID}
+                                                    td #{item.strName}
+                                                    td #{item.strType}
+                                                    td
+                                                        if item.strStatus=='Active'
+                                                            p(hidden="") active
+                                                            a(href="disable_requirement/"+item.intID)
+                                                                input.js-switch(type='checkbox' checked)
+                                                        else if item.strStatus=='Inactive'
+                                                            p(hidden="") inactive
+                                                            a(href="enable_requirement/"+item.intID)
+                                                                input.is-danger.js-switch(type='checkbox')
+                                                        //- input.js-switch(type='checkbox', checked='') #{item.strStatus}
+                                                    td
+                                                        //- button.btn.btn-info(type='button')
+                                                            i.fa.fa-eye
+                                                            |   View
+                                                        button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit_requirement', data-id=item.intID, data-name=item.strName, data-type=item.strType)
+                                                            i.fa.fa-edit
+                                                            |   Edit
                                                 
 
                 //- Add

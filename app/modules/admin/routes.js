@@ -2248,13 +2248,13 @@ var clientMaintenance = [
                           displayBannedClient // Banned
                         ]
 //pending
-router.get('transactions/clients/pending', flog, clientMaintenance ,renderClientsPending);
+router.get('/transactions/clients/pending', flog, clientMaintenance ,renderClientsPending);
 //registered
-router.get('transactions/clients/registered', flog, clientMaintenance ,renderClientsRegistered);
+router.get('/transactions/clients/registered', flog, clientMaintenance ,renderClientsRegistered);
 //rejected
-router.get('transactions/clients/rejected', flog, clientMaintenance ,renderClientsRejected);
+router.get('/transactions/clients/rejected', flog, clientMaintenance ,renderClientsRejected);
 //banned
-router.get('transactions/clients/banned', flog, clientMaintenance ,renderClientsBanned);
+router.get('/transactions/clients/banned', flog, clientMaintenance ,renderClientsBanned);
 
 
 //------------------------------------------ROUTER.get Client Maintenance 
@@ -2266,17 +2266,17 @@ var hhworkertMaintenance = [ displayPendingHhworker, houseHoldReq, //pending
                              displayRejectedHhworker //banned               
                             ]
 //pending
-router.get('transactions/household_workers/pending', flog, hhworkertMaintenance ,renderHhwPending);
+router.get('/transactions/household_workers/pending', flog, hhworkertMaintenance ,renderHhwPending);
 //deployed
-router.get('transactions/household_workers/deployed', flog, hhworkertMaintenance ,renderHhwDeployed);
+router.get('/transactions/household_workers/deployed', flog, hhworkertMaintenance ,renderHhwDeployed);
 //Rregistered
-router.get('transactions/household_workers/registered', flog, hhworkertMaintenance ,renderHhwRegistered);
+router.get('/transactions/household_workers/registered', flog, hhworkertMaintenance ,renderHhwRegistered);
 //banned
-router.get('transactions/household_workers/banned', flog, hhworkertMaintenance ,renderHhwBanned);
+router.get('/transactions/household_workers/banned', flog, hhworkertMaintenance ,renderHhwBanned);
 //suspended
-router.get('transactions/household_workers/suspended', flog, hhworkertMaintenance ,renderHhwSuspended);
+router.get('/transactions/household_workers/suspended', flog, hhworkertMaintenance ,renderHhwSuspended);
 //Rejected
-router.get('transactions/household_workers/rejected', flog, hhworkertMaintenance ,renderHhwRejected);
+router.get('/transactions/household_workers/rejected', flog, hhworkertMaintenance ,renderHhwRejected);
 
 
 exports.admin= router;

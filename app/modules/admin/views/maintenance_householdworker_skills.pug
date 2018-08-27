@@ -14,40 +14,40 @@ block content
                     .col-md-12.col-sm-12.col-xs-12
                         .x_panel
                             .x_content
-                            button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='.bs-add-modal-xs')
-                                i.fa.fa-plus
-                                | &nbspAdd
-                            br
-                            br
-                            table#datatable.table.table-striped.table-bordered
-                                thead
-                                    tr
-                                        //- th ID NO.
-                                        th(style="text-align:center")  SKILL
-                                        //- th TYPE
-                                        th(style="text-align:center")  STATUS
-                                        th(style="text-align:center")  ACTION
-                                tbody
-                                    each item in itemtab
-                                        tr(style="text-align:center") 
-                                        
-                                            //- td #{item.skillID}
-                                            td #{item.skillName}
-                                            //- td #{item.serviceName}
-                                            td 
-                                                if item.skillStatus=='Active'
-                                                    p(hidden="") active
-                                                    a(href="disable_skill/"+item.skillID)
-                                                        input.js-switch(type='checkbox' checked)
-                                                else if item.skillStatus='Inactive'
-                                                    p(hidden="") inactive
-                                                    a(href="enable_skill/"+item.skillID)
-                                                        input.js-switch(type='checkbox' )
-                                                //- input.js-switch(type='checkbox', checked='') #{item.skillStatus}
-                                            td
-                                                button.btn.btn-warning(type='button', data-toggle='modal', data-target='#editskill', data-skillid=item.skillID, data-skillname=item.skillName, data-serviceid=item.serviceID, data-servicename=item.serviceName)
-                                                    i.fa.fa-edit
-                                                    |   Edit
+                                button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='.bs-add-modal-xs')
+                                    i.fa.fa-plus
+                                    | &nbspAdd
+                                .x_panel
+                                    br
+                                    table#datatable.table.table-striped.table-bordered
+                                        thead
+                                            tr
+                                                //- th ID NO.
+                                                th(style="text-align:center")  SKILL
+                                                //- th TYPE
+                                                th(style="text-align:center")  STATUS
+                                                th(style="text-align:center")  ACTION
+                                        tbody
+                                            each item in itemtab
+                                                tr(style="text-align:center") 
+                                                
+                                                    //- td #{item.skillID}
+                                                    td #{item.skillName}
+                                                    //- td #{item.serviceName}
+                                                    td 
+                                                        if item.skillStatus=='Active'
+                                                            p(hidden="") active
+                                                            a(href="disable_skill/"+item.skillID)
+                                                                input.js-switch(type='checkbox' checked)
+                                                        else if item.skillStatus='Inactive'
+                                                            p(hidden="") inactive
+                                                            a(href="enable_skill/"+item.skillID)
+                                                                input.js-switch(type='checkbox' )
+                                                        //- input.js-switch(type='checkbox', checked='') #{item.skillStatus}
+                                                    td
+                                                        button.btn.btn-warning(type='button', data-toggle='modal', data-target='#editskill', data-skillid=item.skillID, data-skillname=item.skillName, data-serviceid=item.serviceID, data-servicename=item.serviceName)
+                                                            i.fa.fa-edit
+                                                            |   Edit
                                                 
                 //- Add
                 .modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')

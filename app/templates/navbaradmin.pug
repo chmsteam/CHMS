@@ -30,6 +30,8 @@ html(lang='en')
     link(href='/assets4/css/style1.css', rel='stylesheet')
     // iCheck
     link(href='/admin/gentelella/vendors/iCheck/skins/flat/green.css', rel='stylesheet')
+    // Animate CSS
+    link(href="/assets/fame/css/animate.css" rel="stylesheet")
 
 
   //- #preloader
@@ -148,18 +150,18 @@ html(lang='en')
                             span.fa.fa-chevron-down
                           ul.nav.child_menu
                             li.sub_menu
-                              a(href='transaction_client_request') Client
+                              a(href='/admin/transaction_client_request') Client
                             li.sub_menu
                               a
                                 | Household Worker
                                 span.fa.fa-chevron-down
                               ul.nav.child_menu
                                 li.sub_menu
-                                  a(href='transaction_hhRequest_leave') Leave
+                                  a(href='/admin/transaction_hhRequest_leave') Leave
                                 li.sub_menu
-                                  a(href='transaction_replacement_of_client') Replacement of Client
+                                  a(href='/admin/transaction_replacement_of_client') Replacement of Client
                             li.sub_menu
-                              a(href='transaction_rejected') Rejected
+                              a(href='/admin/transaction_rejected') Rejected
                             
                         li 
                           a
@@ -167,18 +169,18 @@ html(lang='en')
                             span.fa.fa-chevron-down
                           ul.nav.child_menu
                             li.sub_menu
-                              a(href='transaction_settle') Settle Request
+                              a(href='/admin/transaction_settle') Settle Request
                             li.sub_menu
-                              a(href='transaction_settled') Finished Transaction
+                              a(href='/admin/transaction_settled') Finished Transaction
                         li 
                           a
                             | Incident Report
                             span.fa.fa-chevron-down
                           ul.nav.child_menu
                             li.sub_menu
-                              a(href='transaction_ir_client') Client
+                              a(href='/admin/transaction_ir_client') Client
                             li.sub_menu
-                              a(href='transaction_ir_hw') Household Worker                                         
+                              a(href='/admin/transaction_ir_hw') Household Worker                                         
                     li
                       a
                         i.fa.fa-gear
@@ -186,11 +188,11 @@ html(lang='en')
                         span.fa.fa-chevron-down
                       ul.nav.child_menu
                         li
-                          a(href='utilities_staff') Staff
+                          a(href='/admin/utilities_staff') Staff
                         li
-                          a(href='utilities_fees') Fees
+                          a(href='/admin/utilities_fees') Fees
                         li
-                          a(href='utilities_freereplacement') Free Replacement
+                          a(href='/admin/utilities_freereplacement') Free Replacement
                     li
                       a
                         i.fa.fa-pie-chart
@@ -341,6 +343,10 @@ html(lang='en')
           script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
           // Bootstrap
           script(src='/admin/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js')
+          // FastClick
+          script(src="/admin/gentelella/vendors/fastclick/lib/fastclick.js")
+          // NProgress
+          script(src="/admin/gentelella/vendors/nprogress/nprogress.js")
           // Datatables
           script(src='/admin/gentelella/vendors/datatables.net/js/jquery.dataTables.min.js')
           script(src='/admin/gentelella/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')
@@ -364,6 +370,7 @@ html(lang='en')
           //preloader
           script(src='/assets4/js/custom1.js')
           script(src='/assets4/lib/wow/wow.min.js')
+          script(src="/assets4/lib/morphext/morphext.min.js")
 
           script.
             //maintenance requirement
