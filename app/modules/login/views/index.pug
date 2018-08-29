@@ -341,45 +341,45 @@ head
     // Large modal
     #signinmodal.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-labelledby='exampleModalLongTitle', aria-hidden='true')
         .modal-dialog
-          form(method='POST', ,='', action='/login')
-            .modal-content(align='center')
-                .modal-header(style='background-color:#5BB12F')
-                    button.close(type='button', data-dismiss='modal')
-                        span(aria-hidden='true') ×
-                    h3#signinmodal.modal-title.btn-primary(style='font:white')
-                        b Log-in Form
-                .modal-body
-                    h4
-                    div(col-lg-12='')
-                        table(style='width:70%')
-                            tbody
-                                tr
-                                    td
-                                        label(for='exampleInputEmail1')  E-mail Address: 
-                                    td
-                                        | &nbsp
-                                    td
-                                        input.form-control(type='email', placeholder=' Enter e-mail', name='email', style='width:100%')
-                                tr
-                                    td
-                                        | &nbsp
-                                tr
-                                    td
-                                        label(for='exampleInputPassword1"')  Password: 
-                                    td
-                                        | &nbsp
-                                    td
-                                        input.form-control(type='password', placeholder=' Password', name='password', style='width:100%')
-                    br
-                    div
-                        | Don't  have an account? 
-                        a(href='')  Sign up 
-                        |  here
-                br
-                br
-                .modal-footer
-                    button.btn.btn-default(type='button', data-dismiss='modal') Close
-                    button.btn.btn-primary(type='submit') Sign In
+            form(method='POST', ,='', action='/login')
+                .modal-content(align='center')
+                    .modal-header(style='background-color:#5BB12F')
+                        button.close(type='button', data-dismiss='modal')
+                            span(aria-hidden='true') ×
+                        h3#signinmodal.modal-title
+                            b(style='color:white') Log-in Form
+                    .modal-body
+                        h4
+                        div(col-lg-12='')
+                            table(style='width:70%')
+                                tbody
+                                    tr
+                                        td
+                                            label(for='exampleInputEmail1')  E-mail Address: 
+                                        td
+                                            | &nbsp
+                                        td
+                                            input.form-control(type='email', placeholder=' Enter e-mail', name='email', style='width:100%')
+                                    tr
+                                        td
+                                            | &nbsp
+                                    tr
+                                        td
+                                            label(for='exampleInputPassword1"')  Password: 
+                                        td
+                                            | &nbsp
+                                        td
+                                            input.form-control(type='password', placeholder=' Password', name='password', style='width:100%')
+                        br
+                        br
+                        br
+                        div
+                            | Don't  have an account? 
+                            a(href='')  Sign up 
+                            |  here
+                    .modal-footer
+                        button.btn.btn-default(type='button', data-dismiss='modal') Close
+                        button.btn.btn-primary(type='submit') Sign In
 
 script(src='/login/fame/js/jquery-2.1.1.min.js')
 // Bootstrap Core JavaScript

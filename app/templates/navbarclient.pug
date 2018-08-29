@@ -49,10 +49,10 @@ html(lang='en')
                 // /menu profile quick info
                 br
                 // sidebar menu
-                #sidebar-menu.main_menu
-                  .menu_section
+                #sidebar-menu.main_menu.wow.fadeInUp
+                  .menu_section.wow.fadeInUp
                     h3
-                    ul.side-menu(style='')
+                    ul.side-menu.wow.fadeInUp(style='')
                       li.x_panel(align='center', style='padding-right:20%')
                         a(href='hwRegi')
                           i.fa.fa-user
@@ -119,16 +119,17 @@ html(lang='en')
                 a#menu_toggle
                   i
               ul.nav1.navbar-nav1.navbar-right
-                li
-                  a
-                    span#date_time
-                  script(type='text/javascript').
-                    window.onload = date_time('date_time');
+                //- li
+                //-   a
+                //-     span#date_time
+                //-   script(type='text/javascript').
+                //-     window.onload = date_time('date_time');
                 li
                   a.user-profile.dropdown-toggle(href='javascript:;', data-toggle='dropdown', aria-expanded='false')
                     img(src='images/img.jpg', alt='')
                     b #{user.strFName}
-                    span.fa.fa-angle-down
+                      span(style="float:right")
+                        i.fa.fa-angle-down
                   ul.dropdown-menu.dropdown-usermenu.pull-right
                     li
                       a(href='javascript:;')  Profile
@@ -143,7 +144,8 @@ html(lang='en')
                         i.fa.fa-sign-out.pull-right
                         |  Log Out
                 li
-                  a(href="/home_client/householdworker_list") My Houshold Worker
+                  a(href="/home_client/householdworker_list") 
+                    b My Houshold Worker
                 li
                   a.user-profile.dropdown-toggle(href='javascript:;', data-toggle='dropdown', aria-expanded='false')
                     b Request
@@ -156,7 +158,8 @@ html(lang='en')
                     li
                       a(href='/request_irclient') Report Household Worker
                 li
-                  a(href='/home_client') Home  
+                  a(href='/home_client') 
+                    b Home  
 
           block content
       // jQuery

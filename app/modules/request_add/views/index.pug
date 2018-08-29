@@ -12,9 +12,15 @@ block content
                         .x_panel
                             .x_panel
                                 .x_title
-                                    h1  Add Household Worker 
+                                    h1
+                                        b  Add Household Worker 
                                     .clearfix
+                                    .x_panel(style='background-color:#f1f1f1')
+                                        b  Disclaimer !!!
+                                            br
+                                            |   To add household worker, you must create first a list of your service/s that you want to request.
                                 br
+                                
                                 .x_content
                                     center
                                         //- a(href='/request_add/createlist_services')
@@ -28,21 +34,20 @@ block content
                                                 .col-md-12
                                                     .x_content
                                                         .row
-                                                            .col-md-12.col-sm-12.col-xs-12.text-center
-                                                            .clearfix
-                                                                .col-md-4.col-sm-4.col-xs-12.profile_details
+                                                            .col-md-4.col-sm-4.col-xs-12.profile_details
                                                                     .well.profile_view
+                                                                        .col-sm-7(align='right')
+                                                                        |   #{list.datRequestDate}
                                                                         .col-sm-12
-                                                                            h3.brief #{list.strRequestName}
+                                                                            .right.col-sm-12
+                                                                            h3.brief    
+                                                                                b   #{list.strRequestName}
                                                                             .left.col-sm-12
                                                                                 br
                                                                                 ul.list-unstyled
                                                                                     li
                                                                                         strong List no: 
                                                                                         |  #{list.intRequestID}
-                                                                                    li
-                                                                                        strong Date created: 
-                                                                                        |  #{list.datRequestDate}
                                                                                     li
                                                                                         strong Date needed: 
                                                                                         |  #{list.datRequestNeedDate}
@@ -107,27 +112,34 @@ block content
         .modal-dialog.modal-md
             form.form-horizontal(method='POST' action='/request_add/createlist_services/createlist')
                 .modal-content
-                    .modal-header
+                    .modal-header(style="background-color:#2A3F54; color:white")
                         button.close(type='button', data-dismiss='modal')
                             span(aria-hidden='true') ×
-                        h4#myModalLabel.modal-title Create List
+                        h3#myModalLabel.modal-title(align='center')(style='color:white') 
+                            p(style="text-align:center; font-weight:bold; font-size:32px") Create List
+                    br
                     .modal-body
                         .row
-                            .col-md-6
+                            .col-md-1
                                 .form-group
-                                    | List Name
-                                    input.form-control(type='text', name='reqname', required)
-                                    input.form-control(id='thedate' type='date', name='reqdate' style='display:none;')
-                            .col-md-6
-                                .form-group
-                                    | Date Needed
-                                    input.form-control(type='date', name='dateneed' required)
-                        
+                            .row
+                                .col-md-5
+                                    .form-group
+                                        b   List Name
+                                        input.form-control(type='text', name='reqname', required)
+                                        input.form-control(id='thedate' type='date', name='reqdate' style='display:none;')
+                                .col-md-5
+                                    .form-group
+                                        b   Date Needed
+                                        input.form-control(type='date', name='dateneed' required)
                         .row
-                            .col-md-10
-                                .form-group
-                                    |Description
-                                    textarea.form-control.AddMessage(rows='10' name='reqdesc')
+                            .col-md-1
+                                .form-group     
+                            .row
+                                .col-md-10
+                                    .form-group
+                                        b   Description
+                                        textarea.form-control.AddMessage(rows='10' name='reqdesc')
                     .modal-footer
                         button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Create
     

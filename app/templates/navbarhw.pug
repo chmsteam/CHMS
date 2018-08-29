@@ -6,22 +6,31 @@ html(lang='en')
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    title Household Worker
+    title Client
     // Bootstrap
-    link(href='../admin/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css', rel='stylesheet')
+    link(href='/admin/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css', rel='stylesheet')
     // Font Awesome
-    link(href='../admin/gentelella/vendors/font-awesome/css/font-awesome.min.css', rel='stylesheet')
+    link(href='/admin/gentelella/vendors/font-awesome/css/font-awesome.min.css', rel='stylesheet')
     // NProgress
-    link(href='../admin/gentelella/vendors/nprogress/nprogress.css', rel='stylesheet')
+    link(href='/admin/gentelella/vendors/nprogress/nprogress.css', rel='stylesheet')
+    // iCheck
+    link(href='/admin/gentelella/vendors/iCheck/skins/flat/green.css', rel='stylesheet')
     // Custom Theme Style
-    link(href='../admin/gentelella/build/css/custom1.min.css', rel='stylesheet')
+    link(href='/admin/gentelella/build/css/custom1.min.css', rel='stylesheet')
     // For dynamic date and time
     meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
-    script(type='text/javascript', src='../admin/gentelella/production/js/date_time.js')
+    script(type='text/javascript', src='/admin/gentelella/production/js/date_time.js')
     // Switchery
-    link(href='../admin/gentelella/vendors/switchery/dist/switchery.min.css', rel='stylesheet')
+    link(href='/admin/gentelella/vendors/switchery/dist/switchery.min.css', rel='stylesheet')
+    //preloader
+    link(href='/assets4/css/style1.css', rel='stylesheet')
+    // bootstrap-daterangepicker
+    link(href='/admin/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.css', rel='stylesheet')
+    // bootstrap-datetimepicker
+    link(href='/admin/gentelella/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css', rel='stylesheet')
 
-  body.nav-md.footer_fixed
+  //- #preloader
+  body.nav-md.footer_fixed(style='background-color:transpaarent' onpageshow='total();')
     each user in usertab
       .container.body
         .main_container
@@ -31,46 +40,45 @@ html(lang='en')
                 | &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                 img(src='')
               // menu profile quick info
-              .profile.clearfix
-                div
-                  img.img-circle.profile_img(src='../images/'+user.strPicture, alt='...')
-                div
-                  h2(style="color:white") &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp #{user.strFName} #{user.strLName}
-              // /menu profile quick info
-              br
-              // sidebar menu
-              #sidebar-menu.main_menu
-                .menu_section
-                  h3
-                  ul.side-menu
-                    li.x_panel(align='center', style='padding:5%; margin-left:-20px;')
-                      | &nbsp&nbsp
-                      a(href='hwRegi')
-                        i.fa.fa-user
-                        |  Profile
-                    li.x_panel(align='center', style='padding:5%; margin-left:-20px;')
-                      | &nbsp&nbsp
-                      a(href='CreateList')
-                        i.fa.fa-edit
-                        |  My List
-                    li.x_panel(align='center', style='padding:5%; margin-left:-20px;')
-                      | &nbsp&nbsp
-                      a(href='hwRegi')
-                        i.fa.fa-envelope
-                        |  Messages
-                    li.x_panel(align='center', style='padding:5%; margin-left:-20px;')
-                      | &nbsp&nbsp
-                      a(href='utilities')
-                        i.fa.fa-cogs
-                        |  Settings
-                    li.x_panel(align='center', style='padding:5%; margin-left:-20px;' )
-                      | &nbsp&nbsp
-                      a(href='utilities')
-                        i.fa.fa-sign-out
-                        |  Logout
-              // /sidebar menu
-              // /menu footer buttons
-              //- .sidebar-footer
+              section#services
+                .profile.clearfix
+                  div
+                    img.img-circle.profile_img(src='/images/'+user.strPicture, alt='...')
+                  div
+                    h2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp #{user.strFName} #{user.strLName}
+                // /menu profile quick info
+                br
+                // sidebar menu
+                #sidebar-menu.main_menu.wow.fadeInUp
+                  .menu_section.wow.fadeInUp
+                    h3
+                    ul.side-menu.wow.fadeInUp(style='')
+                      li.x_panel(align='center', style='padding-right:20%')
+                        a(href='hwRegi')
+                          i.fa.fa-user
+                          |  Profile
+                      li.x_panel(align='center', style='padding-right:20%')
+                        | &nbsp&nbsp
+                        a(href='CreateList')
+                          i.fa.fa-edit
+                          |  My List
+                      li.x_panel(align='center', style='padding-right:20%')
+                        | &nbsp&nbsp
+                        a(href='hwRegi')
+                          i.fa.fa-envelope
+                          |  Messages
+                      li.x_panel(align='center', style='padding-right:20%')
+                        | &nbsp&nbsp
+                        a(href='utilities')
+                          i.fa.fa-cogs
+                          |  Settings
+                      li.x_panel(align='center', style='padding-right:20%')
+                        | &nbsp&nbsp
+                        a(href='utilities')
+                          i.fa.fa-sign-out
+                          |  Logout
+                // /menu footer buttons
+                .sidebar-footer(style="background-color:transparent")
               // /menu footer buttons
           // top navigation
           .top_nav
@@ -79,11 +87,17 @@ html(lang='en')
                 a#menu_toggle
                   i
               ul.nav1.navbar-nav1.navbar-right
+                //- li
+                //-   a
+                //-     span#date_time
+                //-   script(type='text/javascript').
+                //-     window.onload = date_time('date_time');
                 li
                   a.user-profile.dropdown-toggle(href='javascript:;', data-toggle='dropdown', aria-expanded='false')
                     img(src='images/img.jpg', alt='')
                     b #{user.strFName}
-                    span.fa.fa-angle-down
+                      span(style="float:right")
+                        i.fa.fa-angle-down
                   ul.dropdown-menu.dropdown-usermenu.pull-right
                     li
                       a(href='javascript:;')  Profile
