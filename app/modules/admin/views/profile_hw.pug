@@ -21,16 +21,22 @@ block content
                                             .profile_img
                                                 #crop-avatar
                                                     // Current avatar
-                                                    img.img-responsive.avatar-view(src='../images/'+hw1.strPicture, alt='Avatar', title='Change the avatar')
+                                                    img.img-responsive.avatar-view(src='../images/'+hw1.strPicture, alt='Avatar', title='Change the avatar' style='widht:175px; height:200px')
                                             h3 #{hw1.strLName}, #{hw1.strFName} #{hw1.strMName} 
                                             h5 #{hw1.strName}
-                                            button.btn.btn-info(data-toggle='modal', data-target='#editpic', data-id=hw1.intHWID, data-image=`../images/${hw1.strPicture}`) Update Picture
+                                            button.btn.btn-success(data-toggle='modal', data-target='#editpic', data-id=hw1.intHWID, data-image=`../images/${hw1.strPicture}`) 
+                                                i.fa.fa-user 
+                                                | &nbsp Update Picture
                                             br
                                             each hw1 in hw1tab
                                                 if  hw1.strStatus == 'Deployed'
-                                                    button.btn.btn-danger(type='button') Ban
+                                                    button.btn.btn-danger(type='button') 
+                                                        i.fa.fa-exclamation-circle
+                                                        | &nbsp Ban
                                                 else if hw1.strStatus =='Banned'
-                                                    button.btn.btn-warning(type='button') Reinstate
+                                                    button.btn.btn-warning(type='button') 
+                                                        i.fa.fa-mail-reply
+                                                        Reinstate
                                         ul.list-unstyled.user_data
                                             li Age: &nbsp #{hw1.age}
                                             li Gender: &nbsp #{hw1.strGender}
@@ -189,5 +195,5 @@ block content
                         //-     .col-md-12.text-center
                         //-         img#pic(src='../images/'+ , alt='User-Profile-Image')
                     .modal-footer
-                        button.btn.btn-info(type='button', data-dismiss='modal') Close
+                        button.btn.btn-primary(type='button', data-dismiss='modal') Close
                         button.btn.btn-success(type='submit') Update

@@ -1,141 +1,139 @@
 extends ../../../templates/navbarhw.pug
-
 block content
-  .right_col(role='main')
-        .page-title
-          .title_left
-            each user in usertab
-                h1
-                    b Welcome, #{user.strFName}.          
-          
-          .clearfix        
-          .row
-            .col-md-12.col-sm-12.col-xs-12
-              .x_panel
-                .x_title
-                  h2 Home  
-                  .clearfix
-                .x_content
-                  br
-                  .col-md-12.col-sm-12.col-xs-12
+    section#services
+        .right_col.wow.fadeInDown(role='main' style="background-color:transparent;")
+            .page-title
+                .title_left
+                    each user in usertab
+                        h1
+                            b Welcome, #{user.strFName}.          
+            .clearfix        
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
                     .x_panel
-                      div(role='tabpanel', data-example-id='togglable-tabs')
-                                ul#myTab.nav.nav-tabs.bar_tabs(role='tablist')
-                                    li.active(role='presentation')
-                                        a#myrequest-tab(href='#tab_content1', role='tab', data-toggle='tab', aria-expanded='true') My Request
-                                    li(role='presentation')
-                                        a#incoming-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Incoming Request
-                                    li(role='presentation')
-                                        a#history-tab(href='#tab_content3', role='tab', data-toggle='tab', aria-expanded='false') History
-                                #myTabContent.tab-content
-                                    #tab_content1.tab-pane.fade.active.in(role='tabpanel', aria-labelledby='myrequest-tab')
-                                        // My Request
-                                    #tab_content2.tab-pane.fade(role='tabpanel', aria-labelledby='incoming-tab')
-                                        // Incoming Request
-                                        each ir in irtab
-                                            if ir.NoIR == 0
-                                                h3 You have no incoming requests yet.
-                                            else
-                                                each offer in offertab
-                                                    .row
-                                                        .col-md-12
-                                                            br
-                                                            .x_content
-                                                                .row
-                                                                    .col-md-12.col-sm-4.col-xs-12.profile_details
-                                                                        .well.profile_view(style='width:100%')
-                                                                            if offer.strRHWStatus == 'Waiting' && offer.strRClientStatus ==''
-                                                                                .col-xs-12
-                                                                                    center
-                                                                                        h2
-                                                                                            br
-                                                                                            | Type of Request:
-                                                                                            b &nbsp&nbspAdd Household Worker
-                                                                                            br
-                                                                                    .col-xs-12.text-center
-                                                                                        p
-                                                                                        h2 You are qualified from a job offer from #{offer.strFName} #{offer.strLName}
-                                                                                        p
-                                                                                        br
-                                                                                .col-xs-12.bottom.text-center
-                                                                                    -var fullname = offer.strLName + " " + offer.strFName
-                                                                                    -var address = offer.strCAHouseNo + " " + offer.strCAStreet + " " + offer.strCAProvince + ", " + offer.strCity
-                                                                                    button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjob', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No,
-                                                                                            data-name=fullname, data-add = address, data-needed= offer.datRequestNeedDate, data-sal=offer.deciRequestSalary, data-serv=offer.strName)
-                                                                                        | View Details
-                                                                            else if offer.strRHWStatus == 'Approved' && offer.strRClientStatus ==''
-                                                                                .col-xs-12
-                                                                                    center
-                                                                                        h2
-                                                                                            br
-                                                                                            | Type of Request:
-                                                                                            b &nbsp&nbspAdd Household Worker
-                                                                                            br
-                                                                                    .col-xs-12.text-center
-                                                                                        p
-                                                                                        h2 You accepted this job offer from #{offer.strFName} #{offer.strLName} . Waiting for the admin to send yout approval to the client
-                                                                                        p
-                                                                                        br
-                                                                                .col-xs-12.bottom.text-center
-                                                                                    -var fullname = offer.strLName + " " + offer.strFName
-                                                                                    -var address = offer.strCAHouseNo + " " + offer.strCAStreet + " " + offer.strCAProvince + ", " + offer.strCity
-                                                                                    button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjob', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No,
-                                                                                            data-name=fullname, data-add = address, data-needed= offer.datRequestNeedDate, data-sal=offer.deciRequestSalary, data-serv=offer.strName)
-                                                                                        | View Details
-                                                                            else if offer.strRHWStatus == 'Rejected' && offer.strRClientStatus ==''
-                                                                                .col-xs-12
-                                                                                    center
-                                                                                        h2
-                                                                                            br
-                                                                                            | Type of Request:
-                                                                                            b &nbsp&nbspAdd Household Worker
-                                                                                            br
-                                                                                    .col-xs-12.text-center
-                                                                                        p
-                                                                                        h2 You rejected this job offer from #{offer.strFName} #{offer.strLName} .
-                                                                                        p
-                                                                                        br
-                                                                                .col-xs-12.bottom.text-center
-                                                                                    -var fullname = offer.strLName + " " + offer.strFName
-                                                                                    -var address = offer.strCAHouseNo + " " + offer.strCAStreet + " " + offer.strCAProvince + ", " + offer.strCity
-                                                                                    button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjob', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No,
-                                                                                            data-name=fullname, data-add = address, data-needed= offer.datRequestNeedDate, data-sal=offer.deciRequestSalary, data-serv=offer.strName)
-                                                                                        | View Details
-                                                                            else if offer.strRHWStatus == 'Approved' && offer.strRClientStatus =='Waiting'
-                                                                                .col-xs-12
-                                                                                    center
-                                                                                        h2
-                                                                                            br
-                                                                                            | Type of Request:
-                                                                                            b &nbsp&nbspAdd Household Worker
-                                                                                            br
-                                                                                    .col-xs-12.text-center
-                                                                                        p
-                                                                                        h2 You accepted this job offer from #{offer.strFName} #{offer.strLName} . Waiting for the approval of the client
-                                                                                        p
-                                                                                        br
-                                                                                .col-xs-12.bottom.text-center
-                                                                                    button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjo', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No)
-                                                                                        | View Details
-                                                                            else if offer.strRHWStatus == 'Approved' && offer.strRClientStatus =='Approved'
-                                                                                .col-xs-12
-                                                                                    center
-                                                                                        h2
-                                                                                            br
-                                                                                            | Type of Request:
-                                                                                            b &nbsp&nbspAdd Household Worker
-                                                                                            br
-                                                                                    .col-xs-12.text-center
-                                                                                        p
-                                                                                        h2 You accepted this job offer from #{offer.strFName} #{offer.strLName} . The client added you to the list. Wait for the contract that will be sent by the client 
-                                                                                        p
-                                                                                        br
-                                                                                .col-xs-12.bottom.text-center
-                                                                                    
-                                                                                    button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjob_contract', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No)
-                                                                                        | View Details
-                                    #tab_content3.tab-pane.fade(role='tabpanel', aria-labelledby='history-tab')
-                                        // History                              
+                        .x_title
+                            h2 Home  
+                            .clearfix
+                            .x_content
+                            .col-md-12.col-sm-12.col-xs-12
+                                br
+                                .x_panel
+                                    div(role='tabpanel', data-example-id='togglable-tabs')
+                                        ul#myTab.nav.nav-tabs.bar_tabs(role='tablist')
+                                            li.active(role='presentation')
+                                                a#home-tab(href='#tab_content1', role='tab', data-toggle='tab', aria-expanded='true') My Request
+                                            li(role='presentation')
+                                                a#incoming-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Incoming Request
+                                            li(role='presentation')
+                                                a#history-tab(href='#tab_content3', role='tab', data-toggle='tab', aria-expanded='false') History	
+                                        #myTabContent.tab-content
+                                            #tab_content1.tab-pane.fade.active.in(role='tabpanel', aria-labelledby='home-tab')
+                                                // My Request
+                                            #tab_content2.tab-pane.fade(role='tabpanel', aria-labelledby='incoming-tab')
+                                                // Incoming Request
+                                                each ir in irtab
+                                                    if ir.NoIR == 0
+                                                        h3 You have no incoming requests yet.
+                                                    else
+                                                        each offer in offertab
+                                                            .row
+                                                                .col-md-12
+                                                                    br
+                                                                    .x_content
+                                                                        .row
+                                                                            .col-md-12.col-sm-4.col-xs-12.profile_details
+                                                                                .well.profile_view(style='width:100%')
+                                                                                    if offer.strRHWStatus == 'Waiting' && offer.strRClientStatus ==''
+                                                                                        .col-xs-12
+                                                                                            center
+                                                                                                h2
+                                                                                                    br
+                                                                                                    | Type of Request:
+                                                                                                    b &nbsp&nbspAdd Household Worker
+                                                                                                    br
+                                                                                            .col-xs-12.text-center
+                                                                                                p
+                                                                                                h2 You are qualified from a job offer from #{offer.strFName} #{offer.strLName}
+                                                                                                p
+                                                                                                br
+                                                                                        .col-xs-12.bottom.text-center
+                                                                                            -var fullname = offer.strLName + " " + offer.strFName
+                                                                                            -var address = offer.strCAHouseNo + " " + offer.strCAStreet + " " + offer.strCAProvince + ", " + offer.strCity
+                                                                                            button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjob', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No,
+                                                                                                    data-name=fullname, data-add = address, data-needed= offer.datRequestNeedDate, data-sal=offer.deciRequestSalary, data-serv=offer.strName)
+                                                                                                | View Details
+                                                                                    else if offer.strRHWStatus == 'Approved' && offer.strRClientStatus ==''
+                                                                                        .col-xs-12
+                                                                                            center
+                                                                                                h2
+                                                                                                    br
+                                                                                                    | Type of Request:
+                                                                                                    b &nbsp&nbspAdd Household Worker
+                                                                                                    br
+                                                                                            .col-xs-12.text-center
+                                                                                                p
+                                                                                                h2 You accepted this job offer from #{offer.strFName} #{offer.strLName} . Waiting for the admin to send yout approval to the client
+                                                                                                p
+                                                                                                br
+                                                                                        .col-xs-12.bottom.text-center
+                                                                                            -var fullname = offer.strLName + " " + offer.strFName
+                                                                                            -var address = offer.strCAHouseNo + " " + offer.strCAStreet + " " + offer.strCAProvince + ", " + offer.strCity
+                                                                                            button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjob', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No,
+                                                                                                    data-name=fullname, data-add = address, data-needed= offer.datRequestNeedDate, data-sal=offer.deciRequestSalary, data-serv=offer.strName)
+                                                                                                | View Details
+                                                                                    else if offer.strRHWStatus == 'Rejected' && offer.strRClientStatus ==''
+                                                                                        .col-xs-12
+                                                                                            center
+                                                                                                h2
+                                                                                                    br
+                                                                                                    | Type of Request:
+                                                                                                    b &nbsp&nbspAdd Household Worker
+                                                                                                    br
+                                                                                            .col-xs-12.text-center
+                                                                                                p
+                                                                                                h2 You rejected this job offer from #{offer.strFName} #{offer.strLName} .
+                                                                                                p
+                                                                                                br
+                                                                                        .col-xs-12.bottom.text-center
+                                                                                            -var fullname = offer.strLName + " " + offer.strFName
+                                                                                            -var address = offer.strCAHouseNo + " " + offer.strCAStreet + " " + offer.strCAProvince + ", " + offer.strCity
+                                                                                            button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjob', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No,
+                                                                                                    data-name=fullname, data-add = address, data-needed= offer.datRequestNeedDate, data-sal=offer.deciRequestSalary, data-serv=offer.strName)
+                                                                                                | View Details
+                                                                                    else if offer.strRHWStatus == 'Approved' && offer.strRClientStatus =='Waiting'
+                                                                                        .col-xs-12
+                                                                                            center
+                                                                                                h2
+                                                                                                    br
+                                                                                                    | Type of Request:
+                                                                                                    b &nbsp&nbspAdd Household Worker
+                                                                                                    br
+                                                                                            .col-xs-12.text-center
+                                                                                                p
+                                                                                                h2 You accepted this job offer from #{offer.strFName} #{offer.strLName} . Waiting for the approval of the client
+                                                                                                p
+                                                                                                br
+                                                                                        .col-xs-12.bottom.text-center
+                                                                                            button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjo', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No)
+                                                                                                | View Details
+                                                                                    else if offer.strRHWStatus == 'Approved' && offer.strRClientStatus =='Approved'
+                                                                                        .col-xs-12
+                                                                                            center
+                                                                                                h2
+                                                                                                    br
+                                                                                                    | Type of Request:
+                                                                                                    b &nbsp&nbspAdd Household Worker
+                                                                                                    br
+                                                                                            .col-xs-12.text-center
+                                                                                                p
+                                                                                                h2 You accepted this job offer from #{offer.strFName} #{offer.strLName} . The client added you to the list. Wait for the contract that will be sent by the client 
+                                                                                                p
+                                                                                                br
+                                                                                        .col-xs-12.bottom.text-center
+                                                                                            
+                                                                                            button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjob_contract', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No)
+                                                                                                | View Details
+                                            #tab_content3.tab-pane.fade(role='tabpanel', aria-labelledby='history-tab')                   
         #viewjob.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog.modal-xs
                 form#demo-form2.form-horizontal.form-label-left(method="POST" action="/home_householdworker/job_offer")
