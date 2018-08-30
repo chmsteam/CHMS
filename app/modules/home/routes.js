@@ -112,7 +112,7 @@ function myrequest2(req,res,next){
 //-----------------hhwList
 function myhw(req,res,next){
   var db = require('../../lib/database')();
-  db.query(`SELECT * FROM tblcontract INNER JOIN tbluser AS u ON intConHWID = u.intID INNER JOIN tblhousholdworker ON intHWID = u.intID INNER JOIN
+  db.query(`SELECT * FROM tblcontract INNER JOIN tbluser AS u ON intConHWID = u.intID INNER JOIN tblhouseholdworker ON intHWID = u.intID INNER JOIN
   tblmservice s ON s.intID = intServiceID INNER JOIN tblfinalrequest ON intRequestID = intConTransID WHERE intRequest_ClientID = ?`, [req.session.user], function (err,results){
     console.log(err);
     req.myhw = results;
