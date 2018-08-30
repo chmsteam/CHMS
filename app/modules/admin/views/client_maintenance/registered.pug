@@ -12,6 +12,8 @@ block content
                     .col-md-12.col-sm-12.col-xs-12
                         .x_panel
                             .x_content
+                                br
+                                br
                                 table#datatable-responsive.table.table-striped.table-bordered.dt-responsive.nowrap(cellspacing='0', width='100%')
                                     thead
                                         tr
@@ -44,19 +46,23 @@ block content
                                                             i.fa.fa-list
                                                             |   Requirements
     //- modals
-    #req_registered.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
-        .modal-dialog.modal-xs
+    #req_registered.modal.fade.bs-add-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-sm
             .modal-content
                 .modal-header(style="background-color:#EDEDED")
                     button.close(type='button', data-dismiss='modal')
                         span(aria-hidden='true') ×
-                    h4#myModalLabel.modal-title Registered
+                    h4#myModalLabel.modal-title Requirements
                 .modal-body
-                    p(style="font-size:15px") The following requirements and clearances are presented:
+                    p(style="font-size:15px")(align='center') 
+                    b   The following requirements and clearances are presented:
                         .row
+                            br
                             .col-md-12
+                                b   
                                 each requirement in requirementtab
                                     li #{requirement.strName} 
+                br
                 .modal-footer
                     button.btn.btn-primary(type='button', data-dismiss='modal') Close
     #req_unregistered.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')

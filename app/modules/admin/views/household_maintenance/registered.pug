@@ -15,6 +15,8 @@ block content
                             //-     button.btn.btn-success.btn-lg(type='button')
                             //-         i.fa.fa-plus
                             //-         | &nbspAdd
+                            br
+                            br
                             table#datatable.table.table-striped.table-bordered
                                 thead
                                     tr
@@ -63,17 +65,20 @@ block content
                                                     //-     button.btn.btn-danger(type='button')
                                                     //-         i.fa.fa-toggle-on
                                                     //-         |   Reinstate
-    #req_registered_hw.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
-        .modal-dialog.modal-xs
+    #req_registered_hw.modal.fade.bs-add-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-sm
             .modal-content
                 .modal-header(style="background-color:#EDEDED")
                     button.close(type='button', data-dismiss='modal')
                         span(aria-hidden='true') ×
-                    h4#myModalLabel.modal-title Registered
+                    h4#myModalLabel.modal-title Requirements
                 .modal-body
-                    p(style="font-size:15px") The following requirements and clearances are presented:
+                    p(style="font-size:15px") 
+                    b   The following requirements and clearances are presented:
                         .row
                             .col-md-12
+                            br
+                            b
                                 each requirement in HWreqtab
                                     li #{requirement.strName}  
                 .modal-footer

@@ -37,14 +37,14 @@ html(lang='en')
           .col-md-3.left_col
             .left_col.scroll-view
               .navbar.nav_title1(style='border: 0;')
-                | &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                img(src='')
+                | &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                img(src='/admin/gentelella/production/images/mega.png')(style='width:150px; height:52px')
               // menu profile quick info
               section#services
                 .profile.clearfix
-                  div
-                    img.img-circle.profile_img(src='/images/'+user.strPicture, alt='...')
-                  div
+                  div(style='padding-left:10%; width:108%')
+                    img.img-circle.profile_img(src='/images/'+user.strPicture, alt='...' height="150px")
+                  div(style='padding-right:8%')(align='center')
                     h2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp #{user.strFName} #{user.strLName}
                 // /menu profile quick info
                 br
@@ -128,7 +128,8 @@ html(lang='en')
                     li
                       a(href='/request_irhw') Report Client
                 li
-                  a(href='/home_householdworker') Home  
+                  a(href='/home_householdworker') 
+                    b Home  
           // /top navigation
           // page content
           block content
