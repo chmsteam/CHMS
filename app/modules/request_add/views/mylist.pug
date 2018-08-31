@@ -36,7 +36,7 @@ block content
                                                     |   Submit List
                                         else if list.strRequestStatus == 'On process' || list.strRequestStatus == 'Pending'
                                 br
-<<<<<<< HEAD
+
                                 .x_panel
                                     h2 Requested Service/s:
                                     table.table.jambo_table.bulk_action
@@ -86,7 +86,7 @@ block content
                                                             td
                                                                 a(href="/request_add/invoice_"+transdetails.intTRequestID)
                                                                     button.btn.btn-primary.btn-xs(type='button') View
-=======
+
                                 h2 Services:
                                 table.table.jambo_table.bulk_action
                                     thead
@@ -137,7 +137,7 @@ block content
                                                         td
                                                             a(href="/request_add/invoice_"+transdetails.intTRequestID)
                                                                 button.btn.btn-primary.btn-xs(type='button') View
->>>>>>> 9487338221d5359cc3897ec9f7c74ba3212c5d3b
+
 
                                 //- if request = Pending
                                 //- transaction dets
@@ -186,6 +186,7 @@ block content
                                                 if noofapprove.NOOFapprove > 0 && list.strRequestStatus=='On process'
                                                     button.btn.btn-success.btn-lg(type='button' data-toggle="modal" data-target="#deployment") Deployment Details
                                                 else 
+                                                
         // Small modal
         #myListCancel1.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog.modal-sm
