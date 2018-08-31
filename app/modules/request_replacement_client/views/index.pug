@@ -1,128 +1,136 @@
 extends ../../../templates/navbarclient.pug
-
 block content
-    .right_col(role='main')
-        .page-title
-            .row
-                .col-md-12.col-sm-12.col-xs-12
-                    .x_panel
+    section#services
+        .right_col(role='main' style="background-color:transparent;")
+            .page-title
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
                         .x_panel
-                            .x_title
-                                h1  Replace Household Worker 
-                                .clearfix
-                            br
-                            //- h3 On Process
-                            //- table#datatable2-responsive.table.table-striped.table-bordered
-                            //-     thead
-                            //-         tr
-                            //-             th NAME
-                            //-             th SERVICE
-                            //-             th REPLACEMENT LEFT
-                            //-             th STATUS
-                            //-             th ACTION
-                            //-     tbody
-                            //-         each currenthwtobereplaced in currenthwtobereplacedtab
-                            //-             tr 
-                            //-                 //- td #{currenthwtobereplaced.}
-                            //-                 td #{currenthwtobereplaced.strFName} #{currenthwtobereplaced.strLName}
-                            //-                 td #{currenthwtobereplaced.strName}
-                            //-                 td #{currenthwtobereplaced.intConReplacementLeft}
-                            //-                 td #{currenthwtobereplaced.strCurStatus}
-                            //-                 td
-                            //-                     button.btn.btn-primary.btn-md(type='button') View Profile
-                            //-                     a(href='/request_replacement/replace_list_'+currenthwtobereplaced.intReplaceReqID + currenthwtobereplaced.intConHWID)
-                            //-                         button.btn.btn-info.btn-md(type='button') View Details
-                            //-                     button.btn.btn-danger.btn-md(type='button') Cancel
+                            .x_panel
+                                .x_title
+                                    h1  
+                                        b   Replace Household Worker 
+                                    .clearfix
+                                br
+                                //- h3 On Process
+                                //- table#datatable2-responsive.table.jambo_table.table-bordered
+                                //-     thead
+                                //-         tr
+                                //-             th NAME
+                                //-             th SERVICE
+                                //-             th REPLACEMENT LEFT
+                                //-             th STATUS
+                                //-             th ACTION
+                                //-     tbody
+                                //-         each currenthwtobereplaced in currenthwtobereplacedtab
+                                //-             tr 
+                                //-                 //- td #{currenthwtobereplaced.}
+                                //-                 td #{currenthwtobereplaced.strFName} #{currenthwtobereplaced.strLName}
+                                //-                 td #{currenthwtobereplaced.strName}
+                                //-                 td #{currenthwtobereplaced.intConReplacementLeft}
+                                //-                 td #{currenthwtobereplaced.strCurStatus}
+                                //-                 td
+                                //-                     button.btn.btn-primary.btn-md(type='button') View Profile
+                                //-                     a(href='/request_replacement/replace_list_'+currenthwtobereplaced.intReplaceReqID + currenthwtobereplaced.intConHWID)
+                                //-                         button.btn.btn-info.btn-md(type='button') View Details
+                                //-                     button.btn.btn-danger.btn-md(type='button') Cancel
 
-                            br
-                            h3 Current Household Workers
-                            table#datatable-responsive.table.table-striped.table-bordered
-                                thead
-                                    tr
-                                        th NAME
-                                        th SERVICE
-                                        th REPLACEMENT LEFT
-                                        th STATUS
-                                        th ACTION
-                                tbody
-                                    each currenthw in currenthwtab
-                                        tr
-                                            //- td #{currenthw.}
-                                            td #{currenthw.strFName} #{currenthw.strLName}
-                                            td #{currenthw.strName}
-                                            td #{currenthw.intConReplacementLeft}
-                                            td #{currenthw.strCurStatus}
-                                            td
-                                                button.btn.btn-primary.btn-md(type='button') View Profile
-                                                if currenthw.strCurStatus == 'Current'
-                                                    if currenthw.intConReplacementLeft !=0
-                                                        button.btn.btn-danger.btn-md(type='button' data-toggle='modal', data-target='#replace', data-transid=currenthw.intConTransID, data-transno=currenthw.intConReqNo, data-hwid=currenthw.intConHWID,
-                                                                                    data-hwfname=currenthw.strFName, data-hwlname=currenthw.strLName) Replace
-                                                    else
-                                                        button.btn.btn-danger.btn-md(type='button') Terminate Contract
-                                                else if currenthw.strCurStatus == 'To be replaced'
-                                                    a(href='/request_replacement/replace_list_'+currenthw.intReplaceReqID + currenthw.intConHWID)
-                                                        button.btn.btn-info.btn-md(type='button') View Details
-                                                    button.btn.btn-danger.btn-md(type='button') Cancel
+                                .x_panel
+                                    h3 Current Household Workers
+                                    table#datatable-responsive.table.jambo_table.table-bordered
+                                        thead
+                                            tr
+                                                th NAME
+                                                th SERVICE
+                                                th REPLACEMENT LEFT
+                                                th STATUS
+                                                th ACTION
+                                        tbody
+                                            each currenthw in currenthwtab
+                                                tr
+                                                    //- td #{currenthw.}
+                                                    td #{currenthw.strFName} #{currenthw.strLName}
+                                                    td #{currenthw.strName}
+                                                    td #{currenthw.intConReplacementLeft}
+                                                    td #{currenthw.strCurStatus}
+                                                    td
+                                                        button.btn.btn-primary.btn-md(type='button') View Profile
+                                                        if currenthw.strCurStatus == 'Current'
+                                                            if currenthw.intConReplacementLeft !=0
+                                                                button.btn.btn-danger.btn-md(type='button' data-toggle='modal', data-target='#replace', data-transid=currenthw.intConTransID, data-transno=currenthw.intConReqNo, data-hwid=currenthw.intConHWID,
+                                                                                            data-hwfname=currenthw.strFName, data-hwlname=currenthw.strLName) Replace
+                                                            else
+                                                                button.btn.btn-danger.btn-md(type='button') Terminate Contract
+                                                        else if currenthw.strCurStatus == 'To be replaced'
+                                                            a(href='/request_replacement/replace_list_'+currenthw.intReplaceReqID + currenthw.intConHWID)
+                                                                button.btn.btn-info.btn-md(type='button') View Details
+                                                            button.btn.btn-danger.btn-md(type='button') Cancel
 
-                                                //- else if currenthw.strCurStatus == 'To be replaced'
-                                                //-     a(href='/request_replacement/replace_list_'+currenthw.intConTransID+currenthw.intConHWID)
-                                                //-         button.btn.btn-info.btn-md(type='button') View Details
-                                                    button.btn.btn-danger.btn-md(type='button') Cancel
-                                                    
-    
-    //- ---- modals
-    #replace.modal.fade.bs-example-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
-        .modal-dialog.modal-xs
-            form.form-horizontal(method='POST' action='/request_replacement/replace')
-                .modal-content
-                    .modal-header
-                        button.close(type='button', data-dismiss='modal')
-                            span(aria-hidden='true') ×
-                        h4#myModalLabel.modal-title Replace Household Worker
-                            p#hwname 
-                    .modal-body
-                        .row
-                            .col-md-6
-                                .form-group
-                                    | Date Needed
-                                    input.form-control(type='date', name='dateneed' required)
-
-                                    input.form-control(id='thedate' type='date', name='reqdate' style='display:none;')
-                                    input.form-control(id='transid' type='text', name='transid' style='display:none;')
-                                    input.form-control(id='transno' type='text', name='transno' style='display:none;')
-                                    input.form-control(id='hwid' type='text', name='hwid' style='display:none;')
-                        
-                        .row
-                            .col-md-10
-                                .form-group
-                                    |Reason:
-                                    textarea.form-control.AddMessage(rows='10' name='reqdesc')
-                    .modal-footer
-                        button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Find Replacement
-
-    //- scripts
-    script.
-        function time(){
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth()+1; //January is 0!
-            var yyyy = today.getFullYear();
-            var hh = today.getHours();
-            var min = today.getMinutes();
-            var sec = today.getSeconds();
-            var x= document.getElementById("thedate");
+                                                        //- else if currenthw.strCurStatus == 'To be replaced'
+                                                        //-     a(href='/request_replacement/replace_list_'+currenthw.intConTransID+currenthw.intConHWID)
+                                                        //-         button.btn.btn-info.btn-md(type='button') View Details
+                                                            button.btn.btn-danger.btn-md(type='button') Cancel
+                                                            
             
-            if(dd<10) {
-                dd = '0'+dd
-            } 
+            //- ---- modals
+            #replace.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
+                .modal-dialog.modal-md
+                    form.form-horizontal(method='POST' action='/request_replacement/replace')
+                        .modal-content
+                            .modal-header(style="background-color:#2A3F54; color:white")
+                                button.close(type='button', data-dismiss='modal')
+                                    span(aria-hidden='true') ×
+                                h4#myModalLabel.modal-title(align='center')(style='color:white')  Replace Household Worker
+                                    p(style="text-align:center; font-weight:bold; font-size:28px")#hwname 
+                            .modal-body
+                                br
+                                .row
+                                    .col-md-1
+                                        .form-group
+                                            | &nbsp
+                                    .col-md-5
+                                        .form-group
+                                            | Date Needed
+                                            input.form-control(type='date', name='dateneed' required)
 
-            if(mm<10) {
-                mm = '0'+mm
-            } 
+                                            input.form-control(id='thedate' type='date', name='reqdate' style='display:none;')
+                                            input.form-control(id='transid' type='text', name='transid' style='display:none;')
+                                            input.form-control(id='transno' type='text', name='transno' style='display:none;')
+                                            input.form-control(id='hwid' type='text', name='hwid' style='display:none;')
+                                
+                                .row
+                                    .col-md-1
+                                        .form-group
+                                            | &nbsp
+                                    .col-md-10
+                                        .form-group
+                                            |Reason:
+                                            textarea.form-control.AddMessage(rows='7' name='reqdesc')
+                            .modal-footer
+                                button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Find Replacement
 
-            today = yyyy + '-' + mm + '-' + dd ;
-            //- document.write(today);
-           document.getElementById("thedate").value=today;
-        }
-        
+            //- scripts
+            script.
+                function time(){
+                    var today = new Date();
+                    var dd = today.getDate();
+                    var mm = today.getMonth()+1; //January is 0!
+                    var yyyy = today.getFullYear();
+                    var hh = today.getHours();
+                    var min = today.getMinutes();
+                    var sec = today.getSeconds();
+                    var x= document.getElementById("thedate");
+                    
+                    if(dd<10) {
+                        dd = '0'+dd
+                    } 
+
+                    if(mm<10) {
+                        mm = '0'+mm
+                    } 
+
+                    today = yyyy + '-' + mm + '-' + dd ;
+                    //- document.write(today);
+                   document.getElementById("thedate").value=today;
+                }
+                

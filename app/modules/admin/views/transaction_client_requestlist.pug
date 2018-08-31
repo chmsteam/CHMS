@@ -13,247 +13,253 @@ block content
                         center
                             h3
                                 b Client Request
-                    .x_content
-                        each client in clienttab
-                            .col-md-3.col-sm-3.col-xs-12.profile_left
-                                .profile_img
-                                    #crop-avatar
-                                        // Current avatar
-                                        img.img-responsive.avatar-view(src='../images/'+client.strPicture, alt='Avatar', title='Change the avatar', style='width:210px; height:270px')
-                                h3 #{client.strName}
-                                ul.list-unstyled.user_data
-                                    li.m-top-xs
-                                        i.fa.fa-phone-square.user-profile-icon
-                                        | &nbsp#{client.strContact}
-                                    li
-                                        i.fa.fa-envelope.user-profile-icon
-                                        | &nbsp#{client.strEmail}
-                                a.btn.btn-success(href='/admin/profile_client_'+client.intID)
-                                    i.fa.fa-edit.m-right-xs
-                                    | &nbspView Profile
-                                br
-                            .col-md-9.col-sm-9.col-xs-12
-                                .x_panel
-                                    div(align='center')
-                                        .x_panel(style='background:#f1f1f1')
-                                            h2
-                                                b Requested Service
-                                        .x_title
-                                    table.table.table-striped.table-bordered
-                                        thead
-                                            tr
-                                                th Number
-                                                th Service
-                                                th Quantity
-                                                //- th Approved
-                                                //- th Reject
-                                                th Action
-                                        tbody
-                                            each request in requesttab
+                    br
+                    .x_panel(style="background-color:#f1f1f1")
+                        .x_content
+                            each client in clienttab
+                                .col-md-3.col-sm-3.col-xs-12.profile_left
+                                    .profile_img
+                                        #crop-avatar
+                                            // Current avatar
+                                            img.img-responsive.avatar-view(src='../images/'+client.strPicture, alt='Avatar', title='Change the avatar', style='width:170px; height:170px')
+                                    h3 #{client.strName}
+                                    ul.list-unstyled.user_data
+                                        li.m-top-xs
+                                            i.fa.fa-phone-square.user-profile-icon
+                                            | &nbsp#{client.strContact}
+                                        li
+                                            i.fa.fa-envelope.user-profile-icon
+                                            | &nbsp#{client.strEmail}
+                                    a.btn.btn-success(href='/admin/profile_client_'+client.intID)
+                                        i.fa.fa-edit.m-right-xs
+                                        | &nbspView Profile
+                                    br
+                                .col-md-9.col-sm-9.col-xs-12
+                                    br
+                                    .x_panel
+                                        div(align='center')
+                                            .x_panel(style='background:#f1f1f1')
+                                                h2
+                                                    b Requested Service
+                                            .x_title
+                                        table.table.table-striped.table-bordered
+                                            thead
                                                 tr
-                                                    td #{request.intIRequest_No}
-                                                    td #{request.strName}
-                                                    td #{request.intIQuantity}
-                                                    //- td 
-                                                    //- td 
-                                                    td
-                                                        button.btn.btn-info(type='button', data-toggle="modal" data-target="#view_item"
-                                                                        , data-requestno=request.intIRequest_No, data-servicename=request.strName, data-quantity=request.intIQuantity, data-gender=request.strIRequestGender, data-educ=request.strIRequestEduc,
-                                                                         data-exp=request.intIRequestExp, data-sal= request.deciRequestSalary, data-age1=request.intIRequestAge1, data-age2=request.intIRequestAge2)
-                                                            i.fa.fa-eye
-                                                            |   View
-                                                        each list in listtab
-                                                            if list.strRequestStatus == 'On process'
-                                                                a(href='transaction_result_'+list.intRequestID+request.intIRequest_No)
-                                                                    button.btn.btn-primary(type='button')
-                                                                        i.fa.fa-list
-                                                                        |   View List
-                                                            else   
-                                    each list in listtab
-                                        if list.strRequestStatus == 'Pending'
-                                            div(align='center')
-                                                .x_panel(style='background:#f1f1f1')
-                                                    h2
-                                                        b Deployment Details
-                                            table.table.table-striped.table-bordered
-                                                thead
+                                                    th Number
+                                                    th Service
+                                                    th Quantity
+                                                    //- th Approved
+                                                    //- th Reject
+                                                    th Action
+                                            tbody
+                                                each request in requesttab
                                                     tr
-                                                        th Date of Deployment
-                                                        th Time of Deployment
-                                                        th Type of Deployment
-                                                        th 
-                                                tbody
-                                                    each contractdetails in contractdetailstab
-                                                        tr
-                                                            //- td #{contractdetails.}
-                                                            td #{contractdetails.datDateofDeployment}
-                                                            td #{contractdetails.timTimeofDeployment}
-                                                            if contractdetails.intTypeofDeployment =='2'
-                                                                td Drop-off
-                                                            else if contractdetails.intTypeofDeployment =='3'
-                                                                td Pick-up
-
-                                                            td 
-                                                                button.btn.btn-info(type='button')
-                                                                    i.fa.fa-list
-                                                                    |   View Contract
-                                                                a(href="/admin/invoice_"+contractdetails.intTRequestID)
-                                                                    button.btn.btn-primary(type='button')
-                                                                        i.fa.fa-list
-                                                                        |   View Invoice
-                                        else if list.strRequestStatus == 'On process'
-                                            each contract in contracttab
-                                                if contract.contract == 0
-                                                    
-
-                                                else if contract.contract != 0
-                                                    div(align='center')
-                                                        .x_panel(style='background:#f1f1f1')
-                                                            h2
-                                                                b Contract
-                                                    table.table.table-striped.table-bordered
-                                                        thead
-                                                            tr
-                                                                th Status
-                                                                th Action
-                                                        tbody
-                                                            each contractdetails in contractdetailstab
-                                                                tr
-                                                                    td #{contractdetails.strContractStatus}
-                                                                    td
-                                                                        button.btn.btn-info(type='button')
+                                                        td #{request.intIRequest_No}
+                                                        td #{request.strName}
+                                                        td #{request.intIQuantity}
+                                                        //- td 
+                                                        //- td 
+                                                        td
+                                                            button.btn.btn-info(type='button', data-toggle="modal" data-target="#view_item"
+                                                                            , data-requestno=request.intIRequest_No, data-servicename=request.strName, data-quantity=request.intIQuantity, data-gender=request.strIRequestGender, data-educ=request.strIRequestEduc,
+                                                                             data-exp=request.intIRequestExp, data-sal= request.deciRequestSalary, data-age1=request.intIRequestAge1, data-age2=request.intIRequestAge2)
+                                                                i.fa.fa-eye
+                                                                |   View
+                                                            each list in listtab
+                                                                if list.strRequestStatus == 'On process'
+                                                                    a(href='transaction_result_'+list.intRequestID+request.intIRequest_No)
+                                                                        button.btn.btn-primary(type='button')
                                                                             i.fa.fa-list
-                                                                            |   View Contract
-                                                                        if contractdetails.strContractStatus == 'Rejected'
-                                                                            button.btn.btn-warning(type='button')
-                                                                                i.fa.fa-edit
-                                                                                |   Edit Contract
-                                                                            button.btn.btn-success(type='button')
-                                                                                i.fa.fa-envelope
-                                                                                |   Re-Send Contract
-                                                                            button.btn.btn-primary(type='button')
-                                                                                i.fa.fa-eye
-                                                                                |   View Reason
-                                                                        else if contractdetails.strContractStatus == 'For client confirmation'
-                                                                        else if contractdetails.strContractStatus == 'Accepted'
-                                                                        else
+                                                                            |   View List
+                                                                else   
+                                        each list in listtab
+                                            if list.strRequestStatus == 'Pending'
+                                                div(align='center')
+                                                    .x_panel(style='background:#f1f1f1')
+                                                        h2
+                                                            b Deployment Details
+                                                table.table.table-striped.table-bordered
+                                                    thead
+                                                        tr
+                                                            th Date of Deployment
+                                                            th Time of Deployment
+                                                            th Type of Deployment
+                                                            th 
+                                                    tbody
+                                                        each contractdetails in contractdetailstab
+                                                            tr
+                                                                //- td #{contractdetails.}
+                                                                td #{contractdetails.datDateofDeployment}
+                                                                td #{contractdetails.timTimeofDeployment}
+                                                                if contractdetails.intTypeofDeployment =='2'
+                                                                    td Drop-off
+                                                                else if contractdetails.intTypeofDeployment =='3'
+                                                                    td Pick-up
 
-                                                            //- tr
-                                                            //-     th 
-                                                            //-         center
-                                                            //-             button.btn.btn-primary(type='button')
-                                                            //-                 i.fa.fa-list
-                                                            //-                 |   Contract
-                                                            //-     th 
-                                                            //-         center
-                                                            //-             p 
+                                                                td 
+                                                                    button.btn.btn-info(type='button')
+                                                                        i.fa.fa-list
+                                                                        |   View Contract
+                                                                    a(href="/admin/invoice_"+contractdetails.intTRequestID)
+                                                                        button.btn.btn-primary(type='button')
+                                                                            i.fa.fa-list
+                                                                            |   View Invoice
+                                            else if list.strRequestStatus == 'On process'
+                                                each contract in contracttab
+                                                    if contract.contract == 0
                                                         
-                    .x_panel
-                        br
+
+                                                    else if contract.contract != 0
+                                                        div(align='center')
+                                                            .x_panel(style='background:#f1f1f1')
+                                                                h2
+                                                                    b Contract
+                                                        table.table.table-striped.table-bordered
+                                                            thead
+                                                                tr
+                                                                    th Status
+                                                                    th Action
+                                                            tbody
+                                                                each contractdetails in contractdetailstab
+                                                                    tr
+                                                                        td #{contractdetails.strContractStatus}
+                                                                        td
+                                                                            button.btn.btn-info(type='button')
+                                                                                i.fa.fa-list
+                                                                                |   View Contract
+                                                                            if contractdetails.strContractStatus == 'Rejected'
+                                                                                button.btn.btn-warning(type='button')
+                                                                                    i.fa.fa-edit
+                                                                                    |   Edit Contract
+                                                                                button.btn.btn-success(type='button')
+                                                                                    i.fa.fa-envelope
+                                                                                    |   Re-Send Contract
+                                                                                button.btn.btn-primary(type='button')
+                                                                                    i.fa.fa-eye
+                                                                                    |   View Reason
+                                                                            else if contractdetails.strContractStatus == 'For client confirmation'
+                                                                            else if contractdetails.strContractStatus == 'Accepted'
+                                                                            else
+
+                                                                //- tr
+                                                                //-     th 
+                                                                //-         center
+                                                                //-             button.btn.btn-primary(type='button')
+                                                                //-                 i.fa.fa-list
+                                                                //-                 |   Contract
+                                                                //-     th 
+                                                                //-         center
+                                                                //-             p 
+                                                        
+                    
                         each list in listtab
                             if list.strRequestStatus == 'On process'
-                                center
-                                    h5 For Household Worker's Approval
-                                .row
-                                    each selected in selectedtab
-                                        if selected.strRClientStatus ==''                         
-                                            .col-md-4.col-sm-4.col-xs-12.profile_details
-                                                .well.profile_view
-                                                    .col-sm-12
-                                                        h4.brief
-                                                            i #{selected.strName}: #{selected.intRHWID}
-                                                        .left.col-xs-7
-                                                            h2 Name: #{selected.strFName} #{selected.strLName} 
-                                                            p 
-                                                                | Age: 
-                                                                strong  #{selected.age}
-                                                            ul.list-unstyled
-                                                                li
-                                                                    | Gender: 
-                                                                    b #{selected.strGender}
-                                                                li
-                                                                    | Status: 
-                                                                    b #{selected.strRHWStatus}
-                                                        .right.col-xs-5.text-center
-                                                            img.img-circle.img-responsive(src='../images/'+selected.strPicture, alt='', style='width:100px; height:100px')
-                                                    .col-xs-12.bottom.text-center
-                                                        //- .col-xs-12.col-sm-4.emphasis
-                                                            .x_panel
-                                                                input#check-all.flat(type='checkbox')
-                                                        
-                                                        .col-xs-12.col-sm-8.emphasis
+                                .x_panel
+                                    center
+                                        h4 List for Household Worker's approval
+                                    br
+                                    .row
+                                        each selected in selectedtab
+                                            if selected.strRClientStatus ==''                         
+                                                .col-md-4.col-sm-4.col-xs-12.profile_details
+                                                    .well.profile_view
+                                                        .col-sm-12
+                                                            h4.brief
+                                                                i #{selected.strName}: #{selected.intRHWID}
+                                                            .left.col-xs-7
+                                                                h2 Name: #{selected.strFName} #{selected.strLName} 
+                                                                p 
+                                                                    | Age: 
+                                                                    strong  #{selected.age}
+                                                                ul.list-unstyled
+                                                                    li
+                                                                        | Gender: 
+                                                                        b #{selected.strGender}
+                                                                    li
+                                                                        | Status: 
+                                                                        b #{selected.strRHWStatus}
+                                                            .right.col-xs-5.text-center
+                                                                img.img-circle.img-responsive(src='../images/'+selected.strPicture, alt='', style='width:100px; height:100px')
+                                                        .col-xs-12.bottom.text-center
+                                                            //- .col-xs-12.col-sm-4.emphasis
+                                                                .x_panel
+                                                                    input#check-all.flat(type='checkbox')
+                                                            
+                                                            .col-xs-12.col-sm-8.emphasis
+                                                                    //- a(href='/admin/hw_profile_'+selected.intRRequestID+selected.intRHWID)
+                                                                    a(href='/admin/profile_hw_'+selected.intHWID)
+                                                                        button.btn.btn-primary(type='button')
+                                                                            i.fa.fa-user  
+                                                                            |  View Profile
+                                                            form(method="POST" action="tr_add_actions_"+selected.intRRequestID)
+                                                                .col-xs-12.col-sm-8.emphasis
+                                                                    input(type='text' name='hwid' value=''+selected.intRHWID , style="display:none;" )
+                                                                    input(type='text' name='reqno' value=''+selected.intRRequest_No , style="display:none;" )
+                                                                    if selected.strRHWStatus == '' && selected.strRClientStatus ==''
+                                                                        button.btn.btn-success(type='submit' name='btn1' value='sendtohw')
+                                                                            i.fa.fa-paper-plane 
+                                                                            |  Send Request
+                                                                        button.btn.btn-danger(type='submit' name='btn1' value='removefromlist')
+                                                                            i.fa.fa-trash
+                                                                            |  Remove From List
+                                                                    else if selected.strRHWStatus == 'Waiting' && selected.strRClientStatus ==''
+                                                                        button.btn.btn-warning(type='submit' name='btn1' value='cancelsendtohw')
+                                                                            i.fa.fa-times  
+                                                                            |  Cancel Request
+                                                                    else if selected.strRHWStatus == 'Approved' && selected.strRClientStatus ==''
+                                                                        button.btn.btn-success(type='submit' name='btn1' value='sendtoclient')
+                                                                            i.fa.fa-envelope 
+                                                                            |  Send to Client
+                                                                    else if selected.strRHWStatus == 'Rejected' && selected.strRClientStatus ==''
+                                                                        button.btn.btn-danger(type='submit' name='btn1' value='removefromlist')
+                                                                            i.fa.fa-fa-trash
+                                                                            |  Remove
+                                
+                                .x_panel
+                                    center
+                                        h4 List for Client's pproval
+                                    br
+                                    .row    
+                                        each selected in selectedtab
+                                            if selected.strRClientStatus !=''
+                                                .col-md-4.col-sm-4.col-xs-12.profile_details
+                                                    .well.profile_view
+                                                        .col-sm-12
+                                                            h4.brief
+                                                                i #{selected.strName}: #{selected.intRHWID}
+                                                            .left.col-xs-7
+                                                                h2 Name: #{selected.strFName} #{selected.strLName} 
+                                                                p 
+                                                                    | Age: 
+                                                                    strong #{selected.age}
+                                                                ul.list-unstyled
+                                                                    li
+                                                                        | Gender: 
+                                                                        b #{selected.strGender}
+                                                                    li
+                                                                        | Status: 
+                                                                        b #{selected.strRClientStatus}
+                                                            .right.col-xs-5.text-center
+                                                                img.img-circle.img-responsive(src='../images/'+selected.strPicture, alt='', style='width:100px; height:100px')
+                                                        .col-xs-12.bottom.text-center
+                                                            //- .col-xs-12.col-sm-4.emphasis
+                                                                .x_panel
+                                                                    input#check-all.flat(type='checkbox')
+                                                            .col-xs-12.col-sm-8.emphasis
                                                                 //- a(href='/admin/hw_profile_'+selected.intRRequestID+selected.intRHWID)
                                                                 a(href='/admin/profile_hw_'+selected.intHWID)
                                                                     button.btn.btn-primary(type='button')
                                                                         i.fa.fa-user  
                                                                         |  View Profile
-                                                        form(method="POST" action="tr_add_actions_"+selected.intRRequestID)
                                                             .col-xs-12.col-sm-8.emphasis
-                                                                input(type='text' name='hwid' value=''+selected.intRHWID , style="display:none;" )
-                                                                input(type='text' name='reqno' value=''+selected.intRRequest_No , style="display:none;" )
-                                                                if selected.strRHWStatus == '' && selected.strRClientStatus ==''
-                                                                    button.btn.btn-success(type='submit' name='btn1' value='sendtohw')
-                                                                        i.fa.fa-paper-plane 
-                                                                        |  Send Request
-                                                                    button.btn.btn-danger(type='submit' name='btn1' value='removefromlist')
-                                                                        i.fa.fa-trash
-                                                                        |  Remove From List
-                                                                else if selected.strRHWStatus == 'Waiting' && selected.strRClientStatus ==''
-                                                                    button.btn.btn-warning(type='submit' name='btn1' value='cancelsendtohw')
-                                                                        i.fa.fa-times  
-                                                                        |  Cancel Request
-                                                                else if selected.strRHWStatus == 'Approved' && selected.strRClientStatus ==''
-                                                                    button.btn.btn-success(type='submit' name='btn1' value='sendtoclient')
-                                                                        i.fa.fa-envelope 
-                                                                        |  Send to Client
-                                                                else if selected.strRHWStatus == 'Rejected' && selected.strRClientStatus ==''
-                                                                    button.btn.btn-danger(type='submit' name='btn1' value='removefromlist')
-                                                                        i.fa.fa-fa-trash
+                                                                if selected.strRHWStatus == 'Approved' && ((selected.strRClientStatus =='Waiting') || (selected.strRClientStatus =='Approved'))
+                                                                    //- button.btn.btn-primary(type='button')
+                                                                    //-     i.fa.fa-user  
+                                                                    //-     |  View Profile
+                                                                else if selected.strRHWStatus == 'Approved' && selected.strRClientStatus =='Rejected'
+                                                                    button.btn.btn-danger(type='button')
+                                                                        i.fa.fa-times 
                                                                         |  Remove
-                        
-                                center
-                                    h5 For Client's Approval
-                                .row
-                                    each selected in selectedtab
-                                        if selected.strRClientStatus !=''
-                                            .col-md-4.col-sm-4.col-xs-12.profile_details
-                                                .well.profile_view
-                                                    .col-sm-12
-                                                        h4.brief
-                                                            i #{selected.strName}: #{selected.intRHWID}
-                                                        .left.col-xs-7
-                                                            h2 Name: #{selected.strFName} #{selected.strLName} 
-                                                            p 
-                                                                | Age: 
-                                                                strong #{selected.age}
-                                                            ul.list-unstyled
-                                                                li
-                                                                    | Gender: 
-                                                                    b #{selected.strGender}
-                                                                li
-                                                                    | Status: 
-                                                                    b #{selected.strRClientStatus}
-                                                        .right.col-xs-5.text-center
-                                                            img.img-circle.img-responsive(src='../images/'+selected.strPicture, alt='', style='width:100px; height:100px')
-                                                    .col-xs-12.bottom.text-center
-                                                        //- .col-xs-12.col-sm-4.emphasis
-                                                            .x_panel
-                                                                input#check-all.flat(type='checkbox')
-                                                        .col-xs-12.col-sm-8.emphasis
-                                                            //- a(href='/admin/hw_profile_'+selected.intRRequestID+selected.intRHWID)
-                                                            a(href='/admin/profile_hw_'+selected.intHWID)
-                                                                button.btn.btn-primary(type='button')
-                                                                    i.fa.fa-user  
-                                                                    |  View Profile
-                                                        .col-xs-12.col-sm-8.emphasis
-                                                            if selected.strRHWStatus == 'Approved' && ((selected.strRClientStatus =='Waiting') || (selected.strRClientStatus =='Approved'))
-                                                                //- button.btn.btn-primary(type='button')
-                                                                //-     i.fa.fa-user  
-                                                                //-     |  View Profile
-                                                            else if selected.strRHWStatus == 'Approved' && selected.strRClientStatus =='Rejected'
-                                                                button.btn.btn-danger(type='button')
-                                                                    i.fa.fa-times 
-                                                                    |  Remove
                             else
                                 center
                                     h5 Client's Approved Services

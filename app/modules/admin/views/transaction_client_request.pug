@@ -33,13 +33,14 @@ block content
                                         td #{request.strRequestStatus}
                                         td
                                             .row
-                                                .col-md-3
+                                                .col-md-12
                                                     form(method='POST' action='transactionrequestdecision')
                                                         input(type='number' required='required', name='transid' value=''+request.intRequestID, style='display:none;')                          
                                                         a(href='transaction_client_request_'+request.intRequestID)
                                                             button.btn.btn-info(type='button')
                                                                 i.fa.fa-eye
                                                                 | &nbspView
+                                                            button.btn.btn-primary(data-toggle='modal', data-target='#dec', data-desc=request.strRequestDesc) View Description
                                                         if request.strRequestStatus == 'Pending'                       
                                                             button.btn.btn-success(type='submit' name='btn1' value='approve')
                                                                 i.fa.fa-check
@@ -47,8 +48,8 @@ block content
                                                             button.btn.btn-danger(type='submit' name='btn1' value='reject')
                                                                 i.fa.fa-times
                                                                 | &nbspReject
-                                                .col-md-5
-                                                    button.btn.btn-primary(data-toggle='modal', data-target='#dec', data-desc=request.strRequestDesc) View Description
+                                               
+                                                    
 
     #dec.modal.fade.modal-icon(tabindex='-1', role='dialog')
         .modal-dialog(role='document')
