@@ -11,48 +11,47 @@ block content
                 .col-md-12.col-sm-12.col-xs-12
                     .x_panel
                         br
-                        .x_title
-                            .x_panel
-                                table#datatable.table.table-striped.table-bordered
-                                    thead
+                        .x_panel
+                            table#datatable.table.table-striped.table-bordered
+                                thead
+                                    tr
+                                        th ID
+                                        th NAME
+                                        th REQUEST
+                                        th DATE REQUESTED
+                                        th DATE OF DEPLOYMENT
+                                        th STATUS
+                                        th ACTION
+                                tbody
+                                    each list in listtab
                                         tr
-                                            th ID
-                                            th NAME
-                                            th REQUEST
-                                            th DATE REQUESTED
-                                            th DATE OF DEPLOYMENT
-                                            th STATUS
-                                            th ACTION
-                                    tbody
-                                        each list in listtab
-                                            tr
-                                                td #{list.intRequestID}
-                                                td #{list.strName}
-                                                td #{list.strRequestType}
-                                                td #{list.datRequestDate}
-                                                td #{list.datRequestNeedDate}
-                                                td #{list.strRequestStatus}
-                                                td
-                                                    a(href='transaction_client_request_')
-                                                        button.btn.btn-info(type='button')
-                                                            i.fa.fa-eye
-                                                            |   View
-                                                    if list.strRequestType == 'Add'
-                                                        button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle', data-id=list.intRequestID)
-                                                            i.fa.fa-check
-                                                            |   Settle
-                                                    else if list.strRequestType == 'Replacement'
-                                                        button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_replacementclient', data-id=list.intRequestID)
-                                                            i.fa.fa-check
-                                                            |   Settle
-                                                    else if list.strRequestType == 'Replace Client'
-                                                        button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_replaceclient', data-id=list.intRequestID)
-                                                            i.fa.fa-check
-                                                            |   Settle
-                                                    else if list.strRequestType == 'Reliever'
-                                                        button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_reliever', data-id=list.intRequestID)
-                                                            i.fa.fa-check
-                                                            |   Settle
+                                            td #{list.intRequestID}
+                                            td #{list.strName}
+                                            td #{list.strRequestType}
+                                            td #{list.datRequestDate}
+                                            td #{list.datRequestNeedDate}
+                                            td #{list.strRequestStatus}
+                                            td
+                                                a(href='transaction_client_request_')
+                                                    button.btn.btn-info(type='button')
+                                                        i.fa.fa-eye
+                                                        |   View
+                                                if list.strRequestType == 'Add'
+                                                    button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle', data-id=list.intRequestID)
+                                                        i.fa.fa-check
+                                                        |   Settle
+                                                else if list.strRequestType == 'Replacement'
+                                                    button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_replacementclient', data-id=list.intRequestID)
+                                                        i.fa.fa-check
+                                                        |   Settle
+                                                else if list.strRequestType == 'Replace Client'
+                                                    button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_replaceclient', data-id=list.intRequestID)
+                                                        i.fa.fa-check
+                                                        |   Settle
+                                                else if list.strRequestType == 'Reliever'
+                                                    button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_reliever', data-id=list.intRequestID)
+                                                        i.fa.fa-check
+                                                        |   Settle
 
         #settle.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog.modal-sm
