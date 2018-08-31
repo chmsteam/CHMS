@@ -1403,7 +1403,7 @@ function rendertranssettled(req,res){
 
 function findtranssettled (req,res,next){
   var db = require('../../lib/database')();
-  db.query(`SELECT CONCAT(b.strLName,', ', b.strFName) AS strName, intTRequestID, datDateSettled, strTStatus, datDateExpiry AS dateexpire FROM tbltransaction as a INNER JOIN tbluser as b ON a.intTClientID = b.intID WHERE a.strTStatus IN ('On-going') ORDER BY datDateSettled Desc`, function (err, results) {
+  db.query(`SELECT CONCAT(b.strLName,', ', b.strFName) AS strName, intTRequestID, datDateSettled, strTStatus, datDateExpiry AS dateexpire, strRequestType FROM tbltransaction as a INNER JOIN tbluser as b ON a.intTClientID = b.intID INNER JOIN tblfinalrequest on intRequestID = inTRequestID WHERE a.strTStatus IN ('On-going') ORDER BY datDateSettled Desc`, function (err, results) {
     console.log(err)
     for(var i = 0; i < results.length; i++){
       results[i].datDateSettled =  moment(results[i].datDateSettled).format("LL");
@@ -1945,6 +1945,11 @@ router.post('/register_householdworker',(req, res) => {
       }
       else if(req.body.workfrom1 !='' && req.body.workfrom2 =='' && req.body.workfrom3 =='' && req.body.workfrom4 ==''){
         db541.query(`INSERT INTO tblhw_workbg VALUES ('${results[0].intID}', '${req.body.workcomp1}', '${req.body.workadd1}', '${req.body.workpos1}', '${req.body.workfrom1}', '${req.body.workto1}')`, (err) =>{
+          console.log(err);
+        })
+      }
+      else{
+        db511.query(`INSERT INTO tblhw_workbg VALUES ('${results[0].intID}', '${req.body.workcomp1}', '${req.body.workadd1}', '${req.body.workpos1}', '0', '0')`, (err) =>{
           console.log(err);
         })
       }

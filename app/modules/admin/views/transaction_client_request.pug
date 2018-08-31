@@ -32,6 +32,7 @@ block content
                                         td #{request.datRequestNeedDate}
                                         td #{request.strRequestStatus}
                                         td
+<<<<<<< HEAD
                                             .row
                                                 .col-md-12
                                                     form(method='POST' action='transactionrequestdecision')
@@ -50,6 +51,26 @@ block content
                                                                 | &nbspReject
                                                
                                                     
+=======
+                                            //- .row
+                                                //- .col-md-3
+                                            form(method='POST' action='transactionrequestdecision')
+                                                input(type='number' required='required', name='transid' value=''+request.intRequestID, style='display:none;')                          
+                                                a(href='transaction_client_request_'+request.intRequestID)
+                                                    button.btn.btn-info(type='button')
+                                                        i.fa.fa-eye
+                                                        | &nbspView
+                                                if request.strRequestStatus == 'Pending'                       
+                                                    button.btn.btn-success(type='submit' name='btn1' value='approve')
+                                                        i.fa.fa-check
+                                                        | &nbspApprove
+                                                    button.btn.btn-danger(type='submit' name='btn1' value='reject')
+                                                        i.fa.fa-times
+                                                        | &nbspReject
+                                                button.btn.btn-primary(type='button' data-toggle='modal', data-target='#dec', data-desc=request.strRequestDesc) View Description
+                                                //- .col-md-5
+                                                //-     button.btn.btn-primary(data-toggle='modal', data-target='#dec', data-desc=request.strRequestDesc) View Description
+>>>>>>> 9487338221d5359cc3897ec9f7c74ba3212c5d3b
 
     #dec.modal.fade.modal-icon(tabindex='-1', role='dialog')
         .modal-dialog(role='document')

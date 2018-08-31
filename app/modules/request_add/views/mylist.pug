@@ -29,13 +29,14 @@ block content
 
                                     br
                                     each count in counttab
-                                        if (list.strRequestStatus == 'Draft' && count.count != 0)
+                                        if (list.strRequestStatus == 'Draft' && count.counter != 0)
                                             a(href='/request_add/submit_request_'+list.intRequestID)
                                                 button.btn.pull-right.btn-success.btn-lg(type='button')
                                                     i.fa.fa-envelope
                                                     |   Submit List
                                         else if list.strRequestStatus == 'On process' || list.strRequestStatus == 'Pending'
                                 br
+<<<<<<< HEAD
                                 .x_panel
                                     h2 Requested Service/s:
                                     table.table.jambo_table.bulk_action
@@ -85,6 +86,58 @@ block content
                                                             td
                                                                 a(href="/request_add/invoice_"+transdetails.intTRequestID)
                                                                     button.btn.btn-primary.btn-xs(type='button') View
+=======
+                                h2 Services:
+                                table.table.jambo_table.bulk_action
+                                    thead
+                                        tr
+                                            th Number
+                                            th Service
+                                            th Quantity
+                                            th Results                                            
+                                            th Action
+                                    tbody
+                                    each item in itemtab
+                                        each list in listtab  
+                                            tr
+                                                td #{item.intIRequest_No}
+                                                td #{item.strName}
+                                                td #{item.intIQuantity}
+                                                td #{item.forapproval}
+                                                td
+                                                    button.btn.btn-info.btn-xs(type='button' data-toggle="modal" data-target="#view_item"
+                                                                            , data-requestno=item.intIRequest_No, data-servicename=item.strName, data-quantity=item.intIQuantity, data-gender=item.strIRequestGender, data-educ=item.strIRequestEduc, data-exp=item.intIRequestExp
+                                                                            , data-sal= item.deciRequestSalary, data-age=item.intIRequestAge1 , data-ages=item.intIRequestAge2) View
+                                                        if list.strRequestStatus == 'Draft'
+                                                            button.btn.btn-warning.btn-xs(type='button' data-toggle="modal" data-target="#edit_item") Edit
+                                                            button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item") Delete
+                                                        else if list.strRequestStatus == 'On process'
+                                                            a(href='result_'+item.intIRequestID+item.intIRequest_No)
+                                                                button.btn.btn-primary.btn-xs(type='button') View Result
+                                                            button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item") Delete
+                                each list in listtab
+                                    if list.strRequestStatus == 'Pending' || list.strRequestStatus == 'Approved' || list.strRequestStatus == 'Rejected' || list.strRequestStatus == 'Finished'
+                                        each transdetails in transdetailstab
+                                            h2 Deployment Details:
+                                            table.table.jambo_table.bulk_action
+                                                thead
+                                                    tr
+                                                        th Date of Deployment
+                                                        th Time of Deployment
+                                                        th Type of Deployment
+                                                        th Invoice
+                                                tbody
+                                                    tr
+                                                        td #{transdetails.datDateofDeployment}
+                                                        td #{transdetails.timTimeofDeployment}
+                                                        if transdetails.intTypeofDeployment == '2'
+                                                            td Drop-off
+                                                        else if transdetails.intTypeofDeployment == '3'
+                                                            td Pick-up
+                                                        td
+                                                            a(href="/request_add/invoice_"+transdetails.intTRequestID)
+                                                                button.btn.btn-primary.btn-xs(type='button') View
+>>>>>>> 9487338221d5359cc3897ec9f7c74ba3212c5d3b
 
                                 //- if request = Pending
                                 //- transaction dets
@@ -226,6 +279,7 @@ block content
                                             span.required
                                             input#first-name.form-control.col-md-7.col-xs-12(type='number' name='workexp' value='0')
                                 
+<<<<<<< HEAD
                                     .col-md-4
                                         br
                                         .form-group
@@ -267,6 +321,59 @@ block content
                             .modal-footer
                                 button.btn.btn-primary.btn-md(type='button'  data-dismiss='modal') Cancel
                                 button.btn.btn-success.btn-md(type='submit') Add
+=======
+                            .row
+                                .col-md-6
+                                    .form-group
+                                        b Highest Educational Attainment:
+                                        span.required
+                                        select.form-control(name='educ')
+                                            option(value='Elementary') Elementary
+                                            option(value='High School') High School
+                                            option(value='College') College
+                                            option(value='Vocational') Vocational
+                                .col-md-4
+                                    .form-group
+                                        b Work Experience (at least):
+                                        span.required
+                                        input#first-name.form-control.col-md-7.col-xs-12(type='number' name='workexp' value='0' min='0')
+                            .row
+                                .col-md-4
+                                    .form-group
+                                        b Willing to work for a monthly salary of (minimum):&nbspP
+                                        span.required
+                                        input#first-name.form-control.col-md-7.col-xs-12(type='number' name='salary' value='0.00'  min='0')     
+                                .col-md-8
+                                    .x_panel
+                                        .x_title
+                                            h5
+                                                b Recommended Salary
+                                            .clearfix
+                                        .x_content
+                                            .row
+                                                .col-md-4
+                                                    p(style="font-weight:bold") Housemaids
+                                                .col-md-8
+                                                    |Php 6000 (Negotiable)
+                                            .row
+                                                .col-md-4
+                                                    p(style="font-weight:bold") Yaya
+                                                .col-md-8
+                                                    |Php 6000 (Negotiable)
+                                            .row
+                                                .col-md-4
+                                                    p(style="font-weight:bold") Cook
+                                                .col-md-8
+                                                    |Php 8000 (Negotiable)
+                                            .row
+                                                .col-md-4
+                                                    p(style="font-weight:bold") Driver
+                                                .col-md-8
+                                                    |Php 13k (Stay-in)
+                        .modal-footer
+                            button.btn.btn-primary.btn-md(type='button'  data-dismiss='modal') Cancel
+                            button.btn.btn-success.btn-md(type='submit') Submit
+>>>>>>> 9487338221d5359cc3897ec9f7c74ba3212c5d3b
 
 
 

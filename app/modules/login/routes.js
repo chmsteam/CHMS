@@ -291,6 +291,11 @@ signupRouter.route('/household_worker')
               console.log(err);
             })
           }
+          else{
+            db511.query(`INSERT INTO tblhw_workbg VALUES ('${results[0].intID}', '${req.body.workcomp1}', '${req.body.workadd1}', '${req.body.workpos1}', '0', '0')`, (err) =>{
+              console.log(err);
+            })
+          }
             db61.query(`INSERT INTO tblhw_ref VALUES ('${results[0].intID}', 'Relative', '${req.body.name1}', '${req.body.add1}', '${req.body.occ1}', '${req.body.contact1}')`, (err) => {
               console.log(err);
             })
