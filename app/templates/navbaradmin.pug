@@ -371,6 +371,14 @@ html(lang='en')
           script(src='/assets4/js/custom1.js')
           script(src='/assets4/lib/wow/wow.min.js')
           script(src="/assets4/lib/morphext/morphext.min.js")
+          script.
+            $('#accept').click(function() {
+                if ($('#submitbtn').is(':disabled')) {
+                    $('#submitbtn').removeAttr('disabled');
+                } else {
+                    $('#submitbtn').attr('disabled', 'disabled');
+                }
+            }); 
 
           script.
             //maintenance requirement

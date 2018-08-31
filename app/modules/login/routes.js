@@ -319,7 +319,11 @@ signupRouter.route('/household_worker')
           });
         });
       });
-
+signupRouter.route('/Terms_and_Conditions')
+    .get((req, res) => {
+      req.session.user = '';
+      res.render('login/views/terms');
+    })
 
 exports.login = router;
 exports.registration = signupRouter;

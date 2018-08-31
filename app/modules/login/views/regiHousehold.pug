@@ -68,6 +68,7 @@ html(lang='en')
         }
     body
         .col-lg-7(style="margin-left:23%;")
+            //- onsubmit="if(document.getElementById('agree').checked) { return true; } else { alert('Please indicate that you have read and agree to the Terms and Conditions and Privacy Policy'); return false;"
             form.form-horizontal.form-label-left(method='POST' action='/registration/household_worker', onkeyup='haha(), hoho();')
                 .row
                     .col-md-12.col-sm-12.col-xs-12
@@ -607,11 +608,14 @@ html(lang='en')
                                                 .col-md-6(style="float:right")
                                                     .form-group
                                                         textarea.form-control.AddMessage(rows='10' name="skills" required placeholder="Selected Skills")
-                                                //- .control-group
-                                                //-     label.control-label.col-md-3.col-sm-3.col-xs-12 Input Tags
-                                                //-     .col-md-9.col-sm-9.col-xs-12
-                                                //-         input#tags_1.tags.form-controlAddMessage(type='text', value='social, adverts, sales')
-                                                //-         #suggestions-container(style='position: relative; float: left; width: 250px; margin: 10px;')
+                                            .row
+                                                .col-md-12
+                                                    .form-group
+                                                        input#agree(name='accept', type='checkbox')
+                                                        |  I have read and agree to the 
+                                                        a(href="/registration/Terms_and_Conditions") 
+                                                            b(style="color:blue;") terms and conditons
+
 
 
 
@@ -731,3 +735,12 @@ html(lang='en')
                 var currentVal = $('textarea').val();
                 $('textarea.AddMessage').val(currentVal + $(this).val()); 
         });
+
+        script.
+            $('#accept').click(function() {
+                if ($('#submitbtn').is(':disabled')) {
+                    $('#submitbtn').removeAttr('disabled');
+                } else {
+                    $('#submitbtn').attr('disabled', 'disabled');
+                }
+            }); 

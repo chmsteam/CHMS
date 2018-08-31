@@ -11,9 +11,9 @@ block content
             .col-md-12.col-sm-12.col-xs-12
                 .x_panel
                     .x_title
-                        .pull-right
-                            a(href='client_list')
-                                button.btn.btn-primary.btn-lg(type='button') Back
+                        //- .pull-right
+                        //-     a(href='client_list')
+                        //-         button.btn.btn-primary.btn-lg(type='button') Back
                         h3 Personal Details
                         .clearfix
                     .x_content
@@ -95,11 +95,18 @@ block content
                                     | Office Telephone Number 
                                 .col-md-6.col-sm-6.col-xs-12
                                     input.form-control.col-md-7.col-xs-12(type='text', name='ofcnum')
+                            .row
+                                .col-md-12
+                                    .form-group
+                                        input#accept(name='accept', type='checkbox', value='y')
+                                        |  I have read and agree to the 
+                                        a(href="/admin/registration/Terms_and_Conditions") 
+                                            b(style="color:blue;") terms and conditons
                             .form-group
                                 .col-md-7.col-md-offset-3.pull-right
                                     | 
                                     button.btn.btn-primary(type='reset') Reset
-                                    button.btn.btn-success(type='submit') Register
+                                    button.btn.btn-success#submitbtn(type='submit' disabled='disabled') Register
                             .ln_solid
 
     script(type='text/javascript').

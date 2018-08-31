@@ -137,17 +137,22 @@ html(lang='en')
                                         label Office Telephone Number 
                                         input.form-control(type='text', id='ofcnum' name='ofcnum'  maxlength='45')
                             .row
+                                .col-md-12
+                                    .form-group
+                                        input#accept(name='accept', type='checkbox', value='y')
+                                        |  I have read and agree to the 
+                                        a(href="/registration/Terms_and_Conditions") 
+                                            b(style="color:blue;") terms and conditons
+                            .row
                                 .form-group(style="float:right")
-                                    //- button.btn.btn-primary(type='reset') Reset
-                                    button.btn.btn-success(type='submit') Register
-                                    //- button.btn.btn-success(type='button' onClick='panksyon()') swal
-                                    //- button(type='button' onclick='myFunction()') Try it
-
+                                    button.btn.btn-primary(type='reset') Reset
+                                    button.btn.btn-success#submitbtn(type='submit' disabled='disabled') Register
                                 br
                                 .form-group
                                     a(href='/login' style="text-decoration:underline; margin-left:10px; color:blue; font-style:italic")
                                         | Back to landing page
                                     .ln_solid
+                            
                                     
 
 
@@ -326,3 +331,19 @@ html(lang='en')
         //- function myFunction() {
         //-     swal('hi');
         //- }
+            if((txt1.value && txt2.value && txt3.value && txt4.value) == ''){
+                document.getElementById("chb").disabled = true;
+            }
+            else if ((txt1.value)=='1'){
+                document.getElementById("chb").disabled = false;
+            }
+        }
+
+    script.
+        $('#accept').click(function() {
+            if ($('#submitbtn').is(':disabled')) {
+                $('#submitbtn').removeAttr('disabled');
+            } else {
+                $('#submitbtn').attr('disabled', 'disabled');
+            }
+        }); 
