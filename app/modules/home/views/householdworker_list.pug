@@ -21,7 +21,7 @@ block content
                                         a#reported-tab(href='#tab_content3', role='tab', data-toggle='tab', aria-expanded='false') Reported Household Worker
                                 #myTabContent.tab-content
                                     #tab_content1.tab-pane.fade.active.in(role='tabpanel', aria-labelledby='current-tab')
-                                        table#datatable-responsive.table.table-striped.table-bordered
+                                        table#datatable-responsive.table.jambo_table.table-bordered
                                             thead
                                                 tr
                                                     th NAME
@@ -36,9 +36,10 @@ block content
                                                             td #{myhw.strName}
                                                             td #{myhw.strCurStatus}
                                                             td
+                                                                button.btn.btn-primary-sm(type='button') View Profile
 
                                     #tab_content2.tab-pane.fade.in(role='tabpanel', aria-labelledby='replaced-tab')
-                                        table#datatable-responsive.table.table-striped.table-bordered
+                                        table#datatable-responsive.table.jambo_table.table-bordered
                                             thead
                                                 tr
                                                     th NAME
@@ -54,7 +55,7 @@ block content
                                                             td #{myhw.strCurStatus}
                                                             td
                                     #tab_content3.tab-pane.fade.in(role='tabpanel', aria-labelledby='reported-tab')
-                                        table#datatable-responsive.table.table-striped.table-bordered
+                                        table#datatable-responsive.table.jambo_table.table-bordered
                                             thead
                                                 tr
                                                     th NAME

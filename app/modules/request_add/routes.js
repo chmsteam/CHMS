@@ -74,7 +74,8 @@ function findcreatedlist(req, res, next){
 }
   function findcreateditem(req, res, next){
     var db = require('../../lib/database')();
-    db.query("SELECT * FROM tblinitialrequest INNER JOIN tblMservice ON intITypeOfService = intID WHERE intIRequestID=?",[req.params.userid], function (err, results) {
+    db.query(`SELECT * FROM (SELECT *, COUNT(intRRequest_No) forapproval FROM tblresults  WHERE intRRequestID =? AND strRClientStatus= 'Waiting' GROUP BY intRRequest_No) as ta RIGHT JOIN tblinitialrequest ON 
+    ta.intRRequestID = intIRequestID  INNER JOIN tblMservice ON intITypeOfService = intID WHERE intIRequestID = ?`,[req.params.userid, req.params.userid], function (err, results) {
       if (err) return res.send(err);
       if (!results[0])
       console.log('');
@@ -84,7 +85,7 @@ function findcreatedlist(req, res, next){
   }
   function findcountcreateditem(req, res, next){
     var db = require('../../lib/database')();
-    db.query("SELECT * FROM tblinitialrequest WHERE intIRequestID=?",[req.params.userid], function (err, results) {
+    db.query("SELECT count(*) AS counter FROM tblinitialrequest WHERE intIRequestID=?",[req.params.userid], function (err, results) {
       if (err) return res.send(err);
       if (!results[0])
       console.log('');

@@ -36,6 +36,9 @@ html(lang='en')
     link(href='/assets4/css/style1.css', rel='stylesheet')
     // iCheck
     link(href='/admin/gentelella/vendors/iCheck/skins/flat/green.css', rel='stylesheet')
+    //- swaL
+    script(src='https://unpkg.com/sweetalert/dist/sweetalert.min.js')
+    
     style.
         .x_panel{
             background-image: url('/login/fame/images/header-back.png');
@@ -58,7 +61,7 @@ html(lang='en')
     body   
         .col-lg-7(style="margin-left:23%;")
             .x_panel(style="background-color:white")
-                form.form-horizontal.form-label-left(method="POST" action="/registration/client" style="background-color:white")
+                form.form-horizontal.form-label-left(id='regiclient' method="POST" action="/registration/client" style="background-color:white")
                     .x_title
                         center
                             h1 CHMS Client Registration
@@ -69,56 +72,56 @@ html(lang='en')
                                 .col-md-4
                                     .form-group
                                         label First Name*
-                                        input.form-control(type='text', name='firstname', required)
+                                        input.form-control(type='text', id='firstname' name='firstname', maxlength='45' required )
                                 .col-md-4
                                     .form-group
                                         label Middle Name 
-                                        input.form-control(data-validate-length-range='6', data-validate-words='2', name='middlename', placeholder='(Optional)', type='text')
+                                        input.form-control(data-validate-length-range='6', data-validate-words='2', id='middlename' name='middlename', placeholder='(Optional)', type='text' maxlength='45')
                                 .col-md-4
                                     .form-group
                                         label Last Name*
-                                        input.form-control(data-validate-length-range='6', data-validate-words='2', name='lastname',  required, type='text')
+                                        input.form-control(data-validate-length-range='6', data-validate-words='2', id='lastname' name='lastname',  required, type='text' maxlength='45')
                             br
                             .row
                                 .col-md-6
                                     .form-group
                                         label Email Address*
-                                        input.form-control(type='email', name='email', required )
+                                        input.form-control(type='email', id='email' name='email', required maxlength='45')
                                 .col-md-6
                                     .form-group
                                         label Mobile Number / Telephone Number*
-                                        input.form-control(type='txt', name='contactnum', required)
+                                        input.form-control(type='txt', id='contactnum' name='contactnum', required maxlength='45')
                             .row
                                 .col-md-6    
                                     .form-group
                                         label Password*
-                                        input.form-control(type='password', name='password', required='required' placeholder='(Minimun of 5 characters)')
+                                        input.form-control(type='password', id='password' name='password', required='required' placeholder='(Minimun of 5 characters)' minlength='5' maxlength='45')
                                 .col-md-6
                                     .form-group
                                         label Confirm Password*
-                                        input.form-control(type='password', name='conpassword', required='required')
+                                        input.form-control(type='password', id='conpassword' name='conpassword', required='required' minlength='5' maxlength='45')
                             .row
                                 .col-md-3
                                     .form-group
                                         label Current Address* 
-                                        input.form-control(id="_1", type='text', name='housenum', placeholder='House/Bldg. no.', required='required')
+                                        input.form-control(id="_1", type='text',   name='housenum', placeholder='House/Bldg. no.', required='required' maxlength='45')
                                 .col-md-3
                                     .form-group
                                         label &nbsp
-                                        input.form-control(id="_2", type='text', name='streetnum', placeholder='Street', required='required')
+                                        input.form-control(id="_2", type='text', name='streetnum', placeholder='Street', required='required' maxlength='45')
                                 .col-md-3
                                     .form-group
                                         label &nbsp
-                                        input.form-control(id="_3", type='text', name='province', placeholder='Province', required='required')
+                                        input.form-control(id="_3", type='text',  name='province', placeholder='Municipality', required='required' maxlength='45')
                                 .col-md-3
                                     .form-group
                                         label &nbsp
-                                        input.form-control(id="_4", type='text', name='city', placeholder='City', required='required')
+                                        input.form-control(id="_4", type='text',  name='city', placeholder='City', required='required' maxlength='45')
                             .row
                                 .col-md-9
                                     .form-group
                                         label Permanent Address*
-                                            input.form-control.col-md-7.col-xs-12(id="txtf", type='text', name='permanentadd', placeholder='', required='required')
+                                            input.form-control.col-md-7.col-xs-12(id="txtf", type='text', name='permanentadd', placeholder='', required='required' maxlength='70')
                                             .checkbox
                                                 label
                                                     input(id='chb', type='checkbox', value='', onClick="copy();")
@@ -128,15 +131,18 @@ html(lang='en')
                                 .col-md-7
                                     .form-group
                                         label Office Address
-                                        input.form-control(type='text', name='ofcaddress', placeholder='')
+                                        input.form-control(type='text', id='ofcaddress' name='ofcaddress', placeholder=''  maxlength='70')
                                 .col-md-5
                                     .form-group
                                         label Office Telephone Number 
-                                        input.form-control(type='text', name='ofcnum')
+                                        input.form-control(type='text', id='ofcnum' name='ofcnum'  maxlength='45')
                             .row
                                 .form-group(style="float:right")
-                                    button.btn.btn-primary(type='reset') Reset
+                                    //- button.btn.btn-primary(type='reset') Reset
                                     button.btn.btn-success(type='submit') Register
+                                    //- button.btn.btn-success(type='button' onClick='panksyon()') swal
+                                    //- button(type='button' onclick='myFunction()') Try it
+
                                 br
                                 .form-group
                                     a(href='/login' style="text-decoration:underline; margin-left:10px; color:blue; font-style:italic")
@@ -188,6 +194,12 @@ html(lang='en')
     //preloader
     script(src='/assets4/js/custom1.js')
     script(src='/assets4/lib/wow/wow.min.js')
+
+    //- swal
+    //- script(src='/sweetalert/dist/sweetalert.min.js')
+    
+
+
     script(type='text/javascript').
         function copy() {
             var txt1 = document.getElementById("_1");
@@ -204,17 +216,113 @@ html(lang='en')
             }
 
         }
-        function dis(){
-            var txt1 = document.getElementById("_1");
-            var txt2 = document.getElementById("_2");
-            var txt3 = document.getElementById("_3");
-            var txt4 = document.getElementById("_4");
-            var txtf = document.getElementById("txtf");       
+        //- function dis(){
+        //-     var txt1 = document.getElementById("_1");
+        //-     var txt2 = document.getElementById("_2");
+        //-     var txt3 = document.getElementById("_3");
+        //-     var txt4 = document.getElementById("_4");
+        //-     var txtf = document.getElementById("txtf");       
 
-            if((txt1.value && txt2.value && txt3.value && txt4.value) == ''){
-                document.getElementById("chb").disabled = true;
-            }
-            else if ((txt1.value)=='1'){
-                document.getElementById("chb").disabled = false;
-            }
-        }
+        //-     if((txt1.value && txt2.value && txt3.value && txt4.value) == ''){
+        //-         document.getElementById("chb").disabled = true;
+        //-     }
+        //-     else if ((txt1.value)=='1'){
+        //-         document.getElementById("chb").disabled = false;
+        //-     }
+        //- }
+
+        //- function pls(){
+        //-     swal({
+        //-         title: "Are you sure you want to submit your registration?",
+        //-         text:"",
+        //-         type: 'warning',
+        //-         showCancelButton: true,
+        //-         confirmButtonColor: "#DD6B55",
+        //-         confirmButtonText: "Yes",
+        //-         closeOnConfirm: false
+        //-     }),function (isConfirm) {
+        //-         if (!isConfirm) return;
+        //-         $.ajax({
+        //-             url: "/client",
+        //-             type: "POST",
+        //-             data: {
+        //-                 firstname: $('#firstname').val(),
+        //-                 middlename: $('#middlename').val(),
+        //-                 lastname: $('#lastname').val(),
+        //-                 email: $('#email').val(),
+        //-                 contactnum: $('#contactnum').val(),
+        //-                 password: $('#password').val(),
+        //-                 conpassword: $('#conpassword').val(),
+        //-                 housenum: $('#_1').val(),
+        //-                 streetnum: $('#_2').val(),
+        //-                 province: $('#_3').val(),
+        //-                 city: $('#_4').val(),
+        //-                 permanentadd: $('#txtf').val(),
+        //-                 ofcaddress: $('#ofcaddress').val(),
+        //-                 ofcnum: $('#ofcnum').val()
+        //-             },
+        //-             dataType: "html",
+        //-             success: function () {
+        //-                 swal("Done!", "It was succesfully deleted!", "success");
+        //-             },
+        //-             error: function (xhr, ajaxOptions, thrownError) {
+        //-                 swal("Error deleting!", "Please try again", "error");
+        //-             }
+        //-         });
+        //-     });
+        //- }
+
+
+
+
+
+
+        //- function pls(){
+        //- $('#regiclientform').submit(function(event){
+        //-     event.preventDefault();
+
+        //-     var $form = $(this),
+        //-         url = $form.attr('action');
+
+        //-     var posting = $.post(
+        //-         url, {
+        //-                 firstname: $('#firstname').val(),
+        //-                 middlename: $('#middlename').val(),
+        //-                 lastname: $('#lastname').val(),
+        //-                 email: $('#email').val(),
+        //-                 contactnum: $('#contactnum').val(),
+        //-                 password: $('#password').val(),
+        //-                 conpassword: $('#conpassword').val(),
+        //-                 housenum: $('#_1').val(),
+        //-                 streetnum: $('#_2').val(),
+        //-                 province: $('#_3').val(),
+        //-                 city: $('#_4').val(),
+        //-                 permanentadd: $('#txtf').val(),
+        //-                 ofcaddress: $('#ofcaddress').val(),
+        //-                 ofcnum: $('#ofcnum').val()
+        //-         });
+
+        //-     posting.done(function(data){
+        //-         swal({
+        //-             title: 'Submit your registration?'
+        //-             icon: 'Warning',
+        //-             buttons: true,
+        //-             dangerMode: true
+        //-         }),
+        //-         .then((willsubmit)=>{
+        //-             if(willsubmit){
+        //-                 swal('Registration Submitted!',{
+        //-                     icon:'success'
+        //-                     document.getElementbyID('#regiclient').submit();
+        //-                 });
+        //-             }
+        //-             else{
+        //-                 swal('Registration not Submitted.');
+        //-             }
+        //-         })
+        //-     })
+        //- })
+        //- }
+        //- function myFunction() {
+        //-     swal('hi');
+        //- }
