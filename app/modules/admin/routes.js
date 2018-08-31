@@ -14,6 +14,16 @@ var mailer =  nodemailer.createTransport({
 		pass: 'wordpass123456' //pass ng email
 	}
 });
+//----Terms And Conditions
+function terms(req,res){
+  if(req.valid==0)
+    res.render('admin/views/terms');
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+
+}
 //-----------------------------------------------------------------Rendering Transactions of CLIENTS Pages
 //----pending requests
 function renderClientsPending(req,res){
@@ -2278,5 +2288,8 @@ router.get('/transactions/household_workers/suspended', flog, hhworkertMaintenan
 //Rejected
 router.get('/transactions/household_workers/rejected', flog, hhworkertMaintenance ,renderHhwRejected);
 
+
+//terms
+router.get('/registration/Terms_and_Conditions', flog, terms);
 
 exports.admin= router;
