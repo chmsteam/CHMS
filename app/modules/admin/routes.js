@@ -1148,7 +1148,7 @@ function renderhwprofile(req,res){
 }
 function findhw(req,res,next){
   var db = require('../../lib/database')();
-  db.query("SELECT * FROM tbluser INNER JOIN tblhouseholdworker on intID = intHWID INNER JOIN tblmservice AS a ON intServiceID=a.intID WHERE tbluser.intID =?",[req.params.hwid], function (err, results) {
+  db.query("SELECT *,tbluser.strStatus AS stat FROM tbluser INNER JOIN tblhouseholdworker on intID = intHWID INNER JOIN tblmservice AS a ON intServiceID=a.intID WHERE tbluser.intID =?",[req.params.hwid], function (err, results) {
     console.log(''+req.params.hwid);
     if (err) return res.send(err);
     if (!results[0])
@@ -1403,7 +1403,8 @@ function rendertranssettled(req,res){
 
 function findtranssettled (req,res,next){
   var db = require('../../lib/database')();
-  db.query(`SELECT CONCAT(b.strLName,', ', b.strFName) AS strName, intTRequestID, datDateSettled, strTStatus, datDateExpiry AS dateexpire, strRequestType FROM tbltransaction as a INNER JOIN tbluser as b ON a.intTClientID = b.intID INNER JOIN tblfinalrequest on intRequestID = inTRequestID WHERE a.strTStatus IN ('On-going') ORDER BY datDateSettled Desc`, function (err, results) {
+  db.query(`SELECT CONCAT(b.strLName,', ', b.strFName) AS strName, intTRequestID, datDateSettled, strTStatus, datDateExpiry AS dateexpire, strRequestType FROM tbltransaction AS A INNER JOIN tblfinalrequest ON intRequestID = intTRequestID INNER JOIN tbluser AS b ON intID = intRequest_ClientID
+     WHERE a.strTStatus IN ('On-going') ORDER BY datDateSettled Desc`, function (err, results) {
     console.log(err)
     for(var i = 0; i < results.length; i++){
       results[i].datDateSettled =  moment(results[i].datDateSettled).format("LL");
@@ -1554,21 +1555,21 @@ function approveClient2(req,res){
     var sql = "UPDATE tbluser SET strStatus= 'Registered' WHERE strStatus='Unregistered' AND intID = ?";
     db.query(sql,[req.body.clientID],function (err) {
     if (err) return res.send(err)
-    res.redirect('/admin/client_list');
+    res.redirect('/admin/transactions/clients/pending');
     })
   }
   else if (req.body.btn1 == 'reject'){
     var sql = "UPDATE tbluser SET strStatus= 'Rejected' WHERE strStatus='Unregistered' AND intID = ?";
     db2.query(sql,[req.body.clientID],function (err) {
     if (err) return res.send(err);
-    res.redirect('/admin/client_list');
+    res.redirect('/admin/transactions/clients/pending');
     })
   }
   else if(req.body.btn1 == 'revert'){
     var sql = "UPDATE tbluser SET strStatus= 'Unregistered' WHERE strStatus='Rejected' AND intID = ?";
     db.query(sql,[req.body.clientID],function (err) {
     if (err) return res.send(err);
-    res.redirect('/admin/client_list');
+    res.redirect('/admin/transactions/clients/rejected');
     })
   }
 }
@@ -1658,7 +1659,7 @@ function hwoptions(req,res){
                       }
                   }
               );
-          res.redirect('/admin/householdworker_list');
+          res.redirect('/admin/transactions/household_workers/pending');
           }
     })
   }
@@ -1666,14 +1667,14 @@ function hwoptions(req,res){
     var sql = "UPDATE tbluser SET strStatus= 'Rejected' WHERE strStatus='Unregistered' AND intID = ?";
     db2.query(sql,[req.body.hwID],function (err) {
     if (err) return res.send(err);
-    res.redirect('/admin/householdworker_list');
+    res.redirect('/admin/transactions/household_workers/pending');
     })
   }
   else if(req.body.btn1 == 'revert'){
     var sql = "UPDATE tbluser SET strStatus= 'Unregistered' WHERE strStatus='Rejected' AND intID = ?";
     db.query(sql,[req.body.hwID],function (err) {
     if (err) return res.send(err);
-    res.redirect('/admin/householdworker_list');
+    res.redirect('/admin/transactions/household_workers/rejected');
     })
   }
 }

@@ -6,89 +6,6 @@ block content
                 .row
                     .col-md-12.col-sm-12.col-xs-12
                         .x_panel
-<<<<<<< HEAD
-                            .x_panel
-                                .x_title
-                                    h1 
-                                        b   Household Worker List
-                                    .clearfix
-                                br
-                                br
-                                div(role='tabpanel', data-example-id='togglable-tabs')
-                                    ul#myTab.nav.nav-tabs.bar_tabs(role='tablist')
-                                        li.active(role='presentation')
-                                            a#current-tab(href='#tab_content1', role='tab', data-toggle='tab', aria-expanded='true') Current Household Worker
-                                        li(role='presentation')
-                                            a#replaced-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Replaced Household Worker
-                                        li(role='presentation')
-                                            a#reported-tab(href='#tab_content3', role='tab', data-toggle='tab', aria-expanded='false') Reported Household Worker
-                                    #myTabContent.tab-content
-                                        #tab_content1.tab-pane.fade.active.in(role='tabpanel', aria-labelledby='current-tab')
-                                            table#datatable-responsive.table.jambo_table.table-bordered
-                                                thead
-                                                    tr
-                                                        th NAME
-                                                        th SERVICE
-                                                        th STATUS
-                                                        th ACTION
-                                                tbody
-                                                    each myhw in myhwtab
-                                                        if myhw.strCurStatus =='Current' || myhw.strCurStatus =='Reliever' || myhw.strCurStatus =='On Leave'
-                                                            tr
-                                                                td #{myhw.strFName} #{myhw.strLName}
-                                                                td #{myhw.strName}
-                                                                td #{myhw.strCurStatus}
-                                                                td
-
-                                        #tab_content2.tab-pane.fade.in(role='tabpanel', aria-labelledby='replaced-tab')
-                                            table#datatable-responsive.table.jambo_table.table-bordered
-                                                thead
-                                                    tr
-                                                        th NAME
-                                                        th SERVICE
-                                                        th STATUS
-                                                        th ACTION
-                                                tbody
-                                                    each myhw in myhwtab
-                                                        if myhw.strCurStatus =='Replaced' || myhw.strCurStatus =='To be replaced'
-                                                            tr
-                                                                td #{myhw.strFName} #{myhw.strLName}
-                                                                td #{myhw.strName}
-                                                                td #{myhw.strCurStatus}
-                                                                td
-                                        #tab_content3.tab-pane.fade.in(role='tabpanel', aria-labelledby='reported-tab')
-                                            table#datatable-responsive.table.jambo_table.table-bordered
-                                                thead
-                                                    tr
-                                                        th NAME
-                                                        th SERVICE
-                                                        th STATUS
-                                                        th ACTION
-                                                //- tbody
-                                                //-     each myhw in myhwtab
-                                                //-         tr
-                                                //-             td #{myhw.strFName} #{myhw.strLName}
-                                                //-             td #{myhw.strName}
-                                                //-             td #{myhw.strCurStatus}
-                                                //-             td
-                                                        
-       
-        //- scripts
-        script.
-            function time(){
-                var today = new Date();
-                var dd = today.getDate();
-                var mm = today.getMonth()+1; //January is 0!
-                var yyyy = today.getFullYear();
-                var hh = today.getHours();
-                var min = today.getMinutes();
-                var sec = today.getSeconds();
-                var x= document.getElementById("thedate");
-                
-                if(dd<10) {
-                    dd = '0'+dd
-                } 
-=======
                             .x_title
                                 h1 Household Worker List
                                 .clearfix
@@ -169,7 +86,6 @@ block content
             if(dd<10) {
                 dd = '0'+dd
             } 
->>>>>>> 9487338221d5359cc3897ec9f7c74ba3212c5d3b
 
                 if(mm<10) {
                     mm = '0'+mm
