@@ -94,7 +94,7 @@ head
 
         // Start About Us Section 2
         #about-us.about-us-section-2
-            .container
+            .container(style='background-color:white')
                 .row
                     .col-md-6
                         .skill-shortcode
@@ -126,6 +126,11 @@ head
         // Start Fun Facts Section
         section#Services.contact
             .container
+                .row
+                    .col-lg-12
+                        .section-title.text-center
+                            h3 Services
+                            p.white-text
                 .row
                     .col-xs-12.col-sm-6.col-md-3
                         .counter-item
@@ -378,7 +383,8 @@ head
                         br
                         div
                             | Don't  have an account? 
-                            a(href='')  Sign up 
+                            a(href='')  
+                                b   Sign up 
                             |  here
                     .modal-footer
                         button.btn.btn-default(type='button', data-dismiss='modal') Close

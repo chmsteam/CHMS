@@ -5,21 +5,21 @@ block content
             .page-title
                 .row
                     .col-md-12.col-sm-12.col-xs-12
-                        .x_panel
+                       
                             .x_panel
                                 .row
                                     each list in listtab
-                                        h2(style="font-size:33px;") Name of list: 
+                                        h2(style="font-size:33px;") &nbsp&nbspName of list: 
                                             b   " #{list.strRequestName} "
                                 .x_title
                                 .x_title
                                     .clearfix
-                                    .x_panel(style='background-color:#f1f1f1')
+                                    .x_panel.alert-success(style='background-color:')
                                         h3(style="font-size:18px;")(align='center')
                                             b   &nbsp&nbsp&nbsp&nbsp&nbspDisclaimer !!!
                                                 br
                                             | To add service on your list, just click add button.
-                            
+                                br
                                 each list in listtab
                                     if (list.strRequestStatus == 'Draft' || list.strRequestStatus == 'On process')
                                         button.btn.btn-success.btn-lg(type='button' data-toggle="modal" data-target="#Add")
@@ -27,7 +27,6 @@ block content
                                             | &nbspAdd Service
                                     else if (list.strRequestStatus == 'On deployment' || list.strRequestStatus == 'Pending')
 
-                                    br
                                     each count in counttab
                                         if (list.strRequestStatus == 'Draft' && count.counter != 0)
                                             a(href='/request_add/submit_request_'+list.intRequestID)
@@ -39,7 +38,7 @@ block content
 
                                 .x_panel
                                     h2 Requested Service/s:
-                                    table.table.jambo_table.bulk_action
+                                    table.table.jambo_table.table-bordered
                                         thead
                                             tr
                                                 th Number
@@ -143,8 +142,12 @@ block content
 
                                 //- if request = Pending
                                 //- transaction dets
+                    .col-md-12.col-sm-12.col-xs-12
+                        .x_panel
+                                .x_title
+                                    .clearfix
+                                        h3 List of service/s you approved:
                                 .x_panel
-                                    h2 Approved Service/s:
                                     .clearfix
                                         each hw in hwtab
                                             .col-md-4.col-sm-4.col-xs-12.profile_details

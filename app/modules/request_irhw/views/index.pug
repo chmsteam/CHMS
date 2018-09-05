@@ -1,62 +1,65 @@
 extends ../../../templates/navbarhw.pug
-
 block content
-    .right_col(role='main')
-        .page-title
-            .row
-                .col-md-12.col-sm-12.col-xs-12
-                    .x_panel
+    section#services
+        .right_col.wow.fadeInDown(role='main' style="background-color:transparent;")
+            .page-title
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
+       
                         .x_panel
                             .x_title
-                                h1  Report Client
+                                h1  
+                                    b   Report Client
                                 .clearfix
-                            h3 Reported Clients
-                            table#datatable2-responsive.table.table-striped.table-bordered
-                                thead
-                                    tr
-                                        th NAME
-                                        th INCIDENT REPORT
-                                        th STATUS
-                                        th ACTION
-                                tbody
-                                    each reported in reportedtab
+                            br
+                            .x_panel(style='background-color:#f1f1f1')
+                                h3 To be reported
+                                table#datatable2-responsive.table.jambo_table.table-bordered
+                                    thead
                                         tr
-                                            td #{reported.RFName} #{reported.RLName}
-                                            td #{reported.strName}
-                                            td #{reported.strReportStatus}
-                                            td
-                                                button.btn.btn-primary.btn-md(type='button') View
-                                                if reported.strReportStatus == ''
-                                                    button.btn.btn-danger.btn-md(type='button') Cancel
-                                                else if reported.strReportStatus == 'Acknowledged'
-                                                    button.btn.btn-info.btn-md(type='button') View Action Taken
-                                                    button.btn.btn-danger.btn-md(type='button') Hide
+                                            th NAME
+                                            th INCIDENT REPORT
+                                            th STATUS
+                                            th ACTION
+                                    tbody
+                                        each reported in reportedtab
+                                            tr
+                                                td #{reported.RFName} #{reported.RLName}
+                                                td #{reported.strName}
+                                                td #{reported.strReportStatus}
+                                                td
+                                                    button.btn.btn-primary.btn-md(type='button') View
+                                                    if reported.strReportStatus == ''
+                                                        button.btn.btn-danger.btn-md(type='button') Cancel
+                                                    else if reported.strReportStatus == 'Acknowledged'
+                                                        button.btn.btn-info.btn-md(type='button') View Action Taken
+                                                        button.btn.btn-danger.btn-md(type='button') Hide
                             br  
                             br
-
-                            h3 Current Client
-                            table#datatable-responsive.table.table-striped.table-bordered
-                                thead
-                                    tr
-                                        th NAME
-                                        th STATUS
-                                        th ACTION
-                                tbody
-                                    each cc in cctab
+                            .x_panel
+                                h3 Current Client
+                                table#datatable-responsive.table.jambo_table.table-bordered
+                                    thead
                                         tr
-                                            //- td #{currenthw.}
-                                            td #{cc.strFName} #{cc.strLName}
-                                            td #{cc.strCurStatus}
-                                            td
-                                                button.btn.btn-info(type='button')
-                                                    |View Profile
-                                                //- if currenthw.strCurStatus == 'Current'
-                                                button.btn.btn-danger.btn-md(type='button' data-toggle='modal', data-target='#report',  data-hwid=cc.intTClientID, data-hwfname=cc.strFName, data-hwlname=cc.strLName) Report
-                                                //- else if currenthw.strCurStatus == 'To be replaced'
-                                                //-     a(href='/request_replacement/replace_list_'+currenthw.intConTransID+currenthw.intConHWID)
-                                                //-         button.btn.btn-info.btn-md(type='button') View Details
-                                                //-     button.btn.btn-danger.btn-md(type='button') Cancel
-                                                    
+                                            th NAME
+                                            th STATUS
+                                            th ACTION
+                                    tbody
+                                        each cc in cctab
+                                            tr
+                                                //- td #{currenthw.}
+                                                td #{cc.strFName} #{cc.strLName}
+                                                td #{cc.strCurStatus}
+                                                td
+                                                    button.btn.btn-info(type='button')
+                                                        |View Profile
+                                                    //- if currenthw.strCurStatus == 'Current'
+                                                    button.btn.btn-danger.btn-md(type='button' data-toggle='modal', data-target='#report',  data-hwid=cc.intTClientID, data-hwfname=cc.strFName, data-hwlname=cc.strLName) Report
+                                                    //- else if currenthw.strCurStatus == 'To be replaced'
+                                                    //-     a(href='/request_replacement/replace_list_'+currenthw.intConTransID+currenthw.intConHWID)
+                                                    //-         button.btn.btn-info.btn-md(type='button') View Details
+                                                    //-     button.btn.btn-danger.btn-md(type='button') Cancel
+                                                        
     
     //- ---- modals
     #report.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
