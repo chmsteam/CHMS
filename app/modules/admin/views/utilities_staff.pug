@@ -2,10 +2,8 @@
 extends ../../../templates/navbaradmin.pug
 
 block content
-    // page content
-    .right_col(role='main')
-        div
-            .page-title
+    section#services
+        .right_col(role='main' style="background-color:transparent")
                 .title_left
                     h5
                         | Utilities /&nbsp
@@ -14,7 +12,6 @@ block content
                     .col-md-12.col-sm-12.col-xs-12
                         .x_panel
                             .x_content
-                            center
                                 button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='.bs-add-modal-lg')
                                     i.fa.fa-plus
                                     | &nbspAdd
@@ -143,4 +140,4 @@ block content
                 //-                 .modal-footer
                 //-                     button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
 
-            // /page content
+        

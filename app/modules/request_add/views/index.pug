@@ -5,7 +5,6 @@ block content
             .page-title
                 .row
                     .col-md-12.col-sm-12.col-xs-12
-                        .x_panel
                             .x_panel
                                 .x_title
                                     h1
@@ -16,7 +15,11 @@ block content
                                         h3(style="font-size:18px;")(align='center')
                                             b   &nbsp&nbsp&nbsp&nbsp&nbspDisclaimer !!!
                                                 br
-                                            | To add household worker, you must create first a list of your service/s that you want to request.
+                                                br
+                                            li
+                                                |   To add household worker, you must create first a list of your service/s that you want to request.
+                                            li
+                                                |   Click the view button of the list you created to see the services that you requested.
                                     br
                                 
                                 .x_content
@@ -25,7 +28,6 @@ block content
                                     button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='#Add')
                                         i.fa.fa-plus
                                         | &nbspCreate New List
-                                    br
                                     br
                                     br
                                     each list in listtab

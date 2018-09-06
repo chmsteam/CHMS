@@ -2,10 +2,8 @@
 extends ../../../templates/navbaradmin.pug
 
 block content
-    // page content
-    .right_col(role='main')
-        div
-            .page-title
+    section#services
+        .right_col(role='main' style="background-color:transparent")
                 .title_left
                     h5
                         | Utilities/&nbsp
@@ -13,12 +11,11 @@ block content
                 .row
                     .col-md-12.col-sm-12.col-xs-12
                         .x_panel
-                            //- .x_content
-                            //- button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='.bs-add-modal-xs')
-                            //-     i.fa.fa-plus
-                            //-     | &nbspAdd
-                            //- br
-                            //- br
+                            .x_content
+                            button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='.bs-add-modal-xs')
+                                i.fa.fa-plus
+                                | &nbspAdd
+                         
                             table#datatable.table.table-striped.table-bordered
                                 thead
                                     tr
@@ -57,28 +54,31 @@ block content
                 .modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
                     .modal-dialog.modal-xs
                         .modal-content
-                            .modal-header
+                            .modal-header(style='background-color:#f1f1f1')
                                 button.close(type='button', data-dismiss='modal')
                                     span(aria-hidden='true') ×
                                 h4#myModalLabel.modal-title Add a Service
                             .modal-body
                                form#demo-form2.form-horizontal.form-label-left(method="POST" action="add_service")
                                 .form-group
+                                    br
+                                    br
                                     label.control-label.col-md-3.col-sm-3.col-xs-12(for='service-name')
                                         | Service Name 
                                         span.required *
                                     .col-md-6.col-sm-6.col-xs-12
                                         input#first-name.form-control.col-md-7.col-xs-12(type='text', required='required', name='servicename')
+                                br
                                 .ln_solid
                                 .form-group.pull-right
-                                    button.btn.btn-warning(type='reset') Reset
+                                    button.btn.btn-primary(type='reset') Reset
                                     button.btn.btn-success(type='submit') Add
                                     button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
                 //- Edit
                 #edit_fee.modal.fade.bs-edit-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
                     .modal-dialog.modal-xs
                         .modal-content
-                            .modal-header
+                            .modal-header(style='background-color:#f1f1f1')
                                 button.close(type='button', data-dismiss='modal')
                                     span(aria-hidden='true') ×
                                 h4#myModalLabel.modal-title Edit Fee
@@ -107,9 +107,5 @@ block content
                                     .form-group.pull-right
                                         button.btn.btn-success(type='submit') Update
                                         button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
-
-            // /page content
- 
-        //- for update
 
     

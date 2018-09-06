@@ -2,11 +2,8 @@
 extends ../../../templates/navbaradmin.pug
 
 block content
-    // page content
-    //- link(rel="stylesheet", href="/cutsom/switch.css")
-    .right_col(role='main')
-        div
-            .page-title
+    section#services
+        .right_col(role='main' style="background-color:transparent")
                 .title_left
                     h5
                         | Maintenance /&nbsp
@@ -14,12 +11,12 @@ block content
                 //- button(type='button' onclick='test();') error   
                 .row
                     .col-md-12.col-sm-12.col-xs-12
-                        .x_panel
-                            .x_content
-                                button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='.bs-add-modal-xs')
-                                    i.fa.fa-plus
-                                    | &nbspAdd
                                 .x_panel
+                                    .x_content
+                                        button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='.bs-add-modal-xs')
+                                            i.fa.fa-plus
+                                            | &nbspAdd
+                                
                                     br
                                     table#datatable.table.table-striped.table-bordered
                                         thead
@@ -66,6 +63,8 @@ block content
                             .modal-body
                                form#form1.form-horizontal.form-label-left(method="POST" action="add_requirement")
                                 .form-group
+                                    br
+                                    br
                                     label.control-label.col-md-3.col-sm-3.col-xs-12(for='requirement-name')
                                         | Requirement Name*
                                     .col-md-6.col-sm-6.col-xs-12
@@ -76,15 +75,16 @@ block content
                                         select(name='reqtype').form-control
                                             option(value='Client') Client
                                             option(value='Household Worker') Household Worker
+                                br
                                 .ln_solid
                                 .form-group.pull-right
                                     button.btn.btn-success(type='submit' onsubmit = 'sendform(this.id);') Add
-                                    button.btn.btn-info(type='button', data-dismiss='modal') Cancel
+                                    button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
                 //- Edit
                 #edit_requirement.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
                     .modal-dialog.modal-xs
                         .modal-content
-                            .modal-header
+                            .modal-header(style="background-color:#EDEDED;")
                                 button.close(type='button', data-dismiss='modal')
                                     span(aria-hidden='true') ×
                                 h4#myModalLabel.modal-title Edit Requirement
@@ -92,6 +92,8 @@ block content
                                 form#demo-form2.form-horizontal.form-label-left(method="POST" action="edit_requirement")
                                     input.form-control.col-md-7.col-xs-12(type='number', id='_id', required='required', name='requirementID' style="display:none;")                          
                                     .form-group
+                                        br
+                                        br
                                         label.control-label.col-md-3.col-sm-3.col-xs-12
                                             | Requirement Name
                                             span.required *
@@ -106,10 +108,11 @@ block content
                                                     i same as before
                                                 option(value='Client') Client
                                                 option(value='Household Worker') Household Worker
+                                    br
                                     .ln_solid
                                     .form-group.pull-right
                                         button.btn.btn-success(type='submit') Update
-                                        button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
+                                        button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
     script.
         function submitform(formid){
             var form = $('#'+formid);

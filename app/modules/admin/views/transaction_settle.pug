@@ -1,182 +1,182 @@
 extends ../../../templates/navbaradmin.pug
 
 block content
-    .right_col(role='main')
-        .title_left
-            h5
-                | Transaction / Settlement / 
-                b Settle Request
-            .clearfix
-            .row
-                .col-md-12.col-sm-12.col-xs-12
-                    .x_panel
-                        br
-                        .x_panel
-                            table#datatable.table.table-striped.table-bordered
-                                thead
-                                    tr
-                                        th ID
-                                        th NAME
-                                        th REQUEST
-                                        th DATE REQUESTED
-                                        th DATE OF DEPLOYMENT
-                                        th STATUS
-                                        th ACTION
-                                tbody
-                                    each list in listtab
+    section#services
+        .right_col(role='main' style="background-color:transparent")
+            .title_left
+                h5
+                    | Transaction / Settlement / 
+                    b Settle Request
+                .clearfix
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
+                            .x_panel
+                                br
+                                table#datatable.table.table-striped.table-bordered
+                                    thead
                                         tr
-                                            td #{list.intRequestID}
-                                            td #{list.strName}
-                                            td #{list.strRequestType}
-                                            td #{list.datRequestDate}
-                                            td #{list.datRequestNeedDate}
-                                            td #{list.strRequestStatus}
-                                            td
-                                                a(href='')
-                                                    button.btn.btn-info(type='button')
-                                                        i.fa.fa-eye
-                                                        |   View
-                                                if list.strRequestType == 'Add'
-                                                    button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle', data-id=list.intRequestID)
-                                                        i.fa.fa-check
-                                                        |   Settle
-                                                else if list.strRequestType == 'Replacement'
-                                                    button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_replacementclient', data-id=list.intRequestID)
-                                                        i.fa.fa-check
-                                                        |   Settle
-                                                else if list.strRequestType == 'Replace Client'
-                                                    button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_replaceclient', data-id=list.intRequestID)
-                                                        i.fa.fa-check
-                                                        |   Settle
-                                                else if list.strRequestType == 'Reliever'
-                                                    button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_reliever', data-id=list.intRequestID)
-                                                        i.fa.fa-check
-                                                        |   Settle
+                                            th ID
+                                            th NAME
+                                            th REQUEST
+                                            th DATE REQUESTED
+                                            th DATE OF DEPLOYMENT
+                                            th STATUS
+                                            th ACTION
+                                    tbody
+                                        each list in listtab
+                                            tr
+                                                td #{list.intRequestID}
+                                                td #{list.strName}
+                                                td #{list.strRequestType}
+                                                td #{list.datRequestDate}
+                                                td #{list.datRequestNeedDate}
+                                                td #{list.strRequestStatus}
+                                                td
+                                                    a(href='')
+                                                        button.btn.btn-info(type='button')
+                                                            i.fa.fa-eye
+                                                            |   View
+                                                    if list.strRequestType == 'Add'
+                                                        button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle', data-id=list.intRequestID)
+                                                            i.fa.fa-check
+                                                            |   Settle
+                                                    else if list.strRequestType == 'Replacement'
+                                                        button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_replacementclient', data-id=list.intRequestID)
+                                                            i.fa.fa-check
+                                                            |   Settle
+                                                    else if list.strRequestType == 'Replace Client'
+                                                        button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_replaceclient', data-id=list.intRequestID)
+                                                            i.fa.fa-check
+                                                            |   Settle
+                                                    else if list.strRequestType == 'Reliever'
+                                                        button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_reliever', data-id=list.intRequestID)
+                                                            i.fa.fa-check
+                                                            |   Settle
 
-        #settle.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
-            .modal-dialog.modal-sm
-                .modal-content
-                    form(method='POST' action='transaction_settledecision')
-                        .modal-header(style='background-color:#f1f1f1')
-                            button.close(type='button', data-dismiss='modal', aria-label='Close')
-                                span(aria-hidden='true') ×
-                            h4.modal-title Settle Transaction :
-                                i#a
-                        .modal-body
-                            center
-                                h3
-                                    b Enter O.R. Number:
-                                br
-                                input#_id(type="text", name="transid", style='display:none;')
-                                input(id='thedate' type='date', name='datesettled' style='display:none;')
-                                input#ss(type="text", name="ornum" required)
-                        br
-                        .modal-footer.center
-                            button.btn.btn-primary(type='submit' name='btn1' value='settle',  onCLick='time();') Ok
-        #settle_replacementclient.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
-            .modal-dialog.modal-sm
-                .modal-content
-                    form(method='POST' action='transaction_settledecision_replacementclient')
-                        .modal-header(style='background-color:#f1f1f1')
-                            button.close(type='button', data-dismiss='modal', aria-label='Close')
-                                span(aria-hidden='true') ×
-                            h4.modal-title Settle Transaction :
-                                i#a
-                        .modal-body
-                            center
-                                h3
-                                    b Enter O.R. Number:
-                                br
-                                input#_id(type="text", name="transid", style='display:none;')
-                                input(id='thedate2' type='date', name='datesettled' style='display:none;')
-                                input#ss(type="text", name="ornum" required)
-                        br
-                        .modal-footer.center
-                            button.btn.btn-primary(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
-        #settle_replaceclient.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
-            .modal-dialog.modal-sm
-                .modal-content
-                    form(method='POST' action='transaction_settledecision_replaceclient')
-                        .modal-header(style='background-color:#f1f1f1')
-                            button.close(type='button', data-dismiss='modal', aria-label='Close')
-                                span(aria-hidden='true') ×
-                            h4.modal-title Settle Transaction :
-                                i#a
-                        .modal-body
-                            center
-                                h3
-                                    b Enter O.R. Number:
-                                br
-                                input#_id(type="text", name="transid", style='display:none;')
-                                input(id='thedate3' type='date', name='datesettled' style='display:none;')
-                                input#ss(type="text", name="ornum" required)
-                        br
-                        .modal-footer.center
-                            button.btn.btn-primary(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
-        #settle_reliever.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
-            .modal-dialog.modal-sm
-                .modal-content
-                    form(method='POST' action='transaction_settledecision_reliever')
-                        .modal-header(style='background-color:#f1f1f1')
-                            button.close(type='button', data-dismiss='modal', aria-label='Close')
-                                span(aria-hidden='true') ×
-                            h4.modal-title Settle Transaction :
-                                i#a
-                        .modal-body
-                            center
-                                h3
-                                    b Enter O.R. Number:
-                                br
-                                input#_id(type="text", name="transid", style='display:none;')
-                                input(id='thedate4' type='date', name='datesettled' style='display:none;')
-                                input#ss(type="text", name="ornum" required)
-                        br
-                        .modal-footer.center
-                            button.btn.btn-primary(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
-    script.
-        function time(){
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth()+1; //January is 0!
-            var yyyy = today.getFullYear();
-            var hh = today.getHours();
-            var min = today.getMinutes();
-            var sec = today.getSeconds();
-            var x= document.getElementById("thedate");
-            
-            if(dd<10) {
-                dd = '0'+dd
-            } 
+            #settle.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
+                .modal-dialog.modal-sm
+                    .modal-content
+                        form(method='POST' action='transaction_settledecision')
+                            .modal-header(style='background-color:#f1f1f1')
+                                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                    span(aria-hidden='true') ×
+                                h4.modal-title Settle Transaction :
+                                    i#a
+                            .modal-body
+                                center
+                                    h3
+                                        b Enter O.R. Number:
+                                    br
+                                    input#_id(type="text", name="transid", style='display:none;')
+                                    input(id='thedate' type='date', name='datesettled' style='display:none;')
+                                    input#ss(type="text", name="ornum" required)
+                            br
+                            .modal-footer.center
+                                button.btn.btn-primary(type='submit' name='btn1' value='settle',  onCLick='time();') Ok
+            #settle_replacementclient.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
+                .modal-dialog.modal-sm
+                    .modal-content
+                        form(method='POST' action='transaction_settledecision_replacementclient')
+                            .modal-header(style='background-color:#f1f1f1')
+                                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                    span(aria-hidden='true') ×
+                                h4.modal-title Settle Transaction :
+                                    i#a
+                            .modal-body
+                                center
+                                    h3
+                                        b Enter O.R. Number:
+                                    br
+                                    input#_id(type="text", name="transid", style='display:none;')
+                                    input(id='thedate2' type='date', name='datesettled' style='display:none;')
+                                    input#ss(type="text", name="ornum" required)
+                            br
+                            .modal-footer.center
+                                button.btn.btn-primary(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
+            #settle_replaceclient.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
+                .modal-dialog.modal-sm
+                    .modal-content
+                        form(method='POST' action='transaction_settledecision_replaceclient')
+                            .modal-header(style='background-color:#f1f1f1')
+                                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                    span(aria-hidden='true') ×
+                                h4.modal-title Settle Transaction :
+                                    i#a
+                            .modal-body
+                                center
+                                    h3
+                                        b Enter O.R. Number:
+                                    br
+                                    input#_id(type="text", name="transid", style='display:none;')
+                                    input(id='thedate3' type='date', name='datesettled' style='display:none;')
+                                    input#ss(type="text", name="ornum" required)
+                            br
+                            .modal-footer.center
+                                button.btn.btn-primary(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
+            #settle_reliever.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
+                .modal-dialog.modal-sm
+                    .modal-content
+                        form(method='POST' action='transaction_settledecision_reliever')
+                            .modal-header(style='background-color:#f1f1f1')
+                                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                    span(aria-hidden='true') ×
+                                h4.modal-title Settle Transaction :
+                                    i#a
+                            .modal-body
+                                center
+                                    h3
+                                        b Enter O.R. Number:
+                                    br
+                                    input#_id(type="text", name="transid", style='display:none;')
+                                    input(id='thedate4' type='date', name='datesettled' style='display:none;')
+                                    input#ss(type="text", name="ornum" required)
+                            br
+                            .modal-footer.center
+                                button.btn.btn-primary(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
+        script.
+            function time(){
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; //January is 0!
+                var yyyy = today.getFullYear();
+                var hh = today.getHours();
+                var min = today.getMinutes();
+                var sec = today.getSeconds();
+                var x= document.getElementById("thedate");
+                
+                if(dd<10) {
+                    dd = '0'+dd
+                } 
 
-            if(mm<10) {
-                mm = '0'+mm
-            } 
+                if(mm<10) {
+                    mm = '0'+mm
+                } 
 
-            today = yyyy + '-' + mm + '-' + dd ;
-            //- document.write(today);
-           document.getElementById("thedate").value=today;
-        }
-        function time2(){
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth()+1; //January is 0!
-            var yyyy = today.getFullYear();
-            var hh = today.getHours();
-            var min = today.getMinutes();
-            var sec = today.getSeconds();
-            var x= document.getElementById("thedate2");
-            
-            if(dd<10) {
-                dd = '0'+dd
-            } 
+                today = yyyy + '-' + mm + '-' + dd ;
+                //- document.write(today);
+               document.getElementById("thedate").value=today;
+            }
+            function time2(){
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; //January is 0!
+                var yyyy = today.getFullYear();
+                var hh = today.getHours();
+                var min = today.getMinutes();
+                var sec = today.getSeconds();
+                var x= document.getElementById("thedate2");
+                
+                if(dd<10) {
+                    dd = '0'+dd
+                } 
 
-            if(mm<10) {
-                mm = '0'+mm
-            } 
+                if(mm<10) {
+                    mm = '0'+mm
+                } 
 
-            today = yyyy + '-' + mm + '-' + dd ;
-            //- document.write(today);
-           document.getElementById("thedate2").value=today;
-           document.getElementById("thedate3").value=today;
-           document.getElementById("thedate4").value=today;
-        }
+                today = yyyy + '-' + mm + '-' + dd ;
+                //- document.write(today);
+               document.getElementById("thedate2").value=today;
+               document.getElementById("thedate3").value=today;
+               document.getElementById("thedate4").value=today;
+            }

@@ -1,7 +1,7 @@
 extends ../../../templates/navbarclient.pug
 block content
     section#services
-        .right_col(role='main' style="background-color:transparent;")
+        .right_col(role='main' style="background-color:transparent")
             .page-title
                 .row
                     .col-md-12.col-sm-12.col-xs-12
@@ -16,9 +16,52 @@ block content
                                     h3
                                         b Results
                             br
-                            .x_panel
-                                h3 Suggested service/s from the Admin:
-                                table#datatable-responsive.table.jambo_table
+                            br
+                            .x_title
+                                .x_panel(style='background-color:#394D5F')
+                                    h2(style="font-weight:bold") Suggested service/s from the Admin:
+                            table#datatable-responsive.table.jambo_table
+                                thead
+                                    tr
+                                        th ID
+                                        th NAME
+                                        th SERVICE
+                                        th AGE
+                                        th Gender
+                                        th EDUCATION
+                                        th WORK EXPERIENCE
+                                        th ACTION
+                                tbody
+                                    each hw in hwtab
+                                        each list in listtab
+                                            if hw.strRClientStatus == 'Waiting'
+                                                tr
+                                                form#demo-form2.form-horizontal.form-label-left(method="POST" action="/request_add/decision_"+hw.intRRequestID+hw.intRRequest_No)
+                                                    input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='hwid', value=''+hw.intRHWID, style="display:none;")
+                                                    input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transid', value=''+hw.intRRequestID, style="display:none;")
+                                                    input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='reqno', value=''+hw.intRRequest_No, style="display:none;")                                 
+                                                    td #{hw.intRHWID}
+                                                        //- input(type="number" name= 'hwid' style='visibility:hidden;', value=''+resulta.intHWID)
+                                                    td #{hw.stFName} #{hw.strLName}
+                                                    td #{hw.strName}
+                                                    td #{hw.age}
+                                                    td #{hw.strGender}
+                                                    td 
+                                                    td 
+                                                    td
+                                                        a(href='hw_profile_'+hw.intRRequestID+hw.intRHWID)
+                                                            button.btn.btn-primary(type='button') View Profile
+                                                        button.btn.btn-success(type='submit' name='btn1' value='approve') Approve
+                                                        button.btn.btn-danger(type='submit' name='btn1' value='reject') Reject
+                    .col-md-12.col-sm-12.col-xs-12
+                        br
+                        .x_panel
+                                br
+                                .x_title
+                                    .x_panel
+                                        h2(style="font-weight:bold") Service/s you approved:
+                                   
+                                table#datatable2.table.table.jambo_table
                                     thead
                                         tr
                                             th ID
@@ -32,12 +75,12 @@ block content
                                     tbody
                                         each hw in hwtab
                                             each list in listtab
-                                                if hw.strRClientStatus == 'Waiting'
+                                                if hw.strRClientStatus == 'Approved'
                                                     tr
-                                                    form#demo-form2.form-horizontal.form-label-left(method="POST" action="/request_add/decision_"+hw.intRRequestID+hw.intRRequest_No)
+                                                    form(method="POST" action="/request_add/decision_"+hw.intRRequestID+hw.intRRequest_No)
                                                         input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='hwid', value=''+hw.intRHWID, style="display:none;")
                                                         input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transid', value=''+hw.intRRequestID, style="display:none;")
-                                                        input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='reqno', value=''+hw.intRRequest_No, style="display:none;")                                 
+                                                        input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='reqno', value=''+hw.intRRequest_No, style="display:none;") 
                                                         td #{hw.intRHWID}
                                                             //- input(type="number" name= 'hwid' style='visibility:hidden;', value=''+resulta.intHWID)
                                                         td #{hw.stFName} #{hw.strLName}
@@ -49,79 +92,44 @@ block content
                                                         td
                                                             a(href='hw_profile_'+hw.intRRequestID+hw.intRHWID)
                                                                 button.btn.btn-primary(type='button') View Profile
-                                                            button.btn.btn-success(type='submit' name='btn1' value='approve') Approve
-                                                            button.btn.btn-danger(type='submit' name='btn1' value='reject') Reject
+                                                            button.btn.btn-warning.btn-md(type='submit' name='btn1' value='revert') Revert
                     .col-md-12.col-sm-12.col-xs-12
+                        br
                         .x_panel
-                                .x_panel
-                                    h3 Service/s you approved:
-                                    br
-                                    table#datatable2.table.table.jambo_table
-                                        thead
-                                            tr
-                                                th ID
-                                                th NAME
-                                                th SERVICE
-                                                th AGE
-                                                th Gender
-                                                th EDUCATION
-                                                th WORK EXPERIENCE
-                                                th ACTION
-                                        tbody
-                                            each hw in hwtab
-                                                each list in listtab
-                                                    if hw.strRClientStatus == 'Approved'
-                                                        tr
-                                                        form(method="POST" action="/request_add/decision_"+hw.intRRequestID+hw.intRRequest_No)
-                                                            input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='hwid', value=''+hw.intRHWID, style="display:none;")
-                                                            input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transid', value=''+hw.intRRequestID, style="display:none;")
-                                                            input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='reqno', value=''+hw.intRRequest_No, style="display:none;") 
-                                                            td #{hw.intRHWID}
-                                                                //- input(type="number" name= 'hwid' style='visibility:hidden;', value=''+resulta.intHWID)
-                                                            td #{hw.stFName} #{hw.strLName}
-                                                            td #{hw.strName}
-                                                            td #{hw.age}
-                                                            td #{hw.strGender}
-                                                            td 
-                                                            td 
-                                                            td
-                                                                a(href='hw_profile_'+hw.intRRequestID+hw.intRHWID)
-                                                                    button.btn.btn-primary(type='button') View Profile
-                                                                button.btn.btn-warning.btn-md(type='submit' name='btn1' value='revert') Revert
-                    .col-md-12.col-sm-12.col-xs-12
-                        .x_panel
-                                .x_panel
-                                    h3 Service/s you rejected:
-                                    br
-                                    table#datatable3.table.table.jambo_table
-                                        thead
-                                            tr
-                                                th ID
-                                                th NAME
-                                                th SERVICE
-                                                th AGE
-                                                th Gender
-                                                th EDUCATION
-                                                th WORK EXPERIENCE
-                                                th ACTION
-                                        tbody
-                                            each hw in hwtab
-                                                each list in listtab
-                                                    if hw.strRClientStatus == 'Rejected'
-                                                        tr
-                                                        form(method="POST" action="/request_add/decision_"+hw.intRRequestID+hw.intRRequest_No)
-                                                            input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='hwid', value=''+hw.intRHWID, style="display:none;")
-                                                            input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transid', value=''+hw.intRRequestID, style="display:none;")
-                                                            input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='reqno', value=''+hw.intRRequest_No, style="display:none;") 
-                                                            td #{hw.intRHWID}
-                                                                //- input(type="number" name= 'hwid' style='visibility:hidden;', value=''+resulta.intHWID)
-                                                            td #{hw.stFName} #{hw.strLName}
-                                                            td #{hw.strName}
-                                                            td #{hw.age}
-                                                            td #{hw.strGender}
-                                                            td 
-                                                            td 
-                                                            td
-                                                                a(href='hw_profile_'+hw.intRRequestID+hw.intRHWID)
-                                                                    button.btn.btn-primary(type='button') View Profile
-                                                                button.btn.btn-warning.btn-md(type='submit' name='btn1' value='revert') Revert
+                                br
+                                .x_title
+                                    .x_panel
+                                        h2(style="font-weight:bold") Service/s you rejected:
+                                    
+                                table#datatable3.table.table.jambo_table
+                                    thead
+                                        tr
+                                            th ID
+                                            th NAME
+                                            th SERVICE
+                                            th AGE
+                                            th Gender
+                                            th EDUCATION
+                                            th WORK EXPERIENCE
+                                            th ACTION
+                                    tbody
+                                        each hw in hwtab
+                                            each list in listtab
+                                                if hw.strRClientStatus == 'Rejected'
+                                                    tr
+                                                    form(method="POST" action="/request_add/decision_"+hw.intRRequestID+hw.intRRequest_No)
+                                                        input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='hwid', value=''+hw.intRHWID, style="display:none;")
+                                                        input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transid', value=''+hw.intRRequestID, style="display:none;")
+                                                        input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='reqno', value=''+hw.intRRequest_No, style="display:none;") 
+                                                        td #{hw.intRHWID}
+                                                            //- input(type="number" name= 'hwid' style='visibility:hidden;', value=''+resulta.intHWID)
+                                                        td #{hw.stFName} #{hw.strLName}
+                                                        td #{hw.strName}
+                                                        td #{hw.age}
+                                                        td #{hw.strGender}
+                                                        td 
+                                                        td 
+                                                        td
+                                                            a(href='hw_profile_'+hw.intRRequestID+hw.intRHWID)
+                                                                button.btn.btn-primary(type='button') View Profile
+                                                            button.btn.btn-warning.btn-md(type='submit' name='btn1' value='revert') Revert

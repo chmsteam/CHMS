@@ -1,9 +1,7 @@
 extends ../../../../templates/navbaradmin.pug
 block content
-    // page content
-    .right_col(role='main')
-        div
-            .page-title
+    section#services
+        .right_col(role='main' style="background-color:transparent")
                 .title_left
                     h5
                         | Transactions / Clients /&nbsp
@@ -12,7 +10,6 @@ block content
                     .col-md-12.col-sm-12.col-xs-12
                         .x_panel
                             .x_content
-                                br
                                 br
                                 table#datatable-responsive.table.table-striped.table-bordered.dt-responsive.nowrap(cellspacing='0', width='100%')
                                     thead

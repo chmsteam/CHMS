@@ -7,30 +7,30 @@ block content
                 .row
                     .col-md-12.col-sm-12.col-xs-12
              
-                            .x_panel
-                                .x_title
-                                    h1  
-                                        b   Replace Client
-                                    .clearfix
-                                br
-                                .x_panel(style='background-color:#f1f1f1')
-                                    h3 To be replaced
-                                    table#datatable2-responsive.table.jambo_table.table-bordered
-                                        thead
-                                            tr
-                                                th(style="text-align:center") CLIENT
-                                                th(style="text-align:center") REASON
-                                                th(style="text-align:center") STATUS
-                                                th(style="text-align:center") ACTION
-                                        tbody
-                                            each myclientreplace in myclientreplacetab
+                                .x_panel
+                                    .x_title
+                                        h1  
+                                            b   Replace Client
+                                        .clearfix
+                                    br
+                                    .x_panel(style='background-color:#f1f1f1')
+                                        h3 To be replaced:
+                                        table#datatable2-responsive.table.jambo_table.table-bordered
+                                            thead
                                                 tr
-                                                    td #{myclientreplace.strFName} #{myclientreplace.strLName}
-                                                    td #{myclientreplace.strRequestDesc}
-                                                    td #{myclientreplace.strCurStatus}
-                                                    td 
-                                                        button.btn.btn-primary.btn-md(type='button') View Profile
-                                                        button.btn.btn-danger.btn-md(type='button') Cancel
+                                                    th(style="text-align:center") CLIENT
+                                                    th(style="text-align:center") REASON
+                                                    th(style="text-align:center") STATUS
+                                                    th(style="text-align:center") ACTION
+                                            tbody
+                                                each myclientreplace in myclientreplacetab
+                                                    tr
+                                                        td #{myclientreplace.strFName} #{myclientreplace.strLName}
+                                                        td #{myclientreplace.strRequestDesc}
+                                                        td #{myclientreplace.strCurStatus}
+                                                        td 
+                                                            button.btn.btn-primary.btn-md(type='button') View Profile
+                                                            button.btn.btn-danger.btn-md(type='button') Cancel
 
                                 br  
                                 br

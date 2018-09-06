@@ -2,21 +2,19 @@
 extends ../../../templates/navbaradmin.pug
 
 block content
-    // page content
-    .right_col(role='main')
-        div
-            .page-title
+    section#services
+        .right_col(role='main' style="background-color:transparent")
                 .title_left
-                    h4 Maintenance /&nbsp
+                    h5 Maintenance /&nbsp
                         b Type of Leave
                 .row
                     .col-md-12.col-sm-12.col-xs-12
-                        .x_panel
-                            .x_content
-                                button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='.bs-add-modal-xs')
-                                    i.fa.fa-plus
-                                    | &nbspAdd
                                 .x_panel
+                                    .x_content
+                                        button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='.bs-add-modal-xs')
+                                            i.fa.fa-plus
+                                            | &nbspAdd
+                    
                                     br
                                     table#datatable.table.table-striped.table-bordered
                                         thead
@@ -55,13 +53,15 @@ block content
                 .modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
                     .modal-dialog.modal-xs
                         .modal-content
-                            .modal-header
+                            .modal-header(style="background-color:#EDEDED;")
                                 button.close(type='button', data-dismiss='modal')
                                     span(aria-hidden='true') ×
                                 h4#myModalLabel.modal-title Add a Leave
                             .modal-body
                                form#demo-form2.form-horizontal.form-label-left(method="POST" action="add_leave")
                                 .form-group
+                                    br
+                                    br
                                     label.control-label.col-md-3.col-sm-3.col-xs-12(for='leave-name')
                                         | Leave Name 
                                         span.required *
@@ -73,15 +73,16 @@ block content
                                         span.required *
                                     .col-md-6.col-sm-6.col-xs-12
                                         input#first-name.form-control.col-md-7.col-xs-12(type='int', required='required', name='leaveday')
+                                br
                                 .ln_solid
                                 .form-group.pull-right
                                     button.btn.btn-success(type='submit') Add
-                                    button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
+                                    button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
                 //- Edit
                 #edit_leave.modal.fade.bs-edit-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
                     .modal-dialog.modal-xs
                         .modal-content
-                            .modal-header
+                            .modal-header(style="background-color:#EDEDED;")
                                 button.close(type='button', data-dismiss='modal')
                                     span(aria-hidden='true') ×
                                 h4#myModalLabel.modal-title Edit Leave
@@ -89,6 +90,8 @@ block content
                                 form#demo-form2.form-horizontal.form-label-left(method="POST" action="edit_leave")
                                     .form-group
                                         .col-md-6.col-sm-6.col-xs-12
+                                            br
+                                            br
                                             input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='leaveID' style="display:none;")                          
                                     .form-group
                                         label.control-label.col-md-3.col-sm-3.col-xs-12
@@ -102,8 +105,8 @@ block content
                                             span.required *
                                         .col-md-6.col-sm-6.col-xs-12
                                             input.form-control.col-md-7.col-xs-12(type='number', id='_day', required='required', name='leaveday')    
+                                    br
                                     .ln_solid
                                     .form-group.pull-right
                                         button.btn.btn-success(type='submit') Update
-                                        button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
-            // /page content
+                                        button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
