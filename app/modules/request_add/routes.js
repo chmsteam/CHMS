@@ -309,7 +309,7 @@ function findcreatedlist2(req, res){
   db.query("SELECT * FROM tbltransaction WHERE intTRequestID=?",[req.body.transid], function (err, results) {
     console.log(err);
     if (!results[0]){
-      db2.query(`INSERT INTO tbltransaction VALUES ('${req.body.transid}', '${req.session.user}', '${req.body.reqdate}', '${req.body.dep}', '${req.body.datedep}', '${req.body.timedep}', '', '', NULL, NULL, '','','${req.body.invnum}')`, function(err){
+      db2.query(`INSERT INTO tbltransaction VALUES ('${req.body.transid}', '${req.session.user}', '${req.body.reqdate}', '${req.body.dep}', '${req.body.datedep}', '${req.body.timedep}', '', '', NULL, NULL, '','','${req.body.invnum}', '')`, function(err){
         console.log(err);
         res.redirect('/request_add/contract_'+req.body.transid,flog, findcreatedlist,rendercontract)
       })  
