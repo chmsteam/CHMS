@@ -217,24 +217,34 @@ html(lang='en')
                 txtf.value= '';
             }
             else{
-            txtf.value = txt1.value + ', ' + txt2.value + ', ' + txt3.value + ', ' + txt4.value;                     
+              txtf.value = txt1.value + ', ' + txt2.value + ', ' + txt3.value + ', ' + txt4.value;                     
             }
-
+   
         }
-        //- function dis(){
-        //-     var txt1 = document.getElementById("_1");
-        //-     var txt2 = document.getElementById("_2");
-        //-     var txt3 = document.getElementById("_3");
-        //-     var txt4 = document.getElementById("_4");
-        //-     var txtf = document.getElementById("txtf");       
+        function dis(){
+            var txt1 = document.getElementById("_1");
+            var txt2 = document.getElementById("_2");
+            var txt3 = document.getElementById("_3");
+            var txt4 = document.getElementById("_4");
+            var txtf = document.getElementById("txtf");       
 
-        //-     if((txt1.value && txt2.value && txt3.value && txt4.value) == ''){
-        //-         document.getElementById("chb").disabled = true;
-        //-     }
-        //-     else if ((txt1.value)=='1'){
-        //-         document.getElementById("chb").disabled = false;
-        //-     }
-        //- }
+            if((txt1.value && txt2.value && txt3.value && txt4.value) == ''){
+                document.getElementById("chb").disabled = true;
+            }
+            else if ((txt1.value)=='1'){
+                document.getElementById("chb").disabled = false;
+            }
+        }
+
+    script.
+        $('#accept').click(function() {
+            if ($('#submitbtn').is(':disabled')) {
+                $('#submitbtn').removeAttr('disabled');
+            } else {
+                $('#submitbtn').attr('disabled', 'disabled');
+            }
+        }); 
+
 
         //- function pls(){
         //-     swal({
@@ -331,19 +341,3 @@ html(lang='en')
         //- function myFunction() {
         //-     swal('hi');
         //- }
-            if((txt1.value && txt2.value && txt3.value && txt4.value) == ''){
-                document.getElementById("chb").disabled = true;
-            }
-            else if ((txt1.value)=='1'){
-                document.getElementById("chb").disabled = false;
-            }
-        }
-
-    script.
-        $('#accept').click(function() {
-            if ($('#submitbtn').is(':disabled')) {
-                $('#submitbtn').removeAttr('disabled');
-            } else {
-                $('#submitbtn').attr('disabled', 'disabled');
-            }
-        }); 
