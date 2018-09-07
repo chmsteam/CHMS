@@ -2,22 +2,20 @@
 extends ../../../templates/navbaradmin.pug
 
 block content
-    // page content
-    .right_col(role='main')
-        div
-            .page-title
+    section#services
+        .right_col(role='main' style="background-color:transparent")
                 .title_left
                     h5
                         | Maintenance /&nbsp
                         b Incident Report
                 .row
                     .col-md-12.col-sm-12.col-xs-12
-                        .x_panel
-                            .x_content
-                                button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='.bs-add-modal-xs')
-                                    i.fa.fa-plus
-                                    | &nbspAdd
                                 .x_panel
+                                    .x_content
+                                        button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='.bs-add-modal-xs')
+                                            i.fa.fa-plus
+                                            | &nbspAdd
+                                
                                     br
                                     table#datatable.table.table-striped.table-bordered
                                         thead
@@ -58,13 +56,15 @@ block content
                 .modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
                     .modal-dialog.modal-xs
                         .modal-content
-                            .modal-header
+                            .modal-header(style="background-color:#EDEDED;")
                                 button.close(type='button', data-dismiss='modal')
                                     span(aria-hidden='true') ×
                                 h4#myModalLabel.modal-title Add an Incident Report
                             .modal-body
                                form#demo-form2.form-horizontal.form-label-left(method="POST" action="add_incidentreport")
                                 .form-group
+                                    br
+                                    br
                                     label.control-label.col-md-3.col-sm-3.col-xs-12(for='incident-name')
                                         | Incident Name 
                                         span.required *
@@ -74,17 +74,18 @@ block content
                                     label.control-label.col-md-3.col-sm-3.col-xs-12
                                         | Description
                                         span.required *
-                                    .col-md-9.col-sm-9.col-xs-12
+                                    .col-md-6.col-sm-6.col-xs-12
                                         textarea.form-control(rows='3', placeholder='Add a description...' ,name='incidentdesc')
+                                br
                                 .ln_solid
                                 .form-group.pull-right
                                     button.btn.btn-success(type='submit') Add
-                                    button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
+                                    button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
                 //- Edit
                 .modal.fade.bs-edit-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
                     .modal-dialog.modal-xs
                         .modal-content
-                            .modal-header
+                            .modal-header(style="background-color:#EDEDED;")
                                 button.close(type='button', data-dismiss='modal')
                                     span(aria-hidden='true') ×
                                 h4#myModalLabel.modal-title Edit Incident Report
@@ -92,6 +93,8 @@ block content
                                 form#demo-form2.form-horizontal.form-label-left(method="POST" action="edit_incidentreport")
                                     .form-group
                                         .col-md-6.col-sm-6.col-xs-12
+                                            br
+                                            br
                                             input.form-control.col-md-7.col-xs-12(type='text', id='txt11', required='required', name='incidentID' style="display:none;")                          
                                     .form-group
                                         label.control-label.col-md-3.col-sm-3.col-xs-12
@@ -103,15 +106,13 @@ block content
                                         label.control-label.col-md-3.col-sm-3.col-xs-12
                                             | Description
                                             span.required *
-                                        .col-md-9.col-sm-9.col-xs-12
+                                        .col-md-6.col-sm-6.col-xs-12
                                             textarea.form-control(rows='3', id='txt3', name='incidentdesc')
+                                    br
                                     .ln_solid
                                     .form-group.pull-right
                                         button.btn.btn-success(type='submit') Update
-                                        button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
-
-            // /page content
-
+                                        button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
 
         //- for update
         script(type='text/javascript').

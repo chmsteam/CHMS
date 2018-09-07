@@ -1,116 +1,128 @@
 extends ../../../templates/navbarclient.pug
 
 block content
-    .right_col(role='main')
-        .page-title
-            .row
-                .col-md-12.col-sm-12.col-xs-12
-                    .x_panel
-                        .x_panel
-                            .x_title
-                                h1  Report Household Worker 
-                                .clearfix
-                            h3 Reported Household Workers
-                            table#datatable2-responsive.table.table-striped.table-bordered
-                                thead
-                                    tr
-                                        th NAME
-                                        th Incident Report
-                                        th STATUS
-                                        th ACTION
-                                tbody
-                                    each reported in reportedtab
-                                        tr
-                                            td #{reported.RFName} #{reported.RLName}
-                                            td #{reported.strName}
-                                            td #{reported.strReportStatus}
-                                            td
-                                                button.btn.btn-primary.btn-md(type='button') View
-                                                if reported.strReportStatus == ''
-                                                    button.btn.btn-danger.btn-md(type='button') Cancel
-                                                else if reported.strReportStatus == 'Acknowledged'
-                                                    button.btn.btn-info.btn-md(type='button') View Action Taken
-                                                    button.btn.btn-danger.btn-md(type='button') Hide
-                            br  
-                            br
-
-                            h3 Current Household Workers
-                            table#datatable-responsive.table.table-striped.table-bordered
-                                thead
-                                    tr
-                                        th NAME
-                                        th SERVICE
-                                        th STATUS
-                                        th ACTION
-                                tbody
-                                    each currenthw in currenthwtab
-                                        tr
-                                            //- td #{currenthw.}
-                                            td #{currenthw.strFName} #{currenthw.strLName}
-                                            td #{currenthw.strName}
-                                            td #{currenthw.strCurStatus}
-                                            td
-                                                a(href='/request_irclient/profile_hw_'+currenthw.intHWID)
-                                                    button.btn.btn-info(type='button')
-                                                        |View Profile
-                                                if currenthw.strCurStatus == 'Current'
-                                                    button.btn.btn-danger.btn-md(type='button' data-toggle='modal', data-target='#report',  data-hwid=currenthw.intConHWID, data-hwfname=currenthw.strFName, data-hwlname=currenthw.strLName) Report
-                                                //- else if currenthw.strCurStatus == 'To be replaced'
-                                                //-     a(href='/request_replacement/replace_list_'+currenthw.intConTransID+currenthw.intConHWID)
-                                                //-         button.btn.btn-info.btn-md(type='button') View Details
-                                                    button.btn.btn-danger.btn-md(type='button') Cancel
-                                                    
-    
-    //- ---- modals
-    #report.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
-        .modal-dialog.modal-sm
-            form.form-horizontal(method='POST' action='/request_irclient/ir_client')
-                .modal-content
-                    .modal-header
-                        button.close(type='button', data-dismiss='modal')
-                            span(aria-hidden='true') ×
-                        h4#myModalLabel.modal-title Report Household Worker
-                            p#hwname 
-                    .modal-body
-                        input.form-control(id='thedate' type='date', name='daterep' style='display:none;')
-                        input.form-control(id='_id' type='text', name='recipentid' style='display:none;')
-                        .row
-                            .col-md-12
-                                .form-group
-                                    b Choose Type of Incident
-                                    select.form-control(name='ir')
-                                        each ir in irtab
-                                            option(value=''+ir.intID) #{ir.strName}
-                        .row
-                            .col-md-12
-                                .form-group
-                                    |Reason:
-                                    textarea.form-control.AddMessage(rows='10' name='reason')
-                    .modal-footer
-                        button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Submit
-
-    //- scripts
-    script.
-        function time(){
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth()+1; //January is 0!
-            var yyyy = today.getFullYear();
-            var hh = today.getHours();
-            var min = today.getMinutes();
-            var sec = today.getSeconds();
-            var x= document.getElementById("thedate");
-            
-            if(dd<10) {
-                dd = '0'+dd
-            } 
-
-            if(mm<10) {
-                mm = '0'+mm
-            } 
-
-            today = yyyy + '-' + mm + '-' + dd ;
-            //- document.write(today);
-           document.getElementById("thedate").value=today;
-        }
+    section#services
+        .right_col.wow.fadeInDown(role='main' style="background-color:transparent;")
+            .page-title
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
+                     
+                                .x_panel
+                                    .x_title
+                                        h1  
+                                            b   Report Household Worker 
+                                        .clearfix
+                                    br
+                                    .x_panel(style='background-color:#f1f1f1')
+                                        h3 Household Worker's to be reported:
+                                        table#datatable2-responsive.table.jambo_table.table-bordered
+                                            thead
+                                                tr
+                                                    th NAME
+                                                    th Incident Report
+                                                    th STATUS
+                                                    th ACTION
+                                            tbody
+                                                each reported in reportedtab
+                                                    tr
+                                                        td #{reported.RFName} #{reported.RLName}
+                                                        td #{reported.strName}
+                                                        td #{reported.strReportStatus}
+                                                        td
+                                                            button.btn.btn-primary.btn-md(type='button') View
+                                                            if reported.strReportStatus == ''
+                                                                button.btn.btn-danger.btn-md(type='button') Cancel
+                                                            else if reported.strReportStatus == 'Acknowledged'
+                                                                button.btn.btn-info.btn-md(type='button') View Action Taken
+                                                                button.btn.btn-danger.btn-md(type='button') Hide
+                                br  
+                                br
+                                .x_panel
+                                    h3 Current Household Workers
+                                    br
+                                    table#datatable-responsive.table.jambo_table.table-bordered
+                                        thead
+                                            tr
+                                                th NAME
+                                                th SERVICE
+                                                th STATUS
+                                                th ACTION
+                                        tbody
+                                            each currenthw in currenthwtab
+                                                tr
+                                                    //- td #{currenthw.}
+                                                    td #{currenthw.strFName} #{currenthw.strLName}
+                                                    td #{currenthw.strName}
+                                                    td #{currenthw.strCurStatus}
+                                                    td
+                                                        a(href='/request_irclient/profile_hw_'+currenthw.intHWID)
+                                                            button.btn.btn-info(type='button')
+                                                                |View Profile
+                                                        if currenthw.strCurStatus == 'Current'
+                                                            button.btn.btn-danger.btn-md(type='button' data-toggle='modal', data-target='#report',  data-hwid=currenthw.intConHWID, data-hwfname=currenthw.strFName, data-hwlname=currenthw.strLName) Report
+                                                        //- else if currenthw.strCurStatus == 'To be replaced'
+                                                        //-     a(href='/request_replacement/replace_list_'+currenthw.intConTransID+currenthw.intConHWID)
+                                                        //-         button.btn.btn-info.btn-md(type='button') View Details
+                                                            button.btn.btn-danger.btn-md(type='button') Cancel
+                                                        
         
+        //- ---- modals
+        #report.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog.modal-md
+                form.form-horizontal(method='POST' action='/request_irclient/ir_client')
+                    .modal-content
+                        .modal-header(style="background-color:#2A3F54; color:white")
+                            button.close(type='button', data-dismiss='modal')
+                                span(aria-hidden='true') ×
+                            h4#myModalLabel.modal-title(align='center')(style='color:white')  Report Household Worker
+                                    p(style="text-align:center; font-weight:bold; font-size:28px")#hwname 
+                        .modal-body
+                            input.form-control(id='thedate' type='date', name='daterep' style='display:none;')
+                            input.form-control(id='_id' type='text', name='recipentid' style='display:none;')
+                            .row
+                                br
+                                .col-md-1
+                                    .form-group
+                                        | &nbsp
+                                .col-md-5
+                                    .form-group
+                                        | Choose Type of Incident
+                                        select.form-control(name='ir')
+                                            each ir in irtab
+                                                option(value=''+ir.intID) #{ir.strName}
+                            .row
+                                .col-md-1
+                                    .form-group
+                                        | &nbsp
+                                .col-md-10
+                                    .form-group
+                                        |Reason:
+                                        textarea.form-control.AddMessage(rows='7' name='reason')
+                        .modal-footer
+                            button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Submit
+
+        //- scripts
+        script.
+            function time(){
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; //January is 0!
+                var yyyy = today.getFullYear();
+                var hh = today.getHours();
+                var min = today.getMinutes();
+                var sec = today.getSeconds();
+                var x= document.getElementById("thedate");
+                
+                if(dd<10) {
+                    dd = '0'+dd
+                } 
+
+                if(mm<10) {
+                    mm = '0'+mm
+                } 
+
+                today = yyyy + '-' + mm + '-' + dd ;
+                //- document.write(today);
+               document.getElementById("thedate").value=today;
+            }
+            

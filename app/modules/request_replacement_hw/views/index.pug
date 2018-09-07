@@ -1,101 +1,105 @@
 extends ../../../templates/navbarhw.pug
 
 block content
-    .right_col(role='main')
-        .page-title
-            .row
-                .col-md-12.col-sm-12.col-xs-12
-                    .x_panel
-                        .x_panel
-                            .x_title
-                                h1  Replace Client
-                                .clearfix
-                            br
-                            h3 On Process
-                            table#datatable2-responsive.table.table-striped.table-bordered
-                                thead
-                                    tr
-                                        th(style="text-align:center") CLIENT
-                                        th(style="text-align:center") REASON
-                                        th(style="text-align:center") STATUS
-                                        th(style="text-align:center") ACTION
-                                tbody
-                                    each myclientreplace in myclientreplacetab
-                                        tr
-                                            td #{myclientreplace.strFName} #{myclientreplace.strLName}
-                                            td #{myclientreplace.strRequestDesc}
-                                            td #{myclientreplace.strCurStatus}
-                                            td 
-                                                button.btn.btn-primary.btn-md(type='button') View Profile
-                                                button.btn.btn-danger.btn-md(type='button') Cancel
+    section#services
+        .right_col.wow.fadeInDown(role='main' style="background-color:transparent;")
+            .page-title
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
+             
+                                .x_panel
+                                    .x_title
+                                        h1  
+                                            b   Replace Client
+                                        .clearfix
+                                    br
+                                    .x_panel(style='background-color:#f1f1f1')
+                                        h3 To be replaced:
+                                        table#datatable2-responsive.table.jambo_table.table-bordered
+                                            thead
+                                                tr
+                                                    th(style="text-align:center") CLIENT
+                                                    th(style="text-align:center") REASON
+                                                    th(style="text-align:center") STATUS
+                                                    th(style="text-align:center") ACTION
+                                            tbody
+                                                each myclientreplace in myclientreplacetab
+                                                    tr
+                                                        td #{myclientreplace.strFName} #{myclientreplace.strLName}
+                                                        td #{myclientreplace.strRequestDesc}
+                                                        td #{myclientreplace.strCurStatus}
+                                                        td 
+                                                            button.btn.btn-primary.btn-md(type='button') View Profile
+                                                            button.btn.btn-danger.btn-md(type='button') Cancel
 
-
-                            .x_panel
-                                h3 Current Client
-                                table#datatable2-responsive.table.table-striped.table-bordered
-                                    thead
-                                        tr
-                                            th(style="text-align:center") CLIENT
-                                            th(style="text-align:center") STATUS
-                                            th(style="text-align:center") ACTION
-                                    tbody
-                                        each myclient in myclienttab
+                                br  
+                                br
+                                .x_panel
+                                    h3 Current Client
+                                    table#datatable2-responsive.table.jambo_table.table-bordered
+                                        thead
                                             tr
-                                                td #{myclient.strFName} #{myclient.strLName}
-                                                td #{myclient.strCurStatus}
-                                                td
-                                                    button.btn.btn-primary.btn-md(type='button') View Profile
-                                                    button.btn.btn-danger.btn-md(type='button' data-toggle='modal' data-target='#replacementofclient' data-id=myclient.intTClientID, data-hwid=myclient.intConHWID, data-clfname=myclient.strFName, data-cllname=myclient.strLName) Replace
+                                                th(style="text-align:center") CLIENT
+                                                th(style="text-align:center") STATUS
+                                                th(style="text-align:center") ACTION
+                                        tbody
+                                            each myclient in myclienttab
+                                                tr
+                                                    td #{myclient.strFName} #{myclient.strLName}
+                                                    td #{myclient.strCurStatus}
+                                                    td
+                                                        button.btn.btn-primary.btn-md(type='button') View Profile
+                                                        button.btn.btn-danger.btn-md(type='button' data-toggle='modal' data-target='#replacementofclient' data-id=myclient.intTClientID, data-hwid=myclient.intConHWID, data-clfname=myclient.strFName, data-cllname=myclient.strLName) Replace
 
-    #replacementofclient.modal.fade.bs-example-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
-        .modal-dialog.modal-xs
-            form.form-horizontal(method='POST' action='/request_replacement_hw/replace')
-                .modal-content
-                    .modal-header
-                        button.close(type='button', data-dismiss='modal')
-                            span(aria-hidden='true') ×
-                        h4#myModalLabel.modal-title Replace Client
-                            p#hwname 
-                    .modal-body
-                        .row
-                            .col-md-6
-                                .form-group
-                                    //- | Date Needed
-                                    input.form-control(id='thedate2' type='date', name='dateneed' style='display:none;' )
+        #replacementofclient.modal.fade.bs-example-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog.modal-xs
+                form.form-horizontal(method='POST' action='/request_replacement_hw/replace')
+                    .modal-content
+                        .modal-header
+                            button.close(type='button', data-dismiss='modal')
+                                span(aria-hidden='true') ×
+                            h4#myModalLabel.modal-title Replace Client
+                                p#hwname 
+                        .modal-body
+                            .row
+                                .col-md-6
+                                    .form-group
+                                        //- | Date Needed
+                                        input.form-control(id='thedate2' type='date', name='dateneed' style='display:none;' )
 
-                                    input.form-control(id='thedate' type='date', name='reqdate' style='display:none;')
-                                    input.form-control(id='id' type='text', name='id' style='display:none;')
-                                    input.form-control(id='hwid' type='text', name='hwid' style='display:none;')
-                        
-                        .row
-                            .col-md-10
-                                .form-group
-                                    |Reason:
-                                    textarea.form-control.AddMessage(rows='10' name='reqdesc')
-                    .modal-footer
-                        button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Send to Admin
-    script.
-        function time(){
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth()+1; //January is 0!
-            var yyyy = today.getFullYear();
-            var hh = today.getHours();
-            var min = today.getMinutes();
-            var sec = today.getSeconds();
-            var x= document.getElementById("thedate");
+                                        input.form-control(id='thedate' type='date', name='reqdate' style='display:none;')
+                                        input.form-control(id='id' type='text', name='id' style='display:none;')
+                                        input.form-control(id='hwid' type='text', name='hwid' style='display:none;')
+                            
+                            .row
+                                .col-md-10
+                                    .form-group
+                                        |Reason:
+                                        textarea.form-control.AddMessage(rows='10' name='reqdesc')
+                        .modal-footer
+                            button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Send to Admin
+        script.
+            function time(){
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; //January is 0!
+                var yyyy = today.getFullYear();
+                var hh = today.getHours();
+                var min = today.getMinutes();
+                var sec = today.getSeconds();
+                var x= document.getElementById("thedate");
+                
+                if(dd<10) {
+                    dd = '0'+dd
+                } 
+
+                if(mm<10) {
+                    mm = '0'+mm
+                } 
+
+                today = yyyy + '-' + mm + '-' + dd ;
+                //- document.write(today);
+               document.getElementById("thedate").value=today;
+               document.getElementById("thedate2").value=today;
+            }
             
-            if(dd<10) {
-                dd = '0'+dd
-            } 
-
-            if(mm<10) {
-                mm = '0'+mm
-            } 
-
-            today = yyyy + '-' + mm + '-' + dd ;
-            //- document.write(today);
-           document.getElementById("thedate").value=today;
-           document.getElementById("thedate2").value=today;
-        }
-        

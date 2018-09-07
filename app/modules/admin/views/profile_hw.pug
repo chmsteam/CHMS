@@ -29,11 +29,11 @@ block content
                                                 | &nbsp Update Picture
                                             br
                                             each hw1 in hw1tab
-                                                if  hw1.strStatus == 'Deployed'
+                                                if  hw1.stat == 'Deployed'
                                                     button.btn.btn-danger(type='button') 
                                                         i.fa.fa-exclamation-circle
                                                         | &nbsp Ban
-                                                else if hw1.strStatus =='Banned'
+                                                else if hw1.stat =='Banned'
                                                     button.btn.btn-warning(type='button') 
                                                         i.fa.fa-mail-reply
                                                         Reinstate

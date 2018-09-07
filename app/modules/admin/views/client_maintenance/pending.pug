@@ -1,9 +1,7 @@
 extends ../../../../templates/navbaradmin.pug
 block content
-    // page content
-    .right_col(role='main')
-        div
-            .page-title
+    section#services
+        .right_col(role='main' style="background-color:transparent")
                 .title_left
                     h5
                         | Transactions / Clients /&nbsp
@@ -16,7 +14,6 @@ block content
                                 //-     button.btn.btn-success.btn-lg(type='button')
                                 //-         i.fa.fa-plus
                                 //-         | &nbspAdd
-                                br
                                 br
                                 table#datatable-responsive.table.table-striped.table-bordered.dt-responsive.nowrap(cellspacing='0', width='100%')
                                     thead
@@ -73,7 +70,7 @@ block content
                         span(aria-hidden='true') ×
                     h4#myModalLabel.modal-title Requirements
                 .modal-body
-                    form#myform.form-horizontal.form-label-left(method="POST" action="tr_approve_client")
+                    form#myform.form-horizontal.form-label-left(method="POST" action="/admin/tr_approve_client")
                         //- input#_req(type="text", name="" onClick='etreq();')
                         input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='clientID' style="display:none;")
                         br

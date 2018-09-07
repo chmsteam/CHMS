@@ -1343,7 +1343,7 @@ and (min-width : 551px){
 /*-------------------------------------------------*/
 
 .contact {
-    background: url(/assets/fame/images/parallax/contact_img.jpg);
+    background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url(/assets/fame/images/map.png);
     background-size: cover;
     background-position: center;
     background-attachment: fixed;

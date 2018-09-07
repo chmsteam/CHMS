@@ -1,397 +1,406 @@
 extends ../../../templates/navbarclient.pug
 block content
-    .right_col(role='main')
-        div
-            .clearfix
-            .row
-                .col-md-12
-                    .x_panel
+    section#services
+        .right_col(role='main' style="background-color:transparent;")
+            .page-title
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
                         .x_panel
-                            .x_title
-                                //- each list in listtab
-                                p(style="font-size:30px;") Replacement List:
-                                .clearfix
-                            br
-                            h2 Household Worker to be replaced:
-                            table.table.jambo_table.bulk_action
-                                thead
-                                    tr
-                                        th NAME
-                                        th SERVICE
-                                        th REPLACEMENT LEFT
-                                        th STATUS
-                                        th ACTION
-                                tbody
-                                    each currenthwtobereplaced in currenthwtobereplacedtab
-                                        tr 
-                                            //- td #{currenthwtobereplaced.}
-                                            td #{currenthwtobereplaced.strFName} #{currenthwtobereplaced.strLName}
-                                            td #{currenthwtobereplaced.strName}
-                                            td #{currenthwtobereplaced.intConReplacementLeft}
-                                            td #{currenthwtobereplaced.strCurStatus}
-                                            td
-                                                button.btn.btn-primary.btn-md(type='button') View Profile
-                                                button.btn.btn-danger.btn-md(type='button') Cancel
-                            br         
-                            br
-                            each list in listtab
-                                each item in itemtab
-                                    if list.strRequestStatus == 'Draft' && item.itemnum == 0
-                                        button.btn.btn-success.btn-lg(type='button' data-toggle="modal" data-target="#setattritbutes")
-                                            i.fa.fa-plus
-                                            | &nbsp Set Attributes
-                                    else if list.strRequestStatus == 'Draft' && item.itemnum == 1
-                            each count in counttab
-                                each list in listtab
-                                    each oldhwservice in oldhwservicetab
-                                        if (list.strRequestStatus == 'Draft' && count.count != 0 && list.strRequestType =='Replacement')
-                                            //- a(href='/request_replacement/submit_request_'+list.intRequestID+ oldhwservice.intHWID)
-                                            form(action="/request_replacement/submit_request_"+list.intRequestID+ oldhwservice.intHWID, method="post")
-                                                button.btn.pull-right.btn-success.btn-lg(type='submit')
-                                                    i.fa.fa-envelope
-                                                    |   Submit List
-                                        if (list.strRequestStatus == 'Draft' && count.count != 0 && list.strRequestType =='Replace Client')
-                                            //- a(href='/request_replacement/submit_request_replaceclient_'+list.intRequestID+ oldhwservice.intHWID)
-                                            form(action="/request_replacement/submit_replaceclient_"+list.intRequestID+ oldhwservice.intHWID, method="post")
-                                                button.btn.pull-right.btn-success.btn-lg(type='submit')
-                                                    i.fa.fa-envelope
-                                                    |   Submit List
-                                        else if list.strRequestStatus == 'On process' || list.strRequestStatus == 'Pending'
-                            br
-                            h2 Services :
-                            table.table.jambo_table.bulk_action
-                                thead
-                                    tr
-                                        th Number
-                                        th Service
-                                        th Quantity
-                                        th Approved
-                                        th Reject
-                                        th Action
-                                tbody
-                                each item in itemtab
-                                    each list in listtab  
-                                        tr
-                                            td #{item.intIRequest_No}
-                                            td #{item.strName}
-                                            td #{item.intIQuantity}
-                                            td 
-                                            td 
-                                            td
-                                                button.btn.btn-info.btn-xs(type='button' data-toggle="modal" data-target="#view_item"
-                                                                        , data-requestno=item.intIRequest_No, data-servicename=item.strName, data-quantity=item.intIQuantity, data-gender=item.strIRequestGender, data-educ=item.strIRequestEduc, data-exp=item.intIRequestExp
-                                                                        , data-sal= item.deciRequestSalary, data-age=item.intIRequestAge1 , data-ages=item.intIRequestAge2) View
-                                                    if list.strRequestStatus == 'Draft'
-                                                        button.btn.btn-warning.btn-xs(type='button' data-toggle="modal" data-target="#edit_item") Edit
-                                                        button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item") Delete
-                                                    else if list.strRequestStatus == 'On process'
-                                                        each oldhwservice in oldhwservicetab
-                                                            a(href='result_'+item.intIRequestID+item.intIRequest_No+oldhwservice.intHWID)
-                                                                button.btn.btn-primary.btn-xs(type='button') View Result
-                                                            button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item") Delete
-                            each list in listtab
-                                if list.strRequestStatus == 'Pending' || list.strRequestStatus == 'Approved' || list.strRequestStatus == 'Rejected' || list.strRequestStatus == 'Finished'
-                                    each transdetails in transdetailstab
-                                        h2 Deployment Details:
-                                        table.table.jambo_table.bulk_action
-                                            thead
-                                                tr
-                                                    th Date of Deployment
-                                                    th Time of Deployment
-                                                    th Type of Deployment
-                                                    th Invoice
-                                            tbody
-                                                tr
-                                                    td #{transdetails.datDateofDeployment}
-                                                    td #{transdetails.timTimeofDeployment}
-                                                    if transdetails.intTypeofDeployment == '2'
-                                                        td Drop-off
-                                                    else if transdetails.intTypeofDeployment == '3'
-                                                        td Pick-up
-                                                    td
-                                                        each currenthwtobereplaced in currenthwtobereplacedtab
-                                                            a(href="/request_replacement/invoice_"+transdetails.intTRequestID+currenthwtobereplaced.intConHWID)
-                                                                button.btn.btn-primary.btn-xs(type='button') View
-                    .x_panel    
-                        h3 Approved:
-                        .clearfix
-                            each hw in hwtab
-                                .col-md-4.col-sm-4.col-xs-12.profile_details
-                                    form#demo-form2.form-horizontal.form-label-left(method="POST" action="/request_add/decision_"+hw.intRRequest_No)
-                                        input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='hwid', value=''+hw.intRHWID, style="display:none;")
-                                        input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transid', value=''+hw.intRRequestID, style="display:none;")                              
-                                        .well.profile_view
-                                            .col-sm-12
-                                                h4.brief
-                                                    i #{hw.strName}
-                                                .left.col-xs-7
-                                                    h2 #{hw.strFName} #{hw.strLName}
-                                                    p
-                                                        | Age:
-                                                        strong  #{hw.age} 
-                                                    ul.list-unstyled
-                                                        li
-                                                            | Gender: 
-                                                            b #{hw.strGender}
-                                                        li
-                                                            | Working Experience: 
-                                                            b 
-                                                        li
-                                                            | Education: 
-                                                            b 
-                                                .right.col-xs-5.text-center
-                                                    img.img-circle.img-responsive(src='../images/'+hw.strPicture, alt='', style='width:100px; height:100px')
-                                                .col-xs-12.col-sm-8.emphasis
-                                                    a(href='/request_add/hw_profile_'+hw.intRRequestID+hw.intRHWID)
-                                                        button.btn.btn-primary(type='button')
-                                                            i.fa.fa-user  
-                                                            |  View Profile
-                        .form-group.pull-right
-                            .col-md-12.col-sm-9.col-xs-12.pull-right
+                            .x_panel
+                                .x_title
+                                    h1
+                                        b  Replacement List 
+                                .x_title
+                                    .clearfix
+                                    .x_panel(style='background-color:#f1f1f1')
+                                        h3(style="font-size:18px;")(align='center')
+                                            b   &nbsp&nbsp&nbsp&nbsp&nbspDisclaimer !!!
+                                                br
+                                            | Set the attributes of the Household Worker that you want to be replace.
                                 br
-                                a(href='/request_replacement')
-                                    button.btn.btn-primary.btn-lg(type='button') Back
-                                each noofapprove in noofapprovetab
+                                h2 Household Worker to be replaced:
+                                table.table.jambo_table.table-bordered
+                                    thead
+                                        tr
+                                            th NAME
+                                            th SERVICE
+                                            th REPLACEMENT LEFT
+                                            th STATUS
+                                            th ACTION
+                                    tbody
+                                        each currenthwtobereplaced in currenthwtobereplacedtab
+                                            tr 
+                                                //- td #{currenthwtobereplaced.}
+                                                td #{currenthwtobereplaced.strFName} #{currenthwtobereplaced.strLName}
+                                                td #{currenthwtobereplaced.strName}
+                                                td #{currenthwtobereplaced.intConReplacementLeft}
+                                                td #{currenthwtobereplaced.strCurStatus}
+                                                td
+                                                    button.btn.btn-primary.btn-md(type='button') View Profile
+                                                    button.btn.btn-danger.btn-md(type='button') Cancel
+                    .col-md-12.col-sm-12.col-xs-12
+                        .x_panel
+                            .x_panel             
+                                each list in listtab
+                                    each item in itemtab
+                                        if list.strRequestStatus == 'Draft' && item.itemnum == 0
+                                            button.btn.btn-success.btn-lg(type='button' data-toggle="modal" data-target="#setattritbutes")
+                                                i.fa.fa-plus
+                                                | &nbsp Set Attributes
+                                        else if list.strRequestStatus == 'Draft' && item.itemnum == 1
+                                each count in counttab
                                     each list in listtab
-                                        if noofapprove.NOOFapprove > 0 && list.strRequestStatus=='On process'
-                                            button.btn.btn-success.btn-lg(type='button' data-toggle="modal" data-target="#deployment") Proceed to Deployment
-                                        else
-    // Small modal
-    #myListCancel1.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
-        .modal-dialog.modal-sm
-            .modal-content
-                .modal-header
-                    button.close(type='button', data-dismiss='modal', aria-label='Close')
-                        span(aria-hidden='true') ×
-                    h4#myModalLabel2.modal-title
-                .modal-body
-                    h3
-                        center
-                            b Warning!!!
-                    p
-                        center
-                            big Are you sure you want to cancel request in this household worker?
-                .modal-footer
-                    button.btn.btn-primary(type='button', data-dismiss='modal') No
-                    button.btn.btn-primary(type='button') Yes
-    // /modals
+                                        each oldhwservice in oldhwservicetab
+                                            if (list.strRequestStatus == 'Draft' && count.count != 0 && list.strRequestType =='Replacement')
+                                                //- a(href='/request_replacement/submit_request_'+list.intRequestID+ oldhwservice.intHWID)
+                                                form(action="/request_replacement/submit_request_"+list.intRequestID+ oldhwservice.intHWID, method="post")
+                                                    button.btn.pull-right.btn-success.btn-lg(type='submit')
+                                                        i.fa.fa-envelope
+                                                        |   Submit List
+                                            if (list.strRequestStatus == 'Draft' && count.count != 0 && list.strRequestType =='Replace Client')
+                                                //- a(href='/request_replacement/submit_request_replaceclient_'+list.intRequestID+ oldhwservice.intHWID)
+                                                form(action="/request_replacement/submit_replaceclient_"+list.intRequestID+ oldhwservice.intHWID, method="post")
+                                                    button.btn.pull-right.btn-success.btn-lg(type='submit')
+                                                        i.fa.fa-envelope
+                                                        |   Submit List
+                                            else if list.strRequestStatus == 'On process' || list.strRequestStatus == 'Pending'
 
-    // Set attributes Modal
-    #setattritbutes.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
-        .modal-dialog(role='document')
-            each list in listtab
-                each oldhwservice in oldhwservicetab
-                    form(method='POST', action='/request_replacement/set_attributes_'+list.intRequestID+oldhwservice.intHWID).form-horizontal
-                        .modal-content
-                            .modal-header(style="background-color:#2A3F54; color:white")
-                                button.close(type='button', data-dismiss='modal')
-                                    span(aria-hidden='true') ×
-                                h3#myModalLabel.modal-title 
-                                    p(style="text-align:center; font-weight:bold") Set Attributes
-                            .modal-body
-                                .row
-                                    .col-md-6
-                                        .form-group
-                                            b Service:
-                                            select#skil(name='service').form-control
-                                                each oldhwservice in oldhwservicetab
-                                                    option(value=''+ oldhwservice.intServiceID) #{oldhwservice.strName}
-                                .row
-                                    .col-md-3
-                                        .form-group
-                                            b No. of Person Needed
-                                            span.required
-                                            input.form-control(type='number' name='quantity' min='1', max='10' value='1' required readonly)
-                                    br
-                                    .col-md-4
-                                        .form-group
-                                            b Gender:
-                                            span.required
-                                            select(name='gender').form-control
-                                                option(value='Any') Any
-                                                option(value='Male') Male
-                                                option(value='Female') Female
-                                    .form-group 
-                                        b &nbsp&nbsp&nbspAge (From - To):
-                                        .row
-                                            .col-md-2
-                                                .form-group
-                                                    input.form-control(type='number' name='age1' min='18', max='100' value='18' required)
-                                            .col-md-2
-                                                .form-group
-                                                    input.form-control(type='number' name='age2' min='18', max='100' value='18' required)  
-                                    
-                                .row
-                                    .col-md-6
-                                        .form-group
-                                            b Highest Educational Attainment:
-                                            span.required
-                                            select.form-control(name='educ')
-                                                option(value='Elementary') Elementary
-                                                option(value='High School') High School
-                                                option(value='College') College
-                                                option(value='Vocational') Vocational
-                                    .col-md-4
-                                        .form-group
-                                            b Work Experience (at least):
-                                            span.required
-                                            input#first-name.form-control.col-md-7.col-xs-12(type='number' name='workexp' value='0')
-                                .row
-                                    .col-md-4
-                                        .form-group
-                                            b Willing to work for a monthly salary of (minimum):&nbspP
-                                            span.required
-                                            input#first-name.form-control.col-md-7.col-xs-12(type='number' name='salary' value='0')     
-                                    .col-md-8
-                                        .x_panel
-                                            .x_title
-                                                h5
-                                                    b Recommended Salary
-                                                .clearfix
-                                            .x_content
-                                                .row
-                                                    .col-md-4
-                                                        p(style="font-weight:bold") Housemaids
-                                                    .col-md-8
-                                                        |Php 6000 (Negotiable)
-                                                .row
-                                                    .col-md-4
-                                                        p(style="font-weight:bold") Yaya
-                                                    .col-md-8
-                                                        |Php 6000 (Negotiable)
-                                                .row
-                                                    .col-md-4
-                                                        p(style="font-weight:bold") Cook
-                                                    .col-md-8
-                                                        |Php 8000 (Negotiable)
-                                                .row
-                                                    .col-md-4
-                                                        p(style="font-weight:bold") Driver
-                                                    .col-md-8
-                                                        |Php 13k (Stay-in)
-                            .modal-footer
-                                button.btn.btn-primary.btn-md(type='button'  data-dismiss='modal') Cancel
-                                button.btn.btn-success.btn-md(type='submit') Submit
+                                br
+                                h2 Requested Service/s :
+                                table.table.jambo_table.table-bordered
+                                    thead
+                                        tr
+                                            th Number
+                                            th Service
+                                            th Quantity
+                                            th Results
+                                            th Action
+                                    tbody
+                                    each item in itemtab
+                                        each list in listtab  
+                                            tr
+                                                td #{item.intIRequest_No}
+                                                td #{item.strName}
+                                                td #{item.intIQuantity}
+                                                td #{item.forapproval}
+                                                td
+                                                    button.btn.btn-info.btn-xs(type='button' data-toggle="modal" data-target="#view_item"
+                                                                            , data-requestno=item.intIRequest_No, data-servicename=item.strName, data-quantity=item.intIQuantity, data-gender=item.strIRequestGender, data-educ=item.strIRequestEduc, data-exp=item.intIRequestExp
+                                                                            , data-sal= item.deciRequestSalary, data-age=item.intIRequestAge1 , data-ages=item.intIRequestAge2) View
+                                                        if list.strRequestStatus == 'Draft'
+                                                            button.btn.btn-warning.btn-xs(type='button' data-toggle="modal" data-target="#edit_item") Edit
+                                                            button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item") Delete
+                                                        else if list.strRequestStatus == 'On process'
+                                                            each oldhwservice in oldhwservicetab
+                                                                a(href='result_'+item.intIRequestID+item.intIRequest_No+oldhwservice.intHWID)
+                                                                    button.btn.btn-primary.btn-xs(type='button') View Result
+                                                                button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item") Delete
+                                each list in listtab
+                                    if list.strRequestStatus == 'Pending' || list.strRequestStatus == 'Approved' || list.strRequestStatus == 'Rejected' || list.strRequestStatus == 'Finished'
+                                        each transdetails in transdetailstab
+                                            h2 Deployment Details:
+                                            table.table.jambo_table.bulk_action
+                                                thead
+                                                    tr
+                                                        th Date of Deployment
+                                                        th Time of Deployment
+                                                        th Type of Deployment
+                                                        th Invoice
+                                                tbody
+                                                    tr
+                                                        td #{transdetails.datDateofDeployment}
+                                                        td #{transdetails.timTimeofDeployment}
+                                                        if transdetails.intTypeofDeployment == '2'
+                                                            td Drop-off
+                                                        else if transdetails.intTypeofDeployment == '3'
+                                                            td Pick-up
+                                                        td
+                                                            each currenthwtobereplaced in currenthwtobereplacedtab
+                                                                a(href="/request_replacement/invoice_"+transdetails.intTRequestID+currenthwtobereplaced.intConHWID)
+                                                                    button.btn.btn-primary.btn-xs(type='button') View
+
+                    .col-md-12.col-sm-12.col-xs-12
+                        .x_panel    
+                            .x_panel
+                                h3 Approved Service/s:
+                                .clearfix
+                                    each hw in hwtab
+                                        .col-md-4.col-sm-4.col-xs-12.profile_details
+                                            form#demo-form2.form-horizontal.form-label-left(method="POST" action="/request_add/decision_"+hw.intRRequest_No)
+                                                input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='hwid', value=''+hw.intRHWID, style="display:none;")
+                                                input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transid', value=''+hw.intRRequestID, style="display:none;")                              
+                                                .well.profile_view
+                                                    .col-sm-12
+                                                        h4.brief
+                                                            i #{hw.strName}
+                                                        .left.col-xs-7
+                                                            h2 #{hw.strFName} #{hw.strLName}
+                                                            p
+                                                                | Age:
+                                                                strong  #{hw.age} 
+                                                            ul.list-unstyled
+                                                                li
+                                                                    | Gender: 
+                                                                    b #{hw.strGender}
+                                                                li
+                                                                    | Working Experience: 
+                                                                    b 
+                                                                li
+                                                                    | Education: 
+                                                                    b 
+                                                        .right.col-xs-5.text-center
+                                                            img.img-circle.img-responsive(src='../images/'+hw.strPicture, alt='', style='width:100px; height:100px')
+                                                        .col-xs-12.col-sm-8.emphasis
+                                                            a(href='/request_add/hw_profile_'+hw.intRRequestID+hw.intRHWID)
+                                                                button.btn.btn-primary(type='button')
+                                                                    i.fa.fa-user  
+                                                                    |  View Profile
+                                .form-group.pull-right
+                                    .col-md-12.col-sm-9.col-xs-12.pull-right
+                                        br
+                                        a(href='/request_replacement')
+                                            button.btn.btn-primary.btn-lg(type='button') Back
+                                        each noofapprove in noofapprovetab
+                                            each list in listtab
+                                                if noofapprove.NOOFapprove > 0 && list.strRequestStatus=='On process'
+                                                    button.btn.btn-success.btn-lg(type='button' data-toggle="modal" data-target="#deployment") Proceed to Deployment
+                                                else
+        // Small modal
+        #myListCancel1.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog.modal-sm
+                .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal', aria-label='Close')
+                            span(aria-hidden='true') ×
+                        h4#myModalLabel2.modal-title
+                    .modal-body
+                        h3
+                            center
+                                b Warning!!!
+                        p
+                            center
+                                big Are you sure you want to cancel request in this household worker?
+                    .modal-footer
+                        button.btn.btn-primary(type='button', data-dismiss='modal') No
+                        button.btn.btn-primary(type='button') Yes
+        // /modals
+
+        // Set attributes Modal
+        #setattritbutes.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog(role='document')
+                each list in listtab
+                    each oldhwservice in oldhwservicetab
+                        form(method='POST', action='/request_replacement/set_attributes_'+list.intRequestID+oldhwservice.intHWID).form-horizontal
+                            .modal-content
+                                .modal-header(style="background-color:#2A3F54; color:white")
+                                    button.close(type='button', data-dismiss='modal')
+                                        span(aria-hidden='true') ×
+                                    h3#myModalLabel.modal-title 
+                                        p(style="text-align:center; font-weight:bold") Set Attributes
+                                .modal-body
+                                    .row
+                                        .col-md-6
+                                            .form-group
+                                                b Service:
+                                                select#skil(name='service').form-control
+                                                    each oldhwservice in oldhwservicetab
+                                                        option(value=''+ oldhwservice.intServiceID) #{oldhwservice.strName}
+                                    .row
+                                        .col-md-3
+                                            .form-group
+                                                b No. of Person Needed
+                                                span.required
+                                                input.form-control(type='number' name='quantity' min='1', max='10' value='1' required readonly)
+                                        br
+                                        .col-md-4
+                                            .form-group
+                                                b Gender:
+                                                span.required
+                                                select(name='gender').form-control
+                                                    option(value='Any') Any
+                                                    option(value='Male') Male
+                                                    option(value='Female') Female
+                                        .form-group 
+                                            b &nbsp&nbsp&nbspAge (From - To):
+                                            .row
+                                                .col-md-2
+                                                    .form-group
+                                                        input.form-control(type='number' name='age1' min='18', max='100' value='18' required)
+                                                .col-md-2
+                                                    .form-group
+                                                        input.form-control(type='number' name='age2' min='18', max='100' value='18' required)  
+                                        
+                                    .row
+                                        .col-md-6
+                                            .form-group
+                                                b Highest Educational Attainment:
+                                                span.required
+                                                select.form-control(name='educ')
+                                                    option(value='Elementary') Elementary
+                                                    option(value='High School') High School
+                                                    option(value='College') College
+                                                    option(value='Vocational') Vocational
+                                        .col-md-4
+                                            .form-group
+                                                b Work Experience (at least):
+                                                span.required
+                                                input#first-name.form-control.col-md-7.col-xs-12(type='number' name='workexp' value='0')
+                                    .row
+                                        .col-md-4
+                                            .form-group
+                                                b Willing to work for a monthly salary of (minimum):&nbspP
+                                                span.required
+                                                input#first-name.form-control.col-md-7.col-xs-12(type='number' name='salary' value='0')     
+                                        .col-md-8
+                                            .x_panel
+                                                .x_title
+                                                    h5
+                                                        b Recommended Salary
+                                                    .clearfix
+                                                .x_content
+                                                    .row
+                                                        .col-md-4
+                                                            p(style="font-weight:bold") Housemaids
+                                                        .col-md-8
+                                                            |Php 6000 (Negotiable)
+                                                    .row
+                                                        .col-md-4
+                                                            p(style="font-weight:bold") Yaya
+                                                        .col-md-8
+                                                            |Php 6000 (Negotiable)
+                                                    .row
+                                                        .col-md-4
+                                                            p(style="font-weight:bold") Cook
+                                                        .col-md-8
+                                                            |Php 8000 (Negotiable)
+                                                    .row
+                                                        .col-md-4
+                                                            p(style="font-weight:bold") Driver
+                                                        .col-md-8
+                                                            |Php 13k (Stay-in)
+                                .modal-footer
+                                    button.btn.btn-primary.btn-md(type='button'  data-dismiss='modal') Cancel
+                                    button.btn.btn-success.btn-md(type='submit') Submit
 
 
 
-    #view_item.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
-        .modal-dialog(role='document')
-            .modal-content
-                .modal-header(style="background-color:#2A3F54; color:white")
-                    button.close(type='button', data-dismiss='modal')
-                        span(aria-hidden='true') ×
-                    h4.modal-title#a
-                .modal-body
-                    .row
-                        .col-md-3
-                            .form-group
-                                | No. of Person Needed
-                                span.required
-                                input.form-control#c(type='number' readonly)
-                        br
-                        .col-md-4
-                            .form-group
-                                | Gender:
-                                span.required
-                                input.form-control#d(type='text' readonly)
-                        .form-group &nbsp&nbsp&nbspAge (From - To):
-                            .row
-                                .col-md-2
-                                    .form-group
-                                        input.form-control#age1(type='number' readonly)
-                                .col-md-2
-                                    .form-group
-                                        input.form-control#age2(type='number' readonly)  
-                        
-                    .row
-                        .col-md-6
-                            .form-group
-                                | Highest Educational Attainment:
-                                span.required
-                                input.form-control#e(type='text' readonly)
-                        .col-md-4
-                            .form-group
-                                | Work Experience (at least):
-                                span.required
-                                input#f.form-control.col-md-7.col-xs-12(type='number' name='workexp' readonly)
-                    .row
-                        .col-md-7
-                            .form-group
-                                | Willing to work for a monthly salary of (minimum): PHP
-                                span.required
-                                input.form-control.col-md-7.col-xs-12#sal(type='number' name='salary' readonly)     
-
-                .modal-footer
-                    button.btn.btn-primary.btn-md(type='button'  data-dismiss='modal') Close
-        
-        // Deployment Modal
-    #deployment.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-hidden='true')
-        .modal-dialog.modal-lg
-            .modal-content
-                .modal-header
-                    button.close(type='button', data-dismiss='modal')
-                        span(aria-hidden='true') ×
-                    h4
-                        b Deployment Details
-                .modal-body
-                    form.form-horizontal.form-label-center(method="POST" action='/request_replacement/contract') 
-                        each list in listtab
-                            input(id = 'idtrans' type='text', required='required', name='transid', value=''+list.intRequestID, style='display:none;')  
-                            input(id='thedate' type='date', name='reqdate' style='display:none;')
-                            input(id='invo' type='text', name='invnum' style='display:none;')
-                            each oldhwservice in oldhwservicetab
-                                input(id='' type='text', name='hwid' value=''+oldhwservice.intHWID style='display:none;')
+        #view_item.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog(role='document')
+                .modal-content
+                    .modal-header(style="background-color:#2A3F54; color:white")
+                        button.close(type='button', data-dismiss='modal')
+                            span(aria-hidden='true') ×
+                        h4.modal-title#a
+                    .modal-body
+                        .row
+                            .col-md-3
+                                .form-group
+                                    | No. of Person Needed
+                                    span.required
+                                    input.form-control#c(type='number' readonly)
                             br
-                            .form-group
-                                label.control-label.col-md-5 Type of Deployment
-                                .col-md-3
-                                    select.form-control(name='dep')
-                                        each fee in feetab
-                                            option(value=''+fee.intID) #{fee.strName} &nbsp&nbsp  + P #{fee.fltFee}
-                            .form-group
-                                label.control-label.col-md-5
-                                    | Preferred Date For Deployment
-                                    span.required *
-                                .col-md-3
-                                    input.form-control.has-feedback-left(type='date', name='datedep')
-                                    span.fa.fa-calendar-o.form-control-feedback.left(aria-hidden='true')
-                                    span#inputSuccess2Status4.sr-only (success)
-                            .form-group
-                                label.control-label.col-md-5
-                                    | Preferred Time For Deployment
-                                    span.required *
-                                .col-md-3
-                                    .input-group.date
-                                        input.form-control(type='time' name='timedep')
-                                        span.input-group-addon
-                                            span.glyphicon.glyphicon-time 
-                            .form-group.pull-right
-                                button.btn.btn-success.btn-lg(type='submit',  onCLick='time();') Next
-        script.
-            function time(){
-                var today = new Date();
-                var dd = today.getDate();
-                var mm = today.getMonth()+1; //January is 0!
-                var yyyy = today.getFullYear();
-                var hh = today.getHours();
-                var min = today.getMinutes();
-                var sec = today.getSeconds();
-                var x= document.getElementById("thedate");
-                var y=document.getElementById("idtrans").value
-                var inv;
-                
-                if(dd<10) {
-                    dd = '0'+dd
-                } 
+                            .col-md-4
+                                .form-group
+                                    | Gender:
+                                    span.required
+                                    input.form-control#d(type='text' readonly)
+                            .form-group &nbsp&nbsp&nbspAge (From - To):
+                                .row
+                                    .col-md-2
+                                        .form-group
+                                            input.form-control#age1(type='number' readonly)
+                                    .col-md-2
+                                        .form-group
+                                            input.form-control#age2(type='number' readonly)  
+                            
+                        .row
+                            .col-md-6
+                                .form-group
+                                    | Highest Educational Attainment:
+                                    span.required
+                                    input.form-control#e(type='text' readonly)
+                            .col-md-4
+                                .form-group
+                                    | Work Experience (at least):
+                                    span.required
+                                    input#f.form-control.col-md-7.col-xs-12(type='number' name='workexp' readonly)
+                        .row
+                            .col-md-7
+                                .form-group
+                                    | Willing to work for a monthly salary of (minimum): PHP
+                                    span.required
+                                    input.form-control.col-md-7.col-xs-12#sal(type='number' name='salary' readonly)     
 
-                if(mm<10) {
-                    mm = '0'+mm
-                } 
+                    .modal-footer
+                        button.btn.btn-primary.btn-md(type='button'  data-dismiss='modal') Close
+            
+            // Deployment Modal
+        #deployment.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog.modal-lg
+                .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal')
+                            span(aria-hidden='true') ×
+                        h4
+                            b Deployment Details
+                    .modal-body
+                        form.form-horizontal.form-label-center(method="POST" action='/request_replacement/contract') 
+                            each list in listtab
+                                input(id = 'idtrans' type='text', required='required', name='transid', value=''+list.intRequestID, style='display:none;')  
+                                input(id='thedate' type='date', name='reqdate' style='display:none;')
+                                input(id='invo' type='text', name='invnum' style='display:none;')
+                                each oldhwservice in oldhwservicetab
+                                    input(id='' type='text', name='hwid' value=''+oldhwservice.intHWID style='display:none;')
+                                br
+                                .form-group
+                                    label.control-label.col-md-5 Type of Deployment
+                                    .col-md-3
+                                        select.form-control(name='dep')
+                                            each fee in feetab
+                                                option(value=''+fee.intID) #{fee.strName} &nbsp&nbsp  + P #{fee.fltFee}
+                                .form-group
+                                    label.control-label.col-md-5
+                                        | Preferred Date For Deployment
+                                        span.required *
+                                    .col-md-3
+                                        input.form-control.has-feedback-left(type='date', name='datedep')
+                                        span.fa.fa-calendar-o.form-control-feedback.left(aria-hidden='true')
+                                        span#inputSuccess2Status4.sr-only (success)
+                                .form-group
+                                    label.control-label.col-md-5
+                                        | Preferred Time For Deployment
+                                        span.required *
+                                    .col-md-3
+                                        .input-group.date
+                                            input.form-control(type='time' name='timedep')
+                                            span.input-group-addon
+                                                span.glyphicon.glyphicon-time 
+                                .form-group.pull-right
+                                    button.btn.btn-success.btn-lg(type='submit',  onCLick='time();') Next
+            script.
+                function time(){
+                    var today = new Date();
+                    var dd = today.getDate();
+                    var mm = today.getMonth()+1; //January is 0!
+                    var yyyy = today.getFullYear();
+                    var hh = today.getHours();
+                    var min = today.getMinutes();
+                    var sec = today.getSeconds();
+                    var x= document.getElementById("thedate");
+                    var y=document.getElementById("idtrans").value
+                    var inv;
+                    
+                    if(dd<10) {
+                        dd = '0'+dd
+                    } 
 
-                today = yyyy + '-' + mm + '-' + dd ;
-                //- document.write(today);
-            document.getElementById("thedate").value=today;
-            inv = yyyy+y;
-            document.getElementById("invo").value=inv;
-            }
+                    if(mm<10) {
+                        mm = '0'+mm
+                    } 
+
+                    today = yyyy + '-' + mm + '-' + dd ;
+                    //- document.write(today);
+                document.getElementById("thedate").value=today;
+                inv = yyyy+y;
+                document.getElementById("invo").value=inv;
+                }

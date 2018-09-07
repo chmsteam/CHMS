@@ -26,6 +26,8 @@ html(lang='en')
     link(href='/admin/gentelella/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css', rel='stylesheet')
     // Switchery
     link(href='/admin/gentelella/vendors/switchery/dist/switchery.min.css', rel='stylesheet')
+    // jQuery custom content scroller
+    link(href="/admin/gentelella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet")
     //preloader
     link(href='/assets4/css/style1.css', rel='stylesheet')
     // iCheck
@@ -35,11 +37,11 @@ html(lang='en')
 
 
   //- #preloader
-  body.nav-md.footer_fixed
+  body.nav-md
     each user in usertab
       .container.body
         .main_container
-          .col-md-3.left_col
+          .col-md-3.left_col.menu_fixed
             .left_col.scroll-view
               .navbar.nav_title(style='border: 0;')
                 | &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
@@ -192,7 +194,7 @@ html(lang='en')
                         li
                           a(href='/admin/utilities_fees') Fees
                         li
-                          a(href='/admin/utilities_freereplacement') Free Replacement
+                          a(href='/admin/utilities_freereplacement') Replacement
                     li
                       a
                         i.fa.fa-pie-chart
@@ -223,12 +225,6 @@ html(lang='en')
                     ul.dropdown-menu.dropdown-usermenu.pull-right
                       li
                         a(href='javascript:;')  Profile
-                      li
-                        a(href='javascript:;')
-                          span.badge.bg-red.pull-right 50%
-                          span Settings
-                      li
-                        a(href='javascript:;') Help
                       li
                         a(href='/login')
                           i.fa.fa-sign-out.pull-right
@@ -333,10 +329,7 @@ html(lang='en')
                       window.onload = date_time('date_time');            
           block content
           // footer content
-          footer
-              .pull-right
-                  | Client And Household Worker Management System
-              .clearfix
+          
           // /footer content
           
           // jQuery
@@ -365,6 +358,8 @@ html(lang='en')
           script(src='/admin/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.js')
           // jQuery Tags Input
           script(src='/admin/gentelella/vendors/jquery.tagsinput/src/jquery.tagsinput.js')
+          // jQuery custom content scroller
+          script(src="/admin/gentelella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js")
 
 
           //preloader

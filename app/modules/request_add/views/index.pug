@@ -1,80 +1,82 @@
 extends ../../../templates/navbarclient.pug
 block content
     section#services
-        .right_col(role='main' style="background-color:transparent;")
+        .right_col.wow.fadeInDown(role='main' style="background-color:transparent;")
             .page-title
-                .title_left
-                    h1
-                        b
-                .clearfix
                 .row
                     .col-md-12.col-sm-12.col-xs-12
-                        .x_panel
                             .x_panel
                                 .x_title
                                     h1
                                         b  Add Household Worker 
+                                .x_title
                                     .clearfix
-                                    .x_panel(style='background-color:#f1f1f1')
-                                        b  Disclaimer !!!
-                                            br
-                                            |   To add household worker, you must create first a list of your service/s that you want to request.
-                                br
+                                    .x_panel.alert-success(style='background-color:')
+                                        h3(style="font-size:18px;")(align='center')
+                                            b   &nbsp&nbsp&nbsp&nbsp&nbspDisclaimer !!!
+                                                br
+                                                br
+                                            li
+                                                |   To add household worker, you must create first a list of your service/s that you want to request.
+                                            li
+                                                |   Click the view button of the list you created to see the services that you requested.
+                                    br
                                 
                                 .x_content
-                                    center
-                                        //- a(href='/request_add/createlist_services')
-                                        button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='#Add')
-                                            i.fa.fa-plus
-                                            | &nbspCreate New List
+                                    br
+                                    //- a(href='/request_add/createlist_services')
+                                    button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='#Add')
+                                        i.fa.fa-plus
+                                        | &nbspCreate New List
+                                    br
                                     br
                                     each list in listtab
                                         if list.strRequestStatus != 'Finished'
                                                             .col-md-4.col-sm-4.col-xs-12.profile_details
-                                                                    .well.profile_view
-                                                                        .col-sm-7(align='right')
-                                                                        |   #{list.datRequestDate}
-                                                                        .col-sm-12
-                                                                            .right.col-sm-12
-                                                                            h3.brief    
-                                                                                b   #{list.strRequestName}
-                                                                            .left.col-sm-12
-                                                                                br
-                                                                                ul.list-unstyled
-                                                                                    li
-                                                                                        strong List no: 
-                                                                                        |  #{list.intRequestID}
-                                                                                    li
-                                                                                        strong Date needed: 
-                                                                                        |  #{list.datRequestNeedDate}
-                                                                                    li
-                                                                                        strong Status: 
-                                                                                        |  #{list.strRequestStatus}
-                                                                        .col-xs-12.bottom.text-center
-                                                                            if list.strRequestStatus == 'Draft'
-                                                                                a(href='/request_add/mylist_'+list.intRequestID)
-                                                                                    button.btn.btn-primary(type='button') View
-                                                                                button.btn.btn-danger(type='button', data-toggle='modal', data-target='#delete_draftlist', data-id=list.intRequestID) Delete
-                                                                            else if list.strRequestStatus =='On process'
-                                                                                a(href='/request_add/mylist_'+list.intRequestID)
-                                                                                    button.btn.btn-primary(type='button') View
-                                                                                button.btn.btn-danger(type='button', data-toggle='modal', data-target='#D') Delete
-                                                                            else if list.strRequestStatus == 'Pending' 
-                                                                                a(href='/request_add/invoice_'+list.intRequestID)
-                                                                                    button.btn.btn-info(type='button') View Invoice
-                                                                                a(href='/request_add/mylist_'+list.intRequestID)
-                                                                                    button.btn.btn-primary(type='button') View
-                                                                                button.btn.btn-danger(type='button', data-toggle='modal', data-target='#Delete3') Cancel
-                                                                            else if list.strRequestStatus == 'Approved' 
-                                                                                a(href='/request_add/invoice_'+list.intRequestID)
-                                                                                    button.btn.btn-info(type='button') View Invoice
-                                                                                a(href='/request_add/mylist_'+list.intRequestID)
-                                                                                    button.btn.btn-primary(type='button') View
-                                                                                button.btn.btn-danger(type='button', data-toggle='modal', data-target='#Delete3') Cancel
-                                                                            else if list.strRequestStatus == 'Rejected'
-                                                                                a(href='/request_add/mylist_'+list.intRequestID)
-                                                                                    button.btn.btn-primary(type='button') View
-                                                                                button.btn.btn-danger(type='button', data-toggle='modal', data-target='#D') Delete
+                                                                .well.profile_view
+                                                                    .col-sm-7(align='right')
+                                                                    |   #{list.datRequestDate}
+                                                                    .col-sm-12
+                                                                        .right.col-sm-12
+                                                                        h3.brief    
+                                                                            b   " #{list.strRequestName} "
+                                                                        .left.col-sm-12
+                                                                            br
+                                                                            ul.list-unstyled
+                                                                                li
+                                                                                    strong List no: 
+                                                                                    |  #{list.intRequestID}
+                                                                                li
+                                                                                    strong Date needed: 
+                                                                                    |  #{list.datRequestNeedDate}
+                                                                                li
+                                                                                    strong Status: 
+                                                                                    |  #{list.strRequestStatus}
+                                                                    .col-xs-12.bottom.text-center
+                                                                        if list.strRequestStatus == 'Draft'
+                                                                            a(href='/request_add/mylist_'+list.intRequestID)
+                                                                                button.btn.btn-primary(type='button') View
+                                                                            button.btn.btn-danger(type='button', data-toggle='modal', data-target='#delete_draftlist', data-id=list.intRequestID) Delete
+                                                                        else if list.strRequestStatus =='On process'
+                                                                            a(href='/request_add/mylist_'+list.intRequestID)
+                                                                                button.btn.btn-primary(type='button') View
+                                                                            button.btn.btn-danger(type='button', data-toggle='modal', data-target='#D') Delete
+                                                                        else if list.strRequestStatus == 'Pending' 
+                                                                            a(href='/request_add/invoice_'+list.intRequestID)
+                                                                                button.btn.btn-info(type='button') View Invoice
+                                                                            a(href='/request_add/mylist_'+list.intRequestID)
+                                                                                button.btn.btn-primary(type='button') View
+                                                                            button.btn.btn-danger(type='button', data-toggle='modal', data-target='#Delete3') Cancel
+                                                                        else if list.strRequestStatus == 'Approved' 
+                                                                            a(href='/request_add/invoice_'+list.intRequestID)
+                                                                                button.btn.btn-info(type='button') View Invoice
+                                                                            a(href='/request_add/mylist_'+list.intRequestID)
+                                                                                button.btn.btn-primary(type='button') View
+                                                                            button.btn.btn-danger(type='button', data-toggle='modal', data-target='#Delete3') Cancel
+                                                                        else if list.strRequestStatus == 'Rejected'
+                                                                            a(href='/request_add/mylist_'+list.intRequestID)
+                                                                                button.btn.btn-primary(type='button') View
+                                                                            button.btn.btn-danger(type='button', data-toggle='modal', data-target='#D') Delete
 
                                                                             //- a(href='/request_add/invoice_'+list.intRequestID)
                                                                             //-     button.btn.btn-info(type='button') View Invoice
@@ -84,13 +86,13 @@ block content
 
 
     //- modal
-    #delete_draftlist.modal.fade.bs-example-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
-        .modal-dialog.modal-xs
+    #delete_draftlist.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-sm
             .modal-content
-                .modal-header
+                .modal-header(style="background-color:#2A3F54; color:white")
                     button.close(type='button', data-dismiss='modal')
                         span(aria-hidden='true') ×
-                    h4#myModalLabel.modal-title Delete List
+                    h4#myModalLabel.modal-title(style="text-align:center; font-weight:bold") Delete List
                 .modal-body
                     .x_panel
                         .x_content
@@ -100,10 +102,10 @@ block content
                                     center 
                                         h3 Are you sure you want to delete
                                             |
-                                            p "sad" list?
+                                            p this list?
                                 .form-group.pull-right
                                     .col-md-12.col-sm-9.col-xs-12.pull-right
-                                        button.btn.btn-danger.btn-lg(type='submit' name='btn1' value='delete') Delete
+                                        button.btn.btn-primary(type='submit' name='btn1' value='delete') Delete
     #Add.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
         .modal-dialog.modal-md
             form.form-horizontal(method='POST' action='/request_add/createlist_services/createlist')
@@ -111,8 +113,8 @@ block content
                     .modal-header(style="background-color:#2A3F54; color:white")
                         button.close(type='button', data-dismiss='modal')
                             span(aria-hidden='true') ×
-                        h3#myModalLabel.modal-title(align='center')(style='color:white') 
-                            p(style="text-align:center; font-weight:bold; font-size:32px") Create List
+                        h2#myModalLabel.modal-title(align='center')(style='color:white') 
+                            p(style="text-align:center; font-weight:bold; font-size:28px") Create List
                     br
                     .modal-body
                         .row
@@ -121,7 +123,7 @@ block content
                             .row
                                 .col-md-5
                                     .form-group
-                                        b   List Name
+                                        b   Name of List
                                         input.form-control(type='text', name='reqname', required)
                                         input.form-control(id='thedate' type='date', name='reqdate' style='display:none;')
                                 .col-md-5

@@ -1,13 +1,14 @@
 extends ../../../templates/navbarclient.pug
 block content
-    .right_col(role='main')
-        .page-title
-            .row
-                .col-md-12.col-sm-12.col-xs-12
-                    .x_panel
+    section#services
+        .right_col.wow.fadeInDown(role='main' style="background-color:transparent;")
+            .page-title
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
                         .x_panel
                             .x_title
-                                h1 Household Worker List
+                                h1 
+                                    b   Household Worker List
                                 .clearfix
                             br
                             br
@@ -87,12 +88,12 @@ block content
                 dd = '0'+dd
             } 
 
-            if(mm<10) {
-                mm = '0'+mm
-            } 
+                if(mm<10) {
+                    mm = '0'+mm
+                } 
 
-            today = yyyy + '-' + mm + '-' + dd ;
-            //- document.write(today);
-           document.getElementById("thedate").value=today;
-        }
-        
+                today = yyyy + '-' + mm + '-' + dd ;
+                //- document.write(today);
+               document.getElementById("thedate").value=today;
+            }
+            

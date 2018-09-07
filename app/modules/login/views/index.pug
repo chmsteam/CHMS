@@ -22,7 +22,7 @@ head
     link(href='/login/css/style.css', rel='stylesheet')
     link(href='/login/fame/css/responsive.css', rel='stylesheet')
     // Colors CSS
-    link(rel='stylesheet', type='text/css', href='/login/fame/css/color/green.css')
+    link(rel='stylesheet', type='text/css', href='/login/fame/css/color/dark.css')
     // Colors CSS
     link(rel='stylesheet', type='text/css', href='/login/fame/css/color/green.css', title='green')
     link(rel='stylesheet', type='text/css', href='/login/fame/css/color/light-red.css', title='light-red')
@@ -30,20 +30,24 @@ head
     link(rel='stylesheet', type='text/css', href='/login/fame/css/color/light-blue.css', title='light-blue')
     link(rel='stylesheet', type='text/css', href='/login/fame/css/color/yellow.css', title='yellow')
     link(rel='stylesheet', type='text/css', href='/login/fame/css/color/light-green.css', title='light-green')
+    link(rel='stylesheet', type='text/css', href='/login/fame/css/color/dark.css', title='dark')
     // Custom Fonts
     link(href='http://fonts.googleapis.com/css?family=Kaushan+Script', rel='stylesheet', type='text/css')
     // Modernizer js
     script(src='js/modernizr.custom.js')
+    //preloader
+    link(href='/assets4/css/style2.css', rel='stylesheet')
     //if lt IE 9
         script(src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
         script(src='https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js')
+    #preloader
     body
         nav.navbar.navbar-default.navbar-fixed-top
             .container
                 // Brand and toggle get grouped for better mobile display
                 .navbar-header.page-scroll
                     a.navbar-brand.page-scroll
-                        img(src='', width='height=')
+                        img(src='/admin/gentelella/production/images/mega.png')(style='width:150px; height:58px; padding-bottom:20px')
                         b
                     a.navbar-brand.page-scroll(href='#page-top')
                 // Collect the nav links, forms, and other content for toggling
@@ -60,7 +64,7 @@ head
                         li
                             a.page-scroll(href='#contact') Contact
                         li
-                            a.page-scroll.btn.btn-primary(data-toggle='modal', data-target='#signinmodal') Log in
+                            a.page-scroll.btn(data-toggle='modal', data-target='#signinmodal') Log in
                         li
                             a.page-scroll(href='#page-top') Sign up
 
@@ -78,8 +82,8 @@ head
                         .slider-content
                             .col-md-12.text-center
                                 h1.animated1
-                                    span(style='font-size:100%')
-                                        strong Mega Pacific Employment Services
+                                    span(style='font-size:90%; color:#26B99A; font-style:')
+                                        strong  Mega Pacific Employment Services
                                 p.animated2
                                     b Be part of us!
                                     |  Sign up as...
@@ -90,7 +94,7 @@ head
 
         // Start About Us Section 2
         #about-us.about-us-section-2
-            .container
+            .container(style='background-color:white')
                 .row
                     .col-md-6
                         .skill-shortcode
@@ -99,32 +103,34 @@ head
                                 p
                                     br
                                     | &nbsp&nbsp&nbsp&nbspMega Pacific Manpower Services, is a private employment agency that recruits and employ maids 
-                                    | 							and other household worker like nanny, cook, and even driver that provide great services at home. 
-                                    | 							It was establisehd in Mandaluyong in year 2012.
-                                    | 							Its fast, reliable and convenient service rapidly 
-                                    | 							escalated it to be one
+                                    |                           and other household worker like nanny, cook, and even driver that provide great services at home. 
+                                    |                           It was establisehd in Mandaluyong in year 2012.
+                                    |                           Its fast, reliable and convenient service rapidly 
+                                    |                           escalated it to be one
                                     br
                                     |  of the top manpower services company in the country. They offer services
-                                    | 							in the field of child and elderly care, home management,and any other domestic-related works.
+                                    |                           in the field of child and elderly care, home management,and any other domestic-related works.
                     .col-md-6
                         #carousel-example-generic.carousel.slide.about-slide(data-ride='carousel')
                             // Indicators
                             ol.carousel-indicators
                                 li.active(data-target='#carousel-example-generic', data-slide-to='0')
                                 li(data-target='#carousel-example-generic', data-slide-to='1')
-                                li(data-target='#carousel-example-generic', data-slide-to='2')
                             // Wrapper for slides
                             .carousel-inner
                                 .item.active
                                     img(src='/assets/fame/images/map.png', alt='')
                                 .item
                                     img(src='/assets/fame/images/place.png', alt='')
-                                .item
-                                    img(src='/assets/fame/images/mega.png', alt='')
 
         // Start Fun Facts Section
         section#Services.contact
             .container
+                .row
+                    .col-lg-12
+                        .section-title.text-center
+                            h3 Services
+                            p.white-text
                 .row
                     .col-xs-12.col-sm-6.col-md-3
                         .counter-item
@@ -148,7 +154,7 @@ head
                             h5 Automated management system
         
         // Start Portfolio Section
-        section#portfolio.portfolio-section-1
+        section#portfolio.portfolio-section-1(style='background-color:#f1f1f1')
             .container
                 .row
                     .col-md-12
@@ -333,17 +339,17 @@ head
                                     li
                                         a(href='#')
 
-    #loader
-        .spinner
-            .dot1
-            .dot2
+    // #loader
+        // .spinner
+            // .dot1
+            // .dot2
 
     // Large modal
     #signinmodal.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-labelledby='exampleModalLongTitle', aria-hidden='true')
         .modal-dialog
             form(method='POST', ,='', action='/login')
                 .modal-content(align='center')
-                    .modal-header(style='background-color:#5BB12F')
+                    .modal-header(style='background-color:#34495E;')
                         button.close(type='button', data-dismiss='modal')
                             span(aria-hidden='true') ×
                         h3#signinmodal.modal-title
@@ -377,7 +383,8 @@ head
                         br
                         div
                             | Don't  have an account? 
-                            a(href='')  Sign up 
+                            a(href='')  
+                                b   Sign up 
                             |  here
                     .modal-footer
                         button.btn.btn-default(type='button', data-dismiss='modal') Close
@@ -400,3 +407,6 @@ script(src='/login/fame/js/jqBootstrapValidation.js')
 //- script(src='/login/fame/js/contact_me.js')
 // Custom Theme JavaScript
 script(src='/login/fame/js/script.js')
+//preloader
+script(src='/assets4/js/custom1.js')
+script(src='/assets4/lib/wow/wow.min.js')

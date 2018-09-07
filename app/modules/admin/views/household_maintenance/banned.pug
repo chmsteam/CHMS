@@ -1,8 +1,8 @@
 extends ../../../../templates/navbaradmin.pug
 
 block content
-    .right_col(role='main')
-        .page-title
+    section#services
+        .right_col(role='main' style="background-color:transparent")
             .title_left
                 h5
                     | Transactions / Household Workers /&nbsp
@@ -15,7 +15,6 @@ block content
                             //-     button.btn.btn-success.btn-lg(type='button')
                             //-         i.fa.fa-plus
                             //-         | &nbspAdd
-                            br
                             br
                             table#datatable.table.table-striped.table-bordered
                                 thead

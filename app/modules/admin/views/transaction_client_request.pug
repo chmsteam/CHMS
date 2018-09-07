@@ -1,67 +1,72 @@
 extends ../../../templates/navbaradmin.pug
 
 block content
-    .right_col(role='main')
-        .title_left
-            h5
-                | Transaction / Client / 
-                b Requests
-            .clearfix
-            .row
-                .col-md-12.col-sm-12.col-xs-12
-                    .x_panel
-                        br
-                        br
-                        table#datatable.table.table-striped.table-bordered
-                            thead
-                                tr
-                                    th(style="text-align:center") ID
-                                    th(style="text-align:center") NAME
-                                    th(style="text-align:center") REQUEST
-                                    th(style="text-align:center") DATE REQUESTED
-                                    th(style="text-align:center") DATE NEEDED
-                                    th(style="text-align:center") STATUS
-                                    th ACTION
-                            tbody
-                                each request in requesttab
-                                    tr(style="text-align:center")
-                                        td #{request.intRequestID}
-                                        td #{request.strName}
-                                        td #{request.strRequestType}
-                                        td #{request.datRequestDate}
-                                        td #{request.datRequestNeedDate}
-                                        td #{request.strRequestStatus}
-                                        td
-                                            //- .row
-                                                //- .col-md-3
-                                            form(method='POST' action='transactionrequestdecision')
-                                                input(type='number' required='required', name='transid' value=''+request.intRequestID, style='display:none;')                          
-                                                a(href='transaction_client_request_'+request.intRequestID)
-                                                    button.btn.btn-info(type='button')
-                                                        i.fa.fa-eye
-                                                        | &nbspView
-                                                if request.strRequestStatus == 'Pending'                       
-                                                    button.btn.btn-success(type='submit' name='btn1' value='approve')
-                                                        i.fa.fa-check
-                                                        | &nbspApprove
-                                                    button.btn.btn-danger(type='submit' name='btn1' value='reject')
-                                                        i.fa.fa-times
-                                                        | &nbspReject
-                                                button.btn.btn-primary(type='button' data-toggle='modal', data-target='#dec', data-desc=request.strRequestDesc) View Description
-                                                //- .col-md-5
-                                                //-     button.btn.btn-primary(data-toggle='modal', data-target='#dec', data-desc=request.strRequestDesc) View Description
+    section#services
+        .right_col(role='main' style="background-color:transparent")
+            .title_left
+                h5
+                    | Transaction / Request / 
+                    b Client
+                .clearfix
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
+                        .x_panel
+                            br
+                            br
+                            table#datatable.table.table-striped.table-bordered
+                                thead
+                                    tr
+                                        th(style="text-align:center") ID
+                                        th(style="text-align:center") NAME
+                                        th(style="text-align:center") REQUEST
+                                        th(style="text-align:center") DATE REQUESTED
+                                        th(style="text-align:center") DATE NEEDED
+                                        th(style="text-align:center") STATUS
+                                        th ACTION
+                                tbody
+                                    each request in requesttab
+                                        tr(style="text-align:center")
+                                            td #{request.intRequestID}
+                                            td #{request.strName}
+                                            if request.strRequestType =='Replace Client'
+                                                td Replacement (via Household Worker's Request)
+                                            else
+                                                td #{request.strRequestType}
 
-    #dec.modal.fade.modal-icon(tabindex='-1', role='dialog')
-        .modal-dialog(role='document')
-            .modal-content
-                .modal-header(style="background-color:#EDEDED")
-                    h2.modal-title List Description
-                        button.close(type='button', data-dismiss='modal', aria-label='Close')
-                            span(aria-hidden='true') ×
-                .modal-body
-                    .col-md-12
-                        p(style="font-size:15px")#desc
+                                            td #{request.datRequestDate}
+                                            td #{request.datRequestNeedDate}
+                                            td #{request.strRequestStatus}
+                                            td
+                                                //- .row
+                                                    //- .col-md-3
+                                                form(method='POST' action='transactionrequestdecision')
+                                                    input(type='number' required='required', name='transid' value=''+request.intRequestID, style='display:none;')                          
+                                                    a(href='transaction_client_request_'+request.intRequestID)
+                                                        button.btn.btn-info(type='button')
+                                                            i.fa.fa-eye
+                                                            | &nbspView Request
+                                                    if request.strRequestStatus == 'Pending'                       
+                                                        button.btn.btn-success(type='submit' name='btn1' value='approve')
+                                                            i.fa.fa-check
+                                                            | &nbspApprove
+                                                        button.btn.btn-danger(type='submit' name='btn1' value='reject')
+                                                            i.fa.fa-times
+                                                            | &nbspReject
+                                                    button.btn.btn-primary(type='button' data-toggle='modal', data-target='#dec', data-desc=request.strRequestDesc) View Description
+                                                    //- .col-md-5
+                                                    //-     button.btn.btn-primary(data-toggle='modal', data-target='#dec', data-desc=request.strRequestDesc) View Description
 
-                br
-                .modal-footer
-                    button.btn.btn-info(type='button', data-dismiss='modal') Close               
+        #dec.modal.fade.modal-icon(tabindex='-1', role='dialog')
+            .modal-dialog(role='document')
+                .modal-content
+                    .modal-header(style="background-color:#EDEDED")
+                        h2.modal-title List Description
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') ×
+                    .modal-body
+                        .col-md-12
+                            p(style="font-size:15px")#desc
+
+                    br
+                    .modal-footer
+                        button.btn.btn-primary(type='button', data-dismiss='modal') Close               

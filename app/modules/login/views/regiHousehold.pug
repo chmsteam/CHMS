@@ -193,7 +193,7 @@ html(lang='en')
                                                     .col-md-4
                                                         .form-group
                                                             label Date of Birth*
-                                                            input.form-control(type='date', name='bday' required)
+                                                            input.form-control(type='date', name='bday' required max="2000-09-01")
                                                     .col-md-4
                                                         .form-group
                                                             label Place of Birth*
@@ -256,7 +256,7 @@ html(lang='en')
                                                                     .item.form-group
                                                                         .col-md-12.col-sm-6.col-xs-12
                                                                             input.form-control.col-md-7.col-xs-12(type='text', name='type', value='Elementary' style='display:none;')
-                                                                            input.form-control.col-md-7.col-xs-12(id='elemname' type='text', name='elemname', value='')
+                                                                            input.form-control.col-md-7.col-xs-12(id='elemname' type='text', name='elemname', value='' required)
                                                                 td
                                                                     .item.form-group
                                                                         .col-md-12.col-sm-6.col-xs-12
