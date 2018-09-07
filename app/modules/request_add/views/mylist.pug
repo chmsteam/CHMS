@@ -395,46 +395,45 @@ block content
         
         // Deployment Modal
         #deployment.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-hidden='true')
-            .modal-dialog.modal-lg
+            .modal-dialog.modal-sm(style="width:400px;")
                 .modal-content
-                    .modal-header
-                        button.close(type='button', data-dismiss='modal')
-                            span(aria-hidden='true') ×
-                        h4
-                            b Deployment Details
-                    .modal-body
-                        form.form-horizontal.form-label-center(method="POST" action='/request_add/contract') 
+                    form.form-horizontal.form-label-center(method="POST" action='/request_add/contract')
+                        .modal-header(style="background-color:#2A3F54; color:white")
+                            button.close(type='button', data-dismiss='modal')
+                                span(aria-hidden='true') ×
+                            h4
+                                b Deployment Details
+                        .modal-body
                             each list in listtab
                                 input(id = 'idtrans' type='text', required='required', name='transid', value=''+list.intRequestID, style="display:none;")  
                                 input(id='thedate' type='date', name='reqdate' style='display:none;')
                                 input(id='invo' type='text', name='invnum' style='display:none;')
                                 br
-                                .form-group
-                                    label.control-label.col-md-5 Type of Deployment
-                                    .col-md-3
-                                        select.form-control(name='dep')
-                                            each fee in feetab
-                                                option(value=''+fee.intID) #{fee.strName} &nbsp&nbsp  + P #{fee.fltFee}
-                                .form-group
-                                    label.control-label.col-md-5
-                                        | Preferred Date For Deployment
-                                        span.required *
-                                    .col-md-3
-                                        .input-group.date
-                                            input.form-control.has-feedback-left(type='date', placeholder='First Name', aria-describedby='inputSuccess2Status4'  name='datedep' required)
-                                            span.input-group-addon
-                                                span.fa.fa-calendar
-                                .form-group
-                                    label.control-label.col-md-5
-                                        | Preferred Time For Deployment
-                                        span.required *
-                                    .col-md-3
-                                        .input-group.date
-                                            input.form-control.has-feedback-left(type='time' name='timedep' required)
-                                            span.input-group-addon
-                                                span.glyphicon.glyphicon-time
-                                .form-group.pull-right
-                                    button.btn.btn-success.btn-lg(type='submit',  onCLick='time();') Next
+                                .row
+                                    .col-md-12
+                                        .form-group
+                                            label Type of Deployment
+                                            select.form-control(name='dep')
+                                                each fee in feetab
+                                                    option(value=''+fee.intID) #{fee.strName} &nbsp&nbsp  + P #{fee.fltFee}
+                                .row
+                                    .col-md-12
+                                        .form-group
+                                            label Preferred Date For Deployment
+                                            .input-group.date
+                                                input.form-control.has-feedback-left(type='date', placeholder='First Name', aria-describedby='inputSuccess2Status4'  name='datedep' required)
+                                                span.input-group-addon
+                                                    span.fa.fa-calendar
+                                .row
+                                    .col-md-12
+                                        .form-group
+                                            label Preferred Time For Deployment
+                                            .input-group.date
+                                                input.form-control.has-feedback-left(type='time' name='timedep' required)
+                                                span.input-group-addon
+                                                    span.glyphicon.glyphicon-time
+                        .modal-footer
+                            button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Next
         script.
             function time(){
                 var today = new Date();
