@@ -10,134 +10,134 @@ block content
                         b Staff
                 .row
                     .col-md-12.col-sm-12.col-xs-12
-                        .x_panel
+                        .x_panel(style='background-color:rgba(52,152,219,.3)')
                             .x_content
                                 button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='.bs-add-modal-lg')
                                     i.fa.fa-plus
                                     | &nbspAdd
-                            table#datatable.table.table-striped.table-bordered
-                                thead
-                                    tr
-                                        th ID NO.
-                                        th NAME OF STAFF
-                                        th POSITION
-                                        th STATUS
-                                        th ACTION
-                                tbody
-                                    each item in itemtab
+                            .x_panel
+                                br
+                                table#datatable.table.table-striped.table-bordered
+                                    thead
                                         tr
-                                        
-                                            td #{item.intID}
-                                            td #{item.strName}
-                                            td #{item.strType}
-                                            td #{item.strStatus}
-                                                //- input.js-switch(type='checkbox', checked='')
-                                            td
-                                                button.btn.btn-info(type='button', data-toggle='modal', data-target='#view')
-                                                    i.fa.fa-eye
-                                                    |   View
-                                                button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit', data-id=item.intID, data-name=item.strName)
-                                                    i.fa.fa-edit
-                                                    |   Edit
-                                                //- if item.strStatus=='Registered'
-                                                //-     a(href="disable_requirement/"+item.intID)
-                                                //-         button.btn.btn-danger(type='button')
-                                                //-             i.fa.fa-toggle-off
-                                                //-             |   Block
-                                                //- else if item.strStatus=='Blocked'
-                                                //-     a(href="enable_requirement/"+item.intID)
-                                                //-         button.btn.btn-danger(type='button')
-                                                //-             i.fa.fa-toggle-on
-                                                //-             |   Enable
-                //- View
-                #view.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
-                    .modal-dialog.modal-lg
-                        .modal-content
-                            .modal-header
-                                button.close(type='button', data-dismiss='modal')
-                                    span(aria-hidden='true') ×
-                                h4#myModalLabel.modal-title
-                            .modal-body
-                //- Add
-                .modal.fade.bs-add-modal-lg(tabindex='-1', role='dialog', aria-hidden='true')
-                    .modal-dialog.modal-lg
-                        .modal-content
-                            .modal-header
-                                button.close(type='button', data-dismiss='modal')
-                                    span(aria-hidden='true') ×
-                                h4#myModalLabel.modal-title Add a Staff
-                            .modal-body
-                               form#demo-form2.form-horizontal.form-label-left(method="POST" action="add_staff")
-                                .form-group
-                                    label.control-label.col-md-3.col-sm-3.col-xs-12
-                                        | First Name 
-                                        span.required *
-                                    .col-md-6.col-sm-6.col-xs-12
-                                        input.form-control.col-md-7.col-xs-12(type='text', required='required', name='firstname')
-                                .form-group
-                                    label.control-label.col-md-3.col-sm-3.col-xs-12
-                                        | Middle Name 
-                                    .col-md-6.col-sm-6.col-xs-12
-                                        input.form-control.col-md-7.col-xs-12(type='text', name='middlename')
-                                .form-group
-                                    label.control-label.col-md-3.col-sm-3.col-xs-12
-                                        | Last Name 
-                                        span.required *
-                                    .col-md-6.col-sm-6.col-xs-12
-                                        input.form-control.col-md-7.col-xs-12(type='text', required='required', name='lastname')
-                                .form-group
-                                    label.control-label.col-md-3.col-sm-3.col-xs-12
-                                        | Email Address 
-                                        span.required *
-                                    .col-md-6.col-sm-6.col-xs-12
-                                        input.form-control.col-md-7.col-xs-12(type='email', required='required', name='email')
-                                .form-group
-                                    label.control-label.col-md-3.col-sm-3.col-xs-12
-                                        | Password
-                                        span.required *
-                                    .col-md-6.col-sm-6.col-xs-12
-                                        input.form-control.col-md-7.col-xs-12(type='password', required='required', name='password')
-                                .form-group
-                                    label.control-label.col-md-3.col-sm-3.col-xs-12 Position
-                                    .col-md-6.col-sm-6.col-xs-12
-                                            select.form-control(name='type')
-                                                option(value='Admin') Admin
-                                                //- option Staff
-                                .ln_solid
-                                .form-group
-                                    .col-md-6.col-sm-6.col-xs-12.col-md-offset-3
-                                        button.btn.btn-warning(type='reset') Reset
-                                        button.btn.btn-success(type='submit') Add
-                            .modal-footer
-                                button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
-                //- Edit
-                //- #edit.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
-                //-     .modal-dialog.modal-lg
-                //-         .modal-content
-                //-             .modal-header
-                //-                 button.close(type='button', data-dismiss='modal')
-                //-                     span(aria-hidden='true') ×
-                //-                 h4#myModalLabel.modal-title Edit Requirement
-                //-             .modal-body
-                //-                 form#demo-form2.form-horizontal.form-label-left(method="POST" action="edit_requirement")
-                //-                     .form-group
-                //-                         label.control-label.col-md-3.col-sm-3.col-xs-12
-                //-                             | ID
-                //-                             span.required *
-                //-                         .col-md-6.col-sm-6.col-xs-12
-                //-                             input.form-control.col-md-7.col-xs-12(type='number', id='_id', required='required', disabled)
-                //-                             input.form-control.col-md-7.col-xs-12(type='number', id='_id', required='required', name='requirementID' style="display:none;")                          
-                //-                     .form-group
-                //-                         label.control-label.col-md-3.col-sm-3.col-xs-12
-                //-                             | Requirement Name
-                //-                             span.required *
-                //-                         .col-md-6.col-sm-6.col-xs-12
-                //-                             input.form-control.col-md-7.col-xs-12(type='text', id='_name', required='required', name='requirementname')
-                //-                     .ln_solid
-                //-                     .form-group
-                //-                         .col-md-6.col-sm-6.col-xs-12.col-md-offset-3
-                //-                             button.btn.btn-success(type='submit') Update
-                //-                 .modal-footer
-                //-                     button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
-
-        
+                                            th ID NO.
+                                            th NAME OF STAFF
+                                            th POSITION
+                                            th STATUS
+                                            th ACTION
+                                    tbody
+                                        each item in itemtab
+                                            tr
+                                            
+                                                td #{item.intID}
+                                                td #{item.strName}
+                                                td #{item.strType}
+                                                td #{item.strStatus}
+                                                    //- input.js-switch(type='checkbox', checked='')
+                                                td
+                                                    button.btn.btn-info(type='button', data-toggle='modal', data-target='#view')
+                                                        i.fa.fa-eye
+                                                        |   View
+                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit', data-id=item.intID, data-name=item.strName)
+                                                        i.fa.fa-edit
+                                                        |   Edit
+                                                    //- if item.strStatus=='Registered'
+                                                    //-     a(href="disable_requirement/"+item.intID)
+                                                    //-         button.btn.btn-danger(type='button')
+                                                    //-             i.fa.fa-toggle-off
+                                                    //-             |   Block
+                                                    //- else if item.strStatus=='Blocked'
+                                                    //-     a(href="enable_requirement/"+item.intID)
+                                                    //-         button.btn.btn-danger(type='button')
+                                                    //-             i.fa.fa-toggle-on
+                                                    //-             |   Enable
+                    //- View
+                    #view.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
+                        .modal-dialog.modal-lg
+                            .modal-content
+                                .modal-header
+                                    button.close(type='button', data-dismiss='modal')
+                                        span(aria-hidden='true') ×
+                                    h4#myModalLabel.modal-title
+                                .modal-body
+                    //- Add
+                    .modal.fade.bs-add-modal-lg(tabindex='-1', role='dialog', aria-hidden='true')
+                        .modal-dialog.modal-lg
+                            .modal-content
+                                .modal-header
+                                    button.close(type='button', data-dismiss='modal')
+                                        span(aria-hidden='true') ×
+                                    h4#myModalLabel.modal-title Add a Staff
+                                .modal-body
+                                form#demo-form2.form-horizontal.form-label-left(method="POST" action="add_staff")
+                                    .form-group
+                                        label.control-label.col-md-3.col-sm-3.col-xs-12
+                                            | First Name 
+                                            span.required *
+                                        .col-md-6.col-sm-6.col-xs-12
+                                            input.form-control.col-md-7.col-xs-12(type='text', required='required', name='firstname')
+                                    .form-group
+                                        label.control-label.col-md-3.col-sm-3.col-xs-12
+                                            | Middle Name 
+                                        .col-md-6.col-sm-6.col-xs-12
+                                            input.form-control.col-md-7.col-xs-12(type='text', name='middlename')
+                                    .form-group
+                                        label.control-label.col-md-3.col-sm-3.col-xs-12
+                                            | Last Name 
+                                            span.required *
+                                        .col-md-6.col-sm-6.col-xs-12
+                                            input.form-control.col-md-7.col-xs-12(type='text', required='required', name='lastname')
+                                    .form-group
+                                        label.control-label.col-md-3.col-sm-3.col-xs-12
+                                            | Email Address 
+                                            span.required *
+                                        .col-md-6.col-sm-6.col-xs-12
+                                            input.form-control.col-md-7.col-xs-12(type='email', required='required', name='email')
+                                    .form-group
+                                        label.control-label.col-md-3.col-sm-3.col-xs-12
+                                            | Password
+                                            span.required *
+                                        .col-md-6.col-sm-6.col-xs-12
+                                            input.form-control.col-md-7.col-xs-12(type='password', required='required', name='password')
+                                    .form-group
+                                        label.control-label.col-md-3.col-sm-3.col-xs-12 Position
+                                        .col-md-6.col-sm-6.col-xs-12
+                                                select.form-control(name='type')
+                                                    option(value='Admin') Admin
+                                                    //- option Staff
+                                    .ln_solid
+                                    .form-group
+                                        .col-md-6.col-sm-6.col-xs-12.col-md-offset-3
+                                            button.btn.btn-warning(type='reset') Reset
+                                            button.btn.btn-success(type='submit') Add
+                                .modal-footer
+                                    button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
+                    //- Edit
+                    //- #edit.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
+                    //-     .modal-dialog.modal-lg
+                    //-         .modal-content
+                    //-             .modal-header
+                    //-                 button.close(type='button', data-dismiss='modal')
+                    //-                     span(aria-hidden='true') ×
+                    //-                 h4#myModalLabel.modal-title Edit Requirement
+                    //-             .modal-body
+                    //-                 form#demo-form2.form-horizontal.form-label-left(method="POST" action="edit_requirement")
+                    //-                     .form-group
+                    //-                         label.control-label.col-md-3.col-sm-3.col-xs-12
+                    //-                             | ID
+                    //-                             span.required *
+                    //-                         .col-md-6.col-sm-6.col-xs-12
+                    //-                             input.form-control.col-md-7.col-xs-12(type='number', id='_id', required='required', disabled)
+                    //-                             input.form-control.col-md-7.col-xs-12(type='number', id='_id', required='required', name='requirementID' style="display:none;")                          
+                    //-                     .form-group
+                    //-                         label.control-label.col-md-3.col-sm-3.col-xs-12
+                    //-                             | Requirement Name
+                    //-                             span.required *
+                    //-                         .col-md-6.col-sm-6.col-xs-12
+                    //-                             input.form-control.col-md-7.col-xs-12(type='text', id='_name', required='required', name='requirementname')
+                    //-                     .ln_solid
+                    //-                     .form-group
+                    //-                         .col-md-6.col-sm-6.col-xs-12.col-md-offset-3
+                    //-                             button.btn.btn-success(type='submit') Update
+                    //-                 .modal-footer
+                    //-                     button.btn.btn-danger(type='button', data-dismiss='modal') Cancel

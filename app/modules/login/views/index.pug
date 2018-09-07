@@ -40,14 +40,15 @@ head
     //if lt IE 9
         script(src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
         script(src='https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js')
-    #preloader
+    //-#preloader
     body
         nav.navbar.navbar-default.navbar-fixed-top
             .container
                 // Brand and toggle get grouped for better mobile display
                 .navbar-header.page-scroll
                     a.navbar-brand.page-scroll
-                        img(src='/admin/gentelella/production/images/mega.png')(style='width:150px; height:58px; padding-bottom:20px')
+                        #preloader 
+                        img(src='/admin/gentelella/production/images/mega.png')(style='width:150px; height:62px; padding-bottom:20px')
                         b
                     a.navbar-brand.page-scroll(href='#page-top')
                 // Collect the nav links, forms, and other content for toggling
@@ -82,7 +83,7 @@ head
                         .slider-content
                             .col-md-12.text-center
                                 h1.animated1
-                                    span(style='font-size:90%; color:#26B99A; font-style:')
+                                    span(style='font-size:100%; color:#26B99A; font-style:')
                                         strong  Mega Pacific Employment Services
                                 p.animated2
                                     b Be part of us!

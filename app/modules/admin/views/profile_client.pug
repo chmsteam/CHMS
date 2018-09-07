@@ -1,20 +1,26 @@
 extends ../../../templates/navbaradmin.pug
 
 block content
-    .right_col(role='main')
-        div
+    section#services
+        .right_col(role='main' style="background-color:transparent")
             .page-title
                 .row
                     .col-md-12.col-sm-12.col-xs-12
-                        .x_panel
+                        .x_panel(style='background-color:rgba(52,152,219,.3)')
                             .x_title
+                                button.btn.btn-primary.btn-lg(onclick="goBack()" style="float:right") 
+                                    | Back
+                                script.
+                                    function goBack() {
+                                        window.history.back();
+                                    }
                                 //- each list in listtab
                                     a(href='/admin/transaction_client_request_'+list.intRequestID)
                                         button.btn.btn-primary.pull-right.btn-lg(type='button') Back
                                 center
-                                    h3
+                                    h3(style='color:')
                                         b Client's Profile
-                            .x_panel(style='background-color:#f1f1f1')
+                            .x_panel.wow.fadeInRight(style='background-color:#3E5367')
                                 .x_content
                                     br
                                     each client in clienttab
@@ -24,11 +30,12 @@ block content
                                                     #crop-avatar
                                                         // Current avatar
                                                         img.img-responsive.avatar-view(src='../images/'+client.strPicture, alt='Avatar', title='Change the avatar' style='widht:175px; height:200px')
-                                                h2(style="text-transform: capitalize;") #{client.strLName}, #{client.strFName} #{client.strMName}
+                                                h2(style="text-transform: capitalize; color:white") 
+                                                    b   #{client.strLName}, #{client.strFName} #{client.strMName}
                                                 button.btn.btn-success(type='button' data-toggle='modal' data-target='#editpic1'  data-id= client.intClientID, data-image=`../images/${client.strPicture}`)
-                                                    i.fa.fa-user 
-                                                    | &nbsp Update Picture
-                                                br
+                                                    i.fa.fa-camera 
+                                                    | &nbsp Upload
+                                                
                                                 if client.strStatus == 'Registered'
                                                     button.btn.btn-danger(type='button') 
                                                         i.fa.fa-exclamation-circle

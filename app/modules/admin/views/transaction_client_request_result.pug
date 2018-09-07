@@ -6,7 +6,7 @@ block content
             
                 .row
                     .col-md-12.col-sm-12.col-xs-12
-                        .x_panel
+                        .x_panel(style='background-color:rgba(52,152,219,.3)')
                             .x_title
 
                                 .pull-right
@@ -14,52 +14,15 @@ block content
                                         a(href='transaction_client_request_'+request.intIRequestID)
                                             button.btn.btn-primary.btn-lg(type='button') Back
                                 center
-                                    h3
+                                    h3(style='color:')
                                         b Results
                             br
                             br
                             .x_title
                                 .x_panel(style='background-color:#394D5F')
-                                    h2(style="font-weight:bold") Best Matched
-                       
-                            table#datatable.table.table-striped.table-bordered
-                                thead
-                                    tr
-                                        th ID
-                                        th NAME
-                                        th SERVICE
-                                        th AGE
-                                        th Gender
-                                        th EDUCATION
-                                        th WORK EXPERIENCE
-                                        th STATUS
-                                        th ACTION
-                                tbody
-                                    each resulta in resultatab
-                                        each request in requesttab
-                                            tr
-                                                form(method="POST" action="transaction_add_to_list_"+request.intIRequestID+request.intIRequest_No+resulta.intHWID)
-                                                    td #{resulta.intHWID}
-                                                        //- input(type="number" name= 'hwid' style='visibility:hidden;', value=''+resulta.intHWID)
-                                                    td #{resulta.hwname}
-                                                    td #{resulta.strName}
-                                                    td #{resulta.age}
-                                                    td #{resulta.strGender}
-                                                    td #{resulta.strType}
-                                                    td #{resulta.Work_exp}
-                                                    td #{resulta.strStatus}
-                                                    td
-                                                        button.btn.btn-success(type='submit') Add to list
-
-                    .col-md-12.col-sm-12.col-xs-12 
-                        br
-                        .x_panel  
-                                br
-                                .x_title
-                                    .x_panel(style='background-color:#394D5F')
-                                        h2(style="font-weight:bold") Other Results
-                            
-                                table#datatable2.table.table-striped.table-bordered
+                                    h2(style="font-weight:bold; color:white") Best Matched
+                            .x_panel
+                                table#datatable.table.table-striped.table-bordered
                                     thead
                                         tr
                                             th ID
@@ -72,19 +35,56 @@ block content
                                             th STATUS
                                             th ACTION
                                     tbody
-                                        each otherresulta in otherresultatab
+                                        each resulta in resultatab
                                             each request in requesttab
                                                 tr
-                                                    form(method="POST" action="transaction_add_to_list_"+request.intIRequestID+request.intIRequest_No+otherresulta.intHWID)
-                                                        td #{otherresulta.intHWID}
-                                                            //- input(type="number" name= 'hwid' style='visibility:hidden;', value=''+otherresulta.intHWID)
-                                                        td #{otherresulta.hwname}
-                                                        td #{otherresulta.strName}
-                                                        td #{otherresulta.age}
-                                                        td #{otherresulta.strGender}
-                                                        td #{otherresulta.strType}
-                                                        td #{otherresulta.Work_exp}
-                                                        td #{otherresulta.strStatus}
+                                                    form(method="POST" action="transaction_add_to_list_"+request.intIRequestID+request.intIRequest_No+resulta.intHWID)
+                                                        td #{resulta.intHWID}
+                                                            //- input(type="number" name= 'hwid' style='visibility:hidden;', value=''+resulta.intHWID)
+                                                        td #{resulta.hwname}
+                                                        td #{resulta.strName}
+                                                        td #{resulta.age}
+                                                        td #{resulta.strGender}
+                                                        td #{resulta.strType}
+                                                        td #{resulta.Work_exp}
+                                                        td #{resulta.strStatus}
                                                         td
                                                             button.btn.btn-success(type='submit') Add to list
+
+                    .col-md-12.col-sm-12.col-xs-12 
+                        br
+                        .x_panel(style='background-color:rgba(52,152,219,.3)')
+                                br
+                                .x_title
+                                    .x_panel(style='background-color:#394D5F')
+                                        h2(style="font-weight:bold; color:white") Other Results
+                                .x_panel
+                                    table#datatable2.table.table-striped.table-bordered
+                                        thead
+                                            tr
+                                                th ID
+                                                th NAME
+                                                th SERVICE
+                                                th AGE
+                                                th Gender
+                                                th EDUCATION
+                                                th WORK EXPERIENCE
+                                                th STATUS
+                                                th ACTION
+                                        tbody
+                                            each otherresulta in otherresultatab
+                                                each request in requesttab
+                                                    tr
+                                                        form(method="POST" action="transaction_add_to_list_"+request.intIRequestID+request.intIRequest_No+otherresulta.intHWID)
+                                                            td #{otherresulta.intHWID}
+                                                                //- input(type="number" name= 'hwid' style='visibility:hidden;', value=''+otherresulta.intHWID)
+                                                            td #{otherresulta.hwname}
+                                                            td #{otherresulta.strName}
+                                                            td #{otherresulta.age}
+                                                            td #{otherresulta.strGender}
+                                                            td #{otherresulta.strType}
+                                                            td #{otherresulta.Work_exp}
+                                                            td #{otherresulta.strStatus}
+                                                            td
+                                                                button.btn.btn-success(type='submit') Add to list
 

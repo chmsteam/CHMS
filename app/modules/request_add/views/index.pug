@@ -29,7 +29,7 @@ block content
                                         i.fa.fa-plus
                                         | &nbspCreate New List
                                     br
-                                    br
+                                .x_panel(style='background-color:rgba(38,185,154,0.2)')
                                     each list in listtab
                                         if list.strRequestStatus != 'Finished'
                                                             .col-md-4.col-sm-4.col-xs-12.profile_details
@@ -141,6 +141,7 @@ block content
                                         b   Description
                                         textarea.form-control.AddMessage(rows='10' name='reqdesc')
                     .modal-footer
+                        button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
                         button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Create
     
     //- scripts

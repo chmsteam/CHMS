@@ -10,25 +10,27 @@ block content
                         b Replacement
                 .row
                     .col-md-12.col-sm-12.col-xs-12
-                        .x_panel
+                        .x_panel(style='background-color:rgba(52,152,219,.3)')
                             br
                             .x_content
                             //- center
                             //-     button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='.bs-add-modal-lg')
                             //-         i.fa.fa-plus
                             //-         | &nbspAdd
-                            table#datatable.table.table-striped.table-bordered
-                                thead
-                                    tr
-                                        th REPLACEMENT 
-                                        th STATUS
-                                        th ACTION
-                                tbody
-                                    each item in itemtab
+                            .x_panel
+                                br
+                                table#datatable.table.table-striped.table-bordered
+                                    thead
                                         tr
-                                            td #{item.intFreeReplacement}
-                                            td #{item.strStatus}
-                                            td
-                                                button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit', data-id=item.intID, data-name=item.strName)
-                                                    i.fa.fa-edit
-                                                    |   Edit
+                                            th REPLACEMENT 
+                                            th STATUS
+                                            th ACTION
+                                    tbody
+                                        each item in itemtab
+                                            tr
+                                                td #{item.intFreeReplacement}
+                                                td #{item.strStatus}
+                                                td
+                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit', data-id=item.intID, data-name=item.strName)
+                                                        i.fa.fa-edit
+                                                        |   Edit
