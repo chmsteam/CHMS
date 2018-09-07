@@ -23,8 +23,9 @@ block content
                                                 .profile_img
                                                     #crop-avatar
                                                         // Current avatar
-                                                        img.img-responsive.avatar-view(src='../images/'+client.strPicture, alt='Avatar', title='Change the avatar' style='widht:175px; height:200px')
-                                                h2(style="text-transform: capitalize;") #{client.strLName}, #{client.strFName} #{client.strMName}
+                                                        img.img-responsive.avatar-view(src='../images/'+client.strPicture, alt='Avatar', title='Change the avatar' style='width:175px; height:200px')
+                                                h2(style="text-transform: capitalize;")
+                                                    b #{client.strLName}, #{client.strFName} #{client.strMName}
                                                 button.btn.btn-success(type='button' data-toggle='modal' data-target='#editpic1'  data-id= client.intClientID, data-image=`../images/${client.strPicture}`)
                                                     i.fa.fa-user 
                                                     | &nbsp Update Picture

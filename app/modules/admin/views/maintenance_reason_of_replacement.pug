@@ -1,0 +1,95 @@
+
+extends ../../../templates/navbaradmin.pug
+
+block content
+    section#services
+        .right_col(role='main' style="background-color:transparent")
+                .title_left
+                    h5
+                        | Maintenance /&nbsp
+                        b Reason of Replacement
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
+                                .x_panel
+                                    .x_content
+                                        button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='.bs-add-modal-xs')
+                                            i.fa.fa-plus
+                                            | &nbspAdd
+                          
+                                    br
+                                    table#datatable.table.table-striped.table-bordered
+                                        thead
+                                            tr
+                                                //- th ID NO.
+                                                th(style="text-align:center")  Reason
+                                                th(style="text-align:center")  STATUS
+                                                th(style="text-align:center")  ACTION
+                                        tbody
+                                            each reason in reasons
+                                                tr(style="text-align:center") 
+                                                    td #{reason.strName}
+                                                    td 
+                                                        if reason.strStatus=='Active'
+                                                            p(hidden="") active
+                                                            a(href="disable_reas/"+reason.intID)
+                                                                input.js-switch(type='checkbox' checked)
+                                                        else if reason.strStatus=='Inactive'
+                                                            p(hidden="") inactive
+                                                            a(href="enable_reas/"+reason.intID)
+                                                                input.js-switch(type='checkbox')
+                                                        //- input.js-switch(type='checkbox', checked='') #{item.strStatus}
+                                                    td
+                                                        button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit_reas', data-id=reason.intID, data-name=reason.strName)
+                                                            i.fa.fa-edit
+                                                            |   Edit
+                                                        
+                //- Add
+                .modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+                    .modal-dialog.modal-xs
+                        .modal-content
+                            .modal-header(style="background-color:#EDEDED;")
+                                button.close(type='button', data-dismiss='modal')
+                                    span(aria-hidden='true') ×
+                                h4#myModalLabel.modal-title Add Reason 
+                            .modal-body
+                                form#demo-form2.form-horizontal.form-label-left(method="POST" action="add_repReason")
+                                    .form-group
+                                        br
+                                        br
+                                        label.control-label.col-md-3.col-sm-3.col-xs-12(for='leave-name')
+                                            | Reason 
+                                            span.required *
+                                        .col-md-6.col-sm-6.col-xs-12
+                                            input#first-name.form-control.col-md-7.col-xs-12(type='text', required='required', name='reason')
+                                    br
+                                    .ln_solid
+                                    .form-group.pull-right
+                                        button.btn.btn-success(type='submit') Add
+                                        button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+
+                //- Edit
+                #edit_reas.modal.fade.bs-edit-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+                    .modal-dialog.modal-xs
+                        .modal-content
+                            .modal-header(style="background-color:#EDEDED;")
+                                button.close(type='button', data-dismiss='modal')
+                                    span(aria-hidden='true') ×
+                                h4#myModalLabel.modal-title Edit Reason
+                            .modal-body
+                                form#demo-form2.form-horizontal.form-label-left(method="POST" action="edit_repReason")
+                                    .form-group
+                                        .col-md-6.col-sm-6.col-xs-12
+                                            br
+                                            br
+                                            input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='repID' style="display:none;")                          
+                                    .form-group
+                                        label.control-label.col-md-3.col-sm-3.col-xs-12
+                                            | Reason
+                                            span.required *
+                                        .col-md-6.col-sm-6.col-xs-12
+                                            input.form-control.col-md-7.col-xs-12(type='text', id='_name', required='required', name='reason')
+                                    br
+                                    .ln_solid
+                                    .form-group.pull-right
+                                        button.btn.btn-success(type='submit') Update
+                                        button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
