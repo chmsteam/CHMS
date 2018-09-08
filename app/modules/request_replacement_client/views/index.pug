@@ -91,6 +91,9 @@ block content
                                             | &nbsp
                                     .col-md-5
                                         .form-group
+                                            | Reason of Replacement
+                                    .col-md-5
+                                        .form-group
                                             | Date Needed
                                             input.form-control(type='date', name='dateneed' required)
 
@@ -105,7 +108,7 @@ block content
                                             | &nbsp
                                     .col-md-10
                                         .form-group
-                                            |Reason:
+                                            | Other Reason:
                                             textarea.form-control.AddMessage(rows='7' name='reqdesc')
                             .modal-footer
                                 button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Find Replacement

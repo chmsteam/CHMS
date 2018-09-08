@@ -1,199 +1,208 @@
 extends ../../../templates/navbaradmin.pug
 
 block content
-    .right_col(role='main')
-        div
+    section#services
+        .right_col(role='main' style="background-color:transparent")
             .page-title
                 .row
                     .col-md-12.col-sm-12.col-xs-12
-                        .x_panel
+                        .x_panel(style='background-color:rgba(52,152,219,.3)')
                             .x_title
+                                button.btn.btn-primary.btn-lg(onclick="goBack()" style="float:right") 
+                                    | Back
+                                script.
+                                    function goBack() {
+                                        window.history.back();
+                                    }
                                 //- each list in listtab
                                 //-     a(href='/admin/transaction_client_request_'+list.intRequestID)
                                 //-         button.btn.btn-primary.pull-right.btn-lg(type='button') Back
                                 center
                                     h3
                                         b Household Worker's Profile
-                            .x_content
-                                each hw1 in hw1tab
-                                    .col-md-3.col-sm-3.col-xs-12.profile_left
-                                        center
-                                            .profile_img
-                                                #crop-avatar
-                                                    // Current avatar
-                                                    img.img-responsive.avatar-view(src='../images/'+hw1.strPicture, alt='Avatar', title='Change the avatar' style='widht:175px; height:200px')
-                                            h3 #{hw1.strLName}, #{hw1.strFName} #{hw1.strMName} 
-                                            h5 #{hw1.strName}
-                                            button.btn.btn-success(data-toggle='modal', data-target='#editpic', data-id=hw1.intHWID, data-image=`../images/${hw1.strPicture}`) 
-                                                i.fa.fa-user 
-                                                | &nbsp Update Picture
-                                            br
-                                            each hw1 in hw1tab
-                                                if  hw1.stat == 'Deployed'
-                                                    button.btn.btn-danger(type='button') 
-                                                        i.fa.fa-exclamation-circle
-                                                        | &nbsp Ban
-                                                else if hw1.stat =='Banned'
-                                                    button.btn.btn-warning(type='button') 
-                                                        i.fa.fa-mail-reply
-                                                        Reinstate
-                                        ul.list-unstyled.user_data
-                                            li Age: &nbsp #{hw1.age}
-                                            li Gender: &nbsp #{hw1.strGender}
-                                            li
-                                                i.fa.fa-map-marker.user-profile-icon
-                                                |&nbsp #{hw1.strPAddress}
-                                            li.m-top-xs
-                                                i.fa.fa-phone-square.user-profile-icon
-                                                |&nbsp #{hw1.strCellNum} / #{hw1.strTelNum} 
-                                        //- a.btn.btn-success
-                                        //-     i.fa.fa-edit.m-right-xs
-                                        //-     | &nbspEdit Profile
-                                    br
-                                .col-md-9.col-sm-9.col-xs-12
-                                    .x_panel
-                                        div(role='tabpanel', data-example-id='togglable-tabs')
-                                            ul#myTab.nav.nav-tabs.bar_tabs(role='tablist')
-                                                li.active(role='presentation')
-                                                    a#profile-tab(href='#tab_content1', role='tab', data-toggle='tab', aria-expanded='true') Profile
-                                                li(role='presentation')
-                                                    a#educ-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Educational Background
-                                                li(role='presentation')
-                                                    a#work-tab(href='#tab_content3', role='tab', data-toggle='tab', aria-expanded='false') Working Background
-                                                li(role='presentation')
-                                                    a#ref-tab(href='#tab_content4', role='tab', data-toggle='tab', aria-expanded='false') Character References
-                                                li(role='presentation')
-                                                    a#report-tab(href='#tab_content5', role='tab', data-toggle='tab', aria-expanded='false') Reports
-                                            #myTabContent.tab-content
-                                                #tab_content1.tab-pane.fade.active.in(role='tabpanel', aria-labelledby='profile-tab')
-                                                    // Profile
-                                                    br
-                                                    .col-md-12.col-sm-12.col-xs-12
-                                                        .x_panel
-                                                            table.table.table-striped
-                                                                each hw1 in hw1tab
-                                                                    br
+                            .x_panel.wow.fadeInRight(style='background-color:#3E5367')
+                                .x_content
+                                    each hw1 in hw1tab
+                                        .col-md-3.col-sm-3.col-xs-12.profile_left
+                                            center
+                                                .profile_img
+                                                    #crop-avatar
+                                                        // Current avatar
+                                                        br
+                                                        img.img-responsive.avatar-view(src='../images/'+hw1.strPicture, alt='Avatar', title='Change the avatar' style='widht:175px; height:200px')
+                                                h2(style="text-transform: capitalize; color:white") 
+                                                    b #{hw1.strLName}, #{hw1.strFName} #{hw1.strMName} 
+                                                h5(style="text-transform: capitalize; color:white") ( #{hw1.strName} )
+                                                button.btn.btn-success(data-toggle='modal', data-target='#editpic', data-id=hw1.intHWID, data-image=`../images/${hw1.strPicture}`) 
+                                                    i.fa.fa-camera 
+                                                    | &nbsp Upload
+                                                
+                                                each hw1 in hw1tab
+                                                    if  hw1.stat == 'Deployed'
+                                                        button.btn.btn-danger(type='button') 
+                                                            i.fa.fa-exclamation-circle
+                                                            | &nbsp Ban
+                                                    else if hw1.stat =='Banned'
+                                                        button.btn.btn-warning(type='button') 
+                                                            i.fa.fa-mail-reply
+                                                            Reinstate
+                                            ul.list-unstyled.user_data(style="text-transform: capitalize; color:white") 
+                                                li Age: &nbsp #{hw1.age}
+                                                li Gender: &nbsp #{hw1.strGender}
+                                                li
+                                                    i.fa.fa-map-marker.user-profile-icon
+                                                    |&nbsp #{hw1.strPAddress}
+                                                li.m-top-xs
+                                                    i.fa.fa-phone-square.user-profile-icon
+                                                    |&nbsp #{hw1.strCellNum} / #{hw1.strTelNum} 
+                                            //- a.btn.btn-success
+                                            //-     i.fa.fa-edit.m-right-xs
+                                            //-     | &nbspEdit Profile
+                                        br
+                                    .col-md-9.col-sm-9.col-xs-12
+                                        .x_panel
+                                            div(role='tabpanel', data-example-id='togglable-tabs')
+                                                ul#myTab.nav.nav-tabs.bar_tabs(role='tablist')
+                                                    li.active(role='presentation')
+                                                        a#profile-tab(href='#tab_content1', role='tab', data-toggle='tab', aria-expanded='true') Profile
+                                                    li(role='presentation')
+                                                        a#educ-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Educational Background
+                                                    li(role='presentation')
+                                                        a#work-tab(href='#tab_content3', role='tab', data-toggle='tab', aria-expanded='false') Working Background
+                                                    li(role='presentation')
+                                                        a#ref-tab(href='#tab_content4', role='tab', data-toggle='tab', aria-expanded='false') Character References
+                                                    li(role='presentation')
+                                                        a#report-tab(href='#tab_content5', role='tab', data-toggle='tab', aria-expanded='false') Reports
+                                                #myTabContent.tab-content
+                                                    #tab_content1.tab-pane.fade.active.in(role='tabpanel', aria-labelledby='profile-tab')
+                                                        // Profile
+                                                        br
+                                                        .col-md-12.col-sm-12.col-xs-12
+                                                            .x_panel
+                                                                table.table.table-striped
+                                                                    each hw1 in hw1tab
+                                                                        br
+                                                                        tbody
+                                                                            tr
+                                                                                th(scope='row')
+                                                                                td
+                                                                                    b Date of Birth:
+                                                                                td #{hw1.datBirthDay}
+                                                                                td
+                                                                                td
+                                                                            tr
+                                                                                th(scope='row')
+                                                                                td
+                                                                                    b Place of Birth:
+                                                                                td #{hw1.strPofBirth}
+                                                                                td
+                                                                                td
+                                                                            tr
+                                                                                th(scope='row')
+                                                                                td
+                                                                                    b Civil Status:
+                                                                                td #{hw1.strCivilStatus}
+                                                                                td
+                                                                                td
+                                                                            tr
+                                                                                th(scope='row')
+                                                                                td
+                                                                                    b Height:
+                                                                                td #{hw1.strHeight}
+                                                                                td
+                                                                                td
+                                                                            tr
+                                                                                th(scope='row')
+                                                                                td
+                                                                                    b Weight:
+                                                                                td #{hw1.strWeight}
+                                                                                td
+                                                                                td
+                                                                            tr
+                                                                                th(scope='row')
+                                                                                td
+                                                                                    b Religion:
+                                                                                td #{hw1.strReligion}
+                                                                                td
+                                                                                td
+                                                    #tab_content2.tab-pane.fade(role='tabpanel', aria-labelledby='educ-tab')
+                                                        br
+                                                        .col-md-12.col-sm-12.col-xs-12
+                                                            .x_panel
+                                                                table.table.table-striped
+                                                                    thead
+                                                                        th Type
+                                                                        th Name
+                                                                        th Address
+                                                                        th Year
+                                                                        th Skills/Awards
                                                                     tbody
-                                                                        tr
-                                                                            th(scope='row')
-                                                                            td
-                                                                                b Date of Birth:
-                                                                            td #{hw1.datBirthDay}
-                                                                            td
-                                                                            td
-                                                                        tr
-                                                                            th(scope='row')
-                                                                            td
-                                                                                b Place of Birth:
-                                                                            td #{hw1.strPofBirth}
-                                                                            td
-                                                                            td
-                                                                        tr
-                                                                            th(scope='row')
-                                                                            td
-                                                                                b Civil Status:
-                                                                            td #{hw1.strCivilStatus}
-                                                                            td
-                                                                            td
-                                                                        tr
-                                                                            th(scope='row')
-                                                                            td
-                                                                                b Height:
-                                                                            td #{hw1.strHeight}
-                                                                            td
-                                                                            td
-                                                                        tr
-                                                                            th(scope='row')
-                                                                            td
-                                                                                b Weight:
-                                                                            td #{hw1.strWeight}
-                                                                            td
-                                                                            td
-                                                                        tr
-                                                                            th(scope='row')
-                                                                            td
-                                                                                b Religion:
-                                                                            td #{hw1.strReligion}
-                                                                            td
-                                                                            td
-                                                #tab_content2.tab-pane.fade(role='tabpanel', aria-labelledby='educ-tab')
-                                                    br
-                                                    .col-md-12.col-sm-12.col-xs-12
-                                                        .x_panel
-                                                            table.table.table-striped
-                                                                thead
-                                                                    th Type
-                                                                    th Name
-                                                                    th Address
-                                                                    th Year
-                                                                    th Skills/Awards
-                                                                tbody
-                                                                    each hw2 in hw2tab
-                                                                        tr
-                                                                            td #{hw2.strType}
-                                                                            td #{hw2.strSchoolName}
-                                                                            td #{hw2.strSchoolAdd}
-                                                                            td #{hw2.intSchoolGrad}
-                                                                            td #{hw2.strSchoolSkill}
-                                                #tab_content3.tab-pane.fade(role='tabpanel', aria-labelledby='work-tab')
-                                                    br
-                                                    .col-md-12.col-sm-12.col-xs-12
-                                                        .x_panel
-                                                            table.table.table-striped
-                                                                thead
-                                                                    th Name
-                                                                    th Address
-                                                                    th Position
-                                                                    th From 
-                                                                    th To
-                                                                tbody
-                                                                    each hw3 in hw3tab
-                                                                        tr
-                                                                            td #{hw3.strWorkName}
-                                                                            td #{hw3.strWorkAdd}
-                                                                            td #{hw3.strWorkPosition}
-                                                                            td #{hw3.intWorkStart}
-                                                                            td #{hw3.intWorkEnd}
-                                                #tab_content4.tab-pane.fade(role='tabpanel', aria-labelledby='ref-tab')
-                                                #tab_content5.tab-pane.fade(role='tabpanel', aria-labelledby='report-tab')
-                                                    br
-                                                    .col-md-12.col-sm-12.col-xs-12
-                                                        .x_panel
-                                                            table.table.table-striped
-                                                                thead
-                                                                    th Date of the Report
-                                                                    th Client
-                                                                    th Type of Incident
-                                                                    th Reason
-                                                                    th Action
-                                                                tbody
-                                                                    each hw5 in hw5tab
-                                                                        tr
-                                                                            td #{hw5.datDateReported}
-                                                                            td #{hw5.RFName} #{hw5.RLName}
-                                                                            td #{hw5.strName}
-                                                                            td #{hw5.strReason}
-                                                                            td #{hw5.strActionTaken}
-    
-    #editpic.modal.fade.modal-icon(tabindex='-1', role='dialog')
-        .modal-dialog(role='document')
-            form(method="POST"  action="/admin/profile_hw_:hwid/updatePic" enctype='multipart/form-data')
-                .modal-content
-                    .modal-header(style="background-color:#EDEDED")
-                        h2.modal-title Update Profile Picture
-                            button.close(type='button', data-dismiss='modal', aria-label='Close')
-                                span(aria-hidden='true') ×
-                    .modal-body
-                        input#id(type='number' name='id', hidden)
-                        .row
-                            .col-md-12.text-center
-                                img#uploadPreview1(src="" style='width: 50%; height: 200px;')
-                                br
-                                br
-                                input.form-control.file-input(id="uploadImage1" type='file', name='postimage', accept='image/*' onchange="PreviewImage1();" style='width: 50%; margin-left:142px;')
-                        //- .row
-                        //-     .col-md-12.text-center
-                        //-         img#pic(src='../images/'+ , alt='User-Profile-Image')
-                    .modal-footer
-                        button.btn.btn-primary(type='button', data-dismiss='modal') Close
-                        button.btn.btn-success(type='submit') Update
+                                                                        each hw2 in hw2tab
+                                                                            tr
+                                                                                td #{hw2.strType}
+                                                                                td #{hw2.strSchoolName}
+                                                                                td #{hw2.strSchoolAdd}
+                                                                                td #{hw2.intSchoolGrad}
+                                                                                td #{hw2.strSchoolSkill}
+                                                    #tab_content3.tab-pane.fade(role='tabpanel', aria-labelledby='work-tab')
+                                                        br
+                                                        .col-md-12.col-sm-12.col-xs-12
+                                                            .x_panel
+                                                                table.table.table-striped
+                                                                    thead
+                                                                        th Name
+                                                                        th Address
+                                                                        th Position
+                                                                        th From 
+                                                                        th To
+                                                                    tbody
+                                                                        each hw3 in hw3tab
+                                                                            tr
+                                                                                td #{hw3.strWorkName}
+                                                                                td #{hw3.strWorkAdd}
+                                                                                td #{hw3.strWorkPosition}
+                                                                                td #{hw3.intWorkStart}
+                                                                                td #{hw3.intWorkEnd}
+                                                    #tab_content4.tab-pane.fade(role='tabpanel', aria-labelledby='ref-tab')
+                                                    #tab_content5.tab-pane.fade(role='tabpanel', aria-labelledby='report-tab')
+                                                        br
+                                                        .col-md-12.col-sm-12.col-xs-12
+                                                            .x_panel
+                                                                table.table.table-striped
+                                                                    thead
+                                                                        th Date of the Report
+                                                                        th Client
+                                                                        th Type of Incident
+                                                                        th Reason
+                                                                        th Action
+                                                                    tbody
+                                                                        each hw5 in hw5tab
+                                                                            tr
+                                                                                td #{hw5.datDateReported}
+                                                                                td #{hw5.RFName} #{hw5.RLName}
+                                                                                td #{hw5.strName}
+                                                                                td #{hw5.strReason}
+                                                                                td #{hw5.strActionTaken}
+        
+        #editpic.modal.fade.modal-icon(tabindex='-1', role='dialog')
+            .modal-dialog(role='document')
+                form(method="POST"  action="/admin/profile_hw_:hwid/updatePic" enctype='multipart/form-data')
+                    .modal-content
+                        .modal-header(style="background-color:#EDEDED")
+                            h2.modal-title Update Profile Picture
+                                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                    span(aria-hidden='true') ×
+                        .modal-body
+                            input#id(type='number' name='id', hidden)
+                            .row
+                                .col-md-12.text-center
+                                    img#uploadPreview1(src="" style='width: 50%; height: 200px;')
+                                    br
+                                    br
+                                    input.form-control.file-input(id="uploadImage1" type='file', name='postimage', accept='image/*' onchange="PreviewImage1();" style='width: 50%; margin-left:142px;')
+                            //- .row
+                            //-     .col-md-12.text-center
+                            //-         img#pic(src='../images/'+ , alt='User-Profile-Image')
+                        .modal-footer
+                            button.btn.btn-primary(type='button', data-dismiss='modal') Close
+                            button.btn.btn-success(type='submit') Update

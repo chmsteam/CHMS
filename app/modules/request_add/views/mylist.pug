@@ -5,91 +5,103 @@ block content
             .page-title
                 .row
                     .col-md-12.col-sm-12.col-xs-12
-                       
+                        .x_panel
+                            .pull-right
+                                a(href='/request_add')
+                                    button.btn.btn-primary.btn-lg(type='button') Back
                             
-                                .row
-                                    each list in listtab
-                                        h2(style="font-size:33px;") &nbsp&nbspName of list: 
-                                            b   " #{list.strRequestName} "
-                                .x_panel
-                                    .x_title
-                                    .x_title
-                                        .clearfix
-                                        .x_panel.alert-success(style='background-color:')
-                                            h3(style="font-size:18px;")(align='center')
-                                                b   &nbsp&nbsp&nbsp&nbsp&nbspDisclaimer !!!
-                                                    br
-                                                    br
-                                                li
-                                                    | To add service on your list, just click <b>"add service"</b> button.
-                                    br
-                                    each list in listtab
-                                        if (list.strRequestStatus == 'Draft' || list.strRequestStatus == 'On process')
-                                            button.btn.btn-success.btn-lg(type='button' data-toggle="modal" data-target="#Add")
-                                                i.fa.fa-plus
-                                                | &nbspAdd Service
-                                        else if (list.strRequestStatus == 'On deployment' || list.strRequestStatus == 'Pending')
+                            each list in listtab
+                                h2(style="font-size:33px;") &nbsp&nbspName of list: 
+                                    b   " #{list.strRequestName} "
+                            .x_title
 
-                                        each count in counttab
-                                            if (list.strRequestStatus == 'Draft' && count.counter != 0)
-                                                a(href='/request_add/submit_request_'+list.intRequestID)
-                                                    button.btn.pull-right.btn-success.btn-lg(type='button')
-                                                        i.fa.fa-envelope
-                                                        |   Submit List
-                                            else if list.strRequestStatus == 'On process' || list.strRequestStatus == 'Pending'
-                                    br
+                                //-.pull-right
+                                    each list in listtab
+                                        a(href='/request_add/mylist_'+list.intRequestID)
+                                            button.btn.btn-primary.btn-lg(type='button') Back
+                            
+                                //-each list in listtab
+                                    h2(style="font-size:33px;") &nbsp&nbspName of list: 
+                                        b   " #{list.strRequestName} "
+                                
+                                    
+                            .x_title
+                                .clearfix
+                                .x_panel.alert-success(style='background-color:')
+                                    h3(style="font-size:18px;")(align='center')
+                                        b   &nbsp&nbsp&nbsp&nbsp&nbspDisclaimer !!!
+                                            br
+                                            br
+                                        li
+                                            | To add service on your list, just click <b>"add service"</b> button.
+                            br
+                            each list in listtab
+                                if (list.strRequestStatus == 'Draft' || list.strRequestStatus == 'On process')
+                                    button.btn.btn-success.btn-lg(type='button' data-toggle="modal" data-target="#Add")
+                                        i.fa.fa-plus
+                                        | &nbspAdd Service
+                                else if (list.strRequestStatus == 'On deployment' || list.strRequestStatus == 'Pending')
 
-                                    .x_panel
-                                        h2 Requested Service/s:
-                                        table.table.jambo_table.table-bordered
-                                            thead
-                                                tr
-                                                    th Number
-                                                    th Service
-                                                    th Quantity
-                                                    th Results
-                                                    th Action
-                                            tbody
-                                            each item in itemtab
-                                                each list in listtab  
+                                each count in counttab
+                                    if (list.strRequestStatus == 'Draft' && count.counter != 0)
+                                        a(href='/request_add/submit_request_'+list.intRequestID)
+                                            button.btn.pull-right.btn-success.btn-lg(type='button')
+                                                i.fa.fa-envelope
+                                                |   Submit List
+                                    else if list.strRequestStatus == 'On process' || list.strRequestStatus == 'Pending'
+                            br
+
+                            .x_panel.wow.fadeInRight
+                                h2 Requested Service/s:
+                                table.table.jambo_table.table-bordered
+                                    thead
+                                        tr
+                                            th Number
+                                            th Service
+                                            th Quantity
+                                            th Results
+                                            th Action
+                                    tbody
+                                    each item in itemtab
+                                        each list in listtab  
+                                            tr
+                                                td #{item.intIRequest_No}
+                                                td #{item.strName}
+                                                td #{item.intIQuantity}
+                                                td #{item.forapproval}
+                                                td
+                                                    button.btn.btn-info.btn-xs(type='button' data-toggle="modal" data-target="#view_item"
+                                                                            , data-requestno=item.intIRequest_No, data-servicename=item.strName, data-quantity=item.intIQuantity, data-gender=item.strIRequestGender, data-educ=item.strIRequestEduc, data-exp=item.intIRequestExp
+                                                                            , data-sal= item.deciRequestSalary, data-age=item.intIRequestAge1 , data-ages=item.intIRequestAge2) View
+                                                        if list.strRequestStatus == 'Draft'
+                                                            button.btn.btn-warning.btn-xs(type='button' data-toggle="modal" data-target="#edit_item") Edit
+                                                            button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item") Delete
+                                                        else if list.strRequestStatus == 'On process'
+                                                            a(href='result_'+item.intIRequestID+item.intIRequest_No)
+                                                                button.btn.btn-primary.btn-xs(type='button') View Result
+                                                            button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item") Delete
+                                each list in listtab
+                                    if list.strRequestStatus == 'Pending' || list.strRequestStatus == 'Approved' || list.strRequestStatus == 'Rejected' || list.strRequestStatus == 'Finished'
+                                        each transdetails in transdetailstab
+                                            h2 Deployment Details:
+                                            table.table.jambo_table.bulk_action
+                                                thead
                                                     tr
-                                                        td #{item.intIRequest_No}
-                                                        td #{item.strName}
-                                                        td #{item.intIQuantity}
-                                                        td #{item.forapproval}
+                                                        th Date of Deployment
+                                                        th Time of Deployment
+                                                        th Type of Deployment
+                                                        th Invoice
+                                                tbody
+                                                    tr
+                                                        td #{transdetails.datDateofDeployment}
+                                                        td #{transdetails.timTimeofDeployment}
+                                                        if transdetails.intTypeofDeployment == '2'
+                                                            td Drop-off
+                                                        else if transdetails.intTypeofDeployment == '3'
+                                                            td Pick-up
                                                         td
-                                                            button.btn.btn-info.btn-xs(type='button' data-toggle="modal" data-target="#view_item"
-                                                                                    , data-requestno=item.intIRequest_No, data-servicename=item.strName, data-quantity=item.intIQuantity, data-gender=item.strIRequestGender, data-educ=item.strIRequestEduc, data-exp=item.intIRequestExp
-                                                                                    , data-sal= item.deciRequestSalary, data-age=item.intIRequestAge1 , data-ages=item.intIRequestAge2) View
-                                                                if list.strRequestStatus == 'Draft'
-                                                                    button.btn.btn-warning.btn-xs(type='button' data-toggle="modal" data-target="#edit_item") Edit
-                                                                    button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item") Delete
-                                                                else if list.strRequestStatus == 'On process'
-                                                                    a(href='result_'+item.intIRequestID+item.intIRequest_No)
-                                                                        button.btn.btn-primary.btn-xs(type='button') View Result
-                                                                    button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item") Delete
-                                        each list in listtab
-                                            if list.strRequestStatus == 'Pending' || list.strRequestStatus == 'Approved' || list.strRequestStatus == 'Rejected' || list.strRequestStatus == 'Finished'
-                                                each transdetails in transdetailstab
-                                                    h2 Deployment Details:
-                                                    table.table.jambo_table.bulk_action
-                                                        thead
-                                                            tr
-                                                                th Date of Deployment
-                                                                th Time of Deployment
-                                                                th Type of Deployment
-                                                                th Invoice
-                                                        tbody
-                                                            tr
-                                                                td #{transdetails.datDateofDeployment}
-                                                                td #{transdetails.timTimeofDeployment}
-                                                                if transdetails.intTypeofDeployment == '2'
-                                                                    td Drop-off
-                                                                else if transdetails.intTypeofDeployment == '3'
-                                                                    td Pick-up
-                                                                td
-                                                                    a(href="/request_add/invoice_"+transdetails.intTRequestID)
-                                                                        button.btn.btn-primary.btn-xs(type='button') View
+                                                            a(href="/request_add/invoice_"+transdetails.intTRequestID)
+                                                                button.btn.btn-primary.btn-xs(type='button') View
 
                                 //- h2 Services:
                                 //- table.table.jambo_table.bulk_action
@@ -147,10 +159,10 @@ block content
                                 //- transaction dets
                     .col-md-12.col-sm-12.col-xs-12
                         br
-                        .x_panel
+                        .x_panel(style='background-color:rgba(38,185,154,0.3)')
                                 .x_title
-                                    .x_panel(style='background-color:#394D5F')
-                                        h2(style="font-weight:bold; font:white") List of service/s you approved:
+                                    .x_panel(style='background-color:#394D5F; border-color:#394D5F')
+                                        h2(style="font-weight:bold; color:white") List of service/s you approved:
                                 .x_panel
                                     .clearfix
                                         br
@@ -180,7 +192,7 @@ block content
                                                                         b 
                                                             .right.col-xs-5.text-center
                                                                 img.img-circle.img-responsive(src='../images/'+hw.strPicture, alt='', style='width:100px; height:100px')
-                                                            .col-xs-12.col-sm-8.emphasis
+                                                        .col-xs-12.bottom.text-center
                                                                 a(href='hw_profile_'+hw.intRRequestID+hw.intRHWID)
                                                                     button.btn.btn-primary(type='button')
                                                                         i.fa.fa-user  
@@ -189,12 +201,12 @@ block content
                                 .form-group.pull-right
                                     .col-md-12.col-sm-9.col-xs-12.pull-right
                                         br
-                                        a(href='/request_add')
+                                        //-a(href='/request_add')
                                             button.btn.btn-primary.btn-lg(type='button') Back
                                         each noofapprove in noofapprovetab
                                             each list in listtab
                                                 if noofapprove.NOOFapprove > 0 && list.strRequestStatus=='On process'
-                                                    button.btn.btn-success.btn-lg(type='button' data-toggle="modal" data-target="#deployment") Deployment Details
+                                                    button.btn.btn-success.btn-lg(type='button' data-toggle="modal" data-target="#deployment") Proceed to Deployment Details
                                                 else 
                                                 
         // Small modal
@@ -303,8 +315,8 @@ block content
                                         |    &nbsp
                                     .col-md-8
                                         .x_panel(align='center')
-                                            .x_title
-                                                h5
+                                            .x_title.alert-success
+                                                h4
                                                     b Recommended Salary
                                                 .clearfix
                                             .x_content
@@ -410,14 +422,18 @@ block content
                                 input(id='invo' type='text', name='invnum' style='display:none;')
                                 br
                                 .row
-                                    .col-md-12
+                                    .col-md-2
+                                        .form-group
+                                    .col-md-8
                                         .form-group
                                             label Type of Deployment
                                             select.form-control(name='dep')
                                                 each fee in feetab
                                                     option(value=''+fee.intID) #{fee.strName} &nbsp&nbsp  + P #{fee.fltFee}
                                 .row
-                                    .col-md-12
+                                    .col-md-2
+                                        .form-group
+                                    .col-md-8
                                         .form-group
                                             label Preferred Date For Deployment
                                             .input-group.date
@@ -425,7 +441,9 @@ block content
                                                 span.input-group-addon
                                                     span.fa.fa-calendar
                                 .row
-                                    .col-md-12
+                                    .col-md-2
+                                        .form-group
+                                    .col-md-8
                                         .form-group
                                             label Preferred Time For Deployment
                                             .input-group.date
@@ -433,6 +451,7 @@ block content
                                                 span.input-group-addon
                                                     span.glyphicon.glyphicon-time
                         .modal-footer
+                            button.btn.btn-primary(type='button', data-dismiss='modal') Close
                             button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Next
         script.
             function time(){

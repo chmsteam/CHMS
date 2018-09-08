@@ -19,8 +19,8 @@ block content
                             br
                             .x_title
                                 .x_panel(style='background-color:#394D5F')
-                                    h2(style="font-weight:bold") Suggested service/s from the Admin:
-                            table#datatable-responsive.table.jambo_table
+                                    h2(style="font-weight:bold; color:white") Suggested service/s from the Admin:
+                            table#datatable-responsive.table.jambo_table.table-bordered
                                 thead
                                     tr
                                         th ID
@@ -55,13 +55,13 @@ block content
                                                         button.btn.btn-danger(type='submit' name='btn1' value='reject') Reject
                     .col-md-12.col-sm-12.col-xs-12
                         br
-                        .x_panel
+                        .x_panel(style='background-color:rgba(38,185,154,0.3)')
                                 br
                                 .x_title
-                                    .x_panel
-                                        h2(style="font-weight:bold") Service/s you approved:
+                                    .x_panel(style='background-color:#394D5F; border-color:#394D5F')
+                                        h2(style="font-weight:bold; color:white") Service/s you approved:
                                    
-                                table#datatable2.table.table.jambo_table
+                                table#datatable2.table.table.jambo_table.table-bordered
                                     thead
                                         tr
                                             th ID
@@ -95,13 +95,13 @@ block content
                                                             button.btn.btn-warning.btn-md(type='submit' name='btn1' value='revert') Revert
                     .col-md-12.col-sm-12.col-xs-12
                         br
-                        .x_panel
+                        .x_panel(style='background-color:rgba(231,76,60,0.3)')
                                 br
                                 .x_title
-                                    .x_panel
-                                        h2(style="font-weight:bold") Service/s you rejected:
+                                    .x_panel(style='background-color:#394D5F; border-color:#394D5F')
+                                        h2(style="font-weight:bold; color:white") Service/s you rejected:
                                     
-                                table#datatable3.table.table.jambo_table
+                                table#datatable3.table.table.jambo_table.table-bordered
                                     thead
                                         tr
                                             th ID

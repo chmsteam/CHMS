@@ -6,7 +6,7 @@ block content
             .page-title
                 .row
                     .col-md-12.col-sm-12.col-xs-12
-                        .x_panel
+                        .x_panel(style='background-color:rgba(52,152,219,.3)')
                             .x_title
                                 .pull-right
                                         a(href='transaction_client_request')
@@ -15,16 +15,17 @@ block content
                                     h3
                                         b Client Request
                             br
-                            .x_panel(style="background-color:#f1f1f1")
+                            .x_panel.wow.fadeInRight(style='background-color:#3E5367')
                                 .x_content
                                     each client in clienttab
                                         .col-md-3.col-sm-3.col-xs-12.profile_left
+                                            br
                                             .profile_img
                                                 #crop-avatar
                                                     // Current avatar
                                                     img.img-responsive.avatar-view(src='../images/'+client.strPicture, alt='Avatar', title='Change the avatar', style='width:170px; height:170px')
-                                            h3 #{client.strName}
-                                            ul.list-unstyled.user_data
+                                            h3(style='color:white') #{client.strName}
+                                            ul.list-unstyled.user_data(style='color:white')
                                                 li.m-top-xs
                                                     i.fa.fa-phone-square.user-profile-icon
                                                     | &nbsp#{client.strContact}
@@ -156,10 +157,11 @@ block content
                                 br
                                 each list in listtab
                                     if list.strRequestStatus == 'On process'
-                                        .x_panel
+                                        .x_panel(style='background-color:rgba(38,185,154,0.3)')
                                             .x_title
-                                                .x_panel(style='background-color:#394D5F')
-                                                    h2(style="font-weight:bold; font:white") List for Household Worker's approval
+                                                .x_panel(style='background-color:#394D5F; border-color:#394D5F')
+                                                    h2(style="color:white") 
+                                                        b   List for Household Worker's approval
                                             .x_panel
                                                 br
                                                 .row
@@ -219,12 +221,11 @@ block content
                                                                                         i.fa.fa-fa-trash
                                                                                         |  Remove
                                         
-                                        .x_panel
+                                        .x_panel(style='background-color:rgba(38,185,154,0.3)')
                                             .x_title
-                                                .x_panel(style='background-color:#394D5F')
-                                                    center
-                                                        h2 
-                                                            b   List for Client's pproval
+                                                .x_panel(style='background-color:#394D5F; border-color:#394D5F')
+                                                    h2(style="color:white")  
+                                                        b   List for Client's pproval
                                             .x_panel
                                                 br
                                                 .row    

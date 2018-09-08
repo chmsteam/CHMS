@@ -10,102 +10,103 @@ block content
                         b Fees
                 .row
                     .col-md-12.col-sm-12.col-xs-12
-                        .x_panel
+                        .x_panel(style='background-color:rgba(52,152,219,.3)')
                             .x_content
-                            button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='.bs-add-modal-xs')
-                                i.fa.fa-plus
-                                | &nbspAdd
-                         
-                            table#datatable.table.table-striped.table-bordered
-                                thead
-                                    tr
-                                        //- th ID NO.
-                                        th NAME
-                                        th FEE
-                                        th STATUS
-                                        th ACTION
-                                tbody
-                                    each item in itemtab
-                                        tr
-                                        
-                                            //- td #{item.intID}
-                                            td #{item.strName}
-                                            td #{item.fltFee}
-                                            td #{item.strStatus}
-                                                //- input.js-switch(type='checkbox', checked='')
-                                            td
-                                                //- button.btn.btn-info(type='button')
-                                                    i.fa.fa-eye
-                                                    |   View
-                                                button.btn.btn-warning(type='button', id=''+item.intID, name=''+item.strName,data-toggle='modal', data-target='#edit_fee', data-id=item.intID, data-name=item.strName, data-fee=item.fltFee)
-                                                    i.fa.fa-edit
-                                                    |   Edit
-                                                //- if item.strStatus=='Active'
-                                                //-     a(href="disable_service/"+item.intID)
-                                                //-         button.btn.btn-danger(type='button')
-                                                //-             i.fa.fa-toggle-off
-                                                //-             |   Disable
-                                                //- else if item.strStatus=='Inactive'
-                                                //-     a(href="enable_service/"+item.intID)
-                                                //-         button.btn.btn-danger(type='button')
-                                                //-             i.fa.fa-toggle-on
-                                                //-             |   Enable
-                //- Add
-                .modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
-                    .modal-dialog.modal-xs
-                        .modal-content
-                            .modal-header(style='background-color:#f1f1f1')
-                                button.close(type='button', data-dismiss='modal')
-                                    span(aria-hidden='true') ×
-                                h4#myModalLabel.modal-title Add a Service
-                            .modal-body
-                               form#demo-form2.form-horizontal.form-label-left(method="POST" action="add_service")
-                                .form-group
-                                    br
-                                    br
-                                    label.control-label.col-md-3.col-sm-3.col-xs-12(for='service-name')
-                                        | Service Name 
-                                        span.required *
-                                    .col-md-6.col-sm-6.col-xs-12
-                                        input#first-name.form-control.col-md-7.col-xs-12(type='text', required='required', name='servicename')
+                                button.btn.btn-success.btn-lg(type='button', data-toggle='modal', data-target='.bs-add-modal-xs')
+                                    i.fa.fa-plus
+                                    | &nbspAdd
+                            .x_panel
                                 br
-                                .ln_solid
-                                .form-group.pull-right
-                                    button.btn.btn-primary(type='reset') Reset
-                                    button.btn.btn-success(type='submit') Add
-                                    button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
-                //- Edit
-                #edit_fee.modal.fade.bs-edit-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
-                    .modal-dialog.modal-xs
-                        .modal-content
-                            .modal-header(style='background-color:#f1f1f1')
-                                button.close(type='button', data-dismiss='modal')
-                                    span(aria-hidden='true') ×
-                                h4#myModalLabel.modal-title Edit Fee
-                            .modal-body
-                                form#demo-form2.form-horizontal.form-label-left(method="POST" action="")
+                                table#datatable.table.table-striped.table-bordered
+                                    thead
+                                        tr
+                                            //- th ID NO.
+                                            th NAME
+                                            th FEE
+                                            th STATUS
+                                            th ACTION
+                                    tbody
+                                        each item in itemtab
+                                            tr
+                                            
+                                                //- td #{item.intID}
+                                                td #{item.strName}
+                                                td #{item.fltFee}
+                                                td #{item.strStatus}
+                                                    //- input.js-switch(type='checkbox', checked='')
+                                                td
+                                                    //- button.btn.btn-info(type='button')
+                                                        i.fa.fa-eye
+                                                        |   View
+                                                    button.btn.btn-warning(type='button', id=''+item.intID, name=''+item.strName,data-toggle='modal', data-target='#edit_fee', data-id=item.intID, data-name=item.strName, data-fee=item.fltFee)
+                                                        i.fa.fa-edit
+                                                        |   Edit
+                                                    //- if item.strStatus=='Active'
+                                                    //-     a(href="disable_service/"+item.intID)
+                                                    //-         button.btn.btn-danger(type='button')
+                                                    //-             i.fa.fa-toggle-off
+                                                    //-             |   Disable
+                                                    //- else if item.strStatus=='Inactive'
+                                                    //-     a(href="enable_service/"+item.intID)
+                                                    //-         button.btn.btn-danger(type='button')
+                                                    //-             i.fa.fa-toggle-on
+                                                    //-             |   Enable
+                    //- Add
+                    .modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+                        .modal-dialog.modal-xs
+                            .modal-content
+                                .modal-header(style='background-color:#f1f1f1')
+                                    button.close(type='button', data-dismiss='modal')
+                                        span(aria-hidden='true') ×
+                                    h4#myModalLabel.modal-title Add a Service
+                                .modal-body
+                                form#demo-form2.form-horizontal.form-label-left(method="POST" action="add_service")
                                     .form-group
-                                        //- label.control-label.col-md-3.col-sm-3.col-xs-12
-                                        //-     | ID
-                                        //-     span.required *
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            //- input.form-control.col-md-7.col-xs-12(type='text', id='txt1', required='required', disabled)
-                                            input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='feeid' style="display:none;")                          
-                                    .form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12
-                                            | Fee Name
+                                        br
+                                        br
+                                        label.control-label.col-md-3.col-sm-3.col-xs-12(for='service-name')
+                                            | Service Name 
                                             span.required *
                                         .col-md-6.col-sm-6.col-xs-12
-                                            input.form-control.col-md-7.col-xs-12(type='text', id='_name', required='required' disabled)
-                                    .form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12
-                                            | Fee 
-                                            span.required *
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            input.form-control.col-md-7.col-xs-12(type='number', min='0' step='.01', id='_fee', required='required' name='fee')
+                                            input#first-name.form-control.col-md-7.col-xs-12(type='text', required='required', name='servicename')
+                                    br
                                     .ln_solid
                                     .form-group.pull-right
-                                        button.btn.btn-success(type='submit') Update
+                                        button.btn.btn-primary(type='reset') Reset
+                                        button.btn.btn-success(type='submit') Add
                                         button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
+                    //- Edit
+                    #edit_fee.modal.fade.bs-edit-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+                        .modal-dialog.modal-xs
+                            .modal-content
+                                .modal-header(style='background-color:#f1f1f1')
+                                    button.close(type='button', data-dismiss='modal')
+                                        span(aria-hidden='true') ×
+                                    h4#myModalLabel.modal-title Edit Fee
+                                .modal-body
+                                    form#demo-form2.form-horizontal.form-label-left(method="POST" action="")
+                                        .form-group
+                                            //- label.control-label.col-md-3.col-sm-3.col-xs-12
+                                            //-     | ID
+                                            //-     span.required *
+                                            .col-md-6.col-sm-6.col-xs-12
+                                                //- input.form-control.col-md-7.col-xs-12(type='text', id='txt1', required='required', disabled)
+                                                input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='feeid' style="display:none;")                          
+                                        .form-group
+                                            label.control-label.col-md-3.col-sm-3.col-xs-12
+                                                | Fee Name
+                                                span.required *
+                                            .col-md-6.col-sm-6.col-xs-12
+                                                input.form-control.col-md-7.col-xs-12(type='text', id='_name', required='required' disabled)
+                                        .form-group
+                                            label.control-label.col-md-3.col-sm-3.col-xs-12
+                                                | Fee 
+                                                span.required *
+                                            .col-md-6.col-sm-6.col-xs-12
+                                                input.form-control.col-md-7.col-xs-12(type='number', min='0' step='.01', id='_fee', required='required' name='fee')
+                                        .ln_solid
+                                        .form-group.pull-right
+                                            button.btn.btn-success(type='submit') Update
+                                            button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
 
-    
+        

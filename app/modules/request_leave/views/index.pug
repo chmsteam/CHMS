@@ -11,7 +11,7 @@ block content
                                     b Request For Leave
                                 .clearfix
                             br
-                            .x_panel
+                            .x_panel(style='background-color:rgba(38,185,154,0.7)')
                                 .x_content
                                     form(method="POST"  action="/request_leave")
                                         br
@@ -42,16 +42,19 @@ block content
                                                 .form-group
                                                     label Total Number Of Days:
                                                     input.form-control(type='number' readonly)
+                                                    br
                                         .col-md-5
                                             
                                             .form-group
                                                 label Reason of Leave *
-                                                textarea#exampleTextarea.form-control(rows='10' placeholder='Reason' name="reason" required)
-                                            
-                                            .form-group
-                                                .pull-right
-                                                    br
-                                                    button.btn.btn-lg.btn-primary(type='submit' onclick="time();" ) Submit
+                                                textarea#exampleTextarea.form-control(rows='11' placeholder='Reason' name="reason" required)
+                                                br
+                            .form-group
+                                .pull-right
+                                    
+                                    button.btn.btn-lg.btn-primary(type='submit' onclick="time();" ) Submit
+                            br
+                            br
 
                                             
                         //-     h2 Leave

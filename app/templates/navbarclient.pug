@@ -43,7 +43,7 @@ html(lang='en')
                 img(src='/admin/gentelella/production/images/mega.png')(style='width:150px; height:52px')
               // menu profile quick info
               section#services
-                .profile.clearfix.wow.fadeInUp
+                .profile.clearfix
                   div(style='padding-left:10%; width:108%')
                     img.img-circle.profile_img(src='/images/'+user.strPicture, alt='...' height="150px")
                   div(style='padding-right:8%')(align='center')
@@ -52,10 +52,10 @@ html(lang='en')
                 br
 
                 // sidebar menu
-                #sidebar-menu.main_menu.wow.fadeInUp
-                  .menu_section.wow.fadeInUp
+                #sidebar-menu.main_menu
+                  .menu_section
                     h3
-                    ul.side-menu.wow.fadeInUp(style='')
+                    ul.side-menu(style='')
                       li.x_panel(align='center', style='padding-right:20%')
                         a(href='hwRegi')
                           i.fa.fa-user
