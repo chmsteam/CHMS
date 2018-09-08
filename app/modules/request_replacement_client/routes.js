@@ -4,10 +4,10 @@ var router = express.Router();
 var moment = require('moment');
 
 // ----------------------------------------------------------------------------------index page
-router.get('/', flog, findcurrenthw, renderreplacement)
+router.get('/', flog, findcurrenthw,  findcurrenthwtobereplaced, renderreplacement)
 function renderreplacement(req,res){
     if(req.valid==1)
-    res.render('request_replacement_client/views/index',{usertab: req.user, currenthwtab: req.currenthw});
+    res.render('request_replacement_client/views/index',{usertab: req.user, currenthwtab: req.currenthw, currenthwtobereplacedtab: req.currenthwtobereplaced});
     else if(req.valid==0)
     res.render('admin/views/invalidpages/normalonly');
     else

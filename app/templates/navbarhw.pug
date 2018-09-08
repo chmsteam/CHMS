@@ -93,7 +93,8 @@ html(lang='en')
                   a.user-profile.dropdown-toggle(href='javascript:;', data-toggle='dropdown', aria-expanded='false')
                     img(src='images/img.jpg', alt='')
                     b #{user.strFName}
-                      span(style="float:right")
+                      span
+                        |&nbsp 
                         i.fa.fa-angle-down
                   ul.dropdown-menu.dropdown-usermenu.pull-right
                     li
@@ -110,7 +111,9 @@ html(lang='en')
                   a.user-profile.dropdown-toggle(href='javascript:;', data-toggle='dropdown', aria-expanded='false')
                     img(src='images/img.jpg', alt='')
                     b Request
-                    span.fa.fa-angle-down
+                    span
+                        |&nbsp 
+                        i.fa.fa-angle-down
                   ul.dropdown-menu.dropdown-usermenu.pull-right
                     li
                       a(href='/request_leave') For Leave
@@ -149,6 +152,7 @@ html(lang='en')
               var sal = button.data('sal')
               var date = button.data('needed')
               var serv = button.data('serv')
+              var image = button.data('image')
 
 
               var modal = $(this)
@@ -159,6 +163,7 @@ html(lang='en')
               modal.find('.modal-body #sal').text(sal)
               modal.find('.modal-body #date').text(date)
               modal.find('.modal-body #serv').text(serv)
+              $('#imagepre').attr('src', image); // image
             });
             //- ------------------------------- report client
           $('#report').on('show.bs.modal', function (event) {

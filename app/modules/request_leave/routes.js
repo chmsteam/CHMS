@@ -41,13 +41,19 @@ function createleave(req,res){
             else{
               db.query(`INSERT INTO tblfinalrequest (intRequest_ClientID, strRequestType,strRequestName, strRequestDesc, datRequestDate, strRequestStatus, datRequestNeedDate)  VALUES (?, 'Reliever', '${retVal}',"", NULL, "Draft", ?)`, [clID, req.body.started],  function(err) {
                 console.log(err)
-                db.query(`SELECT intRequestID FROM tblfinalrequest WHERE strRequestName = '${retVal}' AND intRequest_ClientID = ?`,[clID], function(err, results2) {
+                db.query(`SELECT * FROM tblfinalrequest WHERE strRequestName = '${retVal}' AND intRequest_ClientID = ?`,[clID], function(err, results2) {
                  console.log(err)
-                  db.query("INSERT INTO tblleaverequest (intLeaveRequestID, intHouseholdID, intClientID, datDateCreated,  intTypeOfLeave,  strAddressOnLeave, strReason,  datDateFrom, datDateTo, strLeaveStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,'Pending') ", [results2[0].intRequestID, req.session.user, clID, req.body.created, req.body.type, req.body.addLeave, req.body.reason, req.body.started, req.body.end], (err, results, fields)=>{
+                  db.query("INSERT INTO tblleaverequest (intLeaveRequestID, intHouseholdID, intClientID, datDateCreated,  intTypeOfLeave,  strAddressOnLeave, strReason,  datDateFrom, datDateTo, strLeaveStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,'For Client Approval') ", [results2[0].intRequestID, req.session.user, clID, req.body.created, req.body.type, req.body.addLeave, req.body.reason, req.body.started, req.body.end], (err, results, fields)=>{
                    if (err) console.log(err);
                    db.query(`INSERT INTO tblreliever (intReq_RelID, intTobeRelievedID) VALUES (?,?)`, [results2[0].intRequestID, req.session.user], function(err){
                      console.log(err)
-                     res.redirect('/request_leave')
+                    db.query(`SELECT * FROM tblhouseholdworker WHERE intHWID = ?`,[req.session.user], function(err, results3) {
+                      console.log(err)
+                      db.query(`INSERT INTO tblinitialrequest VALUES (?,'1', ?, '1', '18', '65', 'Any', 'Elementary', '0', '0')`, [results2[0].intRequestID, results3[0].intServiceID], function(err){
+                        console.log(err)
+                        res.redirect('/request_leave')
+                      })
+                    })
                    })
                   });
                 }); 

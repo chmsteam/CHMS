@@ -33,54 +33,56 @@ block content
                                                 //- button.btn.btn-danger.btn-md(type='button') Cancel
                             br         
                             br
-                            each list in listtab
-                                each item in itemtab
-                                    if list.strRequestStatus == 'Draft' && item.itemnum == 0
-                                        button.btn.btn-success.btn-lg(type='button' data-toggle="modal" data-target="#setattritbutes")
-                                            i.fa.fa-plus
-                                            | &nbsp Set Attributes
-                                    else if list.strRequestStatus == 'Draft' && item.itemnum == 1
-                            each count in counttab
-                                each list in listtab
-                                    each oldhwservice in oldhwservicetab
-                                        if (list.strRequestStatus == 'Draft' && count.count != 0 && list.strRequestType =='Reliever')
-                                            form(action="/request_reliever/submit_request_"+list.intRequestID+ oldhwservice.intHWID, method="post")
-                                                button.btn.pull-right.btn-success.btn-lg(type='submit')
-                                                    i.fa.fa-envelope
-                                                    |   Submit List
-                                        else if list.strRequestStatus == 'On process' || list.strRequestStatus == 'Pending'
+                            //- each list in listtab
+                            //-     each item in itemtab
+                            //-         if list.strRequestStatus == 'Draft' && item.itemnum == 0
+                            //-             button.btn.btn-success.btn-lg(type='button' data-toggle="modal" data-target="#setattritbutes")
+                            //-                 i.fa.fa-plus
+                            //-                 | &nbsp Set Attributes
+                            //-         else if list.strRequestStatus == 'Draft' && item.itemnum == 1
+                            //- each count in counttab
+                            //-     each list in listtab
+                            //-         each oldhwservice in oldhwservicetab
+                            //-             if (list.strRequestStatus == 'Draft' && count.count != 0 && list.strRequestType =='Reliever')
+                            //-                 form(action="/request_reliever/submit_request_"+list.intRequestID+ oldhwservice.intHWID, method="post")
+                            //-                     button.btn.pull-right.btn-success.btn-lg(type='submit')
+                            //-                         i.fa.fa-envelope
+                            //-                         |   Submit List
+                            //-             else if list.strRequestStatus == 'On process' || list.strRequestStatus == 'Pending'
                             br
-                            h2 Services :
+                            h2 Service :
                             table.table.jambo_table.bulk_action
                                 thead
                                     tr
-                                        th Number
+                                        //- th Number
                                         th Service
-                                        th Quantity
-                                        th Approved
-                                        th Reject
+                                        //- th Quantity
+                                        //- th Approved
+                                        //- th Reject
+                                        th Results
                                         th Action
                                 tbody
                                 each item in itemtab
                                     each list in listtab  
                                         tr
-                                            td #{item.intIRequest_No}
+                                            //- td #{item.intIRequest_No}
                                             td #{item.strName}
-                                            td #{item.intIQuantity}
-                                            td 
+                                            //- td #{item.intIQuantity}
+                                            //- td 
+                                            //- td 
                                             td 
                                             td
                                                 button.btn.btn-info.btn-xs(type='button' data-toggle="modal" data-target="#view_item"
                                                                         , data-requestno=item.intIRequest_No, data-servicename=item.strName, data-quantity=item.intIQuantity, data-gender=item.strIRequestGender, data-educ=item.strIRequestEduc, data-exp=item.intIRequestExp
                                                                         , data-sal= item.deciRequestSalary, data-age=item.intIRequestAge1 , data-ages=item.intIRequestAge2) View
                                                     if list.strRequestStatus == 'Draft'
-                                                        button.btn.btn-warning.btn-xs(type='button' data-toggle="modal" data-target="#edit_item") Edit
-                                                        button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item") Delete
+                                                        //- button.btn.btn-warning.btn-xs(type='button' data-toggle="modal" data-target="#edit_item") Edit
+                                                        //- button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item") Delete
                                                     else if list.strRequestStatus == 'On process'
                                                         each oldhwservice in oldhwservicetab
                                                             a(href='result_'+item.intIRequestID+item.intIRequest_No+oldhwservice.intHWID)
                                                                 button.btn.btn-primary.btn-xs(type='button') View Result
-                                                            button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item") Delete
+                                                            //- button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item") Delete
                             each list in listtab
                                 if list.strRequestStatus == 'Pending' || list.strRequestStatus == 'Approved' || list.strRequestStatus == 'Rejected' || list.strRequestStatus == 'Finished'
                                     each transdetails in transdetailstab

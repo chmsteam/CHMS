@@ -320,6 +320,7 @@ CREATE TABLE IF NOT EXISTS `CHMS`.`tbltransaction` (
     `strTStatus` VARCHAR(20),
     `strORNumber` VARCHAR(20),
     `strInvoiceNum` VARCHAR(20),
+    `strORPicture` VARCHAR(45),
     KEY (`intTRequestID`),
     CONSTRAINT `intTRequestID` FOREIGN KEY (`intTRequestID`) REFERENCES `tblfinalrequest` (`intRequestID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 )
