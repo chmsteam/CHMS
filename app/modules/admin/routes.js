@@ -522,6 +522,58 @@ function rendermaintenancecity(req,res){
   else
     res.render('login/views/invalid');
 }
+//------------------------Maintenance Reason Of Replacement
+function renderReasonReplacement(req,res){
+  if(req.valid==0)
+    res.render('admin/views/maintenance_reason_of_replacement',{usertab: req.user, reasons: req.displayReason});
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+router.post('/add_repReason',(req, res) => {
+  var db = require('../../lib/database')();
+  db.query(`INSERT INTO tblmreplacereason (strName, strStatus)  VALUES ("${req.body.reason}", "Active")`, (err) => {
+    if (err) console.log(err);
+    res.redirect('/admin/maintenance_reason_of_replacement');
+  });
+});
+router.post('/edit_repReason',(req, res) => {
+  var db = require('../../lib/database')();
+  var sql = "UPDATE tblmreplacereason SET strName= ? WHERE intID = ?";
+  db.query(sql,[req.body.reason,  req.body.repID],function (err) {
+    if (err) console.log(err);
+    res.redirect('/admin/maintenance_reason_of_replacement');
+    });
+});
+function displayReason(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT * FROM tblmreplacereason ", function (err, results) {
+    if (err) return res.send(err);
+    req.displayReason = results;
+    return next();
+  });
+}
+// Enable Reason
+function enableReason(req,res){
+  var db = require('../../lib/database')();
+  var sql = "UPDATE tblmreplacereason SET strStatus= 'Active' WHERE strStatus='Inactive' AND intID = ?";
+  db.query(sql,[req.params.userid],function (err) {
+    if (err) return res.send(err);
+    res.redirect('/admin/maintenance_reason_of_replacement');
+  });
+
+}
+// Disable Reason
+function disableReason(req,res){
+var db = require('../../lib/database')();
+var sql = "UPDATE tblmreplacereason SET strStatus= 'Inactive' WHERE strStatus='Active' AND intID = ?";
+db.query(sql,[req.params.userid],function (err) {
+  if (err) return res.send(err);
+  res.redirect('/admin/maintenance_reason_of_replacement');
+});
+}
+//-------------------------------------------------
 function findmcity(req, res, next){
   var db = require('../../lib/database')();
   db.query("SELECT * FROM tblmcity ", function (err, results) {
@@ -673,6 +725,8 @@ router.get('/enable_skill/:userid',flog,enableskill);
 router.get('/disable_skill/:userid',flog,disableskill);
 router.get('/enable_city/:userid',flog,enablecity);
 router.get('/disable_city/:userid',flog,disablecity);
+router.get('/enable_reas/:userid',flog,enableReason);
+router.get('/disable_reas/:userid',flog,disableReason);
 
 
 router.post('/add_requirement',(req, res) => {
@@ -2306,4 +2360,6 @@ router.get('/transactions/household_workers/rejected', flog, hhworkertMaintenanc
 //terms
 router.get('/registration/Terms_and_Conditions', flog, terms);
 
+//maintenance City
+router.get('/maintenance_reason_of_replacement', flog, displayReason, renderReasonReplacement );
 exports.admin= router;

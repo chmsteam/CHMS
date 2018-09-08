@@ -131,7 +131,8 @@ html(lang='en')
                   a.user-profile.dropdown-toggle(href='javascript:;', data-toggle='dropdown', aria-expanded='false')
                     img(src='images/img.jpg', alt='')
                     b #{user.strFName}
-                      span(style="float:right")
+                      span
+                        |&nbsp 
                         i.fa.fa-angle-down
                   ul.dropdown-menu.dropdown-usermenu.pull-right
                     li
@@ -146,7 +147,9 @@ html(lang='en')
                 li
                   a.user-profile.dropdown-toggle(href='javascript:;', data-toggle='dropdown', aria-expanded='false')
                     b Request
-                      span.fa.fa-angle-down
+                      span
+                        |&nbsp 
+                        i.fa.fa-angle-down
                   ul.dropdown-menu.dropdown-usermenu.pull-right
                     li
                       a(href='/request_add') Add Household Worker

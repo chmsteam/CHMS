@@ -91,6 +91,8 @@ html(lang='en')
                         li
                           a(href='/admin/maintenance_householdworker_skills') Household Worker Skills
                         li
+                          a(href='/admin/maintenance_reason_of_replacement') Reason of Replacement
+                        li
                           a(href='/admin/maintenance_incident_report') Incident report                     
                         li
                           a(href='/admin/maintenance_type_of_leave') Leave              
@@ -221,7 +223,9 @@ html(lang='en')
                     a.user-profile.dropdown-toggle(href='javascript:;', data-toggle='dropdown', aria-expanded='false')
                       img(src='images/img.jpg', alt='')
                       | #{user.strFName} #{user.strLName}
-                      span.fa.fa-angle-down
+                      span
+                        |&nbsp 
+                        i.fa.fa-angle-down
                     ul.dropdown-menu.dropdown-usermenu.pull-right
                       //- li
                         a(href='javascript:;')  Profile
@@ -389,6 +393,15 @@ html(lang='en')
               modal.find('.modal-body #_type').val(type)
             });
             $('#edit_city').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('id')
+              var name = button.data('name')
+
+              var modal = $(this)
+              modal.find('.modal-body #_id').val(id)
+              modal.find('.modal-body #_name').val(name)
+            });
+            $('#edit_reas').on('show.bs.modal', function (event) {
               var button = $(event.relatedTarget)
               var id = button.data('id')
               var name = button.data('name')
