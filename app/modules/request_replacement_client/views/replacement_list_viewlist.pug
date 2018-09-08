@@ -18,9 +18,10 @@ block content
                                         h3
                                             b Results
                                 br
-                           
-                                .x_panel
-                                    h3 For your Approval
+                                br
+                                .x_title
+                                    .x_panel(style='background-color:#394D5F')
+                                        h2(style="font-weight:bold; color:white") Suggested service/s from the Admin:
                                     table#datatable-responsive.table.table-striped.table-bordered
                                         thead
                                             tr
@@ -58,9 +59,12 @@ block content
                                                                     button.btn.btn-danger(type='submit' name='btn1' value='reject') Reject
 
                     .col-md-12.col-sm-12.col-xs-12
-                            .x_panel
-                                .x_panel
-                                    h3 Approved
+                        br
+                        .x_panel(style='background-color:rgba(38,185,154,0.3)')
+                                    br
+                                    .x_title
+                                        .x_panel(style='background-color:#394D5F; border-color:#394D5F')
+                                            h2(style="font-weight:bold; color:white") Service/s you approved:
                                     table#datatable2.table.table-striped.table-bordered
                                         thead
                                             tr
@@ -91,9 +95,12 @@ block content
                                                                     button.btn.btn-danger.btn-md(type='submit') Remove
 
                     .col-md-12.col-sm-12.col-xs-12
-                            .x_panel
-                                .x_panel
-                                    h3 Rejected
+                        br
+                        .x_panel(style='background-color:rgba(231,76,60,0.3)')
+                                    br
+                                    .x_title
+                                        .x_panel(style='background-color:#394D5F; border-color:#394D5F')
+                                            h2(style="font-weight:bold; color:white") Service/s you rejected:
                                     table#datatable3.table.table-striped.table-bordered
                                         thead
                                             tr

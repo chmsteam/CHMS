@@ -16,9 +16,9 @@ block content
                                     b   Contract
                             
                             .clearfix
-                                .x_panel
+                                .x_panel(style='background-color:#f1f1f1')
                                     br
-                                    table.table.jambo_table
+                                    table.table.jambo_table.table-bordered
                                         thead
                                             tr
                                                 th MAIN CONTRACT
@@ -59,7 +59,7 @@ block content
                                     else if cont.strContractStatus == 'Accepted'
                                         h3 Household Worker Approval:
                                         .clearfix
-                                            table.table.jambo_table
+                                            table.table.jambo_table.table-bordered
                                                 thead
                                                     tr
                                                         th NAME
@@ -107,10 +107,10 @@ block content
             #maincontract.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-hidden='true')
                 .modal-dialog.modal-lg
                     .modal-content
-                        .modal-header
+                        .modal-header(style='background-color:#33495E')
                             button.close(type='button', data-dismiss='modal')
                                 span(aria-hidden='true') ×
-                            h4
+                            h4(style='color:white')
                                 b CONTRACT
                         .modal-body
                             .x_panel

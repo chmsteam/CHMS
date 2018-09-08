@@ -1,11 +1,12 @@
 extends ../../../templates/navbaradmin.pug
 block content
-   .right_col(role='main')
-        div
+   section#services
+        .right_col(role='main' style="background-color:transparent")
             .clearfix
             .row
                 .col-md-12
-                    .x_panel
+                    .x_panel(style='background-color:rgba(52,152,219,.3)')
+                        br
                         .x_title
                             .pull-right
                                 a(href='/admin/transaction_settled')
@@ -14,54 +15,57 @@ block content
                         .x_pa
                         .clearfix
                             //- tbltransaction
-                            br
-                            h1 Contract:
-                            table.table.table-striped.table-bordered
-                                thead
-                                    tr
-                                        th Transaction ID
-                                        th Client Name
-                                        th Date Settled
-                                        th Transaction Will End
-                                        th Status
-                                        th ACTION
-                                tbody
-                                    each trans in transtab
+                            
+                            .x_panel
+                                h1 
+                                    b   Contract:
+                                table.table.table-striped.table-bordered
+                                    thead
                                         tr
-                                            td #{trans.intTRequestID}
-                                            td #{trans.clientFName} #{trans.clientLName}
-                                            td #{trans.datDateSettled}
-                                            td #{trans.datDateExpiry}
-                                            td #{trans.strTStatus}
-                                            td
-                                                button.btn.btn-primary.btn-md(type='button') Deployment Details
-                                                button.btn.btn-primary.btn-md(type='button') Contract
-                                                button.btn.btn-secondary.btn-md(type='button') Invoice
-                                                button.btn.btn-secondary.btn-md(type='button') O.R.
-                                        //- View Deployment Details, View Contract, View Invoice, View OR,
+                                            th Trans. ID
+                                            th Client Name
+                                            th Date Settled
+                                            th Transaction Will End
+                                            th Status
+                                            th ACTION
+                                    tbody
+                                        each trans in transtab
+                                            tr
+                                                td #{trans.intTRequestID}
+                                                td #{trans.clientFName} #{trans.clientLName}
+                                                td #{trans.datDateSettled}
+                                                td #{trans.datDateExpiry}
+                                                td #{trans.strTStatus}
+                                                td
+                                                    button.btn.btn-primary.btn-md(type='button') Deployment Details
+                                                    button.btn.btn-primary.btn-md(type='button') Contract
+                                                    button.btn.btn-secondary.btn-md(type='button') Invoice
+                                                    button.btn.btn-secondary.btn-md(type='button') O.R.
+                                            //- View Deployment Details, View Contract, View Invoice, View OR,
                             br
     
-
-                            h1 Household Worker:
-                            //- tblcontract
-                            table.table.table-striped.table-bordered
-                                thead
-                                    tr
-                                        th NAME
-                                        th SERVICE
-                                        th SALARY
-                                        th CURRENT STATUS
-                                        th ACTION
-                                tbody
-                                    each hw in hwtab
+                            .x_panel
+                                h1 
+                                    b   Household Worker:
+                                //- tblcontract
+                                table.table.table-striped.table-bordered
+                                    thead
                                         tr
-                                            td #{hw.strFName} #{hw.strLName}
-                                            td #{hw.strName}
-                                            td #{hw.intConSalary}
-                                            td #{hw.strCurStatus}
-                                            td
-                                                button.btn.btn-primary.btn-md(type='button') View Profile
-                                                button.btn.btn-primary.btn-md(type='button') Contract
+                                            th NAME
+                                            th SERVICE
+                                            th SALARY
+                                            th CURRENT STATUS
+                                            th ACTION
+                                    tbody
+                                        each hw in hwtab
+                                            tr
+                                                td #{hw.strFName} #{hw.strLName}
+                                                td #{hw.strName}
+                                                td #{hw.intConSalary}
+                                                td #{hw.strCurStatus}
+                                                td
+                                                    button.btn.btn-primary.btn-md(type='button') View Profile
+                                                    button.btn.btn-primary.btn-md(type='button') Contract
 
 
 
