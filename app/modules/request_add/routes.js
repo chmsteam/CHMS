@@ -46,12 +46,27 @@ router.post('/createlist_services/createlist', flog, (req, res) => {
 //Delete a list: status = draft
 router.post('/delete_draftlist', flog, (req, res) => {
   var db = require('../../lib/database')();
-  db.query(`DELETE FROM tblfinalrequest WHERE intRequestID = '${req.body.transid}'`, (err) => {
-    if (err) console.log(err);
-    else
+  
+  db.query(`DELETE FROM tblinitialrequest WHERE intIRequestID = '${req.body.transid}'`, (err) => {
+    console.log(err)
+    db.query(`DELETE FROM tblfinalrequest WHERE intRequestID = '${req.body.transid}'`, (err) => {
+      console.log(err)
       res.redirect('/request_add');
     });
   });
+});
+//Cancel list: status = draft
+router.post('/cancel_onprocesslist', flog, (req, res) => {
+  var db = require('../../lib/database')();
+    db.query(`UPDATE tblfinalrequest SET strRequestStatus = 'Cancelled' WHERE intRequestID = '${req.body.transid}'`, (err) => {
+      console.log(err)
+      db.query(`UPDATE tbltransaction SET strTStatus = 'Cancelled' WHERE intTRequestID = '${req.body.transid}'`, (err) => {
+        console.log(err)
+        res.redirect('/request_add');
+    });
+      // res.redirect('/request_add');
+  });
+});
   
 // My list Page
 function rendermylist(req,res){
@@ -178,10 +193,43 @@ function submitrequest(req,res){
   var sql = "UPDATE tblfinalrequest SET strRequestStatus= 'On process' WHERE intRequestID = ?";
   db.query(sql,[req.params.requestid],function (err) {
     if (err) return res.send(err);
-    res.redirect('/request_add');
+    res.redirect('/request_add/mylist_'+req.params.requestid);
   });
 }
 router.get('/submit_request_:requestid',flog,submitrequest);
+
+// ---------------------------------------- delete services
+router.post('/removeitem', deleteservice)
+function deleteservice(req,res){
+  var db = require('../../lib/database')();
+  if (req.body.btn1 == 'deletedraft'){
+    db.query(`DELETE FROM tblinitialrequest WHERE intIRequestID =? AND intIRequest_No=?`,[req.body.requestid, req.body.requestno], function(err){
+      console.log(err);
+      res.redirect('/request_add/mylist_'+req.body.requestid);
+    })
+  }
+  else if (req.body.btn1 == 'deleteonprocess'){
+    db.query(`DELETE FROM tblinitialrequest WHERE intIRequestID =? AND intIRequest_No=?`,[req.body.requestid, req.body.requestno], function(err){
+      console.log(err);
+      res.redirect('/request_add/mylist_'+req.body.requestid);
+    })
+  }
+}
+
+// ---------------------------------------- edit services
+router.post('/edititem',editservice)
+function editservice(req,res){
+  var db = require('../../lib/database')();
+  if (req.body.btn1 == 'edititem'){
+    db.query(`UPDATE tblinitialrequest SET intIQuantity=?, intIRequestAge1=?, intIRequestAge2=?, strIRequestGender=?, strIRequestEduc=?, 
+                                           intIRequestExp=?, deciRequestSalary=? WHERE intIRequestID =? AND intIRequest_No=?`,[req.body.qty, req.body.age1, req.body.age2,
+                                            req.body.gender, req.body.educ, req.body.workexp, req.body.salary, req.body.requestid, req.body.requestno], function(err){
+      console.log(err);
+      res.redirect('/request_add/mylist_'+req.body.requestid);
+    })
+
+  }
+}
 
 //----------------------------------------------------------------------------RESULTS SENT BY ADMIN
 function findresult(req,res,next){

@@ -222,7 +222,7 @@ CREATE TABLE `tblhw_educbg` (
 -- Dumping data for table `tblhw_educbg`
 --
 
-INSERT INTO `tblhw_educbg` VALUES (6,'Elementary','PUers','Manila',2011,'none'),(7,'High School','PUsers','Manila',2011,'none');
+INSERT INTO `tblhw_educbg` VALUES (6,'Elementary','PUers','Manila',2011,'none'),(7,'Elementary','PUsers','Manila',2011,'none');
 
 --
 -- Table structure for table `tblhw_ref`
