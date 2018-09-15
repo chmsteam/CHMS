@@ -8,38 +8,43 @@ block content
                         .x_panel
                             .x_panel
                                 .x_title
+                                    .pull-right
+                                        a(href='/request_replacement')
+                                                button.btn.btn-primary.btn-lg(type='button') Back
                                     h1
                                         b  Replacement List 
                                 .x_title
                                     .clearfix
-                                    .x_panel(style='background-color:#f1f1f1')
+                                    .x_panel.alert-success(style='background-color:')
                                         h3(style="font-size:18px;")(align='center')
                                             b   &nbsp&nbsp&nbsp&nbsp&nbspDisclaimer !!!
                                                 br
-                                            | Set the attributes of the Household Worker that you want to be replace.
+                                                br
+                                            <li> Set the attributes of the Household Worker that you want to be replace.
                                 br
-                                h2 Household Worker to be replaced:
-                                table.table.jambo_table.table-bordered
-                                    thead
-                                        tr
-                                            th NAME
-                                            th SERVICE
-                                            th REPLACEMENT LEFT
-                                            th STATUS
-                                            th ACTION
-                                    tbody
-                                        each currenthwtobereplaced in currenthwtobereplacedtab
-                                            tr 
-                                                //- td #{currenthwtobereplaced.}
-                                                td #{currenthwtobereplaced.strFName} #{currenthwtobereplaced.strLName}
-                                                td #{currenthwtobereplaced.strName}
-                                                td #{currenthwtobereplaced.intConReplacementLeft}
-                                                td #{currenthwtobereplaced.strCurStatus}
-                                                td
-                                                    button.btn.btn-primary.btn-md(type='button') View Profile
-                                                    button.btn.btn-danger.btn-md(type='button') Cancel
+                                .x_panel(style='background-color:#f1f1f1')
+                                    h3 To be replaced:
+                                    table.table.jambo_table.table-bordered
+                                        thead
+                                            tr
+                                                th NAME
+                                                th SERVICE
+                                                th REPLACEMENT LEFT
+                                                th STATUS
+                                                th ACTION
+                                        tbody
+                                            each currenthwtobereplaced in currenthwtobereplacedtab
+                                                tr 
+                                                    //- td #{currenthwtobereplaced.}
+                                                    td #{currenthwtobereplaced.strFName} #{currenthwtobereplaced.strLName}
+                                                    td #{currenthwtobereplaced.strName}
+                                                    td #{currenthwtobereplaced.intConReplacementLeft}
+                                                    td #{currenthwtobereplaced.strCurStatus}
+                                                    td
+                                                        button.btn.btn-primary.btn-md(type='button') View Profile
+                                                        button.btn.btn-danger.btn-md(type='button') Cancel
                     .col-md-12.col-sm-12.col-xs-12
-                        .x_panel
+                        .x_panel(style='background-color:rgba(38,185,154,0.3)') 
                             .x_panel             
                                 each list in listtab
                                     each item in itemtab
@@ -65,8 +70,8 @@ block content
                                                         |   Submit List
                                             else if list.strRequestStatus == 'On process' || list.strRequestStatus == 'Pending'
 
-                                br
-                                h2 Requested Service/s :
+                                
+                                h3 Requested Service/s :
                                 table.table.jambo_table.table-bordered
                                     thead
                                         tr
@@ -120,9 +125,13 @@ block content
                                                                     button.btn.btn-primary.btn-xs(type='button') View
 
                     .col-md-12.col-sm-12.col-xs-12
-                        .x_panel    
-                            .x_panel
-                                h3 Approved Service/s:
+                        br
+                        .x_panel(style='background-color:rgba(38,185,154,0.3)')
+                                .x_title
+                                    .x_panel(style='background-color:#394D5F; border-color:#394D5F')
+                                        h2(style="font-weight:bold; color:white") List of service/s you approved:
+                                .x_panel
+                            
                                 .clearfix
                                     each hw in hwtab
                                         .col-md-4.col-sm-4.col-xs-12.profile_details
@@ -157,8 +166,8 @@ block content
                                                                     |  View Profile
                                 .form-group.pull-right
                                     .col-md-12.col-sm-9.col-xs-12.pull-right
-                                        br
-                                        a(href='/request_replacement')
+                                        
+                                        //-a(href='/request_replacement')
                                             button.btn.btn-primary.btn-lg(type='button') Back
                                         each noofapprove in noofapprovetab
                                             each list in listtab

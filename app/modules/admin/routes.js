@@ -326,7 +326,7 @@ router.post('/transaction_hhRequest_leave/reject', (req, res) =>{
       res.redirect('/admin/transaction_hhRequest_leave')
       });
 })
-//Reject Household Request
+//Accept Household Request
 router.post('/transaction_hhRequest_leave/approve', (req, res) =>{
   var db = require('../../lib/database')();
     db.query("UPDATE tblleaverequest SET strLeaveStatus = 'For Client Approval' WHERE intLeaveRequestID = ? ",
@@ -1095,15 +1095,15 @@ function resultothers(req,res,next){
       if (results[0].strIRequestGender == 'Any'){
         db2.query(`SELECT *
                     FROM
-                        (SELECT a.intHWID, b.strType, g.strName, f.strStatus, CONCAT(f.strFName,' ', f.strLName) AS hwname, a.intServiceID, a.strGender, TIMESTAMPDIFF(YEAR,a.datBirthDay,CURDATE()) as age
-                        FROM tblhouseholdworker as a INNER JOIN tblhw_educbg as b on a.intHWID= b.intHWID_educbg  inner join tblmservice as g on a.intServiceID=g.intID inner join tbluser as f on a.intHWID = f.intID
+                        (SELECT a.intHWID, g.strName, f.strStatus, CONCAT(f.strFName,' ', f.strLName) AS hwname, a.intServiceID, a.strGender, TIMESTAMPDIFF(YEAR,a.datBirthDay,CURDATE()) as age
+                        FROM tblhouseholdworker as a INNER JOIN tblmservice as g on a.intServiceID=g.intID inner join tbluser as f on a.intHWID = f.intID
                         ) as ta INNER JOIN
                         (SELECT intHWID_workbg, sum(intWorkEnd - intWorkStart) AS Work_exp
                           FROM tblhw_workbg
                           Group by intHWID_workbg) as tb 
                     ON tb.intHWID_workbg =  ta.intHWID
                     WHERE (((strStatus = 'Registered') AND (intServiceID = ${results[0].intITypeOfService})) AND ((age BETWEEN ${results[0].intIRequestAge1} AND ${results[0].intIRequestAge2})
-                            OR (strGender IN ('Male', 'Female')) OR (strType="${results[0].strIRequestEduc}"))) AND intHWID NOT IN(SELECT intRHWID FROM tblresults WHERE intRRequestID = ${req.params.requestid})
+                            OR (strGender IN ('Male', 'Female')))) AND intHWID NOT IN(SELECT intRHWID FROM tblresults WHERE intRRequestID = ${req.params.requestid})
                     HAVING Work_exp >= ${results[0].intIRequestExp} `,function(err,results2){
           console.log('query1');
           if (err) return res.send(err);

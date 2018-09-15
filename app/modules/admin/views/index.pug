@@ -7,7 +7,7 @@ block content
                 .title_left
                   h1
                     b Dashboard
-                .x_panel
+                .x_panel(style='background-color:rgba(52,152,219,.3)')
                   .col-md-8.col-sm-12.col-xs-12
                     div
                       br
@@ -18,21 +18,39 @@ block content
                           .count 0
                           h3 New Registration
                           p You have new registration.
-                          br
-                          a(href='pendingRegi')
-                            | &nbsp&nbsp&nbsp
-                            button.btn.btn-info(type='button') view
+                            br
+                            br
+                            center
+                              .row
+                                  a(href='#')
+                                    | &nbsp&nbsp&nbsp
+                                    button.btn.btn-info(type='button') Client
+                                      |&nbsp 0
+                                  a(href='#')
+                                    | &nbsp&nbsp&nbsp
+                                    button.btn.btn-info(type='button') Household Worker
+                                      |&nbsp 0
                       .wow.fadeInUp.col-lg-6.col-md-3.col-sm-6.col-xs-12
                         .tile-stats
                           .icon
                             i.fa.fa-comments-o
-                          .count 1
+                          .count 0
                           h3 New Request
                           p You have new request.
                           br
+<<<<<<< HEAD
                           a(href='newRequest')
                             | &nbsp&nbsp&nbsp
                             button.btn.btn-info(type='button') &nbsp&nbspview
+=======
+                          .btn-group
+                            button.btn.btn-info.drowpdown-toggle(data-toggle='dropdown' type='button' aria-expanded='false')
+                              | Client
+                              span.caret
+                            ul.dropdown-menu(role='menu')
+                              li
+                                a(href='') Add
+>>>>>>> 661f38e139d4a8e71e041e2c0557f280643707a0
 
                     .wow.fadeInDown.col-lg-6.col-md-3.col-sm-6.col-xs-12
                       .tile-stats

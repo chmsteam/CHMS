@@ -10,6 +10,9 @@ block content
                 .clearfix
                 .row
                     .col-md-12.col-sm-12.col-xs-12
+                        .x_panel(style='background-color:rgba(52,152,219,.3)')
+                            br
+                            .x_content
                             .x_panel
                                 br
                                 table#datatable.table.table-striped.table-bordered
@@ -81,7 +84,8 @@ block content
                                             b O.R Number
                                             input.form-control#ss(type="text", name="ornum" required)
                             .modal-footer.center
-                                button.btn.btn-primary(type='submit' name='btn1' value='settle',  onCLick='time();') Ok
+                                button.btn.btn-primary(type='button', data-dismiss='modal') Close
+                                button.btn.btn-success(type='submit' name='btn1' value='settle',  onCLick='time();') Ok
             #settle_replacementclient.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
                 .modal-dialog.modal-sm
                     .modal-content
@@ -101,7 +105,8 @@ block content
                                     input#ss(type="text", name="ornum" required)
                             br
                             .modal-footer.center
-                                button.btn.btn-primary(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
+                                button.btn.btn-primary(type='button', data-dismiss='modal') Close
+                                button.btn.btn-success(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
             #settle_replaceclient.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
                 .modal-dialog.modal-sm
                     .modal-content
@@ -141,7 +146,8 @@ block content
                                     input#ss(type="text", name="ornum" required)
                             br
                             .modal-footer.center
-                                button.btn.btn-primary(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
+                                button.btn.btn-primary(type='button', data-dismiss='modal') Close
+                                button.btn.btn-success(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
         script.
             function time(){
                 var today = new Date();

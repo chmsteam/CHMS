@@ -9,42 +9,43 @@ block content
                         b Replacement of Client
                 .row
                     .col-md-12.col-sm-12.col-xs-12
-                        .x_panel
+                        .x_panel(style='background-color:rgba(52,152,219,.3)')
+                            br
                             .x_content
-                            br
-                            br
-                            table#datatable-responsive.table.table-striped.table-bordered.dt-responsive.nowrap(cellspacing='0', width='100%')
-                                thead
-                                    tr
-                                        th(style="text-align:center") NAME
-                                        th(style="text-align:center") CLIENT
-                                        th(style="text-align:center") DATE CREATED
-                                        th(style="text-align:center") REASON
-                                        th(style="text-align:center") STATUS
-                                        th(style="text-align:center") ACTION
-                                tbody 
-                                    each replace in replacetab
+                            .x_panel
+                                br
+                                table#datatable-responsive.table.table-striped.table-bordered.dt-responsive.nowrap(cellspacing='0', width='100%')
+                                    thead
                                         tr
-                                            form(method="POST" action="/admin/transaction_replacement_of_client/actions")
-                                                
-                                                td #{replace.hwfname} #{replace.hwlname}
-                                                td #{replace.clientfname} #{replace.clientlname}
-                                                td #{replace.datRequestDate}
-                                                td #{replace.strRequestDesc}
-                                                if replace.strRequestStatus == ''
-                                                    td For Validation
-                                                else if replace.strRequestStatus == 'Draft'
-                                                    td Approved 
-                                                else if replace.strRequestStatus == 'Rejected'
-                                                    td Rejected
-                                                td
+                                            th(style="text-align:center") NAME
+                                            th(style="text-align:center") CLIENT
+                                            th(style="text-align:center") DATE CREATED
+                                            th(style="text-align:center") REASON
+                                            th(style="text-align:center") STATUS
+                                            th(style="text-align:center") ACTION
+                                    tbody 
+                                        each replace in replacetab
+                                            tr
+                                                form(method="POST" action="/admin/transaction_replacement_of_client/actions")
+                                                    
+                                                    td #{replace.hwfname} #{replace.hwlname}
+                                                    td #{replace.clientfname} #{replace.clientlname}
+                                                    td #{replace.datRequestDate}
+                                                    td #{replace.strRequestDesc}
                                                     if replace.strRequestStatus == ''
-                                                        input(type='number' required='required', name='transid' value=''+replace.intRequestID, style='display:none;') 
-                                                        input(type='number' required='required', name='hwid' value=''+replace.hwid, style='display:none;')                         
-                                                        button.btn.btn-success(type='submit' name='btn1' value='accept')
-                                                            i.fa.fa-check
-                                                            | &nbspAccept
-                                                        button.btn.btn-danger(type='submit' name='btn1' value='reject')
-                                                            i.fa.fa-times
-                                                            | &nbspReject
+                                                        td For Validation
                                                     else if replace.strRequestStatus == 'Draft'
+                                                        td Approved 
+                                                    else if replace.strRequestStatus == 'Rejected'
+                                                        td Rejected
+                                                    td
+                                                        if replace.strRequestStatus == ''
+                                                            input(type='number' required='required', name='transid' value=''+replace.intRequestID, style='display:none;') 
+                                                            input(type='number' required='required', name='hwid' value=''+replace.hwid, style='display:none;')                         
+                                                            button.btn.btn-success(type='submit' name='btn1' value='accept')
+                                                                i.fa.fa-check
+                                                                | &nbspAccept
+                                                            button.btn.btn-danger(type='submit' name='btn1' value='reject')
+                                                                i.fa.fa-times
+                                                                | &nbspReject
+                                                        else if replace.strRequestStatus == 'Draft'

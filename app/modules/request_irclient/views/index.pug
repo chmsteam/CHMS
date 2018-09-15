@@ -37,8 +37,9 @@ block content
                                                                 button.btn.btn-danger.btn-md(type='button') Hide
                                 br  
                                 br
-                                .x_panel
-                                    h3 Current Household Workers
+                                .x_panel(style='background-color:rgba(38,185,154,0.3)')
+                                    .x_title
+                                        h3 Current Household Workers
                                     br
                                     table#datatable-responsive.table.jambo_table.table-bordered
                                         thead
@@ -97,7 +98,8 @@ block content
                                 .col-md-10
                                     .form-group
                                         |Reason:
-                                        textarea.form-control.AddMessage(rows='7' name='reason')
+                                        each ir in irtab
+                                            textarea.form-control.AddMessage(rows='7' name='reason' value=ir.strDesc readonly)
                         .modal-footer
                             button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Submit
 
