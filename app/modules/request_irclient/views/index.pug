@@ -98,7 +98,8 @@ block content
                                 .col-md-10
                                     .form-group
                                         |Reason:
-                                        textarea.form-control.AddMessage(rows='7' name='reason')
+                                        each ir in irtab
+                                            textarea.form-control.AddMessage(rows='7' name='reason' value=ir.strDesc readonly)
                         .modal-footer
                             button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Submit
 

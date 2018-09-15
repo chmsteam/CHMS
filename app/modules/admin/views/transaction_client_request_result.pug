@@ -50,6 +50,8 @@ block content
                                                         td #{resulta.strStatus}
                                                         td
                                                             button.btn.btn-success(type='submit') Add to list
+                                                            a(href="/admin/profile_hw_"+resulta.intHWID)
+                                                                button.btn.btn-primary(type='button') View Profile
 
                     .col-md-12.col-sm-12.col-xs-12 
                         br
@@ -66,8 +68,8 @@ block content
                                                 th NAME
                                                 th SERVICE
                                                 th AGE
-                                                th Gender
-                                                th EDUCATION
+                                                th GENDER
+                                                //- th EDUCATION
                                                 th WORK EXPERIENCE
                                                 th STATUS
                                                 th ACTION
@@ -82,9 +84,11 @@ block content
                                                             td #{otherresulta.strName}
                                                             td #{otherresulta.age}
                                                             td #{otherresulta.strGender}
-                                                            td #{otherresulta.strType}
+                                                            //- td #{otherresulta.strType}
                                                             td #{otherresulta.Work_exp}
                                                             td #{otherresulta.strStatus}
                                                             td
                                                                 button.btn.btn-success(type='submit') Add to list
+                                                                a(href="/admin/profile_hw_"+otherresulta.intHWID)
+                                                                    button.btn.btn-primary(type='button') View Profile
 

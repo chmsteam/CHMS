@@ -68,7 +68,7 @@ block content
                                                         else if list.strRequestStatus == 'On process'
                                                             a(href='result_'+item.intIRequestID+item.intIRequest_No)
                                                                 button.btn.btn-primary.btn-xs(type='button') View Result
-                                                            button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item2") Delete
+                                                            button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item2", data-requestno=item.intIRequest_No , data-requestid=item.intIRequestID ) Delete
                                 each list in listtab
                                     if list.strRequestStatus == 'Pending' || list.strRequestStatus == 'Approved' || list.strRequestStatus == 'Rejected' || list.strRequestStatus == 'Finished'
                                         each transdetails in transdetailstab
