@@ -2,7 +2,14 @@ var express = require('express');
 var flog = require( '../login/loggedin');
 var router = express.Router();
 var moment = require('moment');
-
+//--------------------------------------------------------------IDMAKE
+function makeid() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvqxyz1234567890";
+  for (var i = 0; i < 10; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  return text;
+}
 //-------------------------------------------------------------rendering pages
 function renderhwprofile(req,res, next){
   if(req.valid==1)
@@ -115,10 +122,15 @@ function findhwwork(req,res,next){
 router.post('/ir_client', flog, reporthw)
 function reporthw(req, res){
     var db = require('../../lib/database')()
-    db.query(`INSERT INTO tblreport (intReporterID, intRecipentID, intTypeofReport, strReason, strValidity, datDateReported, strReportStatus, strActionTaken)  VALUES(?,?,?,?,'',?,'','')`,[req.session.user, req.body.recipentid, req.body.ir, req.body.reason, req.body.daterep], function(err){
-        console.log(err);
-        res.redirect('/request_irclient')
-    })
+    var randomId= makeid();
+    jpeg= req.body.daterep+"-"+req.body.recipentid+"-"+req.session.user+('-'+randomId+'.jpg');
+    req.files.postimage.mv('public/image/reports/'+jpeg, function(err) {
+      db.query(`INSERT INTO tblreport (intReporterID, intRecipentID, intTypeofReport, strReason, strValidity, datDateReported, strReportStatus, strActionTaken, strEviPic)  VALUES(?,?,?,?,'',?,'','', ?)`,[req.session.user, req.body.recipentid, req.body.ir, req.body.reason, req.body.daterep, jpeg], function(err){
+          console.log(err);
+          res.redirect('/request_irclient')
+      })
+    console.log(err)
+  });
 }
 //-------------------------------------------------------------ROUTER GET
 router.get('/profile_hw_:hwOwnID', flog, renderFunctions, renderhwprofile);
