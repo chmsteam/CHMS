@@ -190,7 +190,7 @@ block content
                                                                                         .col-xs-12.bottom.text-center   
                                                                                             button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjob_contract', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No)
                                                                                                 | View Details
-
+                                                            else if offer.strRequestStatus == 'Cancelled'
 
 
 
@@ -207,7 +207,7 @@ block content
                                                                     .row
                                                                         .col-md-12.col-sm-4.col-xs-12.profile_details
                                                                             .well.profile_view(style='width:100%')
-                                                                                if offer.strRHWStatus == 'Waiting' && offer.strRClientStatus ==''
+                                                                                if ( offer.strRHWStatus == 'Approved' && (offer.strRClientStatus =='Approved' || offer.strRClientStatus ==''))
                                                                                     .col-xs-12
                                                                                         center
                                                                                             h2

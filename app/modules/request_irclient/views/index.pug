@@ -100,6 +100,21 @@ block content
                                         |Reason:
                                         each ir in irtab
                                             textarea.form-control.AddMessage(rows='7' name='reason' value=ir.strDesc readonly)
+                            .row
+                                .col-md-1
+                                    .form-group
+                                        | &nbsp
+                            .row
+                                .col-md-10
+                                    .form-group
+                                        | Upload a picture (evidence):            
+                            .row
+                                .col-md-12.text-center
+                                    img#uploadPreview1(src="" style='width: 50%; height: 200px;')
+                                    br
+                                    br
+                                    input.form-control.file-input(id="uploadImage1" type='file', name='postimage', accept='image/*' onchange="PreviewImage1();" style='width: 50%; margin-left:142px;')
+                            //- .row
                         .modal-footer
                             button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Submit
 
@@ -127,4 +142,11 @@ block content
                 //- document.write(today);
                document.getElementById("thedate").value=today;
             }
+            function PreviewImage1() {
+                var oFReader = new FileReader();
+                oFReader.readAsDataURL(document.getElementById("uploadImage1").files[0]);
+                oFReader.onload = function (oFREvent) {
+                document.getElementById("uploadPreview1").src = oFREvent.target.result;
+                };
+            };
             

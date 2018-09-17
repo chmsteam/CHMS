@@ -55,7 +55,7 @@ router.post('/delete_draftlist', flog, (req, res) => {
     });
   });
 });
-//Cancel list: status = draft
+//Cancel list: status = on process
 router.post('/cancel_onprocesslist', flog, (req, res) => {
   var db = require('../../lib/database')();
     db.query(`UPDATE tblfinalrequest SET strRequestStatus = 'Cancelled' WHERE intRequestID = '${req.body.transid}'`, (err) => {
@@ -67,6 +67,14 @@ router.post('/cancel_onprocesslist', flog, (req, res) => {
       // res.redirect('/request_add');
   });
 });
+
+router.post('/remove_list', flog, (req,res) =>{
+  var db = require('../../lib/database')();
+    db.query(`UPDATE tblfinalrequest SET strRequestStatus = 'Deleted' WHERE intRequestID = ?`, [req.body.transid], (err)=>{
+      console.log(err);
+      res.redirect('/request_add')
+    })
+})
   
 // My list Page
 function rendermylist(req,res){

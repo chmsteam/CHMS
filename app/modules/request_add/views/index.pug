@@ -31,7 +31,7 @@ block content
                                     br
                                 .x_panel(style='background-color:rgba(38,185,154,0.2)')
                                     each list in listtab
-                                        if list.strRequestStatus != 'Finished'
+                                        if list.strRequestStatus != 'Finished' && list.strRequestStatus != 'Deleted'
                                             .col-md-4.col-sm-4.col-xs-12.profile_details
                                                 .well.profile_view
                                                     .col-sm-7(align='right')
@@ -77,6 +77,10 @@ block content
                                                             a(href='/request_add/mylist_'+list.intRequestID)
                                                                 button.btn.btn-primary(type='button') View
                                                             button.btn.btn-danger(type='button', data-toggle='modal', data-target='#D') Delete
+                                                        else if list.strRequestStatus == 'Cancelled'
+                                                            a(href='/request_add/mylist_'+list.intRequestID)
+                                                                button.btn.btn-primary(type='button') View
+                                                            button.btn.btn-danger(type='button', data-toggle='modal', data-target='#remove_list', data-id=list.intRequestID) Remove
 
                                                             //- a(href='/request_add/invoice_'+list.intRequestID)
                                                             //-     button.btn.btn-info(type='button') View Invoice
@@ -128,7 +132,28 @@ block content
                             .col-md-12.col-sm-9.col-xs-12.pull-right
                                 button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
                                 button.btn.btn-danger(type='submit' name='btn1' value='cancel') Delete
-
+    #remove_list.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-md
+            .modal-content
+                .modal-header(style="background-color:#2A3F54; color:white")
+                    button.close(type='button', data-dismiss='modal')
+                        span(aria-hidden='true') ×
+                    h4#myModalLabel.modal-title(style="text-align:center; font-weight:bold") Remove List
+                .modal-body
+                    form.form-horizontal(method='POST' action='/request_add/remove_list')
+                        br
+                        input(id='listid' type='text' name='transid' hidden)  
+                        .form-group
+                            center 
+                                h3 Are you sure you want to Remove
+                                    |
+                                    p this list?
+                        .ln_solid
+                        .form-group.pull-right
+                            .col-md-12.col-sm-9.col-xs-12.pull-right
+                                button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+                                button.btn.btn-danger(type='submit' name='btn1' value='permdelete') Yes
+   
     #Add.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
         .modal-dialog.modal-md
             form.form-horizontal(method='POST' action='/request_add/createlist_services/createlist')
