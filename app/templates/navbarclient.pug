@@ -165,6 +165,7 @@ html(lang='en')
       // bootstrap-daterangepicker
       script(src='/admin/gentelella/vendors/moment/min/moment.min.js')
       script(src='/admin/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.js')
+      script(src="/custom/modal-report.js")
 
       script.
         $('#datatable2').DataTable();
@@ -338,3 +339,11 @@ html(lang='en')
               modal.find('.modal-body #salary').val(salary)
               
             });
+        //profile picture
+          function PreviewImage2() {
+              var oFReader = new FileReader();
+              oFReader.readAsDataURL(document.getElementById("uploadImage2").files[0]);
+              oFReader.onload = function (oFREvent) {
+              document.getElementById("uploadPreview2").src = oFREvent.target.result;
+              };
+            };

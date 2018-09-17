@@ -68,9 +68,43 @@ block content
                                                         
         
         //- ---- modals
-        #report.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
+        //- #report.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
+        //-     .modal-dialog.modal-md
+        //-         form.form-horizontal(method='POST' action='/request_irclient/ir_client')
+        //-             .modal-content
+        //-                 .modal-header(style="background-color:#2A3F54; color:white")
+        //-                     button.close(type='button', data-dismiss='modal')
+        //-                         span(aria-hidden='true') ×
+        //-                     h4#myModalLabel.modal-title(align='center')(style='color:white')  Report Household Worker
+        //-                             p(style="text-align:center; font-weight:bold; font-size:28px")#hwname 
+        //-                 .modal-body
+        //-                     input.form-control(id='thedate' type='date', name='daterep' style='display:none;')
+        //-                     input.form-control(id='_id' type='text', name='recipentid' style='display:none;')
+        //-                     .row
+        //-                         br
+        //-                         .col-md-1
+        //-                             .form-group
+        //-                                 | &nbsp
+        //-                         .col-md-5
+        //-                             .form-group
+        //-                                 | Choose Type of Incident
+        //-                                 select.form-control(name='ir')
+        //-                                     each ir in irtab
+        //-                                         option(value=''+ir.intID) #{ir.strName}
+        //-                     .row
+        //-                         .col-md-1
+        //-                             .form-group
+        //-                                 | &nbsp
+        //-                         .col-md-10
+        //-                             .form-group
+        //-                                 |Reason:
+        //-                                 each ir in irtab
+        //-                                     textarea.form-control.AddMessage(rows='7' name='reason' value=ir.strDesc readonly)
+        //-                 .modal-footer
+        //-                     button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Submit
+        #report.modal.fade(tabindex='-1', role='dialog', aria-labelledby='report', aria-hidden='true')
             .modal-dialog.modal-md
-                form.form-horizontal(method='POST' action='/request_irclient/ir_client')
+                form.form-horizontal(method='POST' action='/request_irclient/ir_client' enctype='multipart/form-data')
                     .modal-content
                         .modal-header(style="background-color:#2A3F54; color:white")
                             button.close(type='button', data-dismiss='modal')
@@ -78,46 +112,36 @@ block content
                             h4#myModalLabel.modal-title(align='center')(style='color:white')  Report Household Worker
                                     p(style="text-align:center; font-weight:bold; font-size:28px")#hwname 
                         .modal-body
-                            input.form-control(id='thedate' type='date', name='daterep' style='display:none;')
-                            input.form-control(id='_id' type='text', name='recipentid' style='display:none;')
-                            .row
-                                br
-                                .col-md-1
-                                    .form-group
-                                        | &nbsp
-                                .col-md-5
-                                    .form-group
-                                        | Choose Type of Incident
-                                        select.form-control(name='ir')
-                                            each ir in irtab
-                                                option(value=''+ir.intID) #{ir.strName}
-                            .row
-                                .col-md-1
-                                    .form-group
-                                        | &nbsp
-                                .col-md-10
-                                    .form-group
-                                        |Reason:
-                                        each ir in irtab
-                                            textarea.form-control.AddMessage(rows='7' name='reason' value=ir.strDesc readonly)
-                            .row
-                                .col-md-1
-                                    .form-group
-                                        | &nbsp
-                            .row
-                                .col-md-10
-                                    .form-group
-                                        | Upload a picture (evidence):            
+                            input.form-control(id='thedate' type='date', name='daterep', style='display:none;')
+                            input.form-control(id='_id' type='text', name='recipentid', style='display:none;')
+                            select.form-control#myselect(name='ir')
+                                each ir in irtab
+                                    option(value=''+ir.intID) #{ir.strName}
+                                option(value='other') Other Reason
+                            //- each ir in irtab
+                            //-     -var reas = "id" + ir.intID
+                            //-     .form-group(hidden id=reas)
+                            //-         textarea.form-control(rows='2' readonly) #{ir.strDesc}
+                            .form-group#textt(hidden)
+                                textarea.form-control#textarea1(name='reason', placeholder='Specify Reason', rows='3', maxlength='150', hidden)
+                                .txtcount-div.block-none
+                                    small#txtcount 0/150
+                            br
+                            label Include proof/evidence here
                             .row
                                 .col-md-12.text-center
-                                    img#uploadPreview1(src="" style='width: 50%; height: 200px;')
-                                    br
-                                    br
-                                    input.form-control.file-input(id="uploadImage1" type='file', name='postimage', accept='image/*' onchange="PreviewImage1();" style='width: 50%; margin-left:142px;')
-                            //- .row
+                                    img#uploadPreview2(style='width: 100%; height: 200px;')        
+                            input.form-control.file-input(id="uploadImage2" type='file', name='postimage', accept='image/*' onchange="PreviewImage2();" required)
+                            br
+                            .mt-1
+                                .form-check
+                                    input#agree.form-check-input(type='checkbox', required='', style='margin-top: .2rem')
+                                    |&nbsp
+                                    label(for='agree') Are you sure you want to bla bla bla
+                            
                         .modal-footer
-                            button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Submit
-
+                            button.btn.btn-success(type='submit', disabled='' onCLick='time();') Submit
+                            button.btn.btn-secondary(type='button', data-dismiss='modal') Close
         //- scripts
         script.
             function time(){
@@ -142,11 +166,4 @@ block content
                 //- document.write(today);
                document.getElementById("thedate").value=today;
             }
-            function PreviewImage1() {
-                var oFReader = new FileReader();
-                oFReader.readAsDataURL(document.getElementById("uploadImage1").files[0]);
-                oFReader.onload = function (oFREvent) {
-                document.getElementById("uploadPreview1").src = oFREvent.target.result;
-                };
-            };
-            
+                        
