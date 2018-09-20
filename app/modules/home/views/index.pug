@@ -6,7 +6,7 @@ block content
                 .title_left
                     each user in usertab
                         h1
-                            b Welcome, #{user.strFName}.          
+                            b Welcome, #{user.strFName}. 
             .clearfix        
                 .row
                     .col-md-12.col-sm-12.col-xs-12
@@ -22,11 +22,13 @@ block content
                                 div(role='tabpanel', data-example-id='togglable-tabs')
                                     ul#myTab.nav.nav-tabs.bar_tabs(role='tablist')
                                         li.active(role='presentation')
-                                            a#home-tab(href='#tab_content1', role='tab', data-toggle='tab', aria-expanded='true') My Request
+                                            each myreq in myreqtab
+                                                a#home-tab(href='#tab_content1', role='tab', data-toggle='tab', aria-expanded='true') My Request: #{myreq.myrequest}
                                         li(role='presentation')
                                             a#incoming-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Incoming Request
                                         li(role='presentation')
-                                            a#history-tab(href='#tab_content3', role='tab', data-toggle='tab', aria-expanded='false') History	
+                                            each history in historytab
+                                                a#history-tab(href='#tab_content3', role='tab', data-toggle='tab', aria-expanded='false') History: #{history.history}
                                     #myTabContent.tab-content
                                         #tab_content1.tab-pane.fade.active.in(role='tabpanel', aria-labelledby='home-tab')
                                             //- each request in requesttab

@@ -222,7 +222,7 @@ CREATE TABLE `tblhw_educbg` (
 -- Dumping data for table `tblhw_educbg`
 --
 
-INSERT INTO `tblhw_educbg` VALUES (6,'Elementary','PUers','Manila',2011,'none'),(7,'Elementary','PUsers','Manila',2011,'none');
+INSERT INTO `tblhw_educbg` VALUES (6,'Elementary','PUers','Manila',2011,'none'),(7,'Elementary','PUsers','Manila',2011,'none'),(7,'High School','PUP','Manila',2019,'none');
 
 --
 -- Table structure for table `tblhw_ref`
@@ -550,6 +550,7 @@ CREATE TABLE `tblreport` (
   `intRecipentID` int(11) DEFAULT NULL,
   `intTypeofReport` int(11) DEFAULT NULL,
   `strReason` varchar(250) DEFAULT NULL,
+  `strPicture` varchar(45) DEFAULT NULL,
   `strValidity` varchar(50) DEFAULT NULL,
   `datDateReported` date DEFAULT NULL,
   `strReportStatus` varchar(50) DEFAULT NULL,
@@ -649,7 +650,7 @@ CREATE TABLE `tbluser` (
 -- Dumping data for table `tbluser`
 --
 
-INSERT INTO `tbluser` VALUES (1,'lance','luna','sanpablo','lance@xyz.com','pass','1-X1rRH9m3ua.jpg','Client','Registered'),(2,'jeron','lun','pablo','jeron@xyz.com','pass','blank.jpg','Household Worker','Registered'),(3,'lanz','lu','sanpabloz','lanz@xyz.com','pass','blank.jpg','Admin','Registered'),(4,'lancer','lunar','sanpablor','lancer@xyz.com','pass','blank.jpg','Client','Unregistered'),(5,'lancers','lunasr','sanpablors','lancers@xyz.com','pass','blank.jpg','Household Worker','Unregistered'),(6,'Jane','Saint','Doe','test@xyz.com','test','blank.jpg','Household Worker','Deployed'),(7,'Jane7','Saint7','Doe7','test7@xyz.com','test7','blank.jpg','Household Worker','Registered');
+INSERT INTO `tbluser` VALUES (1,'lance','luna','sanpablo','lance@xyz.com','pass','blank.jpg','Client','Registered'),(2,'jeron','lun','pablo','jeron@xyz.com','pass','blank.jpg','Household Worker','Registered'),(3,'lanz','lu','sanpabloz','lanz@xyz.com','pass','blank.jpg','Admin','Registered'),(4,'lancer','lunar','sanpablor','lancer@xyz.com','pass','blank.jpg','Client','Unregistered'),(5,'lancers','lunasr','sanpablors','lancers@xyz.com','pass','blank.jpg','Household Worker','Unregistered'),(6,'Jane','Saint','Doe','test@xyz.com','test','blank.jpg','Household Worker','Deployed'),(7,'Jane7','Saint7','Doe7','test7@xyz.com','test7','blank.jpg','Household Worker','Registered');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

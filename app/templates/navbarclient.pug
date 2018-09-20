@@ -30,6 +30,9 @@ html(lang='en')
     link(href='/admin/gentelella/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css', rel='stylesheet')
     // Animate CSS
     link(href="/assets/fame/css/animate.css" rel="stylesheet")
+    //- pdfmake
+    script(type='text/javascript', src='/pdfmake/build/pdfmake.min.js')
+    script(type='text/javascript', src='/pdfmake/build/vfs_fonts.js')
 
   //- #preloader (tinanggal ko muna, d makita ung page ng "VIEW RESULT," preloader lang lumalabas)
   body.nav-md.footer_fixed(style='background-color:transparent' onpageshow='total();')
@@ -65,16 +68,16 @@ html(lang='en')
                         a(href='CreateList')
                           i.fa.fa-edit
                           |  My List
-                      li.x_panel(align='center', style='padding-right:20%')
-                        | &nbsp&nbsp
-                        a(href='hwRegi')
-                          i.fa.fa-envelope-o
-                          |  Messages
-                      li.x_panel(align='center', style='padding-right:20%')
-                        | &nbsp&nbsp
-                        a(href='utilities')
-                          i.fa.fa-bell-o
-                          |  Notifications
+                      //- li.x_panel(align='center', style='padding-right:20%')
+                      //-   | &nbsp&nbsp
+                      //-   a(href='hwRegi')
+                      //-     i.fa.fa-envelope-o
+                      //-     |  Messages
+                      //- li.x_panel(align='center', style='padding-right:20%')
+                      //-   | &nbsp&nbsp
+                      //-   a(href='utilities')
+                      //-     i.fa.fa-bell-o
+                      //-     |  Notifications
                       li.x_panel(align='center', style='padding-right:20%')
                         | &nbsp&nbsp
                         a(href='/login')
@@ -347,3 +350,9 @@ html(lang='en')
               document.getElementById("uploadPreview2").src = oFREvent.target.result;
               };
             };
+          function smp(){
+            var docDefinition = { content: 'This is an sample PDF printed with pdfMake' };
+            pdfMake.createPdf(docDefinition).download();
+            //- pdfMake.createPdf(docDefinition).open({}, window);
+            //- pdfMake.createPdf(docDefinition).print();
+          }

@@ -13,7 +13,9 @@ function render(req,res){
           replacetab: req.replace,
           finreqtab: req.finreq,
           requesttab: req.request,
-          request2tab: req.request2
+          request2tab: req.request2,
+          myreqtab: req.myreq,
+          historytab: req.history
         });
     else if(req.valid==0)
       res.render('admin/views/invalidpages/normalonly');
@@ -131,9 +133,26 @@ function renderhwlist(req,res){
 }
 router.get('/householdworker_list', flog, myhw, renderhwlist);
 
+function countmyrequest(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) AS myrequest FROM tblfinalrequest WHERE intRequest_ClientID=? AND strRequestStatus IN ('Draft', 'On process', 'Pending')`, [req.session.user], function(err,results){
+    console.log(err);
+    req.myreq=results;
+    return next();
+  })
+}
+function counthistory(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) AS history FROM tblfinalrequest WHERE intRequest_ClientID=? AND strRequestStatus IN ('Finished', 'Rejected', 'Cancelled')`, [req.session.user], function(err,results){
+    console.log(err);
+    req.history=results;
+    return next();
+  })
+}
+
 //------------------------------------------------------- ROUTER GET
 var renderFunctions = [displayLeaveReq, ]
-router.get('/', flog, findreplacementofclient,findfinishedreq, myrequest, myrequest2, renderFunctions, render);
+router.get('/', flog, findreplacementofclient,findfinishedreq, myrequest, myrequest2, renderFunctions, countmyrequest, counthistory, render);
 router.get('/request_leave', flog, renderFunctions, renderrequestleave);
 
 
