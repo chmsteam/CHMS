@@ -274,6 +274,14 @@ html(lang='en')
             var modal = $(this)
             modal.find('.modal-body #listid').val(id)
         });
+        //- -------------------------------------------------- request_add contract
+        $('#rejectcontract').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+
+            var modal = $(this)
+            modal.find('.modal-body #transid').val(id)
+        });
 
         //- -------------------------------------------------request_replace index
         $('#replace').on('show.bs.modal', function (event) {

@@ -14,45 +14,50 @@ block content
                                             button.btn.btn-primary.btn-lg(type='button') Back
                                 h1 
                                     b   Contract
-                            
-                            .clearfix
-                                .x_panel(style='background-color:#f1f1f1')
-                                    br
-                                    table.table.jambo_table.table-bordered
-                                        thead
-                                            tr
-                                                th MAIN CONTRACT
-                                                th STATUS
-                                                th ACTION
-                                            
-                                        tbody
-                                            each cont in conttab
-                                                tr
-                                                    td
-                                                        center
-                                                                if cont.strContractStatus == '' 
-                                                                    //- button.btn.btn-primary(type='button' data-toggle='modal', data-target='#maincontract')
-                                                                    button.btn.btn-primary(type='button' onclick='opencontract();')
-                                                                        i.fa.fa-list
-                                                                        |   View Contract
-                                                                else if cont.strContractStatus == 'Accepted'
-                                                                    a(target="_blank" href="../pdfs/"+cont.strContract+'.pdf')
-                                                                        button.btn.btn-primary(type='button')
-                                                                            i.fa.fa-list
-                                                                            |   View Contract
-                                                    td #{cont.strContractStatus}
-                                                    td
-                                                        center
-                                                            if cont.strContractStatus == ''
+                            each cont in conttab
+                                if cont.strContractStatus == 'Accepted'
+                                    object(width='1000', height='250', data='/pdfs/'+cont.strContract+'.pdf', type="application/pdf")
+                                else
+                                    .clearfix
+                                        .x_panel(style='background-color:#f1f1f1')
+                                            br
+                                            table.table.jambo_table.table-bordered
+                                                thead
+                                                    tr
+                                                        th MAIN CONTRACT
+                                                        th STATUS
+                                                        th ACTION
+                                                    
+                                                tbody
+                                                    each cont in conttab
+                                                        tr
+                                                            td
+                                                                center
+                                                                        if cont.strContractStatus == '' 
+                                                                            //- button.btn.btn-primary(type='button' data-toggle='modal', data-target='#maincontract')
+                                                                            button.btn.btn-primary(type='button' onclick='opencontract();')
+                                                                                i.fa.fa-list
+                                                                                |   View Contract
+                                                                        //- else if cont.strContractStatus == 'Accepted'
+                                                                        //-     a(target="_blank" href="../pdfs/"+cont.strContract+'.pdf')
+                                                                        //-         button.btn.btn-primary(type='button')
+                                                                        //-             i.fa.fa-list
+                                                                        //-             |   View Contract
+                                                            td #{cont.strContractStatus}
+                                                            td
                                                                 form.form-horizontal.form-label-center(method='POST' action='deccontract')
                                                                     each list in listtab
                                                                         input(type='text', required='required', name='transid', value=''+list.intRequestID, style="display:none;")
-                                                                        button.btn.btn-success(type='submit' name='btn1' value='accept') Accept
-                                                                    button.btn.btn-danger(type='button' data-toggle='modal' data-target='#rejectcontract') Reject
-                                                                        //- a(href="/request_add/pdfsmp")
-                                                                        //-     button.btn.btn-danger.btn-lg(type='button') testpdf
-                                                            else if cont.strContractStatus == 'Accepted'
-                                                                //- h1 cc
+                                                                        center
+                                                                            if cont.strContractStatus == ''
+                                                                                button.btn.btn-success(type='submit' name='btn1' value='accept') Accept
+                                                                                button.btn.btn-danger(type='button' data-toggle='modal' data-target='#rejectcontract', data-id=list.intRequestID) Reject
+                                                                                //- a(href="/request_add/pdfsmp")
+                                                                                //-     button.btn.btn-danger.btn-lg(type='button') testpdf
+                                                                            else if cont.strContractStatus == 'Accepted'
+                                                                            else if cont.strContractStatus == 'Rejected'
+                                                                                button.btn.btn-warning(type='button' data-toggle='modal' data-target='#revertrejectcontract', data-id=list.intRequestID) Revert
+                                                                                button.btn.btn-success(type='submit' name='btn1' value='accept') Accept
                                 
                             br
                             .x_panel
@@ -81,13 +86,13 @@ block content
                                                                     input(type='text', name='hwid', value=''+hw.intConHWID, style="display:none;")
                                                                     input(type='text', name='transid', value=''+hw.intConTransID, style="display:none;")
                                                                     if hw.strConStatus == ''
-                                                                        button.btn.btn-primary(type='button' data-toggle='modal', data-target='#maincontract') View Contract
+                                                                        //- button.btn.btn-primary(type='button' data-toggle='modal', data-target='#maincontract') View Contract
                                                                         button.btn.btn-warning.btn-md(type='button' data-toggle='modal', data-target='#edit_salary' data-id=hw.intConTransID, data-hwid=hw.intConHWID, data-salary=hw.intConSalary) Edit Salary
                                                                         button.btn.btn-success.btn-md(type='submit' name='btn1' value='sendtohw') Send Contract
                                                                     else if hw.strConStatus == 'Waiting'
-                                                                        button.btn.btn-primary(type='button' data-toggle='modal', data-target='#maincontract') View Contract
+                                                                        //- button.btn.btn-primary(type='button' data-toggle='modal', data-target='#maincontract') View Contract
                                                                     else if hw.strConStatus == 'Approved'
-                                                                        button.btn.btn-primary(type='button' data-toggle='modal', data-target='#maincontract') View Contract
+                                                                        //- button.btn.btn-primary(type='button' data-toggle='modal', data-target='#maincontract') View Contract
                                                                     else if hw.strConStatus == 'Rejected'
                                                                         button.btn.btn-warning.btn-md(type='button' data-toggle='modal', data-target='#edit_salary' data-id=hw.intConTransID, data-hwid=hw.intConHWID, data-salary=hw.intConSalary) Edit Salary
                                                                         button.btn.btn-success.btn-md(type='button') Send Contract
@@ -103,7 +108,7 @@ block content
                                                         button.btn.btn-success.btn-lg(type='submit' name='btn1' value='send') Send Request To Admin  
                                             
                                         else
-                                object(width='100%', height='100%', data='../pdfs/1-2-contract.pdf', type="application/pdf")
+                                
 
 
             #maincontract.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-hidden='true')
@@ -343,13 +348,14 @@ block content
                                 span(aria-hidden='true') ×
                             h4 Reject Contract
                         .modal-body
-                            form.form-horizontal(method='POST' action='')
+                            form.form-horizontal(method='POST' action='deccontract')
                                 .form-group
                                     label.control-label.col-md-4.col-sm-3.col-xs-12 Reasons:
                                     .col-md-4.col-sm-9.col-xs-12
-                                        textarea.form-control(rows='5' cols='600' wrap='hard' name='reqdesc')
+                                        textarea.form-control(rows='5' cols='600' wrap='hard' name='conremark')
                                 .form-group.pull-right
-                                    button.btn.btn-success.btn-lg(type='button') Send 
+                                    input(type='text', id='transid' required='required', name='transid' style="display:none;")
+                                    button.btn.btn-success(type='submit' name='btn1' value='reject' ) Send
             #edit_salary.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
                 .modal-dialog.modal-sm
                     .modal-content
@@ -390,9 +396,9 @@ block content
                         { text:' '},
                         { text:' '},
                         { text: 'KNOW ALL MEN BY THESE PRESENTS:'},
-                        { text: ''},
+                        { text: ' '},
                         { text: ' \u200B\t\t This contract of Services entered into on this ____ day of _______________, At the City of Mandaluyong, by and between:'},
-                        { text: ''},
+                        { text: ' '},
                         { text: 'MEGA PACIFIC SERVICES, a local manpower service provider registered under and by virtue of the Republic of the Philippines, with principal place of business at No. 73F Shaw Blvd. Brgy. Daang Bakal, mandaluyong City represented by its owner and proprietor MS. BENILDA D. LAZARO, hereinafter referred to as the “AGENCY”,______________________, Filipino, single / married, of legal age, and with residence address at_______________________ herein after referred to as the “EMPLOYEE”;', margin:[80,20,90,0], alignment: 'center'},
                         { text: '-- AND --', margin:[0,20,0,0], alignment: 'center'},
                         { text: '_________________________, Filipino, single/ married, of legal age, and with residence address at_______________________  herein after referred to as the “EMPLOYER”.', margin:[80,20,90,0], alignment: 'center'},
@@ -401,11 +407,108 @@ block content
                         { text: ' \u200B\t\t WHEREAS, the EMPLOYEE, thru the AGENCY, offers nampower services needed by the EMPLOYER and the EMPLOYEE is also in need of an EMPLOYER from where he can have gainful employment;'},
                         { text: '\u200B\t\t WHEREAS, the EMPLOYER has interviewed the EMPLOYEE thoroughly and that the EMPLOYER personally chose the EMPLOYEE. Likewise, the EMPLOYEE hereby accepts salary and position offered by the EMPLOYER on his own free will and decision;'},
                         { text: '\u200B\t\t WHEREAS, the EMPLOYER hereby accepts the offer of the EMPLOYEE, thru the, AGENCY, under the following terms and conditions: '},
+                        { text:' '},
+                        { text:' '},
+                        { text:' '},
+                        { text:' '},
+                        { text:' '},
+                        { text: 'DUTIES OF EMPLOYEE AND EMPLOYER,'},
+                        { text: 'SALARY AND LIVING CONDITIONS'},
+                        { text:' '},
+                        {
+                            ol: [
+                                'The EMPLOYER shall pay the EMPLOYEE a monthly salary of PESOS: _____________ (Php: ________________) effective ______________________;',
+                                'The EMPLOYER shall provide adequate food, shelter with decent living conditions to the EMPLOYEE and shall allow EMPLOYEE a leave with pay for two (2) days every month.',
+                                'The EMPLOYER shall not transfer the EMPLOYEE or make the EMPLOYEE suffer to work with another person or establishment without any prior written consent from the AGENCY;',
+                                'The EMPLOYER shall observe the provision of Kasambahay Bill.',
+                                'The EMPLOYEE hereby accepts the position and salary offered by the EMPLOYER in his own free will and decision. The EMPLOYEE undertakes to finish the period of SIX(6) MONTHS from the time of signing of this agreement. Otherwise, the EMPLOYEE shall be liable for any and all charges incurred by the AGENCY.',
+                                'The EMPLOYEE is physically fit when hired or accepted by the EMPLOYEE, even in the absence of the medical examination result. The EMPLOYER shall be responsible  for medical exam/check-up and hospitalization, in case of sickness during his employment with the EMPLOYER.',
+                                'The EMPLOYER must take extra care and must exercise due diligence in caring for their valuables such as cash, jewelries, and cellphones to avoid temptation to the EMPLOYEE;',
+                                'The EMPLOYER must be honest and trustworthy and should perform his duties satisfactorily. Any violation like stealing cash, jewelries, or other properties, the EMPLOYEE shall be personally liable and shall be blotter and blacklisted by the EMPLOYER to the nearest police or NBI station.',
+                            ]
+                        },
+                        { text:' '},
+                        { text:' '},
+                        { text:'FEES AND CHARGES'},
+                        { text:' '},
+                        {
+                            ol: [
+                                'The EMPLOYER shall pay the AGENCY a NON-REFUNDABLE service fee of PESOS:_________________ (Php. ______________). The said fee is also NONREDUCTIBLE from salary of the EMPLOYEE.',
+                                'The EMPLOYER shall also pay the TRANSPORTATION FEE of the EMPLOYEE, including the replacement employee, in the amount of PESOS: _______________ (Php. __________) from the office of the AGENCY to the office or residence of the EMPLOYER provided it is within Metro Manila;'
 
-                        //- 2nd page
-                        { text: 'DUTIES OF EMPLOYEE AND EMPLOYER,',  headlineLevel: 1},
-                        //- { text:' SALARY AND LIVING CONDITIONS'},
-                        
+                            ]
+                        },
+                        { text:' '},
+                        { text:' '},
+                        { text:'AGENCY’S RESPONSIBILITIES'},
+                        { text:' '},
+                        {
+                            ol: [
+                                'The AGENCY conducted a thorough investigation on every applicant it will deploy. However, the AGENCY shall not be liable for any MISCONDUCT/MISDEMEANOR of the EMPLOYEE and the latter shall be personally liable for any misconduct or misdemeanor. The AGENCY shall not be held LIABLE or ACCOUNTABLE to any loss or damage which the EMPLOYEE may incur during his six (6) month contract;',
+                                'The AGENCY shall be responsible for providing a replacement, in case the employer is not satisfied with the services of the EMPLOYEE, or in the case the EMPLOYEE absconds and does not return to work, provided that an EMPLOYER shall be entitled to only three (3) replacements.',
+                                'The AGENCY shall not be held liable for any cash advance/loan which may be granted by the EMPLOYER to the EMPLOYEE.',
+                                'The AGENCY shall NOT be held liable for any misbehavior, fault, negligence, omission, or damage including but not limited to dishonesty, theft, simple mistake, maltreatment, or any action or omission attributable to the person or character of the EMPLOYEE or the EMPLOYER;',
+                                'This contract shall commence from the date of signing of the first contract and will expire six (6) months thereafter or after three (3) other replacements, whichever comes first.'
+                            ]
+                        },
+                        { text:' '},
+                        { text:' '},
+                        { text:'TERMINATION OF CONTRACT AND REPLACEMENT'},
+                        { text:' '},
+                        {
+                            ol:[
+                                'This contract shall commence from the date of signing of the first contract and will expire six (6) months thereafter or after three (3) other replacements, whichever comes first.',
+                                'Should the EMPLOYER or the EMPLOYEE decide to pre-terminate this contract, he shall give prior notice of at least ten days to both parties involved. In the event of such termination, the AGENCY shall provide a suitable REPLACEMENT for the employee, provided that a RERPLACEMENT FEE OF PESOS ONLY (Php.1000.00) shall be paid by the EMPLOYER to the AGENCY. If the EMPLOYEE has an unpaid salary, the EMPLOYER shall give the salary to the AGENCY from where the REPLACEMENT FEE, thus making the REPLACEMENT FEE chargeable to the EMPLOYEE.',
+                                'REPLACEMENT FEE shall also be charged to the EMPLOYER or EMPLOYEE, as the case maybe, for any EMPLOYEE who does not return to work or who absconds (runaway).',
+                                'All claims and complaints relative to the contract shall be settled amicably by the parties. However, in the event of any action/s arising from the aforementioned, venue shall be in Mandaluyong city exclusively.',
+                                'In the event that the EMPLOYER insist a refund of the service fee from the agency, this contract will be null and void and the employer shall sign a release, waiver and quit claim provided by the agency upon the receipt of the refund.'
+                            ]
+                        },
+                        { text:' '},
+                        { text:' '},
+                        { text: '\u200B\t\t IN WITNESS WHEREOF, the parties hereunto signed this CONTRACT OF SERVICE on the date and place above-written:'},
+                        { text:' '},
+                        { text:' '},
+                        { text:' '},
+                        { text:' '},
+                        { text:' _______________________                        _____________________',  alignment: 'center'},
+                        { text:'                EMPLOYEE                                              EMPLOYER', alignment: 'center'},
+                        { text:' '},
+                        { text:' '},
+                        { text:' '},
+                        { text:' '},
+                        { text: '___________________________ ', alignment: 'center'},
+                        { text: 'BENILDA D. LAZARO', alignment: 'center'},
+                        { text:' '},
+                        { text:' '},
+                        { text:' '},
+                        { text:' '},
+                        { text: 'MEGA PACIFIC EMPLOYMENT SERVICES AGENCY', alignment: 'center'},
+                        { text:' '},
+                        { text:'Signed in the presence of:', alignment: 'center'},
+                        { text:' '},
+                        { text:' '},
+                        { text:'_______________________                        _____________________', alignment: 'center'},
+                        { text:' '},
+                        { text:'ACKNOWLEDGEMENT', alignment: 'center'},
+                        { text:' '},
+                        { text:' Republic of the Philippines                )'},
+                        { text:' City of Mandaluyong                 ) s.s.'},
+                        { text:' '},
+                        { text:' BEFORE ME, a Notary Public for and in the City of Mandaluyong on this ____ day of_________________, personally appeared the following: ', alignment: 'center'},
+                        { text:' _______________ CTC No. _______________ Issued on ___________ at _______' , alignment: 'center'},
+                        { text:' _______________ CTC No. _______________ Issued on ___________ at _______' , alignment: 'center'},
+                        { text:' _______________ CTC No. _______________ Issued on ___________ at _______' , alignment: 'center'},
+                        { text:' _______________ CTC No. _______________ Issued on ___________ at _______' , alignment: 'center'},
+                        { text:' '},
+                        { text:'Known to me and to me known to be the same persons who executed the foregoing document and acknowledged to me that the same is their free and voluntary act and deed. '},
+                        { text:' '},
+                        { text:'IN WITNESS WHERE OF, the parties hereunto set my hand on the date place above-written.'},
+                        { text:' '},
+                        { text:'Doc. No._______'},
+                        { text:'Page No._______'},
+                        { text:'Book No._______'},
+                        { text:'Series of______'},
 
 
 
