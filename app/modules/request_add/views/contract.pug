@@ -15,49 +15,50 @@ block content
                                 h1 
                                     b   Contract
                             each cont in conttab
-                                if cont.strContractStatus == 'Accepted'
-                                    object(width='1000', height='250', data='/pdfs/'+cont.strContract+'.pdf', type="application/pdf")
-                                else
-                                    .clearfix
-                                        .x_panel(style='background-color:#f1f1f1')
-                                            br
-                                            table.table.jambo_table.table-bordered
-                                                thead
+                                //- if cont.strContractStatus == 'Accepted'
+                                object(width='1000', height='250', data='/pdfs/'+cont.strContract, type="application/pdf")
+                                //- else
+                                .clearfix
+                                    .x_panel(style='background-color:#f1f1f1')
+                                        br
+                                        table.table.jambo_table.table-bordered
+                                            thead
+                                                tr
+                                                    th MAIN CONTRACT
+                                                    th STATUS
+                                                    th ACTION
+                                                
+                                            tbody
+                                                each cont in conttab
                                                     tr
-                                                        th MAIN CONTRACT
-                                                        th STATUS
-                                                        th ACTION
-                                                    
-                                                tbody
-                                                    each cont in conttab
-                                                        tr
-                                                            td
-                                                                center
-                                                                        if cont.strContractStatus == '' 
-                                                                            //- button.btn.btn-primary(type='button' data-toggle='modal', data-target='#maincontract')
-                                                                            button.btn.btn-primary(type='button' onclick='opencontract();')
-                                                                                i.fa.fa-list
-                                                                                |   View Contract
-                                                                        //- else if cont.strContractStatus == 'Accepted'
-                                                                        //-     a(target="_blank" href="../pdfs/"+cont.strContract+'.pdf')
-                                                                        //-         button.btn.btn-primary(type='button')
-                                                                        //-             i.fa.fa-list
-                                                                        //-             |   View Contract
-                                                            td #{cont.strContractStatus}
-                                                            td
-                                                                form.form-horizontal.form-label-center(method='POST' action='deccontract')
-                                                                    each list in listtab
-                                                                        input(type='text', required='required', name='transid', value=''+list.intRequestID, style="display:none;")
-                                                                        center
-                                                                            if cont.strContractStatus == ''
-                                                                                button.btn.btn-success(type='submit' name='btn1' value='accept') Accept
-                                                                                button.btn.btn-danger(type='button' data-toggle='modal' data-target='#rejectcontract', data-id=list.intRequestID) Reject
-                                                                                //- a(href="/request_add/pdfsmp")
-                                                                                //-     button.btn.btn-danger.btn-lg(type='button') testpdf
-                                                                            else if cont.strContractStatus == 'Accepted'
-                                                                            else if cont.strContractStatus == 'Rejected'
-                                                                                button.btn.btn-warning(type='button' data-toggle='modal' data-target='#revertrejectcontract', data-id=list.intRequestID) Revert
-                                                                                button.btn.btn-success(type='submit' name='btn1' value='accept') Accept
+                                                        td
+                                                            center
+                                                                    if cont.strContractStatus == '' 
+                                                                        button.btn.btn-primary(type='button' onclick='opencontract();')
+                                                                            i.fa.fa-list
+                                                                            |   View Contract
+                                                                    else if cont.strContractStatus == 'Accepted' || cont.strContractStatus == 'Rejected'
+                                                                        button.btn.btn-primary(type='button' data-toggle='modal' data-target='#viewcon')
+                                                                            i.fa.fa-list
+                                                                            |   View Contract
+                                                        td #{cont.strContractStatus}
+                                                        td
+                                                            form.form-horizontal.form-label-center(method='POST' action='deccontract')
+                                                                each list in listtab
+                                                                    input(type='text', required='required', name='transid', value=''+list.intRequestID, style="display:none;")
+                                                                    center
+                                                                        if cont.strContractStatus == ''
+                                                                            button.btn.btn-success(type='submit' name='btn1' value='accept') Accept
+                                                                            button.btn.btn-danger(type='button' data-toggle='modal' data-target='#rejectcontract', data-id=list.intRequestID) Reject
+                                                                            //- a(href="/request_add/pdfsmp")
+                                                                            //-     button.btn.btn-danger.btn-lg(type='button') testpdf
+                                                                        else if cont.strContractStatus == 'Accepted'
+                                                                        else if cont.strContractStatus == 'Rejected'
+                                                                            button.btn.btn-warning(type='button' data-toggle='modal' data-target='#revertrejectcontract', data-id=list.intRequestID) Revert
+                                                                            button.btn.btn-success(type='submit' name='btn1' value='accept') Accept
+                                                                        else if cont.strContractStatus == 'Client Confirmation'
+                                                                            button.btn.btn-success(type='submit' name='btn1' value='accept') Accept
+                                                                            button.btn.btn-danger(type='button' data-toggle='modal' data-target='#rejectcontract', data-id=list.intRequestID) Reject
                                 
                             br
                             .x_panel
@@ -338,8 +339,13 @@ block content
                                         | Series of 
                                         input#Series(type='text')
                                 #editor
-
-            // reject modal
+            #viewcon.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
+                .modal-dialog(role='document')
+                    .modal-content.modal-lg
+                        .modal-header(style="background-color:#EDEDED")
+                        .modal-body
+                            each cont in conttab
+                                object(id='thecon' width='860', height='500', data='/pdfs/'+cont.strContract, type="application/pdf")
             #rejectcontract.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
                 .modal-dialog.modal-md
                     .modal-content

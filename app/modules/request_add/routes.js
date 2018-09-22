@@ -602,8 +602,8 @@ function createcontract(req,res,next){
       };
     
       var pdfDoc = printer.createPdfKitDocument(docDefinition);
-      var contractname=req.session.user+'-'+req.body.transid+'-contract';
-      pdfDoc.pipe(fs.createWriteStream('public/pdfs/'+contractname+'.pdf'));
+      var contractname=req.session.user+'-'+req.body.transid+'-contract.pdf';
+      pdfDoc.pipe(fs.createWriteStream('public/pdfs/'+contractname));
       pdfDoc.end();
     
       return next();
@@ -617,7 +617,7 @@ function createcontract(req,res,next){
 
 function contractstatus (req,res){
   var db = require('../../lib/database')();
-  var contractname=req.session.user+'-'+req.body.transid+'-contract';
+  var contractname=req.session.user+'-'+req.body.transid+'-contract.pdf';
   if(req.body.btn1 == 'accept'){
     db.query(`UPDATE tbltransaction SET strContractStatus = 'Accepted', strContract='${contractname}' WHERE intTClientID = '${req.session.user}' AND intTRequestID = '${req.body.transid}'`,function(err){
       console.log(err);

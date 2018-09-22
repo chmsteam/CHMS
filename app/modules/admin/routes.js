@@ -2,6 +2,11 @@ var express = require('express');
 var flog = require( '../login/loggedin');
 var router = express.Router();
 var moment = require('moment');
+// pdfupload
+var http = require('http');
+var multer = require('multer');
+var formidable = require('formidable'); 
+var upload =require('express-fileupload');
 //nodemailer
 var nodemailer = require('nodemailer');
 var hbs = require('nodemailer-express-handlebars');
@@ -1189,6 +1194,49 @@ function addfunctions(req,res){
   }
 }
 router.post('/tr_add_actions_:requestid',flog, addfunctions);
+
+// ------------------------------------------------------------------------------------------------------------------TRANSACTION: Re-send Rejected Contract
+router.post('/re-send_contract',flog, resendcon, updatefilename);
+function resendcon(req,res,next){
+ if (req.files){
+   console.log(req.files);
+   var file = req.files.filename,
+        filename = file.name;
+    file.mv('public/pdfs/'+filename, function(err){
+      if (err){
+        console.log(err)
+      }
+      else{      
+        // res.redirect('/admin/transaction_client_request_'+req.body.transid);
+        return next();
+      }
+    })
+
+ }
+}
+function updatefilename(req,res){
+  var db = require('../../lib/database')();
+  db.query(`UPDATE tbltransaction SET strContract=?, strContractStatus='Client Confirmation' WHERE intTRequestID = ?`,[req.body.nameoffile, req.body.transid], function(err){
+    if (err){
+      res.send(err);
+    }
+    else{
+      res.redirect('/admin/transaction_client_request_'+req.body.transid);
+    }
+  })
+}
+router.post('/cancel_re-send_contract', flog, cancelresend)
+function cancelresend(req,res){
+  var db = require('../../lib/database')();
+  db.query(`UPDATE tbltransaction SET strContractStatus='Rejected' WHERE intTRequestID = ?`,[req.body.transid], function(err){
+  if (err){
+    console.log(err)
+  }
+  else{
+     res.redirect('/admin/transaction_client_request_'+req.body.transid);
+  }
+  })
+}
 
 
 // ------------------------------------------------------------------------------------------------------------------View HW Profile

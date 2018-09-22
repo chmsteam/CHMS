@@ -126,20 +126,20 @@ block content
                                                                             tr
                                                                                 td #{contractdetails.strContractStatus}
                                                                                 td
-                                                                                    button.btn.btn-info(type='button')
+                                                                                    button.btn.btn-info(type='button', data-toggle='modal', data-target='#viewcon', data-thecontract=''+contractdetails.strContract)
                                                                                         i.fa.fa-list
                                                                                         |   View Contract
                                                                                     if contractdetails.strContractStatus == 'Rejected'
-                                                                                        button.btn.btn-warning(type='button')
-                                                                                            i.fa.fa-edit
-                                                                                            |   Edit Contract
-                                                                                        button.btn.btn-success(type='button')
+                                                                                        button.btn.btn-success(type='button', data-toggle='modal', data-target='#re-sendcon', data-id=contractdetails.intTRequestID)
                                                                                             i.fa.fa-envelope
                                                                                             |   Re-Send Contract
                                                                                         button.btn.btn-primary(type='button')
                                                                                             i.fa.fa-eye
                                                                                             |   View Reason
-                                                                                    else if contractdetails.strContractStatus == 'For client confirmation'
+                                                                                    else if contractdetails.strContractStatus == 'Client Confirmation'
+                                                                                        button.btn.btn-danger(type='button', data-toggle='modal', data-target='#cancel_re-sendcon', data-id=contractdetails.intTRequestID)
+                                                                                            i.fa.fa-times
+                                                                                            |   Cancel
                                                                                     else if contractdetails.strContractStatus == 'Accepted'
                                                                                     else
                                                                 
@@ -328,60 +328,61 @@ block content
                                     i#sal
                             hr
 
-                                    
-                                //-  Age:
-                                    
-                                    
-                                    
-                                //-     b Educational Attainment:
-                                //-     i#e
-                                    
-                                //-     b Work Experience:
-                                //-     i#f
 
-
-            //- modals
-            #view_item.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
+            #viewcon.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
                 .modal-dialog(role='document')
-                    .modal-content.modal-md
+                    .modal-content.modal-lg
                         .modal-header(style="background-color:#EDEDED")
+                        .modal-body
+                            each contractdetails in contractdetailstab
+                                object(id='thecon' width='860', height='500', data='/pdfs/'+contractdetails.strContract, type="application/pdf")
+                                //- input#thecon2(type="text", name="")
+            
+            #re-sendcon.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+                .modal-dialog.modal-xs
+                    .modal-content
+                        .modal-header(style="background-color:#EDEDED;")
                             button.close(type='button', data-dismiss='modal')
                                 span(aria-hidden='true') ×
-                            h4
-                                b Type of Service: 
-                                i#title
+                            h4#myModalLabel.modal-title Re-send Contract
                         .modal-body
-                            .row
-                                .col-md-6
-                                    b No. of Person Needed:
-                                    i#c
-                                .col-md-6
-                                    b Gender:
-                                    i#d
-                            hr
-                            .row
-                                .col-md-6
-                                    b Educational Attainment:
-                                    i#e
-                                .col-md-6
-                                    b Work Experience:
-                                    i#f
-                            hr
-                            .row
-                                .col-md-6
-                                    b Desired Salary: Php
-                                    i#sal
-                            hr
-
-                                    
-                                //-  Age:
-                                    
-                                    
-                                    
-                                //-     b Educational Attainment:
-                                //-     i#e
-                                    
-                                //-     b Work Experience:
-                                //-     i#f
-                                    
-                        
+                            form#demo-form2.form-horizontal.form-label-left(method="POST" enctype="multipart/form-data" action="re-send_contract")
+                                input(type="text", id='id' name='transid' style='display:none;')
+                                .form-group
+                                    br
+                                    br
+                                    label.control-label.col-md-3.col-sm-3.col-xs-12
+                                        | Upload Contract
+                                        span.required *
+                                    .col-md-6.col-sm-6.col-xs-12
+                                        input.form-control.col-md-7.col-xs-12(type='file', id='mainfile' accept='application/pdf' required='required', name='filename' value='')
+                                        input.form-control.col-md-7.col-xs-12(type='text', id='nameoffile' name='nameoffile' style='display:none;')
+                                br
+                                .ln_solid
+                                .form-group.pull-right
+                                    button.btn.btn-success(type='submit' value='upload'  onClick='getname();') Send
+                                    button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+    
+            #cancel_re-sendcon.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+                .modal-dialog.modal-xs
+                    .modal-content
+                        .modal-header(style="background-color:#EDEDED;")
+                            button.close(type='button', data-dismiss='modal')
+                                span(aria-hidden='true') ×
+                            h4#myModalLabel.modal-title Cancel Re-sent Contract
+                        .modal-body
+                            form#demo-form2.form-horizontal.form-label-left(method="POST" action="cancel_re-send_contract")
+                                input(type="text", id='id' name='transid' style='display:none;')
+                                h1 Are you sure you want to cancel the re-sent contract?
+                                br
+                                .ln_solid
+                                .form-group.pull-right
+                                    button.btn.btn-success(type='submit') Yes
+                                    button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+    script.
+        function getname(){
+            var x = document.getElementById("mainfile").value;
+            var filename = x.replace(/^.*\\/, "");
+            document.getElementById("nameoffile").value =filename;
+        }
+                            
