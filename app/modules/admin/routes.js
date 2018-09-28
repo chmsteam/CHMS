@@ -2,6 +2,11 @@ var express = require('express');
 var flog = require( '../login/loggedin');
 var router = express.Router();
 var moment = require('moment');
+// pdfupload
+var http = require('http');
+var multer = require('multer');
+var formidable = require('formidable'); 
+var upload =require('express-fileupload');
 //nodemailer
 var nodemailer = require('nodemailer');
 var hbs = require('nodemailer-express-handlebars');
@@ -1038,6 +1043,8 @@ function findclientlistno(req,res,next){
   });
 }
 function resultquery(req,res,next){
+  console.log('ID=='+ req.params.requestid);
+  console.log('No.=='+req.params.requestno);
   var db = require('../../lib/database')();
   var db2 = require('../../lib/database')();
   db.query(`SELECT * FROM tblinitialrequest WHERE intIRequestID=? AND intIRequest_No=?`,[req.params.requestid, req.params.requestno], function (err, results) {
@@ -1136,10 +1143,10 @@ function resultothers(req,res,next){
   });
 
 }
-router.get('/transaction_result_:requestid:requestno', flog, findclientrequestspecific2, resultquery, resultothers, findclientlistno, rendertransclientno);
+router.get('/transaction_result_/-/:requestid/-/:requestno', flog, findclientrequestspecific2, resultquery, resultothers, findclientlistno, rendertransclientno);
 
 // --------------------------------------------------------------------------------TRANSACTIONS ADD TO LIST
-router.post('/transaction_add_to_list_:requestid:requestno:requesthw', flog, findclientrequestspecific2, resultquery, findclientlistno, addtolist);
+router.post('/transaction_add_to_list_/-/:requestid/-/:requestno/-/:requesthw', flog, findclientrequestspecific2, resultquery, findclientlistno, addtolist);
 function addtolist(req,res){
   var db = require('../../lib/database')();
   var db2  = require('../../lib/database')();
@@ -1148,14 +1155,14 @@ function addtolist(req,res){
       if (!results2[0]){
         console.log('wala pa laman kaya inadd')
         db.query(`INSERT INTO tblresults VALUES (?,?,?,'','')`, [req.params.requestid, req.params.requestno, req.params.requesthw], function (err) {
-          res.redirect('/admin/transaction_result_'+ req.params.requestid + req.params.requestno, flog, findclientrequestspecific2, resultquery, findclientlistno, rendertransclientno)
+          res.redirect('/admin/transaction_result_/-/'+ req.params.requestid +'/-/'+ req.params.requestno)
         }) 
       }
       else{
         // db.query(`INSERT INTO tblresults VALUES (?,?,?,'','')`, [req.params.requestid, req.params.requestno, req.params.requesthw], function (err, results) {
         //   if (err) return res.send(err);
           console.log('di pa naka add kaya inadd');
-          res.redirect('/admin/transaction_result_'+ req.params.requestid + req.params.requestno, flog, findclientrequestspecific2, resultquery, findclientlistno, rendertransclientno)
+          res.redirect('/admin/transaction_result_/-/'+ req.params.requestid +'/-/'+  req.params.requestno)
         // })
       }
     
@@ -1191,6 +1198,49 @@ function addfunctions(req,res){
   }
 }
 router.post('/tr_add_actions_:requestid',flog, addfunctions);
+
+// ------------------------------------------------------------------------------------------------------------------TRANSACTION: Re-send Rejected Contract
+router.post('/re-send_contract',flog, resendcon, updatefilename);
+function resendcon(req,res,next){
+ if (req.files){
+   console.log(req.files);
+   var file = req.files.filename,
+        filename = file.name;
+    file.mv('public/pdfs/'+filename, function(err){
+      if (err){
+        console.log(err)
+      }
+      else{      
+        // res.redirect('/admin/transaction_client_request_'+req.body.transid);
+        return next();
+      }
+    })
+
+ }
+}
+function updatefilename(req,res){
+  var db = require('../../lib/database')();
+  db.query(`UPDATE tbltransaction SET strContract=?, strContractStatus='Client Confirmation' WHERE intTRequestID = ?`,[req.body.nameoffile, req.body.transid], function(err){
+    if (err){
+      res.send(err);
+    }
+    else{
+      res.redirect('/admin/transaction_client_request_'+req.body.transid);
+    }
+  })
+}
+router.post('/cancel_re-send_contract', flog, cancelresend)
+function cancelresend(req,res){
+  var db = require('../../lib/database')();
+  db.query(`UPDATE tbltransaction SET strContractStatus='Rejected' WHERE intTRequestID = ?`,[req.body.transid], function(err){
+  if (err){
+    console.log(err)
+  }
+  else{
+     res.redirect('/admin/transaction_client_request_'+req.body.transid);
+  }
+  })
+}
 
 
 // ------------------------------------------------------------------------------------------------------------------View HW Profile
@@ -1454,6 +1504,18 @@ function clientsettledecisionreplacementleft3(req,res){
     })
   });
 }
+
+// --------------------------------------------------------------------------------- TRANSACTIONS SETTLE VIEW
+router.get('/transaction_settle_:transid', flog, findtransaction, findcontractstatusforhw, rendertranssettleview); 
+function rendertranssettleview(req,res){
+  if(req.valid==0)
+    res.render('admin/views/transaction_settle_view',{usertab: req.user, transtab: req.trans, hwtab: req.hw});
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+
 //----------------------------------------------------------------------------------TRANSACTIONS SETTLED
 router.get('/transaction_settled', flog, findtranssettled, rendertranssettled); 
 function rendertranssettled(req,res){

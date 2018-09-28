@@ -13,7 +13,10 @@ function render(req,res){
           replacetab: req.replace,
           finreqtab: req.finreq,
           requesttab: req.request,
-          request2tab: req.request2
+          request2tab: req.request2,
+          myreqtab: req.myreq,
+          totalirtab: req.totalir,
+          historytab: req.history
         });
     else if(req.valid==0)
       res.render('admin/views/invalidpages/normalonly');
@@ -131,9 +134,51 @@ function renderhwlist(req,res){
 }
 router.get('/householdworker_list', flog, myhw, renderhwlist);
 
+function countmyrequest(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) AS myrequest FROM tblfinalrequest WHERE intRequest_ClientID=? AND strRequestStatus IN ('Draft', 'On process', 'Pending')`, [req.session.user], function(err,results){
+    console.log(err);
+    req.myreq=results;
+    return next();
+  })
+}
+function counthistory(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) AS history FROM tblfinalrequest WHERE intRequest_ClientID=? AND strRequestStatus IN ('Finished', 'Rejected', 'Cancelled')`, [req.session.user], function(err,results){
+    console.log(err);
+    req.history=results;
+    return next();
+  })
+}
+function countirequest(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT count(*) as totallr FROM tblleaverequest AS tl INNER JOIN tbluser AS ts ON tl.intHouseholdID = ts.intID INNER JOIN tblmleave AS lt ON tl.intTypeOfLeave = lt.intID WHERE intClientID = ? AND strLeaveStatus IN ("For Client Approval", "On-going", "Approved")`,[req.session.user], function(err,results){
+    if (err){
+      console.log(err)
+    }
+    else{
+      var totallr = results[0].totallr;
+      db.query(`SELECT count(*) as totalrep, u.intID AS clientid, u.strFName AS clientfname, u.strLName AS clientlname, uu.intID AS hwid, uu.strFName AS hwfname, uu.strLName AS hwlname 
+      FROM tblfinalrequest INNER JOIN tbluser as u on u.intID = intRequest_ClientID INNER JOIN tblreplacement ON intReplaceReqID = intRequestID INNER JOIN tbluser AS uu ON uu.intID = intReplaceOldHWID
+      WHERE strRequestType='Replace Client' AND intRequest_ClientID=?`,[req.session.user], function(err,results2){
+        if (err){
+          console.log(err)
+        }
+        else{
+          var totalrep = results2[0].totalrep;
+          var totalir = totallr+totalrep;
+          req.totalir = totalir;
+          return next();
+        }
+      })
+
+    }
+  })
+}
+
 //------------------------------------------------------- ROUTER GET
 var renderFunctions = [displayLeaveReq, ]
-router.get('/', flog, findreplacementofclient,findfinishedreq, myrequest, myrequest2, renderFunctions, render);
+router.get('/', flog, findreplacementofclient,findfinishedreq, myrequest, myrequest2, renderFunctions, countmyrequest, countirequest, counthistory, render);
 router.get('/request_leave', flog, renderFunctions, renderrequestleave);
 
 

@@ -11,7 +11,7 @@ block content
 
                                 .pull-right
                                     each request in requesttab
-                                        a(href='transaction_client_request_'+request.intIRequestID)
+                                        a(href='/admin/transaction_client_request_'+request.intIRequestID)
                                             button.btn.btn-primary.btn-lg(type='button') Back
                                 center
                                     h3(style='color:')
@@ -38,7 +38,7 @@ block content
                                         each resulta in resultatab
                                             each request in requesttab
                                                 tr
-                                                    form(method="POST" action="transaction_add_to_list_"+request.intIRequestID+request.intIRequest_No+resulta.intHWID)
+                                                    form(method="POST" action="/admin/transaction_add_to_list_/-/"+request.intIRequestID+'/-/'+request.intIRequest_No+'/-/'+resulta.intHWID)
                                                         td #{resulta.intHWID}
                                                             //- input(type="number" name= 'hwid' style='visibility:hidden;', value=''+resulta.intHWID)
                                                         td #{resulta.hwname}
@@ -77,7 +77,7 @@ block content
                                             each otherresulta in otherresultatab
                                                 each request in requesttab
                                                     tr
-                                                        form(method="POST" action="transaction_add_to_list_"+request.intIRequestID+request.intIRequest_No+otherresulta.intHWID)
+                                                        form(method="POST" action="/admin/transaction_add_to_list_/-/"+request.intIRequestID+'/-/'+request.intIRequest_No+'/-/'+otherresulta.intHWID)
                                                             td #{otherresulta.intHWID}
                                                                 //- input(type="number" name= 'hwid' style='visibility:hidden;', value=''+otherresulta.intHWID)
                                                             td #{otherresulta.hwname}

@@ -36,7 +36,7 @@ block content
                                         each list in listtab
                                             if hw.strRClientStatus == 'Waiting'
                                                 tr
-                                                form#demo-form2.form-horizontal.form-label-left(method="POST" action="/request_add/decision_"+hw.intRRequestID+hw.intRRequest_No)
+                                                form#demo-form2.form-horizontal.form-label-left(method="POST" action="/request_add/decision_/-/"+hw.intRRequestID+'/-/'+hw.intRRequest_No)
                                                     input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='hwid', value=''+hw.intRHWID, style="display:none;")
                                                     input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transid', value=''+hw.intRRequestID, style="display:none;")
                                                     input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='reqno', value=''+hw.intRRequest_No, style="display:none;")                                 
@@ -77,7 +77,7 @@ block content
                                             each list in listtab
                                                 if hw.strRClientStatus == 'Approved'
                                                     tr
-                                                    form(method="POST" action="/request_add/decision_"+hw.intRRequestID+hw.intRRequest_No)
+                                                    form(method="POST" action="/request_add/decision_/-/"+hw.intRRequestID+'/-/'+hw.intRRequest_No)
                                                         input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='hwid', value=''+hw.intRHWID, style="display:none;")
                                                         input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transid', value=''+hw.intRRequestID, style="display:none;")
                                                         input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='reqno', value=''+hw.intRRequest_No, style="display:none;") 
@@ -117,7 +117,7 @@ block content
                                             each list in listtab
                                                 if hw.strRClientStatus == 'Rejected'
                                                     tr
-                                                    form(method="POST" action="/request_add/decision_"+hw.intRRequestID+hw.intRRequest_No)
+                                                    form(method="POST" action="/request_add/decision_/-/"+hw.intRRequestID+'/-/'+hw.intRRequest_No)
                                                         input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='hwid', value=''+hw.intRHWID, style="display:none;")
                                                         input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transid', value=''+hw.intRRequestID, style="display:none;")
                                                         input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='reqno', value=''+hw.intRRequest_No, style="display:none;") 

@@ -88,7 +88,7 @@ CREATE TABLE `tblcontract` (
 -- Dumping data for table `tblcontract`
 --
 
-INSERT INTO `tblcontract` VALUES (1,1,6,5000,'Approved','2018-09-07','Current',3);
+-- INSERT INTO `tblcontract` VALUES (1,1,6,5000,'Approved','2018-09-07','Current',3);
 
 --
 -- Table structure for table `tblfee`
@@ -138,7 +138,7 @@ CREATE TABLE `tblfinalrequest` (
 -- Dumping data for table `tblfinalrequest`
 --
 
-INSERT INTO `tblfinalrequest` VALUES (1,1,'Add','List 1','Tsst\r\n','2018-09-07','Finished','2018-09-08'),(2,1,'Add','Batch One','','2018-09-07','On process','2018-09-15');
+-- INSERT INTO `tblfinalrequest` VALUES (1,1,'Add','List 1','Tsst\r\n','2018-09-07','Finished','2018-09-08'),(2,1,'Add','Batch One','','2018-09-07','On process','2018-09-15');
 
 --
 -- Table structure for table `tblfreereplacement`
@@ -222,7 +222,7 @@ CREATE TABLE `tblhw_educbg` (
 -- Dumping data for table `tblhw_educbg`
 --
 
-INSERT INTO `tblhw_educbg` VALUES (6,'Elementary','PUers','Manila',2011,'none'),(7,'Elementary','PUsers','Manila',2011,'none');
+INSERT INTO `tblhw_educbg` VALUES (6,'Elementary','PUers','Manila',2011,'none'),(7,'Elementary','PUsers','Manila',2011,'none'),(7,'High School','PUP','Manila',2019,'none');
 
 --
 -- Table structure for table `tblhw_ref`
@@ -302,7 +302,7 @@ CREATE TABLE `tblinitialrequest` (
 -- Dumping data for table `tblinitialrequest`
 --
 
-INSERT INTO `tblinitialrequest` VALUES (1,1,1,1,18,18,'Any','Elementary',0,5000.00),(2,1,1,1,18,18,'Any','Elementary',0,5000.00);
+-- INSERT INTO `tblinitialrequest` VALUES (1,1,1,1,18,18,'Any','Elementary',0,5000.00),(2,1,1,1,18,18,'Any','Elementary',0,5000.00);
 
 --
 -- Table structure for table `tblleaverequest`
@@ -550,6 +550,7 @@ CREATE TABLE `tblreport` (
   `intRecipentID` int(11) DEFAULT NULL,
   `intTypeofReport` int(11) DEFAULT NULL,
   `strReason` varchar(250) DEFAULT NULL,
+  `strPicture` varchar(45) DEFAULT NULL,
   `strValidity` varchar(50) DEFAULT NULL,
   `datDateReported` date DEFAULT NULL,
   `strReportStatus` varchar(50) DEFAULT NULL,
@@ -589,7 +590,7 @@ CREATE TABLE `tblresults` (
 -- Dumping data for table `tblresults`
 --
 
-INSERT INTO `tblresults` VALUES (1,1,6,'Approved','Approved'),(2,1,7,'Waiting','');
+-- INSERT INTO `tblresults` VALUES (1,1,6,'Approved','Approved'),(2,1,7,'Waiting','');
 
 --
 -- Table structure for table `tbltransaction`
@@ -613,6 +614,7 @@ CREATE TABLE `tbltransaction` (
   `strORNumber` varchar(20) DEFAULT NULL,
   `strInvoiceNum` varchar(20) DEFAULT NULL,
   `strORPicture` varchar(45) DEFAULT NULL,
+  `strConRemarks` longtext,
   KEY `intTRequestID` (`intTRequestID`),
   CONSTRAINT `intTRequestID` FOREIGN KEY (`intTRequestID`) REFERENCES `tblfinalrequest` (`intRequestID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -622,7 +624,7 @@ CREATE TABLE `tbltransaction` (
 -- Dumping data for table `tbltransaction`
 --
 
-INSERT INTO `tbltransaction` VALUES (1,1,'2018-09-07',2,'2018-09-14','14:22:00','','Accepted','2018-09-07','2019-03-07','On-going','1001','20181','1-J0RpL6Gnk5.jpg');
+-- INSERT INTO `tbltransaction` VALUES (1,1,'2018-09-07',2,'2018-09-14','14:22:00','','Accepted','2018-09-07','2019-03-07','On-going','1001','20181','1-J0RpL6Gnk5.jpg');
 
 --
 -- Table structure for table `tbluser`
@@ -649,7 +651,7 @@ CREATE TABLE `tbluser` (
 -- Dumping data for table `tbluser`
 --
 
-INSERT INTO `tbluser` VALUES (1,'lance','luna','sanpablo','lance@xyz.com','pass','1-X1rRH9m3ua.jpg','Client','Registered'),(2,'jeron','lun','pablo','jeron@xyz.com','pass','blank.jpg','Household Worker','Registered'),(3,'lanz','lu','sanpabloz','lanz@xyz.com','pass','blank.jpg','Admin','Registered'),(4,'lancer','lunar','sanpablor','lancer@xyz.com','pass','blank.jpg','Client','Unregistered'),(5,'lancers','lunasr','sanpablors','lancers@xyz.com','pass','blank.jpg','Household Worker','Unregistered'),(6,'Jane','Saint','Doe','test@xyz.com','test','blank.jpg','Household Worker','Deployed'),(7,'Jane7','Saint7','Doe7','test7@xyz.com','test7','blank.jpg','Household Worker','Registered');
+INSERT INTO `tbluser` VALUES (1,'lance','luna','sanpablo','lance@xyz.com','pass','blank.jpg','Client','Registered'),(2,'jeron','lun','pablo','jeron@xyz.com','pass','blank.jpg','Household Worker','Registered'),(3,'lanz','lu','sanpabloz','lanz@xyz.com','pass','blank.jpg','Admin','Registered'),(4,'lancer','lunar','sanpablor','lancer@xyz.com','pass','blank.jpg','Client','Unregistered'),(5,'lancers','lunasr','sanpablors','lancers@xyz.com','pass','blank.jpg','Household Worker','Unregistered'),(6,'Jane','Saint','Doe','test@xyz.com','test','blank.jpg','Household Worker','Registered	'),(7,'Jane7','Saint7','Doe7','test7@xyz.com','test7','blank.jpg','Household Worker','Registered');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

@@ -615,6 +615,7 @@ CREATE TABLE `tbltransaction` (
   `strORNumber` varchar(20) DEFAULT NULL,
   `strInvoiceNum` varchar(20) DEFAULT NULL,
   `strORPicture` varchar(45) DEFAULT NULL,
+  `strConRemarks` longtext,
   KEY `intTRequestID` (`intTRequestID`),
   CONSTRAINT `intTRequestID` FOREIGN KEY (`intTRequestID`) REFERENCES `tblfinalrequest` (`intRequestID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -624,7 +625,7 @@ CREATE TABLE `tbltransaction` (
 -- Dumping data for table `tbltransaction`
 --
 
-INSERT INTO `tbltransaction` VALUES (1,1,'2018-09-07',2,'2018-09-14','14:22:00','','Accepted','2018-09-07','2019-03-07','On-going','1001','20181','1-J0RpL6Gnk5.jpg');
+INSERT INTO `tbltransaction` VALUES (1,1,'2018-09-07',2,'2018-09-14','14:22:00','','Accepted','2018-09-07','2019-03-07','On-going','1001','20181','1-J0RpL6Gnk5.jpg','');
 
 --
 -- Table structure for table `tbluser`
@@ -651,7 +652,7 @@ CREATE TABLE `tbluser` (
 -- Dumping data for table `tbluser`
 --
 
-INSERT INTO `tbluser` VALUES (1,'lance','luna','sanpablo','lance@xyz.com','pass','1-X1rRH9m3ua.jpg','Client','Registered'),(2,'jeron','lun','pablo','jeron@xyz.com','pass','blank.jpg','Household Worker','Registered'),(3,'lanz','lu','sanpabloz','lanz@xyz.com','pass','blank.jpg','Admin','Registered'),(4,'lancer','lunar','sanpablor','lancer@xyz.com','pass','blank.jpg','Client','Unregistered'),(5,'lancers','lunasr','sanpablors','lancers@xyz.com','pass','blank.jpg','Household Worker','Unregistered'),(6,'Jane','Saint','Doe','test@xyz.com','test','blank.jpg','Household Worker','Deployed'),(7,'Jane7','Saint7','Doe7','test7@xyz.com','test7','blank.jpg','Household Worker','Registered');
+INSERT INTO `tbluser` VALUES (1,'lance','luna','sanpablo','lance@xyz.com','pass','blank.jpg','Client','Registered'),(2,'jeron','lun','pablo','jeron@xyz.com','pass','blank.jpg','Household Worker','Registered'),(3,'lanz','lu','sanpabloz','lanz@xyz.com','pass','blank.jpg','Admin','Registered'),(4,'lancer','lunar','sanpablor','lancer@xyz.com','pass','blank.jpg','Client','Unregistered'),(5,'lancers','lunasr','sanpablors','lancers@xyz.com','pass','blank.jpg','Household Worker','Unregistered'),(6,'Jane','Saint','Doe','test@xyz.com','test','blank.jpg','Household Worker','Deployed'),(7,'Jane7','Saint7','Doe7','test7@xyz.com','test7','blank.jpg','Household Worker','Registered');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
