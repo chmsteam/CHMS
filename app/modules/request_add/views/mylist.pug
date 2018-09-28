@@ -33,7 +33,7 @@ block content
                                 each count in counttab
                                     if (list.strRequestStatus == 'Draft' && count.counter != 0)
                                         a(href='/request_add/submit_request_'+list.intRequestID)
-                                            button.btn.pull-right.btn-success.btn-lg(type='button')
+                                            button.btn.pull-right.btn-success.btn-lg#submit(type='button')
                                                 i.fa.fa-envelope
                                                 |   Submit List
                                     else if list.strRequestStatus == 'On process' || list.strRequestStatus == 'Pending'
@@ -148,7 +148,7 @@ block content
         #Add.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog(role='document')
                 each list in listtab
-                    form(method='POST', action='add_to_mylist_'+list.intRequestID).form-horizontal
+                    form#add(method='POST', action='add_to_mylist_'+list.intRequestID).form-horizontal
                         .modal-content
                             .modal-header(style="background-color:#2A3F54; color:white")
                                 button.close(type='button', data-dismiss='modal')
@@ -257,7 +257,7 @@ block content
                                                         |Php 13k (Stay-in)
                             .modal-footer
                                 button.btn.btn-primary.btn-md(type='button'  data-dismiss='modal') Cancel
-                                button.btn.btn-success.btn-md(type='submit') Add
+                                button.btn.btn-success.btn-md#add(type='submit') Add
 
 
 
@@ -483,6 +483,34 @@ block content
                         .modal-footer
                             button.btn.btn-primary(type='button', data-dismiss='modal') Close
                             button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Next
+        script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+        script.
+            $(document).ready(function(){
+                $('form#add').submit(function(){
+                    swal({
+                        type: 'success',
+                        title: 'Service added to the list',
+                        showConfirmButton: false,
+                        timer: 5000
+                        }),
+                    $('#Add').modal('hide').then(
+                        $(function(){
+                            location.reload();
+                            }, 6000)
+                    );
+                });
+                $('#submit').click(function(){
+                    swal({
+                        type: 'info',
+                        title: 'List submitted to admin',
+                        showConfirmButton: true,
+                        closeOnConfirm: true,
+                        },
+                        $(function(){
+                            location.reload();
+                            }, 6000));
+                });
+            });
         script.
             function time(){
                 var today = new Date();

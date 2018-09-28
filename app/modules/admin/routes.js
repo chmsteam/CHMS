@@ -1044,6 +1044,8 @@ function resultquery(req,res,next){
     if (!results[0])
     if (err) return res.send(err);
     console.log('');
+    console.log(req.params.requestid);
+    console.log(req.params.requestno);
       if (results[0].strIRequestGender == 'Any'){
         db2.query(`SELECT *
                     FROM

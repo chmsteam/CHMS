@@ -30,6 +30,8 @@ html(lang='en')
     link(href='/admin/gentelella/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css', rel='stylesheet')
     // Animate CSS
     link(href="/assets/fame/css/animate.css" rel="stylesheet")
+    link(href="/custom/alerts/css/popup.css" rel="stylesheet")
+    script(src="/asset_sweetalert/src/sweetalert2.all.min")
 
   //- #preloader (tinanggal ko muna, d makita ung page ng "VIEW RESULT," preloader lang lumalabas)
   body.nav-md.footer_fixed(style='background-color:transparent' onpageshow='total();')
@@ -132,6 +134,22 @@ html(lang='en')
                     b Home  
 
           block content
+      //- script.
+      //-   $(document).ready(function(){
+      //-       $('form#add').submit(function(s){
+      //-           s.preventDefault();
+      //-           $(function(){
+      //-                   location.reload();
+      //-               }).then(
+      //-                   swal({
+      //-                       title:'Success', 
+      //-                       text:'Added', 
+      //-                       icon:'success',
+      //-                       closeOnConfirm: false}),
+      //-               $('#Add').modal('hide')
+      //-           );
+      //-       });
+      //-   });
       // jQuery
       script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
       // Bootstrap
@@ -165,7 +183,34 @@ html(lang='en')
       // bootstrap-daterangepicker
       script(src='/admin/gentelella/vendors/moment/min/moment.min.js')
       script(src='/admin/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.js')
+      script(src='/custom/alerts/js/sweetalert.min.js')
       script(src="/custom/modal-report.js")
+      
+      //- script(src="/custom/add.js")
+      //- script.
+      //-   $(document).ready(function(){
+      //-       $('form#add').submit(function(e){
+      //-           e.preventDefault();
+      //-           $.ajax({
+      //-               url: '/request_add/createlist_services/createlist',
+      //-               method: 'post',
+      //-               data: $('form#add').serialize(),
+      //-               success: function(response){
+      //-                   console.log(response);
+      //-                   if(response == 'success'){
+      //-                       swal({
+      //-                           title:'Success', 
+      //-                           text:'Added', 
+      //-                           icon:'success',
+      //-                           closeOnConfirm: false}
+      //-                       ).then(function(){
+      //-                           location.reload();
+      //-                           })
+      //-                       }   
+      //-                   }
+      //-               })
+      //-           });
+      //-       });
 
       script.
         $('#datatable2').DataTable();
@@ -238,7 +283,7 @@ html(lang='en')
           modal.find('.modal-body #requestid').val(requestid)
           modal.find('.modal-body #requestno').val(requestno)
         });
-         $('#remove_item2').on('show.bs.modal', function (event) {
+        $('#remove_item2').on('show.bs.modal', function (event) {
           var button = $(event.relatedTarget)
           var requestid = button.data('requestid')
           var requestno = button.data('requestno')
@@ -347,3 +392,4 @@ html(lang='en')
               document.getElementById("uploadPreview2").src = oFREvent.target.result;
               };
             };
+            

@@ -371,6 +371,16 @@ html(lang='en')
           script(src='/assets4/lib/wow/wow.min.js')
           script(src="/assets4/lib/morphext/morphext.min.js")
           script.
+            $('#viewOR').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var ornum = button.data('ornum')
+              var image = button.data('image')
+
+              var modal = $(this)
+              modal.find('.modal-body #ornum').text(ornum)
+              $('#imagepre').attr('src', image)
+            });
+          script.
             $('#accept').click(function() {
                 if ($('#submitbtn').is(':disabled')) {
                     $('#submitbtn').removeAttr('disabled');
@@ -616,6 +626,8 @@ html(lang='en')
                 document.getElementById("uploadPreview2").src = oFREvent.target.result;
                 };
               };
+            
+
             $('#editpic1').on('show.bs.modal', function (event) {
               var button = $(event.relatedTarget)
               var id = button.data('id')

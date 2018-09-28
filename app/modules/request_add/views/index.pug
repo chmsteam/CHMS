@@ -1,5 +1,23 @@
 extends ../../../templates/navbarclient.pug
 block content
+    //- script.
+    //-     $(document).ready(function(){
+    //-         $('form#add').submit(function(s){
+    //-             s.preventDefault();
+    //-             $(function(){
+    //-                     location.reload();
+    //-                 }).then(
+    //-                     swal({
+    //-                         title:'Success', 
+    //-                         text:'Added', 
+    //-                         icon:'success',
+    //-                         closeOnConfirm: false}),
+    //-                 $('#Add').modal('hide')
+    //-             );
+    //-         });
+    //-     });
+    link(rel="stylesheet", href="/custom/alerts/css/popup.css")
+    script(src="/sweetalert/dist/sweetalert.min.js")
     section#services
         .right_col.wow.fadeInDown(role='main' style="background-color:transparent;")
             .page-title
@@ -98,7 +116,7 @@ block content
                         span(aria-hidden='true') ×
                     h4#myModalLabel.modal-title(style="text-align:center; font-weight:bold") Delete List
                 .modal-body
-                    form.form-horizontal(method='POST' action='/request_add/delete_draftlist')
+                    form#delete(method='POST' action='/request_add/delete_draftlist')
                         br
                         input(id='listid' type='text' name='transid', value='' , style="display:none;")  
                         .form-group
@@ -119,7 +137,7 @@ block content
                         span(aria-hidden='true') ×
                     h4#myModalLabel.modal-title(style="text-align:center; font-weight:bold") Cancel List
                 .modal-body
-                    form.form-horizontal(method='POST' action='/request_add/cancel_onprocesslist')
+                    form#cancel(method='POST' action='/request_add/cancel_onprocesslist')
                         br
                         input(id='listid' type='text' name='transid', value='' , style="display:none;")  
                         .form-group
@@ -140,7 +158,7 @@ block content
                         span(aria-hidden='true') ×
                     h4#myModalLabel.modal-title(style="text-align:center; font-weight:bold") Remove List
                 .modal-body
-                    form.form-horizontal(method='POST' action='/request_add/remove_list')
+                    form#remove(method='POST' action='/request_add/remove_list')
                         br
                         input(id='listid' type='text' name='transid' hidden)  
                         .form-group
@@ -156,7 +174,7 @@ block content
    
     #Add.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
         .modal-dialog.modal-md
-            form.form-horizontal(method='POST' action='/request_add/createlist_services/createlist')
+            form#add(method='POST' action='/request_add/createlist_services/createlist')
                 .modal-content
                     .modal-header(style="background-color:#2A3F54; color:white")
                         button.close(type='button', data-dismiss='modal')
@@ -188,9 +206,26 @@ block content
                                         textarea.form-control.AddMessage(rows='10' name='reqdesc')
                     .modal-footer
                         button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
-                        button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Create
+                        button#add.btn.btn-success.btn-md(type='submit',  onCLick='time();') Create
     
     //- scripts
+    script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+    script.
+        $(document).ready(function(){
+            $('form#add').submit(function(){
+                swal({
+                    type: 'success',
+                    title: 'List created',
+                    showConfirmButton: false,
+                    timer: 1500
+                    }),
+                $('#Add').modal('hide').then(
+                    $(function(){
+                        location.reload();
+                        })
+                );
+            });
+        });
     script.
         function time(){
             var today = new Date();
@@ -214,5 +249,83 @@ block content
             //- document.write(today);
            document.getElementById("thedate").value=today;
         }
-        //- ---------------------find requestid
-            
+    //- script.
+    //-     $(document).ready(function(){
+    //-         $('form#add').submit(function(e){
+    //-             e.preventDefault();
+    //-             $.ajax({
+    //-                 url: '/request_add/createlist_services/createlist',
+    //-                 method: 'post',
+    //-                 data: $('form#add').serialize(),
+    //-                 success: function(response){
+    //-                     console.log(response);
+    //-                     if(response == 'success'){
+    //-                         swal({
+    //-                             title:'Success', 
+    //-                             text:'Added', 
+    //-                             icon:'success',
+    //-                             closeOnConfirm: false}
+    //-                         ).then(function(){
+    //-                             location.reload();
+    //-                             })
+    //-                         }
+    //-                     }
+    //-                 })
+    //-             })
+    //-         });
+    //- script.
+    //-     $(document).ready(function(){
+    //-         $('form#add').submit(function(s){
+    //-             s.preventDefault();
+    //-             $(function(){
+    //-                     location.reload();
+    //-                 }).then(
+    //-                     swal({
+    //-                         title:'Success', 
+    //-                         text:'Added', 
+    //-                         icon:'success',
+    //-                         closeOnConfirm: false}),
+    //-                 $('#Add').modal('hide')
+    //-             );
+    //-         });
+    //-     });
+    //- script.
+    //-     $(document).ready(function(){
+    //-         $('form#add').submit(function(s){
+    //-             s.preventDefault();
+    //-             $(function(){
+    //-                     location.reload();
+    //-                     }, 3000).then(
+    //-                         swal(
+    //-                             "Submitted!", 
+    //-                             "Your form file has been submitted.", 
+    //-                             "success"
+    //-                         ),
+    //-                 $('#addUOM').modal('hide')
+    //-             );
+    //-         });
+    //-     });
+    //- script(type='text/javascript').
+    //-     $(document).ready(function(){
+    //-         $('form#add').submit(function(e){
+    //-             e.preventDefault();
+    //-             $('#addUOM').modal('hide');
+    //-             $.ajax({
+    //-                 method: "POST",
+    //-                 url: '/request_add/createlist_services/createlist',
+    //-                 data: $("form#add"),
+    //-                 success: function(response){
+    //-                     console.log(response);
+    //-                     swal({
+    //-                     title:'Success', 
+    //-                     text:'Added', 
+    //-                     icon:'success',
+    //-                     closeOnConfirm: false},
+    //-                 function(){
+    //-                     location.reload();
+    //-                     }
+    //-                 )   
+    //-                 }
+    //-             })
+    //-         })
+    //-     });
