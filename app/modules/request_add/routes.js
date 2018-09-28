@@ -258,7 +258,7 @@ function clientdecision(req,res){
       db.query(`SELECT * FROM tblresults as a INNER JOIN tblinitialrequest as b on a.intRRequestID = b.intIRequestID WHERE intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}' AND strRClientStatus = 'Approved'`, function (err,results){
         db.query(`INSERT INTO tblcontract VALUES ('${req.body.transid}', '${req.body.reqno}', '${req.body.hwid}', '${results[0].deciRequestSalary}', '', NULL, '',NULL)`, function(err,results2){
           console.log('yyyyyyyyyyyyy'+err)
-          res.redirect('/request_add/result_'+req.params.transid + req.params.requestno, flog, findviewlist, findcreatedlist, renderviewlist);
+          res.redirect('/request_add/result_/-/'+req.params.transid +'/-/'+ req.params.requestno);
         })
       })
     })
@@ -266,7 +266,7 @@ function clientdecision(req,res){
   else if(req.body.btn1 == 'reject'){
     db.query(`UPDATE tblresults SET strRClientStatus= 'Rejected' WHERE strRClientStatus='Waiting' AND intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}'`,function (err) {
       console.log(err);
-      res.redirect('/request_add/result_'+req.params.transid + req.params.requestno, flog, findviewlist, findcreatedlist, renderviewlist);
+      res.redirect('/request_add/result_/-/'+req.params.transid +'/-/'+ req.params.requestno);
     })
   }
   else if(req.body.btn1 == 'revert'){
@@ -275,11 +275,11 @@ function clientdecision(req,res){
       db.query(`SELECT COUNT(*) bato FROM tblcontract WHERE intConTransID = ? AND intConHWID =?`,[req.body.transid, req.body.hwid], function(err,results){
         console.log(err);
         if(results[0].bato == 0){
-          res.redirect('/request_add/result_'+req.params.transid + req.params.requestno, flog, findviewlist, findcreatedlist, renderviewlist);
+          res.redirect('/request_add/result_/-/'+req.params.transid +'/-/'+ req.params.requestno);
         }
         else{
           db.query(`DELETE FROM tblcontract WHERE intConTransID = ? AND intConHWID =? `, [req.body.transid, req.body.hwid], function(err){
-            res.redirect('/request_add/result_'+req.params.transid + req.params.requestno, flog, findviewlist, findcreatedlist, renderviewlist);
+            res.redirect('/request_add/result_/-/'+req.params.transid +'/-/'+ req.params.requestno);
           })
         }
       })
@@ -287,7 +287,7 @@ function clientdecision(req,res){
   }
 
 }
-router.post('/decision_:transid:requestno', flog, clientdecision)
+router.post('/decision_/-/:transid/-/:requestno', flog, clientdecision)
 
 
 // ----------------------------------------------------------------------------------VIEW HW PROFILE
@@ -334,7 +334,7 @@ function findhwwork(req,res,next){
 }
 
 // -----------------------------------------------------------------------------VIEW LIST RESULT
-router.get('/result_:userid:requestno', flog, findviewlist, findcreatedlist, renderviewlist)
+router.get('/result_/-/:userid/-/:requestno', flog, findviewlist, findcreatedlist, renderviewlist)
 function findviewlist(req,res,next){
   var db = require('../../lib/database')();
   db.query(`SELECT strName, strFName, strLName, strGender, strPicture, strRClientStatus, intRHWID, intRRequestID, intRRequest_No, intRHWID, TIMESTAMPDIFF(YEAR,datBirthDay,CURDATE()) AS age FROM tblresults AS a INNER JOIN tbluser AS b ON a.intRHWID = b.intID INNER JOIN tblhouseholdworker AS c ON b.intID=c.intHWID INNER JOIN tblmservice AS d ON d.intID = c.intServiceID

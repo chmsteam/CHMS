@@ -66,7 +66,7 @@ block content
                                                                             , data-sal= item.deciRequestSalary, data-age=item.intIRequestAge1 , data-ages=item.intIRequestAge2 ) Edit
                                                             button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item" , data-requestno=item.intIRequest_No , data-requestid=item.intIRequestID ) Delete
                                                         else if list.strRequestStatus == 'On process'
-                                                            a(href='result_'+item.intIRequestID+item.intIRequest_No)
+                                                            a(href='/request_add/result_/-/'+item.intIRequestID+'/-/'+item.intIRequest_No)
                                                                 button.btn.btn-primary.btn-xs(type='button') View Result
                                                             button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item2", data-requestno=item.intIRequest_No , data-requestid=item.intIRequestID ) Delete
                                 each list in listtab

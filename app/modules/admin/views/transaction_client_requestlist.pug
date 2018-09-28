@@ -69,7 +69,7 @@ block content
                                                                         |   View
                                                                     each list in listtab
                                                                         if list.strRequestStatus == 'On process'
-                                                                            a(href='transaction_result_'+list.intRequestID+request.intIRequest_No)
+                                                                            a(href='transaction_result_/-/'+list.intRequestID+'/-/'+request.intIRequest_No)
                                                                                 button.btn.btn-primary(type='button')
                                                                                     i.fa.fa-list
                                                                                     |   View lists of result
@@ -99,7 +99,7 @@ block content
                                                                             td Pick-up
 
                                                                         td 
-                                                                            button.btn.btn-info(type='button')
+                                                                            button.btn.btn-info(type='button' data-toggle='modal', data-target='#viewcon', data-thecontract=''+contractdetails.strContract)
                                                                                 i.fa.fa-list
                                                                                 |   View Contract
                                                                             a(href="/admin/invoice_"+contractdetails.intTRequestID)
