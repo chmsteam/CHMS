@@ -30,6 +30,9 @@ html(lang='en')
     link(href='/admin/gentelella/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css', rel='stylesheet')
     // Animate CSS
     link(href="/assets/fame/css/animate.css" rel="stylesheet")
+    //swal
+    link(href="/custom/alerts/css/popup.css" rel="stylesheet")
+    //- script(src="/asset_sweetalert/src/sweetalert2.all.min.js")
 
   #preloader
   body.nav-md.footer_fixed(style='background-color:transpaarent' onpageshow='total();')
@@ -142,6 +145,7 @@ html(lang='en')
         script(src='/assets4/js/custom1.js')
         script(src='/assets4/lib/wow/wow.min.js')
         script(src="/assets4/lib/morphext/morphext.min.js")
+        script(src='/custom/alerts/js/sweetalert.min.js')
         script.
          $('#viewjob').on('show.bs.modal', function (event) {
               var button = $(event.relatedTarget)

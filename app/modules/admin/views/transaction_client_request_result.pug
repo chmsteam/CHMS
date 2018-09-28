@@ -49,7 +49,7 @@ block content
                                                         td #{resulta.Work_exp}
                                                         td #{resulta.strStatus}
                                                         td
-                                                            button.btn.btn-success(type='submit') Add to list
+                                                            button.btn.btn-success#addBest(type='submit') Add to list
                                                             a(href="/admin/profile_hw_"+resulta.intHWID)
                                                                 button.btn.btn-primary(type='button') View Profile
 
@@ -88,7 +88,35 @@ block content
                                                             td #{otherresulta.Work_exp}
                                                             td #{otherresulta.strStatus}
                                                             td
-                                                                button.btn.btn-success(type='submit') Add to list
+                                                                button.btn.btn-success#addOther(type='submit') Add to list
                                                                 a(href="/admin/profile_hw_"+otherresulta.intHWID)
                                                                     button.btn.btn-primary(type='button') View Profile
 
+    script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+    script.
+        $(document).ready(function(){
+            $('button#addOther').click(function(){
+                swal({
+                    type: 'success',
+                    title: 'Household worker added',
+                    showConfirmButton: false,
+                    timer: 5000
+                    },
+                    $(function(){
+                        location.reload();
+                        }, 6000)
+                    )
+            });
+            $('button#addBest').click(function(){
+                swal({
+                    type: 'success',
+                    title: 'Household worker added',
+                    showConfirmButton: false,
+                    timer: 5000
+                    },
+                    $(function(){
+                        location.reload();
+                        }, 6000)
+                    )
+            });
+        });

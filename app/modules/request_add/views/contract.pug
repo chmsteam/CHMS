@@ -48,8 +48,8 @@ block content
                                                                     input(type='text', required='required', name='transid', value=''+list.intRequestID, style="display:none;")
                                                                     center
                                                                         if cont.strContractStatus == ''
-                                                                            button.btn.btn-success(type='submit' name='btn1' value='accept') Accept
-                                                                            button.btn.btn-danger(type='button' data-toggle='modal' data-target='#rejectcontract', data-id=list.intRequestID) Reject
+                                                                            button.btn.btn-success#acceptContract(type='submit' name='btn1' value='accept') Accept
+                                                                            button.btn.btn-danger#rejectContract(type='button' data-toggle='modal' data-target='#rejectcontract', data-id=list.intRequestID) Reject
                                                                             //- a(href="/request_add/pdfsmp")
                                                                             //-     button.btn.btn-danger.btn-lg(type='button') testpdf
                                                                         else if cont.strContractStatus == 'Accepted'
@@ -89,7 +89,7 @@ block content
                                                                     if hw.strConStatus == ''
                                                                         //- button.btn.btn-primary(type='button' data-toggle='modal', data-target='#maincontract') View Contract
                                                                         button.btn.btn-warning.btn-md(type='button' data-toggle='modal', data-target='#edit_salary' data-id=hw.intConTransID, data-hwid=hw.intConHWID, data-salary=hw.intConSalary) Edit Salary
-                                                                        button.btn.btn-success.btn-md(type='submit' name='btn1' value='sendtohw') Send Contract
+                                                                        button.btn.btn-success.btn-md#sendHW(type='submit' name='btn1' value='sendtohw') Send Contract
                                                                     else if hw.strConStatus == 'Waiting'
                                                                         //- button.btn.btn-primary(type='button' data-toggle='modal', data-target='#maincontract') View Contract
                                                                     else if hw.strConStatus == 'Approved'
@@ -106,7 +106,7 @@ block content
                                                 each list in listtab
                                                     form(method='POST', action = '/request_add/send_to_admin')
                                                         input(type='text', name='transid', value=''+list.intRequestID, style="display:none;")
-                                                        button.btn.btn-success.btn-lg(type='submit' name='btn1' value='send') Send Request To Admin  
+                                                        button.btn.btn-success.btn-lg#sendtoAdmin(type='submit' name='btn1' value='send') Send Request To Admin  
                                             
                                         else
                                 
@@ -365,13 +365,12 @@ block content
             #edit_salary.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
                 .modal-dialog.modal-sm
                     .modal-content
-                        form.form-horizontal(method='POST' action='/request_add/edit_salary')
+                        form.form-horizontal#editSalary(method='POST' action='/request_add/edit_salary')
                             .modal-content
                                 .modal-header(style="background-color:#2A3F54; color:white")
                                     button.close(type='button', data-dismiss='modal')
                                         span(aria-hidden='true') ×
-                                    h2#myModalLabel.modal-title(style="text-align:center; font-weight:bold") Create List
-                                        
+                                    h2#myModalLabel.modal-title(style="text-align:center; font-weight:bold") Update Salary
                                 .modal-body
                                     br
                                     .form-group
@@ -383,8 +382,83 @@ block content
                                             input.form-control.col-md-7.col-xs-12(type='text', id='hwid', name='hwid' required='required' style="display:none;")
                                             input.form-control.col-md-7.col-xs-12(type='number', id='salary', name='salary' required='required', min=1)
                                 .modal-footer
-                                    button.btn.btn-success.btn-md(type='submit') Change
+                                    button.btn.btn-success.btn-md#editSalary(type='submit') Change
            
+            script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+            script.
+                $(document).ready(function(){
+                    $('#acceptContract').click(function(){
+                        swal({
+                            type: 'success',
+                            title: 'Accepted',
+                            text: 'Contract Accepted',
+                            showConfirmButton: false,
+                            },
+                            $(function(){
+                                location.reload();
+                                }, 6000));
+                    });
+                    $('#rejectContract').click(function(){
+                        swal({
+                            type: 'warning',
+                            title: 'Rejected',
+                            text: 'Contract rejected',
+                            showConfirmButton: false,
+                            },
+                            $(function(){
+                                location.reload();
+                                }, 6000));
+                    });
+                    $('#revertContract').click(function(){
+                        swal({
+                            type: 'info',
+                            title: 'Reverted',
+                            text: 'Action Reverted',
+                            showConfirmButton: false,
+                            },
+                            $(function(){
+                                location.reload();
+                                }, 6000));
+                    });
+                    //send contract to HHW
+                    $('#sendHW').click(function(){
+                        swal({
+                            type: 'success',
+                            title: 'Contract Sent',
+                            text: 'Wait for the confirmation of the household worker',
+                            },
+                            $(function(){
+                                location.reload();
+                                })
+                        );
+                    });
+                    //send contract to Admin
+                    $('#sendtoAdmin').click(function(){
+                        swal({
+                            type: 'success',
+                            title: 'Contract sent to Admin',
+                            //- text: 'Wait for the confirmation of the household worker',
+                            },
+                            $(function(){
+                                location.reload();
+                                })
+                        );
+                    });
+                    $('form#editSalary').submit(function(){
+                        swal({
+                            type: 'success',
+                            title: 'Salary Updated',
+                            showConfirmButton: false,
+                            timer: 5000
+                            }),
+                        $('#edit_salary').modal('hide').then(
+                            $(function(){
+                                location.reload();
+                                }, 6000)
+                        );
+                    });
+
+                });
         script.
             function opencontract(){
                 var docDefinition = { 

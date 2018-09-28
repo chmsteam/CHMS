@@ -232,7 +232,7 @@ block content
                                                                                             br             
         #viewjob.modal.fade.bs-add(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog(style="width:630px;")
-                form#demo-form2.form-horizontal.form-label-left(method="POST" action="/home_householdworker/job_offer")
+                form#viewJob.form-horizontal.form-label-left(method="POST" action="/home_householdworker/job_offer")
                     .modal-content
                         .modal-header(style="background-color:#2A3F54; color:white")
                             button.close(type='button', data-dismiss='modal')
@@ -288,10 +288,10 @@ block content
                                                 td
                                                 td
                         .modal-footer
-                            button.btn.btn-success(type='submit' name='btn1' value='accept')
+                            button.btn.btn-success#acceptJob(type='submit' name='btn1' value='accept')
                                 i.fa.fa-thumbs-up
                                 |   Accept
-                            button#reject.btn.btn-danger(type='submit' name='btn1' value='reject')
+                            button.btn.btn-danger#rejectJob(type='submit' name='btn1' value='reject')
                                 i.fa.fa-trash
                                 |   Reject
         #viewjob_contract.modal.fade.bs-add-modal-lg(tabindex='-1', role='dialog', aria-hidden='true')
@@ -534,9 +534,69 @@ block content
                                         //-         h1 SALARY: #{cont.intConSalary}
                                         .ln_solid
                                         .form-group.pull-right
-                                            button.btn.btn-success(type='submit' name='btn1' value='accept')
+                                            button.btn.btn-success#acceptContract(type='submit' name='btn1' value='accept')
                                                 i.fa.fa-thumbs-up
                                                 |   Accept
-                                            button#reject.btn.btn-danger(type='submit' name='btn1' value='reject')
+                                            button#rejectContract.btn.btn-danger(type='submit' name='btn1' value='reject')
                                                 i.fa.fa-trash
-                                                |   Reject                                           
+                                                |   Reject      
+                                                                                     
+        script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+        script.
+            $(document).ready(function(){
+                $('button#acceptJob').click(function(){
+                    swal({
+                        type: 'success',
+                        title: 'Job Request Accepted',
+                        text: 'Wait for the client contract for further information',
+                        showConfirmButton: true,
+                        closeOnConfirm: true,
+                        },
+                        $(function(){
+                            location.reload();
+                        }),
+                    $('#viewjob').modal('hide')
+                    );
+                });
+                $('button#rejectJob').click(function(){
+                    swal({
+                        type: 'warning',
+                        title: 'Job Request Rejected',
+                        showConfirmButton: true,
+                        closeOnConfirm: true,
+                        },
+                        $(function(){
+                            location.reload();
+                        }),
+                    $('#viewjob').modal('hide')
+                    );
+                });
+                $('button#acceptContract').click(function(){
+                    swal({
+                        type: 'success',
+                        title: 'Contract Accepted',
+                        //- text: 'Wait for the client contract for further information',
+                        showConfirmButton: true,
+                        closeOnConfirm: true,
+                        },
+                        $(function(){
+                            location.reload();
+                        }),
+                    $('#viewjob_contract').modal('hide')
+                    );
+                });
+                $('button#rejectContract').click(function(){
+                    swal({
+                        type: 'warning',
+                        title: 'Contract Rejected',
+                        //- text: 'Wait for the client contract for further information',
+                        showConfirmButton: true,
+                        closeOnConfirm: true,
+                        },
+                        $(function(){
+                            location.reload();
+                        }),
+                    $('#viewjob_contract').modal('hide')
+                    );
+                });
+            });

@@ -192,18 +192,18 @@ block content
                                                                                 input(type='text' name='hwid' value=''+selected.intRHWID , style="display:none;" )
                                                                                 input(type='text' name='reqno' value=''+selected.intRRequest_No , style="display:none;" )
                                                                                 if selected.strRHWStatus == '' && selected.strRClientStatus ==''
-                                                                                    button.btn.btn-success(type='submit' name='btn1' value='sendtohw')
+                                                                                    button.btn.btn-success#sendRequest(type='submit' name='btn1' value='sendtohw')
                                                                                         i.fa.fa-paper-plane 
                                                                                         |  Send Request
-                                                                                    button.btn.btn-danger(type='submit' name='btn1' value='removefromlist')
+                                                                                    button.btn.btn-danger#removeList(type='submit' name='btn1' value='removefromlist')
                                                                                         i.fa.fa-trash
                                                                                         |  Remove From List
                                                                                 else if selected.strRHWStatus == 'Waiting' && selected.strRClientStatus ==''
-                                                                                    button.btn.btn-warning(type='submit' name='btn1' value='cancelsendtohw')
+                                                                                    button.btn.btn-warning#cancelRequest(type='submit' name='btn1' value='cancelsendtohw')
                                                                                         i.fa.fa-times  
                                                                                         |  Cancel Request
                                                                                 else if selected.strRHWStatus == 'Approved' && selected.strRClientStatus ==''
-                                                                                    button.btn.btn-success(type='submit' name='btn1' value='sendtoclient')
+                                                                                    button.btn.btn-success#sendClient(type='submit' name='btn1' value='sendtoclient')
                                                                                         i.fa.fa-envelope 
                                                                                         |  Send to Client
                                                                                 else if selected.strRHWStatus == 'Rejected' && selected.strRClientStatus ==''
@@ -386,3 +386,58 @@ block content
             document.getElementById("nameoffile").value =filename;
         }
                             
+    script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+    script.
+        $(document).ready(function(){
+            $('button#sendRequest').click(function(){
+                swal({
+                    type: 'success',
+                    title: 'Request Sent',
+                    text: 'Wait for the confirmation of the household worker',
+                    showConfirmButton: true,
+                    closeOnConfirm: true,
+                    },
+                    $(function(){
+                        location.reload();
+                        })
+                );
+            });
+            $('button#cancelRequest').click(function(){
+                swal({
+                    type: 'warning',
+                    title: 'Request Canceled',
+                    showConfirmButton: true,
+                    closeOnConfirm: true,
+                    },
+                    $(function(){
+                        location.reload();
+                        })
+                );
+            });
+            $('button#removeList').click(function(){
+                swal({
+                    type: 'info',
+                    title: 'Removed',
+                    text: 'Household worker removed form the list',
+                    showConfirmButton: false,
+                    timer: 5000
+                    },
+                    $(function(){
+                        location.reload();
+                        }, 6000)
+                    )
+            });
+            $('button#sendClient').click(function(){
+                swal({
+                    type: 'success',
+                    title: 'Sent',
+                    text: 'Household worker information sent to the client',
+                    showConfirmButton: false,
+                    timer: 5000
+                    },
+                    $(function(){
+                        location.reload();
+                        }, 6000)
+                    )
+            });
+        });

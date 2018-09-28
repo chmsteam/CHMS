@@ -51,8 +51,8 @@ block content
                                                     td
                                                         a(href='hw_profile_'+hw.intRRequestID+hw.intRHWID)
                                                             button.btn.btn-primary(type='button') View Profile
-                                                        button.btn.btn-success(type='submit' name='btn1' value='approve') Approve
-                                                        button.btn.btn-danger(type='submit' name='btn1' value='reject') Reject
+                                                        button.btn.btn-success#approveHW(type='submit' name='btn1' value='approve') Approve
+                                                        button.btn.btn-danger#rejectHW(type='submit' name='btn1' value='reject') Reject
                     .col-md-12.col-sm-12.col-xs-12
                         br
                         .x_panel(style='background-color:rgba(38,185,154,0.3)')
@@ -92,7 +92,7 @@ block content
                                                         td
                                                             a(href='hw_profile_'+hw.intRRequestID+hw.intRHWID)
                                                                 button.btn.btn-primary(type='button') View Profile
-                                                            button.btn.btn-warning.btn-md(type='submit' name='btn1' value='revert') Revert
+                                                            button.btn.btn-warning.btn-md.revertHW(type='submit' name='btn1' value='revert') Revert
                     .col-md-12.col-sm-12.col-xs-12
                         br
                         .x_panel(style='background-color:rgba(231,76,60,0.3)')
@@ -132,4 +132,42 @@ block content
                                                         td
                                                             a(href='hw_profile_'+hw.intRRequestID+hw.intRHWID)
                                                                 button.btn.btn-primary(type='button') View Profile
-                                                            button.btn.btn-warning.btn-md(type='submit' name='btn1' value='revert') Revert
+                                                            button.btn.btn-warning.btn-md.revertHW(type='submit' name='btn1' value='revert') Revert
+
+    script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+    script.
+        $(document).ready(function(){
+            $('#approveHW').click(function(){
+                swal({
+                    type: 'success',
+                    title: 'Approved',
+                    text: 'Household worker approved',
+                    showConfirmButton: false,
+                    },
+                    $(function(){
+                        location.reload();
+                        }, 6000));
+            });
+            $('#rejectHW').click(function(){
+                swal({
+                    type: 'warning',
+                    title: 'Rejected',
+                    text: 'Household worker rejected',
+                    showConfirmButton: false,
+                    },
+                    $(function(){
+                        location.reload();
+                        }, 6000));
+            });
+            $('.revertHW').click(function(){
+                swal({
+                    type: 'info',
+                    title: 'Reverted',
+                    text: 'Action Reverted',
+                    showConfirmButton: false,
+                    },
+                    $(function(){
+                        location.reload();
+                        }, 6000));
+            });
+        });

@@ -48,7 +48,7 @@ block content
                                                                 i.fa.fa-eye
                                                                 | &nbspView Request
                                                         if request.strRequestStatus == 'Pending'                       
-                                                            button.btn.btn-success(type='submit' name='btn1' value='approve')
+                                                            button.btn.btn-success#approveReq(type='submit' name='btn1' value='approve')
                                                                 i.fa.fa-check
                                                                 | &nbspApprove
                                                             button.btn.btn-danger(type='submit' name='btn1' value='reject')
@@ -71,4 +71,22 @@ block content
 
                         br
                         .modal-footer
-                            button.btn.btn-primary(type='button', data-dismiss='modal') Close               
+                            button.btn.btn-primary(type='button', data-dismiss='modal') Close       
+            script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+            script.
+                $(document).ready(function(){
+                    $('button#approveReq').click(function(){
+                        swal({
+                            type: 'success',
+                            title: 'Request Approved',
+                            text: 'You may now settle the transaction in "Settle Request" page',
+                            showConfirmButton: true,
+                            closeOnConfirm: true,
+                            timer: 7000
+                            },
+                            $(function(){
+                                location.reload();
+                                })
+                        );
+                    });        
+                });

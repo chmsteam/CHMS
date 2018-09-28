@@ -30,14 +30,11 @@ html(lang='en')
     link(href='/admin/gentelella/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css', rel='stylesheet')
     // Animate CSS
     link(href="/assets/fame/css/animate.css" rel="stylesheet")
-<<<<<<< HEAD
     link(href="/custom/alerts/css/popup.css" rel="stylesheet")
     script(src="/asset_sweetalert/src/sweetalert2.all.min")
-=======
     //- pdfmake
     script(type='text/javascript', src='/pdfmake/build/pdfmake.min.js')
     script(type='text/javascript', src='/pdfmake/build/vfs_fonts.js')
->>>>>>> 9c0d5db40602e9aca1262ecb750faa0b6dfc57b5
 
   //- #preloader (tinanggal ko muna, d makita ung page ng "VIEW RESULT," preloader lang lumalabas)
   body.nav-md.footer_fixed(style='background-color:transparent' onpageshow='total();')
@@ -406,13 +403,9 @@ html(lang='en')
               document.getElementById("uploadPreview2").src = oFREvent.target.result;
               };
             };
-<<<<<<< HEAD
-            
-=======
           function smp(){
             var docDefinition = { content: 'This is an sample PDF printed with pdfMake' };
             pdfMake.createPdf(docDefinition).download();
             //- pdfMake.createPdf(docDefinition).open({}, window);
             //- pdfMake.createPdf(docDefinition).print();
           }
->>>>>>> 9c0d5db40602e9aca1262ecb750faa0b6dfc57b5
