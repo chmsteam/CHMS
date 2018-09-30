@@ -1,7 +1,7 @@
 extends ../../../templates/navbarclient.pug
 block content
     section#services
-        .right_col.wow.fadeInDown(role='main' style="background-color:transparent;")
+        .right_col(role='main' style="background-color:transparent;")
             .page-title
                 .row
                     .col-md-12.col-sm-12.col-xs-12
@@ -329,7 +329,6 @@ block content
                     .modal-body
                         br
                         form.form-horizontal(method='POST' action='/request_add/edititem')
-                            br
                             input(id='requestid' type='text' name='requestid', value='' style='display: none;') 
                             input(id='requestno' type='text' name='requestno', value='' style='display: none;') 
                             .row
@@ -386,11 +385,13 @@ block content
                                         | Willing to work for a monthly salary of (minimum): PHP
                                         span.required
                                         input.form-control.col-md-7.col-xs-12#sal(type='number' name='salary' min='0')     
-                                //- .ln_solid
+                               
                                 .form-group.pull-right
+                                    br
                                     .col-md-12.col-sm-9.col-xs-12.pull-right
+                                        button.btn.btn-primary.btn-md(type='button'  data-dismiss='modal') Close
                                         button.btn.btn-success.btn-md(type='submit' name='btn1' value='edititem') Save Changes
-                                        button.btn.btn-secondary.btn-md(type='button'  data-dismiss='modal') Close
+                                        
         #remove_item.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog.modal-md
                 .modal-content
@@ -411,8 +412,9 @@ block content
                             .ln_solid
                             .form-group.pull-right
                                 .col-md-12.col-sm-9.col-xs-12.pull-right
+                                    button.btn.btn-primary(type='button', data-dismiss='modal') No
                                     button.btn.btn-danger(type='submit' name='btn1' value='deletedraft') Yes
-                                    button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
+                                    
         #remove_item2.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog.modal-md
                 .modal-content
@@ -433,8 +435,9 @@ block content
                             .ln_solid
                             .form-group.pull-right
                                 .col-md-12.col-sm-9.col-xs-12.pull-right
+                                    button.btn.btn-primary(type='button', data-dismiss='modal') No
                                     button.btn.btn-danger(type='submit' name='btn1' value='deleteonprocess') Yes
-                                    button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
+                                    
         // Deployment Modal
         #deployment.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog.modal-sm(style="width:400px;")
@@ -489,9 +492,10 @@ block content
                 $('form#add').submit(function(){
                     swal({
                         type: 'success',
-                        title: 'Service added to the list',
+                        title: 'Successful!!!',
+                        text: 'Service/s successfully added to the list',   
                         showConfirmButton: false,
-                        timer: 5000
+                        timer: 3000
                         }),
                     $('#Add').modal('hide').then(
                         $(function(){
@@ -501,19 +505,18 @@ block content
                 });
                 $('#submit').click(function(){
                     swal({
-                        type: 'info',
-                        title: 'List submitted to admin',
-                        showConfirmButton: true,
-                        closeOnConfirm: true,
+                        type: 'success',
+                        title: 'Successful!!!',
+                        text: 'Request successfully sent to admin.'
                         },
                         $(function(){
                             location.reload();
-                            }, 6000));
+                            }, 5000));
                 });
             });
         script.
             function time(){
-                var today = new Date();
+                var today = new Date();         
                 var dd = today.getDate();
                 var mm = today.getMonth()+1; //January is 0!
                 var yyyy = today.getFullYear();

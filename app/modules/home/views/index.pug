@@ -23,10 +23,10 @@ block content
                                     ul#myTab.nav.nav-tabs.bar_tabs(role='tablist')
                                         li.active(role='presentation')
                                             each myreq in myreqtab
-                                                a#home-tab(href='#tab_content1', role='tab', data-toggle='tab', aria-expanded='true') My Request: #{myreq.myrequest}
+                                                a#home-tab(href='#tab_content1', role='tab', data-toggle='tab', aria-expanded='true') My Request:   #{myreq.myrequest}
                                         li(role='presentation')
                                             //- each totalir in totalirtab
-                                            a#incoming-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Incoming Request
+                                            a#incoming-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Incoming Request:
                                         li(role='presentation')
                                             each history in historytab
                                                 a#history-tab(href='#tab_content3', role='tab', data-toggle='tab', aria-expanded='false') History: #{history.history}
