@@ -7,7 +7,7 @@ block content
                 .title_left
                   h1
                     b Dashboard
-                .x_panel(style='background-color:rgba(52,152,219,.3)')
+                //- .x_panel(style='background-color:rgba(52,152,219,.3)')
                   //- .col-md-8.col-sm-12.col-xs-12
                   div
                     br
@@ -129,4 +129,92 @@ block content
                   //-             | For 
                   //-             b Drop-off,
                   //-             |  3:00 pm
-
+                .x_panel.wow.fadeInLeft(style='background-color:rgba(52,152,219,.3)')
+                 
+                  .x_panel
+                      h3 New Registration
+                      table.table.table-striped.table-bordered
+                        thead
+                          tr
+                            th(style="text-align:center") &nbsp
+                            th(style="text-align:center") INCOMING REQUEST
+                            th(style="text-align:center") ACTION
+                        tbody
+                            tr(style="")
+                              td Client
+                              td 0
+                              td   
+                                button.btn.btn-info(type='button')
+                                  i.fa.fa-eye
+                                  |   view
+                            tr(style="")
+                              td Household Worker
+                              td 0
+                              td   
+                                button.btn.btn-info(type='button')
+                                  i.fa.fa-eye
+                                  |   view
+                .x_panel.wow.fadeInLeft(style='background-color:rgba(52,152,219,.3)')
+                 
+                  .x_panel
+                      h3 New Request
+                      .x_panel.alert-info(style='background-color:')
+                        h2(style="font-weight:bold; text-align:center ") CLIENT
+                      table.table.table-striped.table-bordered
+                        thead
+                          tr
+                            th(style="text-align:center") TYPE OF REQUEST
+                            th(style="text-align:center") INCOMING REQUEST
+                            th(style="text-align:center") ACTION
+                        tbody
+                            tr(style="")
+                              td Add Household Worker
+                              td 0
+                              td   
+                                button.btn.btn-info(type='button')
+                                  i.fa.fa-eye
+                                  |   view
+                            tr(style="")
+                              td Replace Household Worker
+                              td 0
+                              td   
+                                button.btn.btn-info(type='button')
+                                  i.fa.fa-eye
+                                  |   view
+                            tr(style="")
+                              td Report Household Worker
+                              td 0
+                              td   
+                                button.btn.btn-info(type='button')
+                                  i.fa.fa-eye
+                                  |   view
+                      .x_panel.alert-info(style='background-color:')
+                        h2(style="font-weight:bold; text-align:center ") HOUSEHOLD WORKER
+                      table.table.table-striped.table-bordered
+                        thead
+                          tr
+                            th(style="text-align:center") TYPE OF REQUEST
+                            th(style="text-align:center") INCOMING REQUEST
+                            th(style="text-align:center") ACTION
+                        tbody
+                            tr(style="")
+                              td Leave
+                              td 0
+                              td   
+                                button.btn.btn-info(type='button')
+                                  i.fa.fa-eye
+                                  |   view
+                            tr(style="")
+                              td Replace Client
+                              td 0
+                              td   
+                                button.btn.btn-info(type='button')
+                                  i.fa.fa-eye
+                                  |   view
+                            tr(style="")
+                              td Report Client
+                              td 0
+                              td   
+                                button.btn.btn-info(type='button')
+                                  i.fa.fa-eye
+                                  |   view
