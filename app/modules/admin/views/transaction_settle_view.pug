@@ -52,9 +52,9 @@ block content
                                                 td
                                                     a(href='/admin/profile_client_'+trans.clientid  )
                                                         button.btn.btn-primary.btn-md(type='button') View Profile
-                                                    button.btn.btn-primary.btn-md(type='button') Deployment Details
-                                                    button.btn.btn-primary.btn-md(type='button') View Contract
-                                                    button.btn.btn-secondary.btn-md(type='button') Invoice
+                                                    button.btn.btn-primary.btn-md(type='button' data-toggle='modal' data-target='#deployment_details') Deployment Details
+                                                    a(href='/admin/invoice_'+trans.intTRequestID )
+                                                        button.btn.btn-secondary.btn-md(type='button') Invoice
                                             //- View Deployment Details, View Contract, View Invoice, View OR,
                             br
     
@@ -83,6 +83,34 @@ block content
                                                     else
                                                         button.btn.btn-primary.btn-md(type='button' data-toggle='modal', data-target='#settle_viewcon', data-con=hw.strConCopy, data-conname=hw.strConCopy, data-hwid=hw.intConHWID, data-transid=hw.intConTransID) View Contract
         //- modals
+        #deployment_details.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog(role='document')
+                .modal-content.modal-lg
+                    .modal-header(style="background-color:#EDEDED") Deployment Details
+                    .modal-body
+                        .form-group
+                            table.table.table-striped.table-bordered
+                                thead
+                                    tr
+                                        th Date of Deployment
+                                        th Time of Deployment
+                                        th Type of Deployment
+                                tbody
+                                    each contractdetails in contractdetailstab
+                                        tr
+                                            //- td #{contractdetails.}
+                                            td #{contractdetails.datDateofDeployment}
+                                            td #{contractdetails.timTimeofDeployment}
+                                            if contractdetails.intTypeofDeployment =='2'
+                                                td Drop-off
+                                            else if contractdetails.intTypeofDeployment =='3'
+                                                td Pick-up
+
+                        br
+                    .modal-footer
+                        .form-group.pull-right
+                            button.btn.btn-primary(type='button', data-dismiss='modal') Close
+
         #settle_viewcon_empty.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog(role='document')
                 .modal-content.modal-lg
@@ -223,6 +251,7 @@ block content
                             button.btn.btn-primary(type='button', data-dismiss='modal') Close
                             button.btn.btn-success(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
         
+
         script.
             function getname(){
                 var x = document.getElementById("mainfile").value;

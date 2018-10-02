@@ -53,7 +53,7 @@ block content
                                             th NAME
                                             th SERVICE
                                             th SALARY
-                                            th CURRENT STATUS
+                                            th STATUS
                                             th ACTION
                                     tbody
                                         each hw in hwtab
@@ -61,7 +61,12 @@ block content
                                                 td #{hw.strFName} #{hw.strLName}
                                                 td #{hw.strName}
                                                 td #{hw.intConSalary}
-                                                td #{hw.strCurStatus}
+                                                if hw.strCurStatus == 'Current'
+                                                    td Deployed
+                                                else if hw.strCurStatus == 'Replaced'
+                                                    td Replaced
+                                                else if hw.strCurStatus == 'On leave'
+                                                    td On leave
                                                 td
                                                     button.btn.btn-primary.btn-md(type='button') View Profile
                                                     button.btn.btn-primary.btn-md(type='button') Contract

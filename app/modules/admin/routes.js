@@ -1506,10 +1506,10 @@ function clientsettledecisionreplacementleft3(req,res){
 }
 
 // --------------------------------------------------------------------------------- TRANSACTIONS SETTLE VIEW
-router.get('/transaction_settle_:transid', flog, noofcontract, findtransaction, findcontractstatusforhw, rendertranssettleview); 
+router.get('/transaction_settle_:transid', flog, noofcontract, findtransaction, contractdetails, findcontractstatusforhw, rendertranssettleview); 
 function rendertranssettleview(req,res){
   if(req.valid==0)
-    res.render('admin/views/transaction_settle_view',{usertab: req.user, transtab: req.trans, hwtab: req.hw, settletab: req.settle});
+    res.render('admin/views/transaction_settle_view',{usertab: req.user, transtab: req.trans, hwtab: req.hw, settletab: req.settle, contractdetailstab: req.contractdetails});
   else if(req.valid==1)
     res.render('admin/views/invalidpages/normalonly');
   else
@@ -1554,6 +1554,18 @@ function noofcontract(req,res,next){
   (SELECT COUNT(*) ngayon FROM tblcontract WHERE intConTransID = ? AND strConCopy NOT IN ('')) as tb`,[req.params.transid, req.params.transid], function(err, results){
     console.log('error: '+err);
     req.settle = results;
+    return next();
+  })
+}
+function contractdetails(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * FROM tbltransaction WHERE intTRequestID = '${req.params.transid}'`, function(err, results){
+    console.log(err);
+    for(var i = 0; i <results.length; i++){
+     results[i].datDateofDeployment =  moment(results[i].datDateofDeployment).format("LL");
+     results[i].timTimeofDeployment =  moment(results[i].timTimeofDeployment, 'HH:mm').format("hh:mm a");
+    }
+    req.contractdetails = results;
     return next();
   })
 }
@@ -2421,6 +2433,18 @@ function findfreereplacement(req, res, next){
     return next();
   });
 }
+
+router.get('/utilities_agency', flog,findagency, renderutilagency);
+function renderutilagency(req,res){
+  if(req.valid==0)
+    res.render('admin/views/utilities_agency',{usertab: req.user, agencytab: req.agency});
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+
+
 //-------------------------------------------Router.get(household request)
 var leaveReqFunc = [displayLeaveReq]
 router.get('/transaction_hhRequest_leave', flog, leaveReqFunc, hhReqLeave_render );
