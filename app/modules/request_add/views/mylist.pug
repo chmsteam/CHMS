@@ -447,39 +447,78 @@ block content
                                 b Deployment Details
                         .modal-body
                             each list in listtab
-                                input(id = 'idtrans' type='text', required='required', name='transid', value=''+list.intRequestID, style="display:none;")  
-                                input(id='thedate' type='date', name='reqdate' style='display:none;')
-                                input(id='invo' type='text', name='invnum' style='display:none;')
-                                br
-                                .row
-                                    .col-md-2
-                                        .form-group
-                                    .col-md-8
-                                        .form-group
-                                            label Type of Deployment
-                                            select.form-control(name='dep')
-                                                each fee in feetab
-                                                    option(value=''+fee.intID) #{fee.strName} &nbsp&nbsp  + P #{fee.fltFee}
-                                .row
-                                    .col-md-2
-                                        .form-group
-                                    .col-md-8
-                                        .form-group
-                                            label Preferred Date For Deployment
-                                            .input-group.date
-                                                input.form-control.has-feedback-left(type='date', placeholder='First Name', aria-describedby='inputSuccess2Status4'  name='datedep' required)
-                                                span.input-group-addon
-                                                    span.fa.fa-calendar
-                                .row
-                                    .col-md-2
-                                        .form-group
-                                    .col-md-8
-                                        .form-group
-                                            label Preferred Time For Deployment
-                                            .input-group.date
-                                                input.form-control.has-feedback-left(type='time' name='timedep' required)
-                                                span.input-group-addon
-                                                    span.glyphicon.glyphicon-time
+                                each nooftrans in nooftranstab
+                                    if nooftrans.nooftrans == 0
+
+                                        input(id = 'idtrans' type='text', required='required', name='transid', value=''+list.intRequestID, style="display:none;")  
+                                        input(id='thedate' type='date', name='reqdate' style='display:none;')
+                                        input(id='invo' type='text', name='invnum' style='display:none;')
+                                        br
+                                        .row
+                                            .col-md-2
+                                                .form-group
+                                            .col-md-8
+                                                .form-group
+                                                    label Type of Deployment
+                                                    select.form-control(name='dep')
+                                                        each fee in feetab
+                                                            option(value=''+fee.intID) #{fee.strName} &nbsp&nbsp  + P #{fee.fltFee}
+                                        .row
+                                            .col-md-2
+                                                .form-group
+                                            .col-md-8
+                                                .form-group
+                                                    label Preferred Date For Deployment
+                                                    .input-group.date
+                                                        input.form-control.has-feedback-left(type='date', placeholder='First Name', aria-describedby='inputSuccess2Status4'  name='datedep' required)
+                                                        span.input-group-addon
+                                                            span.fa.fa-calendar
+                                        .row
+                                            .col-md-2
+                                                .form-group
+                                            .col-md-8
+                                                .form-group
+                                                    label Preferred Time For Deployment
+                                                    .input-group.date
+                                                        input.form-control.has-feedback-left(type='time' name='timedep' required)
+                                                        span.input-group-addon
+                                                            span.glyphicon.glyphicon-time
+                                    else
+                                        each prevtransdetails in prevtransdetailstab
+                                            input(id = 'idtrans' type='text', required='required', name='transid', value=''+list.intRequestID, style="display:none;")  
+                                            input(id='thedate' type='date', name='reqdate' style='display:none;')
+                                            input(id='invo' type='text', name='invnum' style='display:none;')
+                                            br
+                                            .row
+                                                .col-md-2
+                                                    .form-group
+                                                .col-md-8
+                                                    .form-group
+                                                        label Type of Deployment
+                                                        select.form-control(name='dep')
+                                                            option(value=''+prevtransdetails.intTypeofDeployment selected) #{prevtransdetails.strName} &nbsp&nbsp + P #{prevtransdetails.fltFee}
+                                                            each fee in feetab
+                                                                option(value=''+fee.intID) #{fee.strName} &nbsp&nbsp  + P #{fee.fltFee}
+                                            .row
+                                                .col-md-2
+                                                    .form-group
+                                                .col-md-8
+                                                    .form-group
+                                                        label Preferred Date For Deployment
+                                                        .input-group.date
+                                                            input.form-control.has-feedback-left(type='date', aria-describedby='inputSuccess2Status4'  name='datedep' value=''+prevtransdetails.datDateofDeployment required)
+                                                            span.input-group-addon
+                                                                span.fa.fa-calendar
+                                            .row
+                                                .col-md-2
+                                                    .form-group
+                                                .col-md-8
+                                                    .form-group
+                                                        label Preferred Time For Deployment
+                                                        .input-group.date
+                                                            input.form-control.has-feedback-left(type='time' name='timedep' value=''+prevtransdetails.timTimeofDeployment required)
+                                                            span.input-group-addon
+                                                                span.glyphicon.glyphicon-time
                         .modal-footer
                             button.btn.btn-primary(type='button', data-dismiss='modal') Close
                             button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Next

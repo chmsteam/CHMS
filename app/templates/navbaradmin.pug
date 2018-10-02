@@ -679,3 +679,33 @@ html(lang='en')
               modal.find('.modal-body #id').val(id)
 
             });
+
+            //- settlement contract
+            $('#settle_viewcon').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var con = button.data('con')
+              var thecon = '/pdfs/'+con
+              var conname = button.data('conname');
+              var hwid = button.data('hwid');
+              var transid = button.data('transid');
+
+              var modal = $(this)
+              modal.find('.modal-body #hwid').val(hwid)
+              modal.find('.modal-body #transid').val(transid)
+              modal.find('.modal-body #thecon').attr('data',''+thecon)
+            });
+            $('#settle_viewcon_empty').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var con = button.data('con')
+              var thecon = '/pdfs/'+con
+              var conname = button.data('conname');
+              var hwid = button.data('hwid');
+              var transid = button.data('transid');
+
+              var modal = $(this)
+              modal.find('.modal-body #hwid').val(hwid)
+              modal.find('.modal-body #transid').val(transid)
+              modal.find('.modal-body #thecon').attr('data',''+thecon)
+            });
+
+          

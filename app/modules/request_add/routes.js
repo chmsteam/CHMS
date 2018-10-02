@@ -79,7 +79,7 @@ router.post('/remove_list', flog, (req,res) =>{
 // My list Page
 function rendermylist(req,res){
     if(req.valid==1)
-      res.render('request_add/views/mylist',{usertab: req.user, itemtab: req.item, listtab: req.list, counttab:req.count, servicetab: req.service, skilltab: req.skill, hwtab: req.hw, noofapprovetab: req.noofapprove, feetab: req.fee, transdetailstab: req.transdetails});
+      res.render('request_add/views/mylist',{usertab: req.user, itemtab: req.item, listtab: req.list, counttab:req.count, servicetab: req.service, skilltab: req.skill, hwtab: req.hw, noofapprovetab: req.noofapprove, feetab: req.fee, transdetailstab: req.transdetails, nooftranstab: req.nooftrans, prevtransdetailstab: req.prevtransdetails});
     else if(req.valid==0)
       res.render('admin/views/invalidpages/normalonly');
     else
@@ -158,7 +158,20 @@ function findcreatedlist(req, res, next){
       return next();
     })
   }
-  router.get('/mylist_:userid', flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findtransaction, rendermylist);
+
+  function findprevtransaction(req,res,next){
+    var db = require('../../lib/database')();
+    db.query(`SELECT * FROM tbltransaction INNER JOIN tblfee ON intTypeofDeployment = intID WHERE intTRequestID = ?`,[req.params.userid], function(err,results){
+      console.log(err);
+      for(var i = 0; i < results.length; i++){
+        results[i].datDateofDeployment =  moment(results[i].datDateofDeployment).format("YYYY-MM-DD");
+        results[i].timTimeofDeployment = moment(results[i].timTimeofDeployment, 'HH:mm').format('HH:mm:ss')
+      }
+      req.prevtransdetails = results;
+      return next();
+    })
+  }
+  router.get('/mylist_:userid', flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findtransaction, findnooftrans,findprevtransaction, rendermylist);
 
 
 // Add service to list
@@ -194,6 +207,18 @@ router.post('/add_to_mylist_:userid',(req,res) =>{
   })
 });
 
+function findnooftrans(req,res,next){
+  var db = require('../../lib/database')();
+  db.query('SELECT COUNT(*) AS nooftrans FROM tbltransaction WHERE intTRequestID = ?', [req.params.userid], function(err,results){
+    if (err){
+      res.send(err);
+    }
+    else{
+      req.nooftrans = results
+      return next();
+    }
+  })
+}
 
 //------------------------------------------submit list to admin
 function submitrequest(req,res){
@@ -256,7 +281,7 @@ function clientdecision(req,res){
     db.query(`UPDATE tblresults SET strRClientStatus= 'Approved' WHERE strRClientStatus='Waiting' AND intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}'`,function (err) {
       console.log('xxxxxxxxxxxxxx'+err);
       db.query(`SELECT * FROM tblresults as a INNER JOIN tblinitialrequest as b on a.intRRequestID = b.intIRequestID WHERE intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}' AND strRClientStatus = 'Approved'`, function (err,results){
-        db.query(`INSERT INTO tblcontract VALUES ('${req.body.transid}', '${req.body.reqno}', '${req.body.hwid}', '${results[0].deciRequestSalary}', '', NULL, '',NULL)`, function(err,results2){
+        db.query(`INSERT INTO tblcontract VALUES ('${req.body.transid}', '${req.body.reqno}', '${req.body.hwid}', '${results[0].deciRequestSalary}', '', NULL, '',NULL,'')`, function(err,results2){
           console.log('yyyyyyyyyyyyy'+err)
           res.redirect('/request_add/result_/-/'+req.params.transid +'/-/'+ req.params.requestno);
         })

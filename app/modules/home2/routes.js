@@ -43,7 +43,7 @@ function findjoboffers(req, res, next){
 }
 function findcontract(req, res, next){
   var db = require('../../lib/database')();
-  db.query(`SELECT * FROM tblcontract WHERE intConHWID=? AND strConStatus='Waiting'`,[req.session.user], function (err, results) {
+  db.query(`SELECT * FROM tblcontract INNER JOIN tbltransaction ON intTRequestID = intConTransID WHERE intConHWID=? AND strConStatus IN ('Waiting','Approved')`,[req.session.user], function (err, results) {
       console.log(''+req.params.userid);
       req.cont= results;
       return next();
@@ -51,7 +51,7 @@ function findcontract(req, res, next){
 }
 function countcontract(req, res, next){
   var db = require('../../lib/database')();
-  db.query(`SELECT COUNT(*) as numero FROM tblcontract WHERE intConHWID=? AND strConStatus='Waiting'`,[req.session.user], function (err, results) {
+  db.query(`SELECT COUNT(*) as numero FROM tblcontract WHERE intConHWID=? AND strConStatus IN ('Waiting','Approved') `,[req.session.user], function (err, results) {
       console.log(''+req.params.userid);
       req.count= results;
       return next();
