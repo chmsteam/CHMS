@@ -58,13 +58,13 @@ block content
                                         each oldhwservice in oldhwservicetab
                                             if (list.strRequestStatus == 'Draft' && count.count != 0 && list.strRequestType =='Replacement')
                                                 //- a(href='/request_replacement/submit_request_'+list.intRequestID+ oldhwservice.intHWID)
-                                                form(action="/request_replacement/submit_request_"+list.intRequestID+ oldhwservice.intHWID, method="post")
+                                                form(action="/request_replacement/submit_request_/-/"+list.intRequestID+'/-/' +oldhwservice.intHWID, method="post")
                                                     button.btn.pull-right.btn-success.btn-lg(type='submit')
                                                         i.fa.fa-envelope
                                                         |   Submit List
                                             if (list.strRequestStatus == 'Draft' && count.count != 0 && list.strRequestType =='Replace Client')
                                                 //- a(href='/request_replacement/submit_request_replaceclient_'+list.intRequestID+ oldhwservice.intHWID)
-                                                form(action="/request_replacement/submit_replaceclient_"+list.intRequestID+ oldhwservice.intHWID, method="post")
+                                                form(action="/request_replacement/submit_replaceclient_/-/"+list.intRequestID+'/-/' +oldhwservice.intHWID, method="post")
                                                     button.btn.pull-right.btn-success.btn-lg(type='submit')
                                                         i.fa.fa-envelope
                                                         |   Submit List
@@ -199,7 +199,7 @@ block content
             .modal-dialog(role='document')
                 each list in listtab
                     each oldhwservice in oldhwservicetab
-                        form(method='POST', action='/request_replacement/set_attributes_'+list.intRequestID+oldhwservice.intHWID).form-horizontal
+                        form(method='POST', action='/request_replacement/set_attributes_/-/'+list.intRequestID+'/-/'+oldhwservice.intHWID).form-horizontal
                             .modal-content
                                 .modal-header(style="background-color:#2A3F54; color:white")
                                     button.close(type='button', data-dismiss='modal')

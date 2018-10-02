@@ -50,7 +50,7 @@ function createreplacement(req,res){
         console.log(err)
         db.query(`UPDATE tblcontract SET strCurStatus = 'To be replaced' WHERE intConHWID =${req.body.hwid}`, function(err) {
           console.log(err)
-            res.redirect('/request_replacement/replace_list_'+results[0].intRequestID + req.body.hwid, flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, renderreplacementlist);
+            res.redirect('/request_replacement/replace_list_/-/'+results[0].intRequestID+'/-/' + req.body.hwid);
             // res.redirect('/request_replacement')
         });
       });
@@ -174,15 +174,15 @@ function renderreplacementlist(req,res){
     })
   }
   
-  router.get('/replace_list_:transid:hwid', flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findoldhwservice,findcurrenthwtobereplaced, findtransaction, renderreplacementlist)
+  router.get('/replace_list_/-/:transid/-/:hwid', flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findoldhwservice,findcurrenthwtobereplaced, findtransaction, renderreplacementlist)
   // -------------------------------------------------------------------------------Set attributes
-  router.post('/set_attributes_:transid:hwid',(req,res) =>{
+  router.post('/set_attributes_/-/:transid/-/:hwid',(req,res) =>{
     var db = require('../../lib/database')();
     db.query(`SELECT COUNT (intIRequestID) AS Num FROM tblinitialrequest WHERE intIRequestID = ?`, [req.params.transid], function(err,results) {
       if (err) console.log(err);
       db.query(`INSERT INTO tblinitialrequest VALUES ("${req.params.transid}", "${results[0].Num + 1}", "${req.body.service}", "${req.body.quantity}", "${req.body.age1}", "${req.body.age2}", "${req.body.gender}", "${req.body.educ}", "${req.body.workexp}", "${req.body.salary}")`, function(err){
         if (err) console.log(err);
-        res.redirect('/request_replacement/replace_list_'+ req.params.transid + req.params.hwid, flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findoldhwservice, renderreplacementlist);
+        res.redirect('/request_replacement/replace_list_/-/'+ req.params.transid +'/-/'+ req.params.hwid);
       })
   })
 });
@@ -192,11 +192,11 @@ function submitrequest(req,res){
   var sql = "UPDATE tblfinalrequest SET strRequestStatus= 'On process' WHERE intRequestID = ?";
   db.query(sql,[req.params.transid],function (err) {
     if (err) return res.send(err);
-    res.redirect('/request_replacement/replace_list_'+ req.params.transid + req.params.hwid, flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findoldhwservice, renderreplacementlist);
+    res.redirect('/request_replacement/replace_list_/-/'+ req.params.transid +'/-/'+ req.params.hwid);
   });
 }
 
-router.post('/submit_request_:transid:hwid',flog,submitrequest);
+router.post('/submit_request_/-/:transid/-/:hwid',flog,submitrequest);
 
 function submitrequest2(req,res){
   var db = require('../../lib/database')();

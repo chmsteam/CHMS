@@ -120,19 +120,19 @@ block content
                                                                                         br
                                                                                 .col-xs-12.bottom.text-center
                                                                                     if request2.strRequestType == 'Replacement' && request2.strRequestStatus == 'Draft'
-                                                                                        a(href='/request_replacement/replace_list_'+request2.intRequestID+request2.intReplaceOldHWID)
+                                                                                        a(href='/request_replacement/replace_list_/-/'+request2.intRequestID+'/-/'+request2.intReplaceOldHWID)
                                                                                             button.btn.btn-primary(type='button')
                                                                                                 | Go to My List
                                                                                     else if request2.strRequestType == 'Replacement' && request2.strRequestStatus == 'On process'
-                                                                                        a(href='/request_replacement/replace_list_'+request2.intRequestID+request2.intReplaceOldHWID)
+                                                                                        a(href='/request_replacement/replace_list_/-/'+request2.intRequestID+'/-/'+request2.intReplaceOldHWID)
                                                                                             button.btn.btn-primary(type='button')
                                                                                                 | Go to My List
                                                                                     else if request2.strRequestType == 'Replacement' && request2.strRequestStatus == 'Pending'
-                                                                                        a(href='/request_replacement/replace_list_'+request2.intRequestID+request2.intReplaceOldHWID)
+                                                                                        a(href='/request_replacement/replace_list_/-/'+request2.intRequestID+'/-/'+request2.intReplaceOldHWID)
                                                                                             button.btn.btn-primary(type='button')
                                                                                                 | Go to My List
                                                                                     else if request2.strRequestType == 'Replacement' && request2.strRequestStatus == 'Approved'
-                                                                                        a(href='/request_replacement/replace_list_'+request2.intRequestID+request2.intReplaceOldHWID)
+                                                                                        a(href='/request_replacement/replace_list_/-/'+request2.intRequestID+'/-/'+request2.intReplaceOldHWID)
                                                                                             button.btn.btn-primary(type='button')
                                                                                                 | Go to My List
                                         #tab_content2.tab-pane.fade(role='tabpanel', aria-labelledby='incoming-tab')
