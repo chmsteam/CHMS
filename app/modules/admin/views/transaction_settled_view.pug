@@ -22,7 +22,7 @@ block content
                                 table.table.table-striped.table-bordered
                                     thead
                                         tr
-                                            th Trans. ID
+                                            //- th Trans. ID
                                             th Client Name
                                             th Date Settled
                                             th Transaction Will End
@@ -31,14 +31,17 @@ block content
                                     tbody
                                         each trans in transtab
                                             tr
-                                                td #{trans.intTRequestID}
+                                                //- td #{trans.intTRequestID}
                                                 td #{trans.clientFName} #{trans.clientLName}
                                                 td #{trans.datDateSettled}
                                                 td #{trans.datDateExpiry}
                                                 td #{trans.strTStatus}
                                                 td
-                                                    button.btn.btn-primary.btn-md(type='button') Deployment Details
-                                                    button.btn.btn-secondary.btn-md(type='button') Invoice
+                                                    //- button.btn.btn-primary.btn-md(type='button') Deployment Details
+                                                    a(href='/admin/profile_client_'+trans.clientid  )
+                                                        button.btn.btn-primary.btn-md(type='button') View Profile
+                                                    a(href="/admin/invoice_"+trans.intTRequestID)
+                                                        button.btn.btn-secondary.btn-md(type='button') Invoice
                                                     button.btn.btn-secondary(type='button' data-toggle='modal' data-target='#viewOR', data-ornum=trans.strORNumber, data-image=`../image/orpic/${trans.strORPicture}`) O.R.
                                             //- View Deployment Details, View Contract, View Invoice, View OR,
                             br
@@ -68,9 +71,59 @@ block content
                                                 else if hw.strCurStatus == 'On leave'
                                                     td On leave
                                                 td
-                                                    button.btn.btn-primary.btn-md(type='button') View Profile
-                                                    button.btn.btn-primary.btn-md(type='button') Contract
-    
+                                                    a(href="/admin/profile_hw_"+hw.intConHWID)
+                                                        button.btn.btn-primary.btn-md(type='button') View Profile
+                                                    if hw.strConCopy == ''
+                                                        button.btn.btn-primary.btn-md(type='button' data-toggle='modal', data-target='#settle_viewcon_empty', data-con=hw.strConCopy, data-conname=hw.strConCopy, data-hwid=hw.intConHWID, data-transid=hw.intConTransID) View Contract
+                                                    else
+                                                        button.btn.btn-primary.btn-md(type='button' data-toggle='modal', data-target='#settle_viewcon', data-con=hw.strConCopy, data-conname=hw.strConCopy, data-hwid=hw.intConHWID, data-transid=hw.intConTransID) View Contract
+        
+        #settle_viewcon_empty.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog(role='document')
+                .modal-content.modal-lg
+                    .modal-header(style="background-color:#EDEDED") Upload Contract
+                    .modal-body
+                        form#demo-form2.form-horizontal.form-label-left(method="POST" enctype="multipart/form-data" action="upload_hwcon")
+                            input(type="text", id='hwid' name='hwid' style='display:none;')
+                            input(type="text", id='transid' name='transid' style='display:none;')
+                            .form-group
+                                br
+                                br
+                                label.control-label.col-md-3.col-sm-3.col-xs-12
+                                    | Upload Contract
+                                    span.required *
+                                .col-md-6.col-sm-6.col-xs-12
+                                    input.form-control.col-md-7.col-xs-12(type='file', id='mainfile' accept='application/pdf' required='required', name='filename' value='')
+                                    input.form-control.col-md-7.col-xs-12(type='text', id='nameoffile' name='nameoffile' style='display:none;')
+                            br
+                            .ln_solid
+                            .form-group.pull-right
+                                button.btn.btn-success(type='submit' value='upload'  onClick='getname();') Upload
+                                button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+        #settle_viewcon.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog(role='document')
+                .modal-content.modal-lg
+                    .modal-header(style="background-color:#EDEDED")
+                    .modal-body
+                        //- input(id='conname' type="text", name="")
+                        object(id='thecon' width='860', height='500', type="application/pdf")
+                        form#demo-form2.form-horizontal.form-label-left(method="POST" enctype="multipart/form-data" action="upload_hwcon")
+                            input(type="text", id='hwid' name='hwid' style='display:none;')
+                            input(type="text", id='transid' name='transid' style='display:none;')
+                            .form-group
+                                br
+                                br
+                                label.control-label.col-md-3.col-sm-3.col-xs-12
+                                    | Upload Contract
+                                    span.required *
+                                .col-md-6.col-sm-6.col-xs-12
+                                    input.form-control.col-md-7.col-xs-12(type='file', id='mainfile2' accept='application/pdf' required='required', name='filename' value='')
+                                    input.form-control.col-md-7.col-xs-12(type='text', id='nameoffile2' name='nameoffile' style='display:none;' )
+                            br
+                            .ln_solid
+                            .form-group.pull-right
+                                button.btn.btn-warning(type='submit' value='upload'  onClick='getname2();') Change
+                                button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
         #viewOR.modal.fade.modal-icon(tabindex='-1', role='dialog')
             .modal-dialog(role='document')
                     .modal-content
