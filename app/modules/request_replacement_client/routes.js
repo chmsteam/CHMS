@@ -17,7 +17,7 @@ function renderreplacement(req,res){
 function findcurrenthw(req,res,next){
     var db = require('../../lib/database')();
     db.query(`SELECT * FROM tblcontract INNER JOIN tblhouseholdworker ON intConHWID = intHWID INNER JOIN tblmservice ON tblmservice.intID = intServiceID INNER JOIN tbltransaction ON intTRequestID = intConTransID INNER JOIN tbluser ON tbluser.intID = intHWID
-             WHERE strCurStatus IN ('Current', 'To be replaced') AND intTClientID = '${req.session.user}'`, function(err,results){
+             WHERE strCurStatus IN ('Current') AND intTClientID = '${req.session.user}'`, function(err,results){
         console.log(err);
         req.currenthw = results;
         return next();
@@ -26,7 +26,7 @@ function findcurrenthw(req,res,next){
 function findcurrenthwtobereplaced(req,res,next){
   var db = require('../../lib/database')();
   db.query(`SELECT * FROM tblcontract INNER JOIN tblhouseholdworker ON intConHWID = intHWID INNER JOIN tblmservice ON tblmservice.intID = intServiceID INNER JOIN tbltransaction ON intTRequestID = intConTransID INNER JOIN tbluser ON tbluser.intID = intHWID INNER JOIN tblreplacement ON intReplaceOldHWID = intConHWID
-           WHERE strCurStatus IN ('To be replaced') AND intTClientID = ? AND intConHWID = ?`, [req.session.user, req.params.hwid], function(err,results){
+            INNER JOIN tblfinalrequest ON intRequestID=intReplaceReqID WHERE strCurStatus IN ('To be replaced') AND intTClientID = ?`, [req.session.user], function(err,results){
       console.log(err);
       req.currenthwtobereplaced = results;
       return next();
@@ -58,13 +58,64 @@ function createreplacement(req,res){
   });
 }
 
-// ------------------------------------------------------------------------------Createed replace list page
+router.post('/cancel',flog,cancelreplacement)
+function cancelreplacement(req,res){
+  var db = require('../../lib/database')();
+  if (req.body.btn1 == 'cancel_draft'){
+    db.query(`DELETE FROM tblinitialrequest WHERE intIRequestID = '${req.body.transid}'`, (err) => {
+      console.log(err)
+      db.query(`DELETE FROM tblfinalrequest WHERE intRequestID = '${req.body.transid}'`, (err) => {
+        console.log(err)
+        db.query(`DELETE FROM tblreplacement WHERE intReplaceReqID = '${req.body.transid}'`, (err) => {
+          if (err){
+            console.log(err)
+          }
+          else{
+            db.query(`UPDATE tblcontract SET strCurStatus='Current' WHERE intConHWID  = '${req.body.hwid}' AND strCurStatus IN('To be replaced')`, (err) => {
+              if (err){
+                console.log(err)
+              }
+              else{
+                res.redirect('/request_replacement');
+              }
+            });
+          }
+        });
+      });
+    });
+  }
+  else if(req.body.btn1 == 'cancel_onprocess'){
+    db.query(`UPDATE tblfinalrequest SET strRequestStatus = 'Cancelled' WHERE intRequestID = '${req.body.transid}'`, (err) => {
+      console.log(err)
+      db.query(`UPDATE tbltransaction SET strTStatus = 'Cancelled' WHERE intTRequestID = '${req.body.transid}'`, (err) => {
+        console.log(err)
+        db.query(`DELETE FROM tblreplacement WHERE intReplaceReqID = '${req.body.transid}'`, (err) => {
+          if (err){
+            console.log(err)
+          }
+          else{
+            db.query(`UPDATE tblcontract SET strCurStatus='Current' WHERE intConHWID  = '${req.body.hwid}' AND strCurStatus IN('To be replaced')`, (err) => {
+              if (err){
+                console.log(err)
+              }
+              else{
+                res.redirect('/request_replacement');
+              }
+            });
+          }
+        });
+      });
+    });
+  }
+}
+
+// ------------------------------------------------------------------------------Created replace list page
 function renderreplacementlist(req,res){
   if(req.valid==1)
   res.render('request_replacement_client/views/replacement_list',
   {usertab: req.user, itemtab: req.item, listtab: req.list, counttab:req.count, servicetab: req.service, skilltab: req.skill, hwtab: req.hw, 
     noofapprovetab: req.noofapprove, feetab: req.fee, oldhwservicetab: req.oldhwservice, currenthwtobereplacedtab: req.currenthwtobereplaced,
-    transdetailstab: req.transdetails});
+    transdetailstab: req.transdetails, nooftranstab: req.nooftrans, prevtransdetailstab: req.prevtransdetails});
     else if(req.valid==0)
     res.render('admin/views/invalidpages/normalonly');
     else
@@ -155,8 +206,6 @@ function renderreplacementlist(req,res){
     var db = require('../../lib/database')();
     db.query(`SELECT intHWID, intServiceID, strName FROM tblhouseholdworker INNER JOIN tblmservice ON intServiceID=intID WHERE intHWID = '${req.params.hwid}'`, function (err, results) {
       if (err) return res.send(err);
-      if (!results[0])
-      console.log('');
       req.oldhwservice= results;
       return next();
     });
@@ -174,7 +223,7 @@ function renderreplacementlist(req,res){
     })
   }
   
-  router.get('/replace_list_/-/:transid/-/:hwid', flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findoldhwservice,findcurrenthwtobereplaced, findtransaction, renderreplacementlist)
+  router.get('/replace_list_/-/:transid/-/:hwid', flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findoldhwservice,findcurrenthwtobereplaced, findtransaction, findnooftrans, findprevtransaction, renderreplacementlist)
   // -------------------------------------------------------------------------------Set attributes
   router.post('/set_attributes_/-/:transid/-/:hwid',(req,res) =>{
     var db = require('../../lib/database')();
@@ -186,6 +235,30 @@ function renderreplacementlist(req,res){
       })
   })
 });
+function findnooftrans(req,res,next){
+  var db = require('../../lib/database')();
+  db.query('SELECT COUNT(*) AS nooftrans FROM tbltransaction WHERE intTRequestID = ?', [req.params.transid], function(err,results){
+    if (err){
+      res.send(err);
+    }
+    else{
+      req.nooftrans = results
+      return next();
+    }
+  })
+}
+function findprevtransaction(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * FROM tbltransaction INNER JOIN tblfee ON intTypeofDeployment = intID WHERE intTRequestID = ?`,[req.params.transid], function(err,results){
+    console.log(err);
+    for(var i = 0; i < results.length; i++){
+      results[i].datDateofDeployment =  moment(results[i].datDateofDeployment).format("YYYY-MM-DD");
+      results[i].timTimeofDeployment = moment(results[i].timTimeofDeployment, 'HH:mm').format('HH:mm:ss')
+    }
+    req.prevtransdetails = results;
+    return next();
+  })
+}
 //---------------------------------------------------------------------------------Submit list to admin
 function submitrequest(req,res){
   var db = require('../../lib/database')();
@@ -212,7 +285,7 @@ function submitrequest2(req,res){
 router.post('/submit_replaceclient_:transid:hwid',flog,submitrequest2);
 
 // -----------------------------------------------------------------------------VIEW LIST RESULT
-router.get('/result_:transid:transno:hwid', flog, findviewlist, findcreatedlist, findoldhwservice, renderviewlist)
+router.get('/result_/-/:transid/-/:transno/-/:hwid', flog, findviewlist, findcreatedlist, findoldhwservice, renderviewlist)
 function findviewlist(req,res,next){
   var db = require('../../lib/database')();
   db.query(`SELECT strName, strFName, strLName, strGender, strPicture, strRClientStatus, intRHWID, intRRequestID, intRRequest_No, intRHWID, TIMESTAMPDIFF(YEAR,datBirthDay,CURDATE()) AS age FROM tblresults AS a INNER JOIN tbluser AS b ON a.intRHWID = b.intID INNER JOIN tblhouseholdworker AS c ON b.intID=c.intHWID INNER JOIN tblmservice AS d ON d.intID = c.intServiceID
@@ -236,15 +309,13 @@ function renderviewlist(req,res){
 router.post('/decision_:requestno', flog, clientdecision)
 function clientdecision(req,res){
   var db = require('../../lib/database')();
-  var db2 = require('../../lib/database')();
-  var db3 = require('../../lib/database')();
   if(req.body.btn1 == 'approve'){
     db.query(`UPDATE tblresults SET strRClientStatus= 'Approved' WHERE strRClientStatus='Waiting' AND intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}'`,function (err) {
       console.log('xxxxxxxxxxxxxx'+err);
-      db2.query(`SELECT * FROM tblresults as a INNER JOIN tblinitialrequest as b on a.intRRequestID = b.intIRequestID WHERE intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}' AND strRClientStatus = 'Approved'`, function (err,results){
-        db3.query(`INSERT INTO tblcontract VALUES ('${req.body.transid}', '${req.body.reqno}', '${req.body.hwid}', '${results[0].deciRequestSalary}', '', NULL, '',NULL)`, function(err,results2){
+      db.query(`SELECT * FROM tblresults as a INNER JOIN tblinitialrequest as b on a.intRRequestID = b.intIRequestID WHERE intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}' AND strRClientStatus = 'Approved'`, function (err,results){
+        db.query(`INSERT INTO tblcontract VALUES ('${req.body.transid}', '${req.body.reqno}', '${req.body.hwid}', '${results[0].deciRequestSalary}', '', NULL, '',NULL)`, function(err,results2){
           console.log('yyyyyyyyyyyyy'+err)
-          res.redirect('/request_replacement/replace_list_'+ req.body.transid + req.body.oldhwid, flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findoldhwservice, renderreplacementlist);
+          res.redirect('/request_replacement/result_/-/'+ req.body.transid +'/-/'+req.params.requestno+'/-/'+ req.body.oldhwid);
         })
       })
     })
@@ -252,7 +323,23 @@ function clientdecision(req,res){
   else if(req.body.btn1 == 'reject'){
     db.query(`UPDATE tblresults SET strRClientStatus= 'Rejected' WHERE strRClientStatus='Waiting' AND intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}'`,function (err) {
       console.log(''+err);
-      res.redirect('/request_replacement/replace_list_'+ req.params.transid + req.body.oldhwid, flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findoldhwservice, renderreplacementlist);
+      res.redirect('/request_replacement/result_/-/'+ req.body.transid +'/-/'+req.params.requestno+'/-/'+ req.body.oldhwid);
+    })
+  }
+  else if(req.body.btn1 == 'revert'){
+    db.query(`UPDATE tblresults SET strRClientStatus= 'Waiting' WHERE strRClientStatus IN('Rejected','Approved') AND intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}'`,function (err, results) {
+      console.log(err);
+      db.query(`SELECT COUNT(*) bato FROM tblcontract WHERE intConTransID = ? AND intConHWID =?`,[req.body.transid, req.body.hwid], function(err,results){
+        console.log(err);
+        if(results[0].bato == 0){
+          res.redirect('/request_replacement/result_/-/'+ req.body.transid +'/-/'+req.params.requestno+'/-/'+ req.body.oldhwid);
+        }
+        else{
+          db.query(`DELETE FROM tblcontract WHERE intConTransID = ? AND intConHWID =? `, [req.body.transid, req.body.hwid], function(err){
+            res.redirect('/request_replacement/result_/-/'+ req.body.transid +'/-/'+req.params.requestno+'/-/'+ req.body.oldhwid);
+          })
+        }
+      })
     })
   }
 }
@@ -267,25 +354,25 @@ function findcreatedlist2(req, res){
   db.query("SELECT * FROM tbltransaction WHERE intTRequestID=?",[req.body.transid], function (err, results) {
     console.log(err);
     if (!results[0]){
-      db2.query(`INSERT INTO tbltransaction VALUES ('${req.body.transid}', '${req.session.user}', '${req.body.reqdate}', '${req.body.dep}', '${req.body.datedep}', '${req.body.timedep}', '', '', NULL,NULL, '','','${req.body.invnum}')`, function(err){
+      db2.query(`INSERT INTO tbltransaction VALUES ('${req.body.transid}', '${req.session.user}', '${req.body.reqdate}', '${req.body.dep}', '${req.body.datedep}', '${req.body.timedep}', '', '', NULL, NULL, '','','${req.body.invnum}', '','')`, function(err){
         console.log(err);
-        res.redirect('/request_replacement/contract_'+req.body.transid+req.body.hwid,flog, findcreatedlist,rendercontract)
+        res.redirect('/request_replacement/contract_/-/'+req.body.transid+'/-/'+req.body.hwid)
       })  
     }
     else{
       db3.query(`UPDATE tbltransaction SET datDateRequested='${req.body.reqdate}', intTypeofDeployment='${req.body.dep}', datDateofDeployment='${req.body.datedep}', timTimeofDeployment='${req.body.timedep}' WHERE intTClientID = '${req.session.user}' AND intTRequestID = '${req.body.transid}'`,function(err){
         console.log(err);
-        res.redirect('/request_replacement/contract_'+req.body.transid+req.body.hwid,flog,findcreatedlist, rendercontract)
+        res.redirect('/request_replacement/contract_/-/'+req.body.transid+'/-/'+req.body.hwid)
       })
     }
   });
 }
 
 // -----------------------------------------------------------------------CONTRACT
-router.get('/contract_:transid:hwid',flog, findcreatedlist, findcontractstatus, findcontractstatusforhw, findnoofacceptcontract, findtotnoofacceptcontract, findoldhwservice, rendercontract);
+router.get('/contract_/-/:transid/-/:hwid',flog, findcreatedlist, findcontractstatus, findcontractstatusforhw, findnoofacceptcontract, findtotnoofacceptcontract, findoldhwservice, findagency,agencyfee, transpofee, replacement, replacementfee, clientaddress, rendercontract);
 function rendercontract(req,res){
   if(req.valid==1)
-    res.render('request_replacement_client/views/contract',{usertab: req.user, listtab: req.list, conttab: req.cont, hwtab: req.hw, noacontracttab: req.noacontract, tnocontracttab: req.tnocontract, oldhwservicetab:req.oldhwservice });
+    res.render('request_replacement_client/views/contract',{usertab: req.user, listtab: req.list, conttab: req.cont, hwtab: req.hw, noacontracttab: req.noacontract, tnocontracttab: req.tnocontract, oldhwservicetab: req.oldhwservice, agencytab: req.agency, agencyfeetab: req.agencyfee, transpofeetab: req.transpofee, replacementtab: req.replacement, replacementfeetab: req.replacementfee, clientaddtab: req.clientadd});
   else if(req.valid==0)
     res.render('admin/views/invalidpages/normalonly');
   else
@@ -294,11 +381,72 @@ function rendercontract(req,res){
 function findcontractstatus(req,res,next){
     var db = require('../../lib/database')();
     db.query(`SELECT * FROM tbltransaction WHERE intTRequestID = '${req.params.transid}'`, function(err, results){
-      console.log('error: '+err);
+      console.log('error:>>> '+req.params.hwid);
       req.cont = results;
       return next();
     })
 }
+function agencyfee(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * FROM tblfee WHERE intID = 1 `, function(err,results){
+    if (err){
+      res.send(err);
+    }
+    else{
+       req.agencyfee= results;
+       return next();
+    }
+  })
+}
+function transpofee(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * FROM tblfee WHERE intID = 2 `, function(err,results){
+    if (err){
+      res.send(err);
+    }
+    else{
+       req.transpofee= results;
+       return next();
+    }
+  })
+}
+function replacementfee(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * FROM tblfee WHERE intID = 4`, function(err,results){
+    if (err){
+      res.send(err);
+    }
+    else{
+       req.replacementfee= results;
+       return next();
+    }
+  })
+}
+function replacement(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * FROM tblfreereplacement`, function(err,results){
+    if (err){
+      res.send(err);
+    }
+    else{
+       req.replacement= results;
+       return next();
+    }
+  })
+}
+function clientaddress(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * FROM tblclient WHERE intClientID = ?`,[req.session.user], function(err,results){
+    if (err){
+      res.send(err);
+    }
+    else{
+      req.clientadd=results;
+      return next();
+    }
+  })
+}
+
 function findcontractstatusforhw(req,res,next){
   var db = require('../../lib/database')();
   db.query(`SELECT a.*, strName, strFName, strLName FROM tblcontract AS a INNER JOIN tblhouseholdworker as b on a.intConHWID = b.intHWID INNER JOIN tblmservice as c on c.intID = b.intServiceID INNER JOIN tbluser as d on d.intID = b.intHWID WHERE intConTransID = '${req.params.transid}'`, function(err, results){
@@ -313,6 +461,7 @@ function findnoofacceptcontract(req,res,next){
   db.query(`SELECT COUNT(*) as noa FROM tblcontract WHERE strConStatus='Approved' AND intConTransID='${req.params.transid}'`,function(err,results){
     console.log(err)
     req.noacontract = results;
+    // console.log('noa: '+ results[0].noa);
     return next();
   })
 }
@@ -321,6 +470,7 @@ function findtotnoofacceptcontract(req,res,next){
   db.query(`SELECT COUNT(*) as tno FROM tblcontract WHERE intConTransID='${req.params.transid}'`,function(err,results){
     console.log(err)
     req.tnocontract = results;
+    // console.log('tn: '+ results[0].tno);
     return next();
   })
 }

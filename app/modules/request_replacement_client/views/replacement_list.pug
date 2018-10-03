@@ -42,7 +42,10 @@ block content
                                                     td #{currenthwtobereplaced.strCurStatus}
                                                     td
                                                         button.btn.btn-primary.btn-md(type='button') View Profile
-                                                        button.btn.btn-danger.btn-md(type='button') Cancel
+                                                        if currenthwtobereplaced.strRequestStatus == 'Draft'
+                                                            button.btn.btn-danger.btn-md(type='button' data-toggle='modal' data-target='#cancel_replacement_draft', data-id=currenthwtobereplaced.intReplaceReqID, data-hwid=currenthwtobereplaced.intConHWID) Cancel
+                                                        else if currenthwtobereplaced.strRequestStatus == 'On process'
+                                                            button.btn.btn-danger.btn-md(type='button' data-toggle='modal' data-target='#cancel_replacement_onprocess', data-id=currenthwtobereplaced.intReplaceReqID, data-hwid=currenthwtobereplaced.intConHWID) Cancel
                     .col-md-12.col-sm-12.col-xs-12
                         .x_panel(style='background-color:rgba(38,185,154,0.3)') 
                             .x_panel             
@@ -94,12 +97,12 @@ block content
                                                                             , data-sal= item.deciRequestSalary, data-age=item.intIRequestAge1 , data-ages=item.intIRequestAge2) View
                                                         if list.strRequestStatus == 'Draft'
                                                             button.btn.btn-warning.btn-xs(type='button' data-toggle="modal" data-target="#edit_item") Edit
-                                                            button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item") Delete
+                                                            
                                                         else if list.strRequestStatus == 'On process'
                                                             each oldhwservice in oldhwservicetab
-                                                                a(href='result_'+item.intIRequestID+item.intIRequest_No+oldhwservice.intHWID)
+                                                                a(href='/request_replacement/result_/-/'+item.intIRequestID+'/-/'+item.intIRequest_No+'/-/'+oldhwservice.intHWID)
                                                                     button.btn.btn-primary.btn-xs(type='button') View Result
-                                                                button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item") Delete
+                                                                
                                 each list in listtab
                                     if list.strRequestStatus == 'Pending' || list.strRequestStatus == 'Approved' || list.strRequestStatus == 'Rejected' || list.strRequestStatus == 'Finished'
                                         each transdetails in transdetailstab
@@ -174,25 +177,52 @@ block content
                                                 if noofapprove.NOOFapprove > 0 && list.strRequestStatus=='On process'
                                                     button.btn.btn-success.btn-lg(type='button' data-toggle="modal" data-target="#deployment") Proceed to Deployment
                                                 else
-        // Small modal
-        #myListCancel1.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
-            .modal-dialog.modal-sm
-                .modal-content
-                    .modal-header
-                        button.close(type='button', data-dismiss='modal', aria-label='Close')
-                            span(aria-hidden='true') ×
-                        h4#myModalLabel2.modal-title
-                    .modal-body
-                        h3
-                            center
-                                b Warning!!!
-                        p
-                            center
-                                big Are you sure you want to cancel request in this household worker?
-                    .modal-footer
-                        button.btn.btn-primary(type='button', data-dismiss='modal') No
-                        button.btn.btn-primary(type='button') Yes
+
         // /modals
+        #cancel_replacement_draft.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog.modal-md
+                .modal-content
+                    .modal-header(style="background-color:#2A3F54; color:white")
+                        button.close(type='button', data-dismiss='modal')
+                            span(aria-hidden='true') ×
+                        h4#myModalLabel.modal-title(style="text-align:center; font-weight:bold") Cancel List
+                    .modal-body
+                        form#cancel(method='POST' action='/request_replacement/cancel')
+                            br
+                            input(id='listid' type='text' name='transid', value='' style='display: none;')
+                            input(id='hwid' type='text' name='hwid', value='' style='display: none;')  
+                            .form-group
+                                center 
+                                    h3 Are you sure you want to cancel
+                                        |
+                                        p this Request?
+                            .ln_solid
+                            .form-group.pull-right
+                                .col-md-12.col-sm-9.col-xs-12.pull-right
+                                    button.btn.btn-primary(type='button', data-dismiss='modal') No
+                                    button.btn.btn-danger(type='submit' name='btn1' value='cancel_draft') Yes
+        #cancel_replacement_onprocess.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog.modal-md
+                .modal-content
+                    .modal-header(style="background-color:#2A3F54; color:white")
+                        button.close(type='button', data-dismiss='modal')
+                            span(aria-hidden='true') ×
+                        h4#myModalLabel.modal-title(style="text-align:center; font-weight:bold") Cancel List
+                    .modal-body
+                        form#cancel(method='POST' action='/request_replacement/cancel')
+                            br
+                            input(id='listid' type='text' name='transid', value='' style='display: none;')
+                            input(id='hwid' type='text' name='hwid', value='' style='display: none;')  
+                            .form-group
+                                center 
+                                    h3 Are you sure you want to cancel
+                                        |
+                                        p this Request?
+                            .ln_solid
+                            .form-group.pull-right
+                                .col-md-12.col-sm-9.col-xs-12.pull-right
+                                    button.btn.btn-primary(type='button', data-dismiss='modal') No
+                                    button.btn.btn-danger(type='submit' name='btn1' value='cancel_onprocess') Yes
 
         // Set attributes Modal
         #setattritbutes.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
@@ -347,45 +377,87 @@ block content
         #deployment.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog.modal-lg
                 .modal-content
-                    .modal-header
-                        button.close(type='button', data-dismiss='modal')
-                            span(aria-hidden='true') ×
-                        h4
-                            b Deployment Details
-                    .modal-body
-                        form.form-horizontal.form-label-center(method="POST" action='/request_replacement/contract') 
+                    form.form-horizontal.form-label-center(method="POST" action='/request_replacement/contract') 
+                        .modal-header
+                            button.close(type='button', data-dismiss='modal')
+                                span(aria-hidden='true') ×
+                            h4
+                                b Deployment Details
+                        .modal-body
                             each list in listtab
-                                input(id = 'idtrans' type='text', required='required', name='transid', value=''+list.intRequestID, style='display:none;')  
-                                input(id='thedate' type='date', name='reqdate' style='display:none;')
-                                input(id='invo' type='text', name='invnum' style='display:none;')
-                                each oldhwservice in oldhwservicetab
-                                    input(id='' type='text', name='hwid' value=''+oldhwservice.intHWID style='display:none;')
-                                br
-                                .form-group
-                                    label.control-label.col-md-5 Type of Deployment
-                                    .col-md-3
-                                        select.form-control(name='dep')
-                                            each fee in feetab
-                                                option(value=''+fee.intID) #{fee.strName} &nbsp&nbsp  + P #{fee.fltFee}
-                                .form-group
-                                    label.control-label.col-md-5
-                                        | Preferred Date For Deployment
-                                        span.required *
-                                    .col-md-3
-                                        input.form-control.has-feedback-left(type='date', name='datedep')
-                                        span.fa.fa-calendar-o.form-control-feedback.left(aria-hidden='true')
-                                        span#inputSuccess2Status4.sr-only (success)
-                                .form-group
-                                    label.control-label.col-md-5
-                                        | Preferred Time For Deployment
-                                        span.required *
-                                    .col-md-3
-                                        .input-group.date
-                                            input.form-control(type='time' name='timedep')
-                                            span.input-group-addon
-                                                span.glyphicon.glyphicon-time 
-                                .form-group.pull-right
-                                    button.btn.btn-success.btn-lg(type='submit',  onCLick='time();') Next
+                                each nooftrans in nooftranstab
+                                    if nooftrans.nooftrans == 0
+                                        input(id = 'idtrans' type='text', required='required', name='transid', value=''+list.intRequestID, style='display:none;')  
+                                        input(id='thedate' type='date', name='reqdate' style='display:none;')
+                                        input(id='invo' type='text', name='invnum' style='display:none;')
+                                        each oldhwservice in oldhwservicetab
+                                            input(id='' type='text', name='hwid' value=''+oldhwservice.intHWID style='display:none;')
+                                        br
+                                        .form-group
+                                            label.control-label.col-md-5 Type of Deployment
+                                            .col-md-3
+                                                select.form-control(name='dep')
+                                                    each fee in feetab
+                                                        option(value=''+fee.intID) #{fee.strName} &nbsp&nbsp  + P #{fee.fltFee}
+                                        .form-group
+                                            label.control-label.col-md-5
+                                                | Preferred Date For Deployment
+                                                span.required *
+                                            .col-md-3
+                                                input.form-control.has-feedback-left(type='date', name='datedep')
+                                                span.fa.fa-calendar-o.form-control-feedback.left(aria-hidden='true')
+                                                span#inputSuccess2Status4.sr-only (success)
+                                        .form-group
+                                            label.control-label.col-md-5
+                                                | Preferred Time For Deployment
+                                                span.required *
+                                            .col-md-3
+                                                .input-group.date
+                                                    input.form-control(type='time' name='timedep')
+                                                    span.input-group-addon
+                                                        span.glyphicon.glyphicon-time 
+                                        
+                                    else
+                                        each prevtransdetails in prevtransdetailstab
+                                            input(id = 'idtrans' type='text', required='required', name='transid', value=''+list.intRequestID, style="display:none;")  
+                                            input(id='thedate' type='date', name='reqdate' style='display:none;')
+                                            input(id='invo' type='text', name='invnum' style='display:none;')
+                                            each oldhwservice in oldhwservicetab
+                                                input(id='' type='text', name='hwid' value=''+oldhwservice.intHWID style='display:none;')
+                                            br
+                                            .row
+                                                .col-md-2
+                                                    .form-group
+                                                .col-md-8
+                                                    .form-group
+                                                        label Type of Deployment
+                                                        select.form-control(name='dep')
+                                                            option(value=''+prevtransdetails.intTypeofDeployment selected) #{prevtransdetails.strName} &nbsp&nbsp + P #{prevtransdetails.fltFee}
+                                                            each fee in feetab
+                                                                option(value=''+fee.intID) #{fee.strName} &nbsp&nbsp  + P #{fee.fltFee}
+                                            .row
+                                                .col-md-2
+                                                    .form-group
+                                                .col-md-8
+                                                    .form-group
+                                                        label Preferred Date For Deployment
+                                                        .input-group.date
+                                                            input.form-control.has-feedback-left(type='date', aria-describedby='inputSuccess2Status4'  name='datedep' value=''+prevtransdetails.datDateofDeployment required)
+                                                            span.input-group-addon
+                                                                span.fa.fa-calendar
+                                            .row
+                                                .col-md-2
+                                                    .form-group
+                                                .col-md-8
+                                                    .form-group
+                                                        label Preferred Time For Deployment
+                                                        .input-group.date
+                                                            input.form-control.has-feedback-left(type='time' name='timedep' value=''+prevtransdetails.timTimeofDeployment required)
+                                                            span.input-group-addon
+                                                                span.glyphicon.glyphicon-time
+                        .modal-footer
+                            button.btn.btn-primary(type='button', data-dismiss='modal') Close
+                            button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Next
             script.
                 function time(){
                     var today = new Date();

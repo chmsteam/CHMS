@@ -345,6 +345,24 @@ html(lang='en')
             modal.find('.modal-body #hwid').val(hwid)
 
             });
+        $('#cancel_replacement_draft').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var hwid = button.data('hwid')
+
+            var modal = $(this)
+            modal.find('.modal-body #listid').val(id)
+            modal.find('.modal-body #hwid').val(hwid)
+        });
+        $('#cancel_replacement_onprocess').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var hwid = button.data('hwid')
+
+            var modal = $(this)
+            modal.find('.modal-body #listid').val(id)
+            modal.find('.modal-body #hwid').val(hwid)
+        });
         
         //- ------------------------------------------------request_irclient index
         $('#report').on('show.bs.modal', function (event) {

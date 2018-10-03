@@ -12,7 +12,7 @@ block content
                                     .pull-right
                                         each list in listtab
                                             each oldhwservice in oldhwservicetab
-                                                a(href='/request_replacement/replace_list_'+list.intRequestID+oldhwservice.intHWID)
+                                                a(href='/request_replacement/replace_list_/-/'+list.intRequestID+'/-/'+oldhwservice.intHWID)
                                                     button.btn.btn-primary.btn-lg(type='button') Back
                                     center
                                         h3
@@ -81,6 +81,12 @@ block content
                                                     each list in listtab
                                                         if hw.strRClientStatus == 'Approved'
                                                             tr
+                                                            form#demo-form2.form-horizontal.form-label-left(method="POST" action="/request_replacement/decision_"+hw.intRRequest_No)
+                                                                input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='hwid', value=''+hw.intRHWID, style="display:none;")
+                                                                input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transid', value=''+hw.intRRequestID, style="display:none;")
+                                                                input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='reqno', value=''+hw.intRRequest_No, style="display:none;")
+                                                                each oldhwservice in oldhwservicetab
+                                                                    input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='oldhwid', value=''+oldhwservice.intHWID, style="display:none;")                                    
                                                                 td #{hw.intRHWID}
                                                                     //- input(type="number" name= 'hwid' style='visibility:hidden;', value=''+resulta.intHWID)
                                                                 td #{hw.stFName} #{hw.strLName}
@@ -92,7 +98,7 @@ block content
                                                                 td
                                                                     a(href='hw_profile_'+hw.intRRequestID+hw.intRHWID)
                                                                         button.btn.btn-primary(type='button') View Profile
-                                                                    button.btn.btn-danger.btn-md(type='submit') Remove
+                                                                    button.btn.btn-danger.btn-md(type='submit'  name='btn1' value='revert') Remove
 
                     .col-md-12.col-sm-12.col-xs-12
                         br
@@ -117,17 +123,22 @@ block content
                                                     each list in listtab
                                                         if hw.strRClientStatus == 'Rejected'
                                                             tr
-                                                                form(method="POST" action="_")
-                                                                    td #{hw.intRHWID}
-                                                                        //- input(type="number" name= 'hwid' style='visibility:hidden;', value=''+resulta.intHWID)
-                                                                    td #{hw.stFName} #{hw.strLName}
-                                                                    td #{hw.strName}
-                                                                    td #{hw.age}
-                                                                    td #{hw.strGender}
-                                                                    td 
-                                                                    td 
-                                                                    td
-                                                                        a(href='hw_profile_'+hw.intRRequestID+hw.intRHWID)
-                                                                            button.btn.btn-primary(type='button') View Profile
-                                                                        button.btn.btn-danger.btn-md(type='submit') Remove
-                                        
+                                                            form#demo-form2.form-horizontal.form-label-left(method="POST" action="/request_replacement/decision_"+hw.intRRequest_No)
+                                                                input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='hwid', value=''+hw.intRHWID, style="display:none;")
+                                                                input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transid', value=''+hw.intRRequestID, style="display:none;")
+                                                                input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='reqno', value=''+hw.intRRequest_No, style="display:none;")
+                                                                each oldhwservice in oldhwservicetab
+                                                                    input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='oldhwid', value=''+oldhwservice.intHWID, style="display:none;")                                    
+                                                                td #{hw.intRHWID}
+                                                                    //- input(type="number" name= 'hwid' style='visibility:hidden;', value=''+resulta.intHWID)
+                                                                td #{hw.stFName} #{hw.strLName}
+                                                                td #{hw.strName}
+                                                                td #{hw.age}
+                                                                td #{hw.strGender}
+                                                                td 
+                                                                td 
+                                                                td
+                                                                    a(href='hw_profile_'+hw.intRRequestID+hw.intRHWID)
+                                                                        button.btn.btn-primary(type='button') View Profile
+                                                                    button.btn.btn-danger.btn-md(type='submit'  name='btn1' value='revert') Remove
+                                    
