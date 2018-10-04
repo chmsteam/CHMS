@@ -24,7 +24,10 @@ CREATE TABLE `tblagency` (
   `strName` varchar(100) DEFAULT NULL,
   `strAddress` varchar(200) DEFAULT NULL,
   `strTelNum` varchar(11) DEFAULT NULL,
-  `strEmail` varchar(45) DEFAULT NULL
+  `strEmail` varchar(45) DEFAULT NULL,
+  `strOwner` varchar(45),
+  `strOIC` VARCHAR(45),
+  `strLogo` VARCHAR(45)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -32,7 +35,7 @@ CREATE TABLE `tblagency` (
 -- Dumping data for table `tblagency`
 --
 
-INSERT INTO `tblagency` VALUES ('Mega Pacific Employment Services','Shaw Blvd, Mandaluyong 1552 Metro Manila','(02)5310618','mega@xyz.com');
+INSERT INTO `tblagency` VALUES ('Mega Pacific Employment Services','Shaw Blvd, Mandaluyong 1552 Metro Manila','(02)5310618','mega@xyz.com', '', 'Benilda Lazaro','');
 
 --
 -- Table structure for table `tblclient`
@@ -79,6 +82,7 @@ CREATE TABLE `tblcontract` (
   `datDateStarted` date DEFAULT NULL,
   `strCurStatus` varchar(20) DEFAULT NULL,
   `intConReplacementLeft` int(11) DEFAULT NULL,
+  `strConCopy` varchar(50),
   KEY `intConTransID` (`intConTransID`),
   CONSTRAINT `intConTransID` FOREIGN KEY (`intConTransID`) REFERENCES `tblfinalrequest` (`intRequestID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

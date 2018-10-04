@@ -1510,16 +1510,69 @@ function clientsettledecisionreplacementleft3(req,res){
 }
 
 // --------------------------------------------------------------------------------- TRANSACTIONS SETTLE VIEW
-router.get('/transaction_settle_:transid', flog, findtransaction, findcontractstatusforhw, rendertranssettleview); 
+router.get('/transaction_settle_:transid', flog, noofcontract, findtransaction, contractdetails, findcontractstatusforhw, rendertranssettleview); 
 function rendertranssettleview(req,res){
   if(req.valid==0)
-    res.render('admin/views/transaction_settle_view',{usertab: req.user, transtab: req.trans, hwtab: req.hw});
+    res.render('admin/views/transaction_settle_view',{usertab: req.user, transtab: req.trans, hwtab: req.hw, settletab: req.settle, contractdetailstab: req.contractdetails});
   else if(req.valid==1)
     res.render('admin/views/invalidpages/normalonly');
   else
     res.render('login/views/invalid');
 }
+router.post('/upload_hwcon',flog, uploadhwcon, updatehwfilename);
+function uploadhwcon(req,res,next){
+//  if (req.files){
+   console.log(req.files);
+   var file = req.files.filename,
+        filename = req.body.hwid+'-'+file.name;
+    file.mv('public/pdfs/'+filename, function(err){
+      if (err){
+        console.log(err)
+      }
+      else{      
+        // res.redirect('/admin/transaction_client_request_'+req.body.transid);
+        return next();
+      }
+    })
 
+//  }
+}
+function updatehwfilename(req,res){
+  var db = require('../../lib/database')();
+  console.log('strConCopy: '+ req.body.nameoffile);
+  console.log('intConTransID: '+ req.body.transid);
+  console.log('intConHWID: '+ req.body.hwid);
+  db.query(`UPDATE tblcontract SET strConCopy=? WHERE intConTransID = ? AND intConHWID = ?`,[req.body.hwid+'-'+req.body.nameoffile, req.body.transid, req.body.hwid], function(err){
+    if (err){
+      res.send(err);
+    }
+    else{
+      res.redirect('/admin/transaction_settle_'+req.body.transid);
+    }
+  })
+}
+function noofcontract(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * FROM
+  (SELECT COUNT(*) lahat FROM tblcontract WHERE intConTransID = ?) as ta JOIN 
+  (SELECT COUNT(*) ngayon FROM tblcontract WHERE intConTransID = ? AND strConCopy NOT IN ('')) as tb`,[req.params.transid, req.params.transid], function(err, results){
+    console.log('error: '+err);
+    req.settle = results;
+    return next();
+  })
+}
+function contractdetails(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * FROM tbltransaction WHERE intTRequestID = '${req.params.transid}'`, function(err, results){
+    console.log(err);
+    for(var i = 0; i <results.length; i++){
+     results[i].datDateofDeployment =  moment(results[i].datDateofDeployment).format("LL");
+     results[i].timTimeofDeployment =  moment(results[i].timTimeofDeployment, 'HH:mm').format("hh:mm a");
+    }
+    req.contractdetails = results;
+    return next();
+  })
+}
 //----------------------------------------------------------------------------------TRANSACTIONS SETTLED
 router.get('/transaction_settled', flog, findtranssettled, rendertranssettled); 
 function rendertranssettled(req,res){
@@ -1556,7 +1609,7 @@ function rendertranssettledview(req,res){
 }
 function findtransaction(req,res,next){
   var db = require('../../lib/database')();
-  db.query(`SELECT *, c.intID AS clientid, c.strFName AS clientFName, c.strLName AS clientLName, f.strName as deployment FROM tbltransaction INNER JOIN tbluser AS c ON c.intID = intTClientID INNER JOIN tblfee as f ON f.intID = intTypeofDeployment WHERE intTRequestID =  ?`, [req.params.transid], function(err,results){
+  db.query(`SELECT *, c.intID AS clientid, c.strFName AS clientFName, c.strLName AS clientLName, f.strName as deployment FROM tbltransaction INNER JOIN tbluser AS c ON c.intID = intTClientID INNER JOIN tblfee as f ON f.intID = intTypeofDeployment INNER JOIN tblfinalrequest on intRequestID = intTRequestID WHERE intTRequestID =  ?`, [req.params.transid], function(err,results){
     console.log(err)
     console.log('xxxxxx'+req.params.transid);
     for(var i = 0; i < results.length; i++){
@@ -1575,6 +1628,8 @@ function findcontractstatusforhw(req,res,next){
     return next();
   })
 }
+
+
 
 
 // --------------------------------------------------------------------------------TRANSACTION INCIDENT REPORT: Client
@@ -2397,6 +2452,18 @@ function findfreereplacement(req, res, next){
     return next();
   });
 }
+
+router.get('/utilities_agency', flog,findagency, renderutilagency);
+function renderutilagency(req,res){
+  if(req.valid==0)
+    res.render('admin/views/utilities_agency',{usertab: req.user, agencytab: req.agency});
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+
+
 //-------------------------------------------Router.get(household request)
 var leaveReqFunc = [displayLeaveReq]
 router.get('/transaction_hhRequest_leave', flog, leaveReqFunc, hhReqLeave_render );

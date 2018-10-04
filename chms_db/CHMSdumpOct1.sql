@@ -79,6 +79,7 @@ CREATE TABLE `tblcontract` (
   `datDateStarted` date DEFAULT NULL,
   `strCurStatus` varchar(20) DEFAULT NULL,
   `intConReplacementLeft` int(11) DEFAULT NULL,
+  `strConCopy` varchar(50),
   KEY `intConTransID` (`intConTransID`),
   CONSTRAINT `intConTransID` FOREIGN KEY (`intConTransID`) REFERENCES `tblfinalrequest` (`intRequestID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

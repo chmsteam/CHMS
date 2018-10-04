@@ -32,12 +32,17 @@ block content
                                                     td #{currenthwtobereplaced.strCurStatus}
                                                     td
                                                         button.btn.btn-primary.btn-md(type='button') View Profile
-                                                        a(href='/request_replacement/replace_list_'+currenthwtobereplaced.intReplaceReqID + currenthwtobereplaced.intConHWID)
+                                                        a(href='/request_replacement/replace_list_/-/'+currenthwtobereplaced.intReplaceReqID + '/-/'+currenthwtobereplaced.intConHWID)
                                                             button.btn.btn-info.btn-md(type='button') View Details
-                                                        button.btn.btn-danger.btn-md(type='button') Cancel
-
-                            .x_panel
+                                                        if currenthwtobereplaced.strRequestStatus == 'Draft'
+                                                            button.btn.btn-danger.btn-md(type='button' data-toggle='modal' data-target='#cancel_replacement_draft', data-id=currenthwtobereplaced.intReplaceReqID, data-hwid=currenthwtobereplaced.intConHWID) Cancel
+                                                        else if currenthwtobereplaced.strRequestStatus == 'On process'
+                                                            button.btn.btn-danger.btn-md(type='button' data-toggle='modal' data-target='#cancel_replacement_onprocess', data-id=currenthwtobereplaced.intReplaceReqID, data-hwid=currenthwtobereplaced.intConHWID) Cancel
+                            br
+                            br
+                            .x_panel(style='background-color:rgba(38,185,154,0.3)')
                                 h3 Current Household Workers
+                                br
                                 table#datatable-responsive.table.jambo_table.table-bordered
                                     thead
                                         tr
@@ -67,10 +72,7 @@ block content
                                                             button.btn.btn-info.btn-md(type='button') View Details
                                                         button.btn.btn-danger.btn-md(type='button') Cancel
 
-                                                    //- else if currenthw.strCurStatus == 'To be replaced'
-                                                    //-     a(href='/request_replacement/replace_list_'+currenthw.intConTransID+currenthw.intConHWID)
-                                                    //-         button.btn.btn-info.btn-md(type='button') View Details
-                                                        button.btn.btn-danger.btn-md(type='button') Cancel
+
                                                             
             
             //- ---- modals
@@ -112,7 +114,50 @@ block content
                                             textarea.form-control.AddMessage(rows='7' name='reqdesc')
                             .modal-footer
                                 button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Find Replacement
-
+            #cancel_replacement_draft.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
+                .modal-dialog.modal-md
+                    .modal-content
+                        .modal-header(style="background-color:#2A3F54; color:white")
+                            button.close(type='button', data-dismiss='modal')
+                                span(aria-hidden='true') ×
+                            h4#myModalLabel.modal-title(style="text-align:center; font-weight:bold") Cancel List
+                        .modal-body
+                            form#cancel(method='POST' action='/request_replacement/cancel')
+                                br
+                                input(id='listid' type='text' name='transid', value='' style='display: none;')
+                                input(id='hwid' type='text' name='hwid', value='' style='display: none;')  
+                                .form-group
+                                    center 
+                                        h3 Are you sure you want to cancel
+                                            |
+                                            p this Request?
+                                .ln_solid
+                                .form-group.pull-right
+                                    .col-md-12.col-sm-9.col-xs-12.pull-right
+                                        button.btn.btn-primary(type='button', data-dismiss='modal') No
+                                        button.btn.btn-danger(type='submit' name='btn1' value='cancel_draft') Yes
+            #cancel_replacement_onprocess.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
+                .modal-dialog.modal-md
+                    .modal-content
+                        .modal-header(style="background-color:#2A3F54; color:white")
+                            button.close(type='button', data-dismiss='modal')
+                                span(aria-hidden='true') ×
+                            h4#myModalLabel.modal-title(style="text-align:center; font-weight:bold") Cancel List
+                        .modal-body
+                            form#cancel(method='POST' action='/request_replacement/cancel')
+                                br
+                                input(id='listid' type='text' name='transid', value='' style='display: none;')
+                                input(id='hwid' type='text' name='hwid', value='' style='display: none;')  
+                                .form-group
+                                    center 
+                                        h3 Are you sure you want to cancel
+                                            |
+                                            p this Request?
+                                .ln_solid
+                                .form-group.pull-right
+                                    .col-md-12.col-sm-9.col-xs-12.pull-right
+                                        button.btn.btn-primary(type='button', data-dismiss='modal') No
+                                        button.btn.btn-danger(type='submit' name='btn1' value='cancel_onprocess') Yes
             //- scripts
             script.
                 function time(){

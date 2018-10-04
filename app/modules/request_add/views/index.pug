@@ -1,21 +1,5 @@
 extends ../../../templates/navbarclient.pug
 block content
-    //- script.
-    //-     $(document).ready(function(){
-    //-         $('form#add').submit(function(s){
-    //-             s.preventDefault();
-    //-             $(function(){
-    //-                     location.reload();
-    //-                 }).then(
-    //-                     swal({
-    //-                         title:'Success', 
-    //-                         text:'Added', 
-    //-                         icon:'success',
-    //-                         closeOnConfirm: false}),
-    //-                 $('#Add').modal('hide')
-    //-             );
-    //-         });
-    //-     });
     link(rel="stylesheet", href="/custom/alerts/css/popup.css")
     script(src="/sweetalert/dist/sweetalert.min.js")
     section#services
@@ -52,8 +36,8 @@ block content
                                         if list.strRequestStatus != 'Finished' && list.strRequestStatus != 'Deleted'
                                             .col-md-4.col-sm-4.col-xs-12.profile_details
                                                 .well.profile_view
-                                                    .col-sm-7(align='right')
-                                                    |   #{list.datRequestDate}
+                                                    .col-sm-6(align='right')(style='padding-right:10px')
+                                                    |   #{list.datRequestDate}  
                                                     .col-sm-12
                                                         .right.col-sm-12
                                                         h3.brief    
@@ -99,11 +83,6 @@ block content
                                                             a(href='/request_add/mylist_'+list.intRequestID)
                                                                 button.btn.btn-primary(type='button') View
                                                             button.btn.btn-danger(type='button', data-toggle='modal', data-target='#remove_list', data-id=list.intRequestID) Remove
-
-                                                            //- a(href='/request_add/invoice_'+list.intRequestID)
-                                                            //-     button.btn.btn-info(type='button') View Invoice
-                                                            //- a(href='/request_add/mylist_'+list.intRequestID)
-                                                            //-     button.btn.btn-primary(type='button') View
                                         else
 
 
@@ -148,7 +127,12 @@ block content
                         .ln_solid
                         .form-group.pull-right
                             .col-md-12.col-sm-9.col-xs-12.pull-right
+<<<<<<< HEAD
                                 button.btn.btn-danger(type='submit' name='btn1' value='cancel') Cancel
+=======
+                                button.btn.btn-primary(type='button', data-dismiss='modal') No
+                                button.btn.btn-danger(type='submit' name='btn1' value='cancel') Yes
+>>>>>>> 9356586dac82e1d1227c32dc0675f93adfb61721
     #remove_list.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
         .modal-dialog.modal-md
             .modal-content
@@ -168,8 +152,13 @@ block content
                         .ln_solid
                         .form-group.pull-right
                             .col-md-12.col-sm-9.col-xs-12.pull-right
+<<<<<<< HEAD
                                 button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
                                 button.btn.btn-danger(type='submit' name='btn1' value='permdelete') Remove
+=======
+                                button.btn.btn-primary(type='button', data-dismiss='modal') No
+                                button.btn.btn-danger(type='submit' name='btn1' value='permdelete') Yes
+>>>>>>> 9356586dac82e1d1227c32dc0675f93adfb61721
    
     #Add.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
         .modal-dialog.modal-md
@@ -201,7 +190,7 @@ block content
                             .row
                                 .col-md-10
                                     .form-group
-                                        b   Description
+                                        b   Other Details
                                         textarea.form-control.AddMessage(rows='10' name='reqdesc')
                     .modal-footer
                         button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
@@ -272,83 +261,3 @@ block content
             //- document.write(today);
            document.getElementById("thedate").value=today;
         }
-    //- script.
-    //-     $(document).ready(function(){
-    //-         $('form#add').submit(function(e){
-    //-             e.preventDefault();
-    //-             $.ajax({
-    //-                 url: '/request_add/createlist_services/createlist',
-    //-                 method: 'post',
-    //-                 data: $('form#add').serialize(),
-    //-                 success: function(response){
-    //-                     console.log(response);
-    //-                     if(response == 'success'){
-    //-                         swal({
-    //-                             title:'Success', 
-    //-                             text:'Added', 
-    //-                             icon:'success',
-    //-                             closeOnConfirm: false}
-    //-                         ).then(function(){
-    //-                             location.reload();
-    //-                             })
-    //-                         }
-    //-                     }
-    //-                 })
-    //-             })
-    //-         });
-    //- script.
-    //-     $(document).ready(function(){
-    //-         $('form#add').submit(function(s){
-    //-             s.preventDefault();
-    //-             $(function(){
-    //-                     location.reload();
-    //-                 }).then(
-    //-                     swal({
-    //-                         title:'Success', 
-    //-                         text:'Added', 
-    //-                         icon:'success',
-    //-                         closeOnConfirm: false}),
-    //-                 $('#Add').modal('hide')
-    //-             );
-    //-         });
-    //-     });
-    //- script.
-    //-     $(document).ready(function(){
-    //-         $('form#add').submit(function(s){
-    //-             s.preventDefault();
-    //-             $(function(){
-    //-                     location.reload();
-    //-                     }, 3000).then(
-    //-                         swal(
-    //-                             "Submitted!", 
-    //-                             "Your form file has been submitted.", 
-    //-                             "success"
-    //-                         ),
-    //-                 $('#addUOM').modal('hide')
-    //-             );
-    //-         });
-    //-     });
-    //- script(type='text/javascript').
-    //-     $(document).ready(function(){
-    //-         $('form#add').submit(function(e){
-    //-             e.preventDefault();
-    //-             $('#addUOM').modal('hide');
-    //-             $.ajax({
-    //-                 method: "POST",
-    //-                 url: '/request_add/createlist_services/createlist',
-    //-                 data: $("form#add"),
-    //-                 success: function(response){
-    //-                     console.log(response);
-    //-                     swal({
-    //-                     title:'Success', 
-    //-                     text:'Added', 
-    //-                     icon:'success',
-    //-                     closeOnConfirm: false},
-    //-                 function(){
-    //-                     location.reload();
-    //-                     }
-    //-                 )   
-    //-                 }
-    //-             })
-    //-         })
-    //-     });

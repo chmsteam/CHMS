@@ -23,10 +23,10 @@ block content
                                     ul#myTab.nav.nav-tabs.bar_tabs(role='tablist')
                                         li.active(role='presentation')
                                             each myreq in myreqtab
-                                                a#home-tab(href='#tab_content1', role='tab', data-toggle='tab', aria-expanded='true') My Request: #{myreq.myrequest}
+                                                a#home-tab(href='#tab_content1', role='tab', data-toggle='tab', aria-expanded='true') My Request:   #{myreq.myrequest}
                                         li(role='presentation')
                                             //- each totalir in totalirtab
-                                            a#incoming-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Incoming Request
+                                            a#incoming-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Incoming Request:
                                         li(role='presentation')
                                             each history in historytab
                                                 a#history-tab(href='#tab_content3', role='tab', data-toggle='tab', aria-expanded='false') History: #{history.history}
@@ -120,19 +120,19 @@ block content
                                                                                         br
                                                                                 .col-xs-12.bottom.text-center
                                                                                     if request2.strRequestType == 'Replacement' && request2.strRequestStatus == 'Draft'
-                                                                                        a(href='/request_replacement/replace_list_'+request2.intRequestID+request2.intReplaceOldHWID)
+                                                                                        a(href='/request_replacement/replace_list_/-/'+request2.intRequestID+'/-/'+request2.intReplaceOldHWID)
                                                                                             button.btn.btn-primary(type='button')
                                                                                                 | Go to My List
                                                                                     else if request2.strRequestType == 'Replacement' && request2.strRequestStatus == 'On process'
-                                                                                        a(href='/request_replacement/replace_list_'+request2.intRequestID+request2.intReplaceOldHWID)
+                                                                                        a(href='/request_replacement/replace_list_/-/'+request2.intRequestID+'/-/'+request2.intReplaceOldHWID)
                                                                                             button.btn.btn-primary(type='button')
                                                                                                 | Go to My List
                                                                                     else if request2.strRequestType == 'Replacement' && request2.strRequestStatus == 'Pending'
-                                                                                        a(href='/request_replacement/replace_list_'+request2.intRequestID+request2.intReplaceOldHWID)
+                                                                                        a(href='/request_replacement/replace_list_/-/'+request2.intRequestID+'/-/'+request2.intReplaceOldHWID)
                                                                                             button.btn.btn-primary(type='button')
                                                                                                 | Go to My List
                                                                                     else if request2.strRequestType == 'Replacement' && request2.strRequestStatus == 'Approved'
-                                                                                        a(href='/request_replacement/replace_list_'+request2.intRequestID+request2.intReplaceOldHWID)
+                                                                                        a(href='/request_replacement/replace_list_/-/'+request2.intRequestID+'/-/'+request2.intReplaceOldHWID)
                                                                                             button.btn.btn-primary(type='button')
                                                                                                 | Go to My List
                                         #tab_content2.tab-pane.fade(role='tabpanel', aria-labelledby='incoming-tab')

@@ -36,7 +36,7 @@ html(lang='en')
     script(type='text/javascript', src='/pdfmake/build/pdfmake.min.js')
     script(type='text/javascript', src='/pdfmake/build/vfs_fonts.js')
 
-  //- #preloader (tinanggal ko muna, d makita ung page ng "VIEW RESULT," preloader lang lumalabas)
+  //- #preloader
   body.nav-md.footer_fixed(style='background-color:transparent' onpageshow='total();')
     each user in usertab
       .container.body
@@ -110,8 +110,6 @@ html(lang='en')
                         |&nbsp 
                         i.fa.fa-angle-down
                   ul.dropdown-menu.dropdown-usermenu.pull-right
-                    li
-                      a(href='javascript:;')  Profile
                     li
                       a(href='/login')
                         i.fa.fa-sign-out.pull-right
@@ -347,6 +345,24 @@ html(lang='en')
             modal.find('.modal-body #hwid').val(hwid)
 
             });
+        $('#cancel_replacement_draft').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var hwid = button.data('hwid')
+
+            var modal = $(this)
+            modal.find('.modal-body #listid').val(id)
+            modal.find('.modal-body #hwid').val(hwid)
+        });
+        $('#cancel_replacement_onprocess').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var hwid = button.data('hwid')
+
+            var modal = $(this)
+            modal.find('.modal-body #listid').val(id)
+            modal.find('.modal-body #hwid').val(hwid)
+        });
         
         //- ------------------------------------------------request_irclient index
         $('#report').on('show.bs.modal', function (event) {

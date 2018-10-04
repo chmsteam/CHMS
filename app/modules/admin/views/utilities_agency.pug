@@ -1,0 +1,80 @@
+
+extends ../../../templates/navbaradmin.pug
+
+block content
+    section#services
+        .right_col(role='main' style="background-color:transparent")
+                .title_left
+                    h5
+                        | Utilities /&nbsp
+                        b Agency
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
+                        .x_panel(style='background-color:rgba(52,152,219,.3)')
+                            .x_panel
+                                table.table.table-striped.table-bordered
+                                    tbody
+                                        each agency in agencytab
+                                            tr
+                                                td 
+                                                    strong
+                                                        | Agency Name
+                                                td #{agency.strName}
+                                                td
+                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit')
+                                                        i.fa.fa-edit
+                                                        |   Edit
+                                            tr
+                                                td
+                                                    strong
+                                                        | Agency Address
+                                                td #{agency.strAddress}
+                                                td
+                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit')
+                                                        i.fa.fa-edit
+                                                        |   Edit
+                                            tr
+                                                td
+                                                    strong
+                                                        | Agency Telephone Number
+                                                td #{agency.strTelNum}
+                                                td
+                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit')
+                                                        i.fa.fa-edit
+                                                        |   Edit
+                                            tr
+                                                td
+                                                    strong
+                                                        | Agency Email Address
+                                                td #{agency.strEmail}
+                                                td
+                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit')
+                                                        i.fa.fa-edit
+                                                        |   Edit
+                                            tr
+                                                td
+                                                    strong
+                                                        | Agency Owner
+                                                td #{agency.strOwner}
+                                                td
+                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit')
+                                                        i.fa.fa-edit
+                                                        |   Edit
+                                            tr
+                                                td
+                                                    strong
+                                                        | Agency Officer in Charge
+                                                td #{agency.strOIC}
+                                                td
+                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit')
+                                                        i.fa.fa-edit
+                                                        |   Edit
+                                            tr
+                                                td
+                                                    strong
+                                                        | Agency Logo
+                                                td #{agency.strLogo}
+                                                td
+                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit')
+                                                        i.fa.fa-edit
+                                                        |   Edit

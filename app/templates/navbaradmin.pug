@@ -179,7 +179,7 @@ html(lang='en')
                             li.sub_menu
                               a(href='/admin/transaction_settle') Settle Request
                             li.sub_menu
-                              a(href='/admin/transaction_settled') Finished Transaction
+                              a(href='/admin/transaction_settled') Settled Transaction
                         li 
                           a
                             | Incident Report
@@ -195,6 +195,8 @@ html(lang='en')
                         |  Utilities 
                         span.fa.fa-chevron-down
                       ul.nav.child_menu
+                        li
+                          a(href='/admin/utilities_agency') Agency
                         li
                           a(href='/admin/utilities_staff') Staff
                         li
@@ -681,3 +683,33 @@ html(lang='en')
               modal.find('.modal-body #id').val(id)
 
             });
+
+            //- settlement contract
+            $('#settle_viewcon').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var con = button.data('con')
+              var thecon = '/pdfs/'+con
+              var conname = button.data('conname');
+              var hwid = button.data('hwid');
+              var transid = button.data('transid');
+
+              var modal = $(this)
+              modal.find('.modal-body #hwid').val(hwid)
+              modal.find('.modal-body #transid').val(transid)
+              modal.find('.modal-body #thecon').attr('data',''+thecon)
+            });
+            $('#settle_viewcon_empty').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var con = button.data('con')
+              var thecon = '/pdfs/'+con
+              var conname = button.data('conname');
+              var hwid = button.data('hwid');
+              var transid = button.data('transid');
+
+              var modal = $(this)
+              modal.find('.modal-body #hwid').val(hwid)
+              modal.find('.modal-body #transid').val(transid)
+              modal.find('.modal-body #thecon').attr('data',''+thecon)
+            });
+
+          

@@ -79,7 +79,7 @@ router.post('/remove_list', flog, (req,res) =>{
 // My list Page
 function rendermylist(req,res){
     if(req.valid==1)
-      res.render('request_add/views/mylist',{usertab: req.user, itemtab: req.item, listtab: req.list, counttab:req.count, servicetab: req.service, skilltab: req.skill, hwtab: req.hw, noofapprovetab: req.noofapprove, feetab: req.fee, transdetailstab: req.transdetails});
+      res.render('request_add/views/mylist',{usertab: req.user, itemtab: req.item, listtab: req.list, counttab:req.count, servicetab: req.service, skilltab: req.skill, hwtab: req.hw, noofapprovetab: req.noofapprove, feetab: req.fee, transdetailstab: req.transdetails, nooftranstab: req.nooftrans, prevtransdetailstab: req.prevtransdetails});
     else if(req.valid==0)
       res.render('admin/views/invalidpages/normalonly');
     else
@@ -158,7 +158,20 @@ function findcreatedlist(req, res, next){
       return next();
     })
   }
-  router.get('/mylist_:userid', flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findtransaction, rendermylist);
+
+  function findprevtransaction(req,res,next){
+    var db = require('../../lib/database')();
+    db.query(`SELECT * FROM tbltransaction INNER JOIN tblfee ON intTypeofDeployment = intID WHERE intTRequestID = ?`,[req.params.userid], function(err,results){
+      console.log(err);
+      for(var i = 0; i < results.length; i++){
+        results[i].datDateofDeployment =  moment(results[i].datDateofDeployment).format("YYYY-MM-DD");
+        results[i].timTimeofDeployment = moment(results[i].timTimeofDeployment, 'HH:mm').format('HH:mm:ss')
+      }
+      req.prevtransdetails = results;
+      return next();
+    })
+  }
+  router.get('/mylist_:userid', flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findtransaction, findnooftrans,findprevtransaction, rendermylist);
 
 
 // Add service to list
@@ -195,6 +208,18 @@ router.post('/add_to_mylist_:userid',(req,res) =>{
   })
 });
 
+function findnooftrans(req,res,next){
+  var db = require('../../lib/database')();
+  db.query('SELECT COUNT(*) AS nooftrans FROM tbltransaction WHERE intTRequestID = ?', [req.params.userid], function(err,results){
+    if (err){
+      res.send(err);
+    }
+    else{
+      req.nooftrans = results
+      return next();
+    }
+  })
+}
 
 //------------------------------------------submit list to admin
 function submitrequest(req,res){
@@ -258,7 +283,7 @@ function clientdecision(req,res){
     db.query(`UPDATE tblresults SET strRClientStatus= 'Approved' WHERE strRClientStatus='Waiting' AND intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}'`,function (err) {
       console.log('xxxxxxxxxxxxxx'+err);
       db.query(`SELECT * FROM tblresults as a INNER JOIN tblinitialrequest as b on a.intRRequestID = b.intIRequestID WHERE intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}' AND strRClientStatus = 'Approved'`, function (err,results){
-        db.query(`INSERT INTO tblcontract VALUES ('${req.body.transid}', '${req.body.reqno}', '${req.body.hwid}', '${results[0].deciRequestSalary}', '', NULL, '',NULL)`, function(err,results2){
+        db.query(`INSERT INTO tblcontract VALUES ('${req.body.transid}', '${req.body.reqno}', '${req.body.hwid}', '${results[0].deciRequestSalary}', '', NULL, '',NULL,'')`, function(err,results2){
           console.log('yyyyyyyyyyyyy'+err)
           res.redirect('/request_add/result_/-/'+req.params.transid +'/-/'+ req.params.requestno);
         })
@@ -381,15 +406,76 @@ function findcreatedlist2(req, res){
   });
 }
 
-router.get('/contract_:userid',flog, findcreatedlist, findcontractstatus, findcontractstatusforhw, findnoofacceptcontract, findtotnoofacceptcontract, rendercontract);
+router.get('/contract_:userid',flog, findcreatedlist, findcontractstatus, findcontractstatusforhw, findnoofacceptcontract, findtotnoofacceptcontract, findagency, agencyfee, transpofee, replacement, replacementfee, clientaddress, rendercontract);
 function rendercontract(req,res){
   if(req.valid==1)
-    res.render('request_add/views/contract',{usertab: req.user, listtab: req.list, conttab: req.cont, hwtab: req.hw, noacontracttab: req.noacontract, tnocontracttab: req.tnocontract });
+    res.render('request_add/views/contract',{usertab: req.user, listtab: req.list, conttab: req.cont, hwtab: req.hw, noacontracttab: req.noacontract, tnocontracttab: req.tnocontract, agencytab: req.agency, agencyfeetab: req.agencyfee, transpofeetab: req.transpofee, replacementtab: req.replacement, replacementfeetab: req.replacementfee, clientaddtab: req.clientadd});
   else if(req.valid==0)
     res.render('admin/views/invalidpages/normalonly');
   else
     res.render('login/views/invalid');
 }
+function agencyfee(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * FROM tblfee WHERE intID = 1 `, function(err,results){
+    if (err){
+      res.send(err);
+    }
+    else{
+       req.agencyfee= results;
+       return next();
+    }
+  })
+}
+function transpofee(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * FROM tblfee WHERE intID = 2 `, function(err,results){
+    if (err){
+      res.send(err);
+    }
+    else{
+       req.transpofee= results;
+       return next();
+    }
+  })
+}
+function replacementfee(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * FROM tblfee WHERE intID = 4`, function(err,results){
+    if (err){
+      res.send(err);
+    }
+    else{
+       req.replacementfee= results;
+       return next();
+    }
+  })
+}
+function replacement(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * FROM tblfreereplacement`, function(err,results){
+    if (err){
+      res.send(err);
+    }
+    else{
+       req.replacement= results;
+       return next();
+    }
+  })
+}
+function clientaddress(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * FROM tblclient WHERE intClientID = ?`,[req.session.user], function(err,results){
+    if (err){
+      res.send(err);
+    }
+    else{
+      req.clientadd=results;
+      return next();
+    }
+  })
+}
+
 function findcontractstatus(req,res,next){
     var db = require('../../lib/database')();
     db.query(`SELECT * FROM tbltransaction WHERE intTRequestID = '${req.params.userid}'`, function(err, results){
@@ -477,16 +563,16 @@ function createcontract(req,res,next){
               alignment: 'center'
             },
             { text:' '},
-            { text: '73-F Shaw Blvd. Barangay Daang Bakal, Mandaluyong City 1501', style: 'header', headlineLevel: 1},
+            { text: ''+[req.body.agencyadd], style: 'header', headlineLevel: 1},
             { text:' '},
             { text:' '},
             { text: 'KNOW ALL MEN BY THESE PRESENTS:'},
             { text: ' '},
             { text: ' \u200B\t\t This contract of Services entered into on this ____ day of _______________, At the City of Mandaluyong, by and between:'},
             { text: ' '},
-            { text: 'MEGA PACIFIC SERVICES, a local manpower service provider registered under and by virtue of the Republic of the Philippines, with principal place of business at No. 73F Shaw Blvd. Brgy. Daang Bakal, mandaluyong City represented by its owner and proprietor MS. BENILDA D. LAZARO, hereinafter referred to as the “AGENCY”,______________________, Filipino, single / married, of legal age, and with residence address at_______________________ herein after referred to as the “EMPLOYEE”;', margin:[80,20,90,0], alignment: 'center'},
+            { text: 'MEGA PACIFIC SERVICES, a local manpower service provider registered under and by virtue of the Republic of the Philippines, with principal place of business at '+[req.body.agencyadd]+ ' represented by its owner and proprietor Mr/Ms. '+[req.body.agencyoic]+' , hereinafter referred to as the “AGENCY”,______________________, Filipino, single / married, of legal age, and with residence address at_______________________ herein after referred to as the “EMPLOYEE”;', margin:[80,20,90,0], alignment: 'center'},
             { text: '-- AND --', margin:[0,20,0,0], alignment: 'center'},
-            { text: '_________________________, Filipino, single/ married, of legal age, and with residence address at_______________________  herein after referred to as the “EMPLOYER”.', margin:[80,20,90,0], alignment: 'center'},
+            { text: ''+[req.body.clientname]+', Filipino, single/ married, of legal age, and with residence address at '+[req.body.clientadd]+'  herein after referred to as the “EMPLOYER”.', margin:[80,20,90,0], alignment: 'center'},
             { text: 'WITNESSETH:', margin:[0,20,0,20], alignment: 'center'},
             { text: ' \u200B\t\t WHEREAS, the EMPLOYER is in need of manpower services necessary for his business/household;'},
             { text: ' \u200B\t\t WHEREAS, the EMPLOYEE, thru the AGENCY, offers nampower services needed by the EMPLOYER and the EMPLOYEE is also in need of an EMPLOYER from where he can have gainful employment;'},
@@ -518,9 +604,9 @@ function createcontract(req,res,next){
             { text:' '},
             {
                 ol: [
-                    'The EMPLOYER shall pay the AGENCY a NON-REFUNDABLE service fee of PESOS:_________________ (Php. ______________). The said fee is also NONREDUCTIBLE from salary of the EMPLOYEE.',
-                    'The EMPLOYER shall also pay the TRANSPORTATION FEE of the EMPLOYEE, including the replacement employee, in the amount of PESOS: _______________ (Php. __________) from the office of the AGENCY to the office or residence of the EMPLOYER provided it is within Metro Manila;'
-    
+                    'The EMPLOYER shall pay the AGENCY a NON-REFUNDABLE service fee of PESOS:_________________ (Php. '+[req.body.agencyfee]+'). The said fee is also NONREDUCTIBLE from salary of the EMPLOYEE.',
+                    'The EMPLOYER shall also pay the TRANSPORTATION FEE of the EMPLOYEE, including the replacement employee, in the amount of PESOS: _______________ (Php. '+[req.body.transpofee]+') from the office of the AGENCY to the office or residence of the EMPLOYER provided it is within Metro Manila;'
+
                 ]
             },
             { text:' '},
@@ -530,10 +616,10 @@ function createcontract(req,res,next){
             {
                 ol: [
                     'The AGENCY conducted a thorough investigation on every applicant it will deploy. However, the AGENCY shall not be liable for any MISCONDUCT/MISDEMEANOR of the EMPLOYEE and the latter shall be personally liable for any misconduct or misdemeanor. The AGENCY shall not be held LIABLE or ACCOUNTABLE to any loss or damage which the EMPLOYEE may incur during his six (6) month contract;',
-                    'The AGENCY shall be responsible for providing a replacement, in case the employer is not satisfied with the services of the EMPLOYEE, or in the case the EMPLOYEE absconds and does not return to work, provided that an EMPLOYER shall be entitled to only three (3) replacements.',
+                    'The AGENCY shall be responsible for providing a replacement, in case the employer is not satisfied with the services of the EMPLOYEE, or in the case the EMPLOYEE absconds and does not return to work, provided that an EMPLOYER shall be entitled to only _____ ('+[req.body.replacement]+') replacements.',
                     'The AGENCY shall not be held liable for any cash advance/loan which may be granted by the EMPLOYER to the EMPLOYEE.',
                     'The AGENCY shall NOT be held liable for any misbehavior, fault, negligence, omission, or damage including but not limited to dishonesty, theft, simple mistake, maltreatment, or any action or omission attributable to the person or character of the EMPLOYEE or the EMPLOYER;',
-                    'This contract shall commence from the date of signing of the first contract and will expire six (6) months thereafter or after three (3) other replacements, whichever comes first.'
+                    'This contract shall commence from the date of signing of the first contract and will expire six (6) months thereafter or after _____ ('+[req.body.replacement]+') other replacements, whichever comes first.'
                 ]
             },
             { text:' '},
@@ -542,8 +628,8 @@ function createcontract(req,res,next){
             { text:' '},
             {
                 ol:[
-                    'This contract shall commence from the date of signing of the first contract and will expire six (6) months thereafter or after three (3) other replacements, whichever comes first.',
-                    'Should the EMPLOYER or the EMPLOYEE decide to pre-terminate this contract, he shall give prior notice of at least ten days to both parties involved. In the event of such termination, the AGENCY shall provide a suitable REPLACEMENT for the employee, provided that a RERPLACEMENT FEE OF PESOS ONLY (Php.1000.00) shall be paid by the EMPLOYER to the AGENCY. If the EMPLOYEE has an unpaid salary, the EMPLOYER shall give the salary to the AGENCY from where the REPLACEMENT FEE, thus making the REPLACEMENT FEE chargeable to the EMPLOYEE.',
+                    'This contract shall commence from the date of signing of the first contract and will expire six (6) months thereafter or after _____ ('+[req.body.replacement]+') other replacements, whichever comes first.',
+                    'Should the EMPLOYER or the EMPLOYEE decide to pre-terminate this contract, he shall give prior notice of at least ten days to both parties involved. In the event of such termination, the AGENCY shall provide a suitable REPLACEMENT for the employee, provided that a RERPLACEMENT FEE OF PESOS ONLY (Php.'+[req.body.replacementfee]+') shall be paid by the EMPLOYER to the AGENCY. If the EMPLOYEE has an unpaid salary, the EMPLOYER shall give the salary to the AGENCY from where the REPLACEMENT FEE, thus making the REPLACEMENT FEE chargeable to the EMPLOYEE.',
                     'REPLACEMENT FEE shall also be charged to the EMPLOYER or EMPLOYEE, as the case maybe, for any EMPLOYEE who does not return to work or who absconds (runaway).',
                     'All claims and complaints relative to the contract shall be settled amicably by the parties. However, in the event of any action/s arising from the aforementioned, venue shall be in Mandaluyong city exclusively.',
                     'In the event that the EMPLOYER insist a refund of the service fee from the agency, this contract will be null and void and the employer shall sign a release, waiver and quit claim provided by the agency upon the receipt of the refund.'
@@ -563,7 +649,7 @@ function createcontract(req,res,next){
             { text:' '},
             { text:' '},
             { text: '___________________________ ', alignment: 'center'},
-            { text: 'BENILDA D. LAZARO', alignment: 'center'},
+            { text: ''+[req.body.agencyoic], alignment: 'center'},
             { text:' '},
             { text:' '},
             { text:' '},

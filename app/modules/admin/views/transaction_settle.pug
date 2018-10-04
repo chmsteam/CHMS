@@ -39,22 +39,22 @@ block content
                                                         button.btn.btn-info(type='button')
                                                             i.fa.fa-eye
                                                             |   View
-                                                    if list.strRequestType == 'Add'
-                                                        button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle', data-id=list.intRequestID)
-                                                            i.fa.fa-check
-                                                            |   Settle
-                                                    else if list.strRequestType == 'Replacement'
-                                                        button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_replacementclient', data-id=list.intRequestID)
-                                                            i.fa.fa-check
-                                                            |   Settle
-                                                    else if list.strRequestType == 'Replace Client'
-                                                        button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_replaceclient', data-id=list.intRequestID)
-                                                            i.fa.fa-check
-                                                            |   Settle
-                                                    else if list.strRequestType == 'Reliever'
-                                                        button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_reliever', data-id=list.intRequestID)
-                                                            i.fa.fa-check
-                                                            |   Settle
+                                                    //- if list.strRequestType == 'Add'
+                                                    //-     button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle', data-id=list.intRequestID)
+                                                    //-         i.fa.fa-check
+                                                    //-         |   Settle
+                                                    //- else if list.strRequestType == 'Replacement'
+                                                    //-     button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_replacementclient', data-id=list.intRequestID)
+                                                    //-         i.fa.fa-check
+                                                    //-         |   Settle
+                                                    //- else if list.strRequestType == 'Replace Client'
+                                                    //-     button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_replaceclient', data-id=list.intRequestID)
+                                                    //-         i.fa.fa-check
+                                                    //-         |   Settle
+                                                    //- else if list.strRequestType == 'Reliever'
+                                                    //-     button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_reliever', data-id=list.intRequestID)
+                                                    //-         i.fa.fa-check
+                                                    //-         |   Settle
 
             #settle.modal.fade.bs-example(tabindex='-1', role='dialog', aria-hidden='true')
                 .modal-dialog

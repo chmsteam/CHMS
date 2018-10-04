@@ -18,29 +18,43 @@ block content
                             
                             .x_panel
                                 h1 
-                                    b   Contract:
+                                    b   Client:
+                                    .pull-right
+                                        each settle in settletab
+                                            if settle.ngayon < settle.lahat
+                                            else
+                                                each trans in transtab
+                                                    if trans.strRequestType == 'Add'
+                                                        button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle', data-id=trans.intRequestID)
+                                                            i.fa.fa-check
+                                                            |   Settle
+                                                    else if trans.strRequestType == 'Replacement'
+                                                        button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_replacementclient', data-id=trans.intRequestID)
+                                                            i.fa.fa-check
+                                                            |   Settle
+                                                    else if trans.strRequestType == 'Replace Client'
+                                                        button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_replaceclient', data-id=trans.intRequestID)
+                                                            i.fa.fa-check
+                                                            |   Settle
+                                                    else if trans.strRequestType == 'Reliever'
+                                                        button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_reliever', data-id=trans.intRequestID)
+                                                            i.fa.fa-check
+                                                            |   Settle
                                 table.table.table-striped.table-bordered
                                     thead
                                         tr
-                                            th Trans. ID
-                                            th Client Name
-                                            th Date Settled
-                                            th Transaction Will End
-                                            th Status
+                                            th NAME
                                             th ACTION
                                     tbody
                                         each trans in transtab
                                             tr
-                                                td #{trans.intTRequestID}
                                                 td #{trans.clientFName} #{trans.clientLName}
-                                                td #{trans.datDateSettled}
-                                                td #{trans.datDateExpiry}
-                                                td #{trans.strTStatus}
                                                 td
-                                                    button.btn.btn-primary.btn-md(type='button') Deployment Details
-                                                    button.btn.btn-primary.btn-md(type='button') Contract
-                                                    button.btn.btn-secondary.btn-md(type='button') Invoice
-                                                    button.btn.btn-secondary.btn-md(type='button') O.R.
+                                                    a(href='/admin/profile_client_'+trans.clientid  )
+                                                        button.btn.btn-primary.btn-md(type='button') View Profile
+                                                    button.btn.btn-primary.btn-md(type='button' data-toggle='modal' data-target='#deployment_details') Deployment Details
+                                                    a(href='/admin/invoice_'+trans.intTRequestID )
+                                                        button.btn.btn-secondary.btn-md(type='button') Invoice
                                             //- View Deployment Details, View Contract, View Invoice, View OR,
                             br
     
@@ -54,7 +68,6 @@ block content
                                             th NAME
                                             th SERVICE
                                             th SALARY
-                                            th CURRENT STATUS
                                             th ACTION
                                     tbody
                                         each hw in hwtab
@@ -62,7 +75,239 @@ block content
                                                 td #{hw.strFName} #{hw.strLName}
                                                 td #{hw.strName}
                                                 td #{hw.intConSalary}
-                                                td #{hw.strCurStatus}
                                                 td
-                                                    button.btn.btn-primary.btn-md(type='button') View Profile
-                                                    button.btn.btn-primary.btn-md(type='button') Contract
+                                                    a(href="/admin/profile_hw_"+hw.intConHWID)
+                                                        button.btn.btn-primary.btn-md(type='button') View Profile
+                                                    if hw.strConCopy == ''
+                                                        button.btn.btn-primary.btn-md(type='button' data-toggle='modal', data-target='#settle_viewcon_empty', data-con=hw.strConCopy, data-conname=hw.strConCopy, data-hwid=hw.intConHWID, data-transid=hw.intConTransID) View Contract
+                                                    else
+                                                        button.btn.btn-primary.btn-md(type='button' data-toggle='modal', data-target='#settle_viewcon', data-con=hw.strConCopy, data-conname=hw.strConCopy, data-hwid=hw.intConHWID, data-transid=hw.intConTransID) View Contract
+        //- modals
+        #deployment_details.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog(role='document')
+                .modal-content.modal-lg
+                    .modal-header(style="background-color:#EDEDED") Deployment Details
+                    .modal-body
+                        .form-group
+                            table.table.table-striped.table-bordered
+                                thead
+                                    tr
+                                        th Date of Deployment
+                                        th Time of Deployment
+                                        th Type of Deployment
+                                tbody
+                                    each contractdetails in contractdetailstab
+                                        tr
+                                            //- td #{contractdetails.}
+                                            td #{contractdetails.datDateofDeployment}
+                                            td #{contractdetails.timTimeofDeployment}
+                                            if contractdetails.intTypeofDeployment =='2'
+                                                td Drop-off
+                                            else if contractdetails.intTypeofDeployment =='3'
+                                                td Pick-up
+
+                        br
+                    .modal-footer
+                        .form-group.pull-right
+                            button.btn.btn-primary(type='button', data-dismiss='modal') Close
+
+        #settle_viewcon_empty.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog(role='document')
+                .modal-content.modal-lg
+                    .modal-header(style="background-color:#EDEDED") Upload Contract
+                    .modal-body
+                        form#demo-form2.form-horizontal.form-label-left(method="POST" enctype="multipart/form-data" action="upload_hwcon")
+                            input(type="text", id='hwid' name='hwid' style='display:none;')
+                            input(type="text", id='transid' name='transid' style='display:none;')
+                            .form-group
+                                br
+                                br
+                                label.control-label.col-md-3.col-sm-3.col-xs-12
+                                    | Upload Contract
+                                    span.required *
+                                .col-md-6.col-sm-6.col-xs-12
+                                    input.form-control.col-md-7.col-xs-12(type='file', id='mainfile' accept='application/pdf' required='required', name='filename' value='')
+                                    input.form-control.col-md-7.col-xs-12(type='text', id='nameoffile' name='nameoffile' style='display:none;')
+                            br
+                            .ln_solid
+                            .form-group.pull-right
+                                button.btn.btn-success(type='submit' value='upload'  onClick='getname();') Upload
+                                button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+        #settle_viewcon.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog(role='document')
+                .modal-content.modal-lg
+                    .modal-header(style="background-color:#EDEDED")
+                    .modal-body
+                        //- input(id='conname' type="text", name="")
+                        object(id='thecon' width='860', height='500', type="application/pdf")
+                        form#demo-form2.form-horizontal.form-label-left(method="POST" enctype="multipart/form-data" action="upload_hwcon")
+                            input(type="text", id='hwid' name='hwid' style='display:none;')
+                            input(type="text", id='transid' name='transid' style='display:none;')
+                            .form-group
+                                br
+                                br
+                                label.control-label.col-md-3.col-sm-3.col-xs-12
+                                    | Upload Contract
+                                    span.required *
+                                .col-md-6.col-sm-6.col-xs-12
+                                    input.form-control.col-md-7.col-xs-12(type='file', id='mainfile2' accept='application/pdf' required='required', name='filename' value='')
+                                    input.form-control.col-md-7.col-xs-12(type='text', id='nameoffile2' name='nameoffile' style='display:none;' )
+                            br
+                            .ln_solid
+                            .form-group.pull-right
+                                button.btn.btn-warning(type='submit' value='upload'  onClick='getname2();') Change
+                                button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+        
+        #settle.modal.fade.bs-example(tabindex='-1', role='dialog', aria-hidden='true')
+                .modal-dialog
+                    .modal-content
+                        form#settleAdd(method='POST' action='transaction_settledecision' enctype='multipart/form-data')
+                            .modal-header(style='background-color:#f1f1f1')
+                                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                    span(aria-hidden='true') ×
+                                h4.modal-title Settle Transaction :
+                                    i#a
+                            .modal-body
+                                .row
+                                    input#_id(type="text", name="transid", style='display:none;')
+                                    input(id='thedate' type='date', name='datesettled' style='display:none;')
+                                    .col-md-12.text-center
+                                        img#uploadPreview2(style='width: 90%; height: 200px;')
+                                        br
+                                        br
+                                       
+                                .row
+                                    .col-md-5(style="margin-left:30px;")
+                                        .form-group
+                                            b Upload Receipt
+                                            input.form-control.file-input(id="uploadImage2" type='file', name='postimage', accept='image/*' onchange="PreviewImage2();")
+                                    .col-md-6
+                                        .form-group
+                                            b O.R Number
+                                            input.form-control#ss(type="text", name="ornum" required)
+                            .modal-footer.center
+                                button.btn.btn-primary(type='button', data-dismiss='modal') Close
+                                button.btn.btn-success#settleAdd(type='submit' name='btn1' value='settle',  onCLick='time();') Ok
+        #settle_replacementclient.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog.modal-sm
+                .modal-content
+                    form(method='POST' action='transaction_settledecision_replacementclient')
+                        .modal-header(style='background-color:#f1f1f1')
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') ×
+                            h4.modal-title Settle Transaction :
+                                i#a
+                        .modal-body
+                            center
+                                h3
+                                    b Enter O.R. Number:
+                                br
+                                input#_id(type="text", name="transid", style='display:none;')
+                                input(id='thedate2' type='date', name='datesettled' style='display:none;')
+                                input#ss(type="text", name="ornum" required)
+                        br
+                        .modal-footer.center
+                            button.btn.btn-primary(type='button', data-dismiss='modal') Close
+                            button.btn.btn-success(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
+        #settle_replaceclient.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog.modal-sm
+                .modal-content
+                    form(method='POST' action='transaction_settledecision_replaceclient')
+                        .modal-header(style='background-color:#f1f1f1')
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') ×
+                            h4.modal-title Settle Transaction :
+                                i#a
+                        .modal-body
+                            center
+                                h3
+                                    b Enter O.R. Number:
+                                br
+                                input#_id(type="text", name="transid", style='display:none;')
+                                input(id='thedate3' type='date', name='datesettled' style='display:none;')
+                                input#ss(type="text", name="ornum" required)
+                        br
+                        .modal-footer.center
+                            button.btn.btn-primary(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
+        #settle_reliever.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog.modal-sm
+                .modal-content
+                    form(method='POST' action='transaction_settledecision_reliever')
+                        .modal-header(style='background-color:#f1f1f1')
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') ×
+                            h4.modal-title Settle Transaction :
+                                i#a
+                        .modal-body
+                            center
+                                h3
+                                    b Enter O.R. Number:
+                                br
+                                input#_id(type="text", name="transid", style='display:none;')
+                                input(id='thedate4' type='date', name='datesettled' style='display:none;')
+                                input#ss(type="text", name="ornum" required)
+                        br
+                        .modal-footer.center
+                            button.btn.btn-primary(type='button', data-dismiss='modal') Close
+                            button.btn.btn-success(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
+        
+
+        script.
+            function getname(){
+                var x = document.getElementById("mainfile").value;
+                var filename = x.replace(/^.*\\/, "");
+                document.getElementById("nameoffile").value =filename;
+            }
+            function getname2(){
+                var x = document.getElementById("mainfile2").value;
+                var filename = x.replace(/^.*\\/, "");
+                document.getElementById("nameoffile2").value =filename;
+            }
+            function time(){
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; //January is 0!
+                var yyyy = today.getFullYear();
+                var hh = today.getHours();
+                var min = today.getMinutes();
+                var sec = today.getSeconds();
+                var x= document.getElementById("thedate");
+                
+                if(dd<10) {
+                    dd = '0'+dd
+                } 
+
+                if(mm<10) {
+                    mm = '0'+mm
+                } 
+
+                today = yyyy + '-' + mm + '-' + dd ;
+                //- document.write(today);
+               document.getElementById("thedate").value=today;
+            }
+            function time2(){
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; //January is 0!
+                var yyyy = today.getFullYear();
+                var hh = today.getHours();
+                var min = today.getMinutes();
+                var sec = today.getSeconds();
+                var x= document.getElementById("thedate2");
+                
+                if(dd<10) {
+                    dd = '0'+dd
+                } 
+
+                if(mm<10) {
+                    mm = '0'+mm
+                } 
+
+                today = yyyy + '-' + mm + '-' + dd ;
+                //- document.write(today);
+               document.getElementById("thedate2").value=today;
+               document.getElementById("thedate3").value=today;
+               document.getElementById("thedate4").value=today;
+            }
+
+        

@@ -16,7 +16,7 @@ block content
                                     b   Contract
                             each cont in conttab
                                 //- if cont.strContractStatus == 'Accepted'
-                                object(width='1000', height='250', data='/pdfs/'+cont.strContract, type="application/pdf")
+                                //- object(width='1000', height='250', data='/pdfs/'+cont.strContract, type="application/pdf")
                                 //- else
                                 .clearfix
                                     .x_panel(style='background-color:#f1f1f1')
@@ -33,7 +33,7 @@ block content
                                                     tr
                                                         td
                                                             center
-                                                                    if cont.strContractStatus == '' 
+                                                                    if cont.strContractStatus == ''
                                                                         button.btn.btn-primary(type='button' onclick='opencontract();')
                                                                             i.fa.fa-list
                                                                             |   View Contract
@@ -44,6 +44,21 @@ block content
                                                         td #{cont.strContractStatus}
                                                         td
                                                             form.form-horizontal.form-label-center(method='POST' action='deccontract')
+                                                                each agency in agencytab
+                                                                    input(id='agencyadd' type="text", name="agencyadd" value=''+agency.strAddress style='display:none;')
+                                                                    input(id='agencyoic' type="text", name="agencyoic" value=''+agency.strOIC style='display:none;')
+                                                                each user in usertab
+                                                                    input(id='clientname' type="text", name="clientname" value=''+user.strFName+' '+user.strLName style='display:none;')
+                                                                each agencyfee in agencyfeetab
+                                                                    input(id='agencyfee' type="text", name="agencyfee" value=''+agencyfee.fltFee style='display:none;')
+                                                                each transpofee in transpofeetab
+                                                                    input(id='transpofee' type="text", name="transpofee" value=''+transpofee.fltFee style='display:none;')
+                                                                each replacement in replacementtab
+                                                                    input(id='replacement' type="text", name="replacement" value=''+replacement.intFreeReplacement style='display:none;')
+                                                                each replacementfee in replacementfeetab
+                                                                    input(id='replacementfee' type="text", name="replacementfee" value=''+replacementfee.fltFee style='display:none;')
+                                                                each clientadd in clientaddtab
+                                                                    input(id='clientadd' type="text", name="clientadd" value=''+clientadd.strCAHouseNo+' '+clientadd.strCAStreet+' '+clientadd.strCAProvince+' '+clientadd.strCity style='display:none;')
                                                                 each list in listtab
                                                                     input(type='text', required='required', name='transid', value=''+list.intRequestID, style="display:none;")
                                                                     center
@@ -112,233 +127,7 @@ block content
                                 
 
 
-            #maincontract.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-hidden='true')
-                .modal-dialog.modal-lg
-                    .modal-content
-                        .modal-header(style='background-color:#33495E')
-                            button.close(type='button', data-dismiss='modal')
-                                span(aria-hidden='true') ×
-                            h4(style='color:white')
-                                b CONTRACT
-                        .modal-body
-                            .x_panel
-                                #content
-                                    center
-                                        img(src='../admin/gentelella/build/images/mega.png', width='350', height='150', alt='')
-                                    br
-                                    center
-                                        p 73-F Shaw Blvd. Barangay Daang Bakal, Mandaluyong City 1501
-                                    br
-                                    br
-                                    h2
-                                        p KNOW ALL MEN BY THESE PRESENTS:
-                                    p(style='text-indent: 3.0em;')
-                                        | This contract of Services entered into on this 
-                                        input#ContractDate(type='text', placeholder='DAY')
-                                        | day of
-                                        input#ContractMonth(type='text', placeholder='MONTH')
-                                        | , At the City of Mandaluyong, by and between:
-                                    p
-                                        | MEGA PACIFIC SERVICES, a local manpower service provider registered under and by virtue of the Republic of the Philippines, with principal place of business at No. 73F Shaw Blvd. Brgy. Daang Bakal, mandaluyong City represented by its owner and proprietor MS. BENILDA D. LAZARO, hereinafter referred to as the “AGENCY”,
-                                    p
-                                        input#ContractEmployeeName(type='text', placeholder='EMPLOYEE NAME')
-                                        | , Filipino, single/ married, of legal age, and with residence address at 
-                                        input#ContractEmployeeAdd(type='text', placeholder='EMPLOYER ADDRESS')
-                                        | herein after referred to as the “EMPLOYEE”;
-                                    p
-                                    center -AND-
-                                    p
-                                    p
-                                        input#ContractEmployerName(type='text', placeholder='EMPLOYER NAME')
-                                        | , Filipino, single/ married, of legal age, and with residence address at 
-                                        input#ContractEmployerAdd(type='text', placeholder='EMPLOYER ADDRESS')
-                                        |  herein after referred to as the “EMPLOYER”.
-                                    p
-                                    center WITNESSETH:
-                                    p
-                                    p(style='text-indent: 3.0em;')
-                                        b WHEREAS
-                                        | , the EMPLOYER is in need of manpower services necessary for his business/household;
-                                    p(style='text-indent: 3.0em;')
-                                        b WHEREAS
-                                        | , the EMPLOYEE, thru the AGENCY, offers nampower services needed by the EMPLOYER and the EMPLOYEE is also in need of an EMPLOYER from where he can have gainful employment;
-                                    p(style='text-indent: 3.0em;')
-                                        b WHEREAS
-                                        | , the EMPLOYER has interviewed the EMPLOYEE thoroughly and that the EMPLOYER personally chose the EMPLOYEE. Likewise, the EMPLOYEE hereby accepts salary and position offered by the EMPLOYER on his own free will and decision;
-                                    p(style='text-indent: 3.0em;')
-                                        b WHEREAS
-                                        | , the EMPLOYER hereby accepts the offer of the EMPLOYEE, thru the AGENCY, under the following terms and conditions:
-                                    br
-                                    p
-                                        b
-                                    h4
-                                        b DUTIES OF EMPLOYEE AND EMPLOYER,
-                                    p
-                                    p
-                                        b
-                                    h4
-                                        b SALARY AND LIVING CONDITIONS
-                                    p
-                                    p
-                                        | 1. The EMPLOYER shall pay the EMPLOYEE a monthly salary of PESOS: 
-                                        input#EmployeeSalary(type='text', placeholder='EMPLOYER SALARY')
-                                        | (Php: ___________) effective 
-                                        input#SalaryDate(type='text', placeholder='SALARY DURATION')
-                                        | ;
-                                    p
-                                        | 2. The EMPLOYER shall provide adequate food, shelter with decent living conditions to the EMPLOYEE and shall allow EMPLOYEE a leave with pay for two (2) days every month.
-                                    p
-                                        | 3. The EMPLOYER shall not transfer the EMPLOYEE or make the EMPLOYEE suffer to work with another person or establishment without any prior written consent from the AGENCY;
-                                    p 4. The EMPLOYER shall observe the provision of Kasambahay Bill.
-                                    p
-                                        | 5. The EMPLOYEE hereby accepts the position and salary offered by the EMPLOYER in his own free will and decision. The EMPLOYEE undertakes to finish the period of SIX (6) MONTHS from the time of signing of this agreement. Otherwise, the EMPLOYEE shall be liable for any and all charges incurred by the AGENCY.
-                                    p
-                                        | 6. The EMPLOYEE is physically fit when hired or accepted by the EMPLOYEE, even in the absence of the medical examination result. The EMPLOYER shall be responsible for medical exam/check-up and hospitalization, in case of sickness during his employment with the EMPLOYER.
-                                    p
-                                        | 7. The EMPLOYER must take extra care and must exercise due diligence in caring for their valuables such as cash, jewelleries, and cellphones to avoid temptation to the EMPLOYE;
-                                    p
-                                        | 8. The EMPLOYER must be honest and trustworthy and should perform his duties satisfactorily. Any violation like stealing cash, jewelleries, or other properties, the EMPLOYEE shall be personally liable and shall be blotter and blacklisted by the EMPLOYER to the nearest police or NBI station.
-                                    p
-                                        b
-                                    h4
-                                        b FEES AND CHARGES
-                                    p
-                                    p
-                                        | 9. The EMPLOYER shall pay the AGENCY a NON-REFUNDABLE service fee of PESOS: 
-                                        input#ServiceFee(type='text', placeholder='AGENCY FEE')
-                                        |  (Php. _____________). The said fee is also NON-REDUCTIBLE from salary of the EMPLOYEE.
-                                    p
-                                        | 10. The EMPLOYER shall also pay the TRANSPORTATION FEE of the EMPLOYEE, including the replacement employee, in the amount of PESOS:
-                                        input#TranspoFee(type='text', placeholder='TRANSPORTATION FEE')
-                                        |  (Php.__________) from the office of the AGENCY to the office or residence of the EMPLOYER provided it is within Metro Manila;
-                                    p
-                                        b
-                                    h4
-                                        b AGENCY’S RESPONSIBILITIES
-                                    p
-                                    p
-                                        | 11. The AGENCY conducted a thorough investigation on every applicant it will deploy. However, the AGENCY shall not be liable for any MISCONDUCT/MISDEMEANOR of the EMPLOYEE and the latter shall be personally liable for any misconduct or misdemeanor. The AGENCY shall not be held LIABLE or ACCOUNTABLE to any loss or damage which the EMPLOYEE may incur during his six (6) month contract;
-                                    p
-                                        | 12. The AGENCY shall be responsible for providing a replacement, in case the employer is not satisfied with the services of the EMPLOYEE, or in the case the EMPLOYEE absconds and does not return to work, provided that an EMPLOYER shall be entitled to only three (3) replacements.
-                                    p
-                                        | 13. The AGENCY shall not be held liable for any cash advance/loan which may be granted by the EMPLOYER to the EMPLOYEE.
-                                    p
-                                        | 14. The AGENCY shall NOT be held liable for any misbehavior, fault, negligence, omission, or damage including but not limited to dishonesty, theft, simple mistake, maltreatment, or any action or omission attributable to the person or character of the EMPLOYEE or the EMPLOYER;
-                                    p
-                                        b
-                                    h4
-                                        b TERMINATION OF CONTRACT AND REPLACEMENT
-                                    p
-                                    p
-                                        | 15. This contract shall commence from the date of signing of the first contract and will expire six (6) months thereafter or after three (3) other replacements, whichever comes first.
-                                    p
-                                        | 16. Should the EMPLOYER or the EMPLOYEE decide to pre-terminate this contract, he shall give prior notice of at least ten (10) days to both parties involved. In the event of such termination, the AGENCY shall provide a suitable REPLACEMENT for the employee, provided that a RERPLACEMENT FEE OF PESOS ONLY (Php. 1000.00) shall be paid by the EMPLOYER to the AGENCY. If the EMPLOYEE has an unpaid salary, the EMPLOYER shall give the salary to the AGENCY from where the REPLACEMENT FEE, thus making the REPLACEMENT FEE chargeable to the EMPLOYEE.
-                                    p
-                                        | 17. REPLACEMENT FEE shall also be charged to the EMPLOYER or EMPLOYEE, as the case maybe, for any EMPLOYEE who does not return to work or who absconds (runaway).
-                                    p
-                                        | 18. All claims and complaints relative to the contract shall be settled amicably by the parties. However, in the event of any action/s arising from the aforementioned, venue shall be in Mandaluyong city exclusively.
-                                    p
-                                        | 19. In the event that the EMPLOYER insist a refund of the service fee from the agency, this contract will be null and void and the employer shall sign a release, waiver and quitclaim provided by the agency upon the receipt of the refund.
-                                    br
-                                    p
-                                        b IN WITNESS WHEREOF
-                                        | , the parties hereunto signed this CONTRACT OF SERVICE on the date and place above-written.
-                                    br
-                                    p
-                                    center ____________________________     ____________________________
-                                    p
-                                    p
-                                    center EMPLOYEE                              EMPLOYER
-                                    p
-                                    center
-                                        | ___________________________
-                                        p
-                                            b BENILDA D. LAZARO
-                                        p
-                                            b MEGAPACIFIC EMPLOYMENT SERVICES
-                                        p
-                                            b AGENCY
-                                    p
-                                    br
-                                    br
-                                    p
-                                    center Signed in the presence of:
-                                    p
-                                    p
-                                    center
-                                        input#Presence1(type='text')
-                                        input#Presence2(type='text')
-                                    p
-                                    br
-                                    p
-                                    center
-                                    b
-                                        h4 ACKNOWLEDGEMENT
-                                    p
-                                    br
-                                    p(style='text-indent: 3.0em;') Republic of the Philippines )
-                                    p(style='text-indent: 3.0em;') City of Mandaluyong ) s.s.
-                                    p
-                                        | BEFORE ME, a Notary Public for and in the City of Mandaluyong on this 
-                                        input#NotaryDay(type='text', placeholder='NOTARY DAY')
-                                        |  day of 
-                                        input#NotaryMonth(type='text', placeholder='NOTARY MONTH')
-                                        | , personally appeared the following:
-                                    p
-                                        input#CTC1(type='text')
-                                        | CTC No.
-                                        input#No1(type='text')
-                                        | Issued on
-                                        input#Issued1(type='text')
-                                        | at 
-                                        input#At1(type='text')
-                                    p
-                                        input#CTC2(type='text')
-                                        | CTC No.
-                                        input#No2(type='text')
-                                        | Issued on
-                                        input#Issued2(type='text')
-                                        | at 
-                                        input#At2(type='text')
-                                    p
-                                        input#CTC3(type='text')
-                                        | CTC No.
-                                        input#No3(type='text')
-                                        | Issued on
-                                        input#Issued3(type='text')
-                                        | at 
-                                        input#At3(type='text')
-                                    p
-                                        input#CTC4(type='text')
-                                        | CTC No.
-                                        input#No4(type='text')
-                                        | Issued on
-                                        input#Issued4(type='text')
-                                        | at 
-                                        input#At4(type='text')
-                                    br
-                                    p
-                                        | Known to me and to me known to be the same persons who executed the foregoing document and acknowledged to me that the same is their free and voluntary act and deed.
-                                    br
-                                    p
-                                        | IN WITNESS WHERE OF, the parties hereunto set my hand on the date place above-written.
-                                    br
-                                    p
-                                        | Doc. No.
-                                        input#DocNo(type='text')
-                                    br
-                                    p
-                                        | Page No.
-                                        input#PageNo(type='text')
-                                    br
-                                    p
-                                        | Book No.
-                                        input#BookNo(type='text')
-                                    br
-                                    p
-                                        | Series of 
-                                        input#Series(type='text')
-                                #editor
+            
             #viewcon.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
                 .modal-dialog(role='document')
                     .modal-content.modal-lg
@@ -472,16 +261,16 @@ block content
                           alignment: 'center'
                           },
                         { text:' '},
-                        { text: '73-F Shaw Blvd. Barangay Daang Bakal, Mandaluyong City 1501', style: 'header', headlineLevel: 1},
+                        { text: ''+document.getElementById('agencyadd').value , style: 'header', headlineLevel: 1},
                         { text:' '},
                         { text:' '},
                         { text: 'KNOW ALL MEN BY THESE PRESENTS:'},
                         { text: ' '},
                         { text: ' \u200B\t\t This contract of Services entered into on this ____ day of _______________, At the City of Mandaluyong, by and between:'},
                         { text: ' '},
-                        { text: 'MEGA PACIFIC SERVICES, a local manpower service provider registered under and by virtue of the Republic of the Philippines, with principal place of business at No. 73F Shaw Blvd. Brgy. Daang Bakal, mandaluyong City represented by its owner and proprietor MS. BENILDA D. LAZARO, hereinafter referred to as the “AGENCY”,______________________, Filipino, single / married, of legal age, and with residence address at_______________________ herein after referred to as the “EMPLOYEE”;', margin:[80,20,90,0], alignment: 'center'},
+                        { text: 'MEGA PACIFIC SERVICES, a local manpower service provider registered under and by virtue of the Republic of the Philippines, with principal place of business at '+document.getElementById('agencyadd').value+ ' represented by its owner and proprietor Mr/Ms. '+document.getElementById('agencyoic').value+' , hereinafter referred to as the “AGENCY”,______________________, Filipino, single / married, of legal age, and with residence address at_______________________ herein after referred to as the “EMPLOYEE”;', margin:[80,20,90,0], alignment: 'center'},
                         { text: '-- AND --', margin:[0,20,0,0], alignment: 'center'},
-                        { text: '_________________________, Filipino, single/ married, of legal age, and with residence address at_______________________  herein after referred to as the “EMPLOYER”.', margin:[80,20,90,0], alignment: 'center'},
+                        { text: ''+document.getElementById('clientname').value+', Filipino, single/ married, of legal age, and with residence address at '+document.getElementById('clientadd').value+'  herein after referred to as the “EMPLOYER”.', margin:[80,20,90,0], alignment: 'center'},
                         { text: 'WITNESSETH:', margin:[0,20,0,20], alignment: 'center'},
                         { text: ' \u200B\t\t WHEREAS, the EMPLOYER is in need of manpower services necessary for his business/household;'},
                         { text: ' \u200B\t\t WHEREAS, the EMPLOYEE, thru the AGENCY, offers nampower services needed by the EMPLOYER and the EMPLOYEE is also in need of an EMPLOYER from where he can have gainful employment;'},
@@ -513,8 +302,8 @@ block content
                         { text:' '},
                         {
                             ol: [
-                                'The EMPLOYER shall pay the AGENCY a NON-REFUNDABLE service fee of PESOS:_________________ (Php. ______________). The said fee is also NONREDUCTIBLE from salary of the EMPLOYEE.',
-                                'The EMPLOYER shall also pay the TRANSPORTATION FEE of the EMPLOYEE, including the replacement employee, in the amount of PESOS: _______________ (Php. __________) from the office of the AGENCY to the office or residence of the EMPLOYER provided it is within Metro Manila;'
+                                'The EMPLOYER shall pay the AGENCY a NON-REFUNDABLE service fee of PESOS:_________________ (Php. '+document.getElementById('agencyfee').value+'). The said fee is also NONREDUCTIBLE from salary of the EMPLOYEE.',
+                                'The EMPLOYER shall also pay the TRANSPORTATION FEE of the EMPLOYEE, including the replacement employee, in the amount of PESOS: _______________ (Php. '+document.getElementById('transpofee').value+') from the office of the AGENCY to the office or residence of the EMPLOYER provided it is within Metro Manila;'
 
                             ]
                         },
@@ -525,10 +314,10 @@ block content
                         {
                             ol: [
                                 'The AGENCY conducted a thorough investigation on every applicant it will deploy. However, the AGENCY shall not be liable for any MISCONDUCT/MISDEMEANOR of the EMPLOYEE and the latter shall be personally liable for any misconduct or misdemeanor. The AGENCY shall not be held LIABLE or ACCOUNTABLE to any loss or damage which the EMPLOYEE may incur during his six (6) month contract;',
-                                'The AGENCY shall be responsible for providing a replacement, in case the employer is not satisfied with the services of the EMPLOYEE, or in the case the EMPLOYEE absconds and does not return to work, provided that an EMPLOYER shall be entitled to only three (3) replacements.',
+                                'The AGENCY shall be responsible for providing a replacement, in case the employer is not satisfied with the services of the EMPLOYEE, or in the case the EMPLOYEE absconds and does not return to work, provided that an EMPLOYER shall be entitled to only _____ ('+document.getElementById('replacement').value+') replacements.',
                                 'The AGENCY shall not be held liable for any cash advance/loan which may be granted by the EMPLOYER to the EMPLOYEE.',
                                 'The AGENCY shall NOT be held liable for any misbehavior, fault, negligence, omission, or damage including but not limited to dishonesty, theft, simple mistake, maltreatment, or any action or omission attributable to the person or character of the EMPLOYEE or the EMPLOYER;',
-                                'This contract shall commence from the date of signing of the first contract and will expire six (6) months thereafter or after three (3) other replacements, whichever comes first.'
+                                'This contract shall commence from the date of signing of the first contract and will expire six (6) months thereafter or after _____ ('+document.getElementById('replacement').value+') other replacements, whichever comes first.'
                             ]
                         },
                         { text:' '},
@@ -537,8 +326,8 @@ block content
                         { text:' '},
                         {
                             ol:[
-                                'This contract shall commence from the date of signing of the first contract and will expire six (6) months thereafter or after three (3) other replacements, whichever comes first.',
-                                'Should the EMPLOYER or the EMPLOYEE decide to pre-terminate this contract, he shall give prior notice of at least ten days to both parties involved. In the event of such termination, the AGENCY shall provide a suitable REPLACEMENT for the employee, provided that a RERPLACEMENT FEE OF PESOS ONLY (Php.1000.00) shall be paid by the EMPLOYER to the AGENCY. If the EMPLOYEE has an unpaid salary, the EMPLOYER shall give the salary to the AGENCY from where the REPLACEMENT FEE, thus making the REPLACEMENT FEE chargeable to the EMPLOYEE.',
+                                'This contract shall commence from the date of signing of the first contract and will expire six (6) months thereafter or after _____ ('+document.getElementById('replacement').value+') other replacements, whichever comes first.',
+                                'Should the EMPLOYER or the EMPLOYEE decide to pre-terminate this contract, he shall give prior notice of at least ten days to both parties involved. In the event of such termination, the AGENCY shall provide a suitable REPLACEMENT for the employee, provided that a RERPLACEMENT FEE OF PESOS ONLY (Php.'+document.getElementById('replacementfee').value+') shall be paid by the EMPLOYER to the AGENCY. If the EMPLOYEE has an unpaid salary, the EMPLOYER shall give the salary to the AGENCY from where the REPLACEMENT FEE, thus making the REPLACEMENT FEE chargeable to the EMPLOYEE.',
                                 'REPLACEMENT FEE shall also be charged to the EMPLOYER or EMPLOYEE, as the case maybe, for any EMPLOYEE who does not return to work or who absconds (runaway).',
                                 'All claims and complaints relative to the contract shall be settled amicably by the parties. However, in the event of any action/s arising from the aforementioned, venue shall be in Mandaluyong city exclusively.',
                                 'In the event that the EMPLOYER insist a refund of the service fee from the agency, this contract will be null and void and the employer shall sign a release, waiver and quit claim provided by the agency upon the receipt of the refund.'
@@ -558,7 +347,7 @@ block content
                         { text:' '},
                         { text:' '},
                         { text: '___________________________ ', alignment: 'center'},
-                        { text: 'BENILDA D. LAZARO', alignment: 'center'},
+                        { text: ''+document.getElementById('agencyoic').value, alignment: 'center'},
                         { text:' '},
                         { text:' '},
                         { text:' '},
