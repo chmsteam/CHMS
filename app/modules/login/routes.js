@@ -94,10 +94,10 @@ signupRouter.route('/client')
               })
             })
           });
-          res.redirect('/registration/client?success');
+          res.send('success')
         }
         else{
-          return res.redirect('/registration/client?passwordNotMatch')
+          res.send('notmatch')
         }
         
       });
@@ -315,7 +315,7 @@ signupRouter.route('/household_worker')
               console.log(err);
             })
 
-          res.redirect('/registration/household_worker?success');
+          res.send('success')
           });
         });
       });

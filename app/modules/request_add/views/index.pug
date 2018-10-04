@@ -57,13 +57,13 @@ block content
                                                     .col-sm-12
                                                         .right.col-sm-12
                                                         h3.brief    
-                                                            b   " #{list.strRequestName} "
+                                                            b   #{list.strRequestName}
                                                         .left.col-sm-12
                                                             br
                                                             ul.list-unstyled
-                                                                li
-                                                                    strong List no: 
-                                                                    |  #{list.intRequestID}
+                                                                //- li
+                                                                //-     strong List no: 
+                                                                //-     |  #{list.intRequestID}
                                                                 li
                                                                     strong Date needed: 
                                                                     |  #{list.datRequestNeedDate}
@@ -148,8 +148,7 @@ block content
                         .ln_solid
                         .form-group.pull-right
                             .col-md-12.col-sm-9.col-xs-12.pull-right
-                                button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
-                                button.btn.btn-danger(type='submit' name='btn1' value='cancel') Delete
+                                button.btn.btn-danger(type='submit' name='btn1' value='cancel') Cancel
     #remove_list.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
         .modal-dialog.modal-md
             .modal-content
@@ -170,7 +169,7 @@ block content
                         .form-group.pull-right
                             .col-md-12.col-sm-9.col-xs-12.pull-right
                                 button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
-                                button.btn.btn-danger(type='submit' name='btn1' value='permdelete') Yes
+                                button.btn.btn-danger(type='submit' name='btn1' value='permdelete') Remove
    
     #Add.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
         .modal-dialog.modal-md
@@ -211,21 +210,45 @@ block content
     //- scripts
     script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
     script.
-        $(document).ready(function(){
-            $('form#add').submit(function(){
-                swal({
-                    type: 'success',
-                    title: 'List created',
-                    showConfirmButton: false,
-                    timer: 1500
-                    }),
-                $('#Add').modal('hide').then(
-                    $(function(){
-                        location.reload();
-                        })
-                );
-            });
+        $('form#add').submit(function(e){
+            e.preventDefault();
+            $.ajax({
+                url: '/request_add/createlist_services/createlist',
+                method: 'post',
+                data: $('form#add').serialize(),
+                success: function(response){
+                    console.log(response);
+                    if(response == 'success'){
+                        $('#Add').modal('hide');
+                        swal({
+                            type: 'success',
+                            title: 'List Created',
+                            text: 'List successfully created',
+                            showConfirmButton: false,
+                            },setTimeout(function() {
+                                location.reload();
+                            }, 2500)
+                        );
+                    }
+                }
+            })
         });
+    //- script.
+    //-     $(document).ready(function(){
+    //-         $('form#add').submit(function(){
+    //-             swal({
+    //-                 type: 'success',
+    //-                 title: 'List created',
+    //-                 showConfirmButton: false,
+    //-                 timer: 1500
+    //-                 }),
+    //-             $('#Add').modal('hide').then(
+    //-                 $(function(){
+    //-                     location.reload();
+    //-                     })
+    //-             );
+    //-         });
+    //-     });
     script.
         function time(){
             var today = new Date();

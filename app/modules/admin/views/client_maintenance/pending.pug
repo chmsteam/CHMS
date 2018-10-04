@@ -1,5 +1,6 @@
 extends ../../../../templates/navbaradmin.pug
 block content
+    link(href='/admin/gentelella/vendors/iCheck/skins/flat/green.css', rel='stylesheet')
     section#services
         .right_col(role='main' style="background-color:transparent")
                 .title_left
@@ -37,7 +38,7 @@ block content
                                                             i.fa.fa-list
                                                             |   Requirements
                                                     else if item.strStatus == "Unregistered"
-                                                        button.btn.btn-warning(type='button', data-toggle='modal', data-target='#req_unregistered', data-id=item.intID)
+                                                        button.btn.btn-warning(type='button', data-toggle='modal', data-target='#req_unregistered', data-id=item.intID, data-name=item.strName)
                                                             i.fa.fa-list
                                                             |   Requirements
                                                     else if item.strStatus == "Rejected"
@@ -68,19 +69,24 @@ block content
                         span(aria-hidden='true') ×
                     h4#myModalLabel.modal-title Requirements
                 .modal-body
-                    form#myform.form-horizontal.form-label-left(method="POST" action="/admin/tr_approve_client")
+                    form#myform.form-horizontal.form-label-left(method="POST" action="/admin/tr_approve_client" enctype='multipart/form-data')
                         //- input#_req(type="text", name="" onClick='etreq();')
                         input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='clientID' style="display:none;")
+                        input.form-control#pangalan(type='text' name='fullname' style="display:none;")
                         br
                         each requirement in requirementtab
                             .form-group
-                                .col-md-6.col-sm-6.col-xs-12
-                                    label
-                                        input.flat(id=requirement.intID, type='checkbox', value=requirement.intID, name='requ' onClick='getreq(this.id);')
-                                        | &nbsp #{requirement.strName}           
+                                .row
+                                    .col-md-12
+                                        label
+                                            input.flat.check(id=requirement.intID, type='checkbox', value=requirement.intID, name='requ' onClick='getreq(this.id);')
+                                            input.form-control(type='text' value=requirement.strName name='requiname' style="display:none;")
+                                            | &nbsp #{requirement.strName}  
+                                    //- .col-md-8
+                                    //-     input.form-control.file-input(type='file', name='postimage', accept='image/*')        
                         .ln_solid
                         .form-group.pull-right
-                            button.btn.btn-success(type='submit' name='btn1' value='approve')
+                            button.btn.btn-success#sub(type='submit' name='btn1' value='approve' disabled)
                                 i.fa.fa-thumbs-up
                                 |   Approve
                             button#reject.btn.btn-danger(type='submit' name='btn1' value='reject')
@@ -104,3 +110,20 @@ block content
                                     i.fa.fa-refresh
                                     |   Revert
                             button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
+    
+    script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+    script.
+        //- $(function() {
+        //-     $(".check").click(function() {
+        //-         $("#sub").attr("disabled", !$(".check:checked").length);
+        //-     });
+        //- });
+        $(function() {
+            $(".check").click(function(){
+                $('#sub').prop('disabled',$('input.check:checked').length <= 2);
+            });
+        });
+        $("#uploadImage2").keyup(function(){
+            $("#submit").attr("disabled", !$("#uploadImage2").val());
+        })
+        

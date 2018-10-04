@@ -94,17 +94,17 @@ block content
                             .form-group
                                 .col-md-6.col-sm-6.col-xs-12
                                     label
-                                        input(id=requirement.intID, type='checkbox', value=requirement.intID, name='requ' onClick='getreq(this.id);')
+                                        input.check(id=requirement.intID, type='checkbox', value=requirement.intID, name='requ' onClick='getreq(this.id);')
                                         | &nbsp #{requirement.strName}
                         .ln_solid
                         .form-group.pull-right
-                            button.btn.btn-success(type='submit' name='btn1' value='approve')
+                            button.btn.btn-success#sub(type='submit' name='btn1' value='approve' disabled)
                                 i.fa.fa-thumbs-up
                                 |   Approve
                             button#reject.btn.btn-danger(type='submit' name='btn1' value='reject')
                                 i.fa.fa-trash
                                 |   Reject
-                            button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
+                            //- button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
     #req_rejected_hw.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
         .modal-dialog.modal-xs
             .modal-content
@@ -124,4 +124,16 @@ block content
                                     |   Revert
                             button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
 
+    script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+    script.
+        //- $(function() {
+        //-     $(".check").click(function() {
+        //-         $("#sub").attr("disabled", !$(".check:checked").length);
+        //-     });
+        //- });
+        $(function() {
+            $(".check").click(function(){
+                $('#sub').prop('disabled',$('input.check:checked').length < 3);
+            });
+        });
     

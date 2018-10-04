@@ -59,6 +59,9 @@ html(lang='en')
     link(href='/assets4/css/style1.css', rel='stylesheet')
     // iCheck
     link(href='/admin/gentelella/vendors/iCheck/skins/flat/green.css', rel='stylesheet')
+    // sweet alert
+    link(href="/custom/alerts/css/popup.css" rel="stylesheet")
+    script(src="/asset_sweetalert/src/sweetalert2.all.min.js")
     style.
         body{
             background-image: url('/login/fame/images/header-back.png');
@@ -70,7 +73,7 @@ html(lang='en')
     body
         .col-lg-7(style="margin-left:23%;")
             //- onsubmit="if(document.getElementById('agree').checked) { return true; } else { alert('Please indicate that you have read and agree to the Terms and Conditions and Privacy Policy'); return false;"
-            form.form-horizontal.form-label-left(method='POST' action='/registration/household_worker', onkeyup='haha(), hoho();')
+            form.form-horizontal.form-label-left#regi(method='POST' action='/registration/household_worker', onkeyup='haha(), hoho();')
                 .row
                     .col-md-12.col-sm-12.col-xs-12
                         .x_panel
@@ -641,6 +644,8 @@ html(lang='en')
     script(src='/admin/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.js')
     // jQuery Tags Input
     script(src='/admin/gentelella/vendors/jquery.tagsinput/src/jquery.tagsinput.js')
+    //swal
+    script(src='/custom/alerts/js/sweetalert.min.js')
 
 
     //preloader
@@ -737,11 +742,36 @@ html(lang='en')
                 $('textarea.AddMessage').val(currentVal + $(this).val()); 
         });
 
-        script.
-            $('#accept').click(function() {
-                if ($('#submitbtn').is(':disabled')) {
-                    $('#submitbtn').removeAttr('disabled');
-                } else {
-                    $('#submitbtn').attr('disabled', 'disabled');
+    script.
+        $('#accept').click(function() {
+            if ($('#submitbtn').is(':disabled')) {
+                $('#submitbtn').removeAttr('disabled');
+            } else {
+                $('#submitbtn').attr('disabled', 'disabled');
+            }
+        });
+    script.
+        $('form#regi').submit(function(e){
+            e.preventDefault();
+            $.ajax({
+                url: '/registration/household_worker',
+                method: 'post',
+                data: $('form#regi').serialize(),
+                success: function(response){
+                    console.log(response);
+                    if(response == 'success'){
+                        swal({
+                            type: 'success',
+                            title: 'Submitted',
+                            text: 'You may now present the needed documents to the admin office.',
+                            showConfirmButton: true,
+                        },
+                        function(isConfirm){
+                            if(isConfirm){
+                                window.location.href = "/login";
+                            }
+                        });
+                    }   
                 }
-            }); 
+            })
+        });

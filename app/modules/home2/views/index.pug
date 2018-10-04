@@ -90,7 +90,7 @@ block content
                                                                                                 -var fullname = offer.strLName + " " + offer.strFName
                                                                                                 -var address = offer.strCAHouseNo + " " + offer.strCAStreet + " " + offer.strCAProvince + ", " + offer.strCity
                                                                                                 button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjob', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No,
-                                                                                                        data-name=fullname, data-add = address, data-needed= offer.datRequestNeedDate, data-sal=offer.deciRequestSalary, data-serv=offer.strName)
+                                                                                                        data-name=fullname, data-add = address, data-needed= offer.datRequestNeedDate, data-sal=offer.deciRequestSalary, data-serv=offer.strName, data-image=`../images/${offer.strPicture}`)
                                                                                                     | View Details
                                                                                         else if offer.strRHWStatus == 'Rejected' && offer.strRClientStatus ==''
                                                                                             .col-xs-12
@@ -114,7 +114,7 @@ block content
                                                                                                 -var fullname = offer.strLName + " " + offer.strFName
                                                                                                 -var address = offer.strCAHouseNo + " " + offer.strCAStreet + " " + offer.strCAProvince + ", " + offer.strCity
                                                                                                 button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjob', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No,
-                                                                                                        data-name=fullname, data-add = address, data-needed= offer.datRequestNeedDate, data-sal=offer.deciRequestSalary, data-serv=offer.strName)
+                                                                                                        data-name=fullname, data-add = address, data-needed= offer.datRequestNeedDate, data-sal=offer.deciRequestSalary, data-serv=offer.strName, data-image=`../images/${offer.strPicture}`)
                                                                                                     | View Details
                                                                                         else if offer.strRHWStatus == 'Approved' && offer.strRClientStatus =='Waiting'
                                                                                             .col-xs-12
@@ -544,26 +544,54 @@ block content
         script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
         script.
             $(document).ready(function(){
-                $('button#acceptJob').click(function(){
-                    swal({
-                        type: 'success',
-                        title: 'Job Request Accepted',
-                        text: 'Wait for the client contract for further information',
-                        showConfirmButton: true,
-                        closeOnConfirm: true,
-                        },
-                        $(function(){
-                            location.reload();
-                        }),
-                    $('#viewjob').modal('hide')
-                    );
+                $('button#acceptJob').click(function(e){
+                    e.preventDefault();
+                    var idNow = $('button#acceptJob').val();
+                    $.ajax({
+                        url: $('form#viewJob').attr('action'),
+                        method: 'post',
+                        data: {
+                            transID: $('input#_id').val(),
+                            reqno: $('input#_id2').val(),
+                            btn1: idNow },
+                            success: function(response){
+                                console.log(response);
+                                if(response == 'accepted'){
+                                    $('#viewjob').modal('hide');
+                                    swal({
+                                        type: 'success',
+                                        title: 'Job Request Accepted',
+                                        text: 'Wait for the client contract for further information',
+                                        closeOnConfirm: true,
+                                    },
+                                    function(isConfirm){
+                                        if(isConfirm){
+                                            location.reload();
+                                        }
+                                    });
+                            }
+                        }
+                    });
                 });
+                //-     swal({
+                //-         type: 'success',
+                //-         title: 'Job Request Accepted',
+                //-         text: 'Wait for the client contract for further information',
+                //-         showConfirmButton: true,
+                //-         closeOnConfirm: true,
+                //-         },
+                //-         $(function(){
+                //-             location.reload();
+                //-         }),
+                //-     $('#viewjob').modal('hide')
+                //-     );
+                //- });
                 $('button#rejectJob').click(function(){
                     swal({
                         type: 'warning',
                         title: 'Job Request Rejected',
-                        showConfirmButton: true,
-                        closeOnConfirm: true,
+                        showConfirmButton: false,
+                        closeOnConfirm: false,
                         },
                         $(function(){
                             location.reload();
