@@ -520,7 +520,8 @@ function sendtoadmin (req,res){
   if(req.body.btn1 == 'send'){
     db.query(`UPDATE tblfinalrequest SET strRequestStatus = 'Pending' WHERE intRequest_ClientID = '${req.session.user}' AND intRequestID = '${req.body.transid}'`,function(err){
         console.log(err);
-        res.redirect('/request_replacement/invoice_/-/'+req.body.transid+'/-/'+req.body.oldhwid);
+        res.send('sent');
+        // res.redirect('/request_replacement/invoice_/-/'+req.body.transid+'/-/'+req.body.oldhwid);
     })
   }
 }

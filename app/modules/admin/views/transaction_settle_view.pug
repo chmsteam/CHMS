@@ -53,8 +53,12 @@ block content
                                                     a(href='/admin/profile_client_'+trans.clientid  )
                                                         button.btn.btn-primary.btn-md(type='button') View Profile
                                                     button.btn.btn-primary.btn-md(type='button' data-toggle='modal' data-target='#deployment_details') Deployment Details
-                                                    a(href='/admin/invoice_'+trans.intTRequestID )
-                                                        button.btn.btn-secondary.btn-md(type='button') Invoice
+                                                    if trans.strRequestType == "Add"
+                                                        a(href='/admin/invoice_'+trans.intTRequestID )
+                                                            button.btn.btn-secondary.btn-md(type='button') Invoice
+                                                    else if  trans.strRequestType == "Replacement"
+                                                        a(href="/admin/replacementInvoice_"+trans.intTRequestID)
+                                                            button.btn.btn-primary(type='button') Invoice
                                             //- View Deployment Details, View Contract, View Invoice, View OR,
                             br
     

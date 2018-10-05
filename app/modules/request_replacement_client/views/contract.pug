@@ -120,10 +120,10 @@ block content
                                         if noacontract.noa == tnocontract.tno
                                             .pull-right
                                                 each list in listtab
-                                                    form(method='POST', action = '/request_replacement/send_to_admin')
+                                                    form#sendAdmin(method='POST', action = '/request_replacement/send_to_admin')
                                                         each oldhwservice in oldhwservicetab
-                                                            input.form-control.col-md-7.col-xs-12(type='text', id='oldid', name='oldhwid' required='required' value=''+oldhwservice.intHWID style='display: none;')
-                                                        input(type='text', name='transid', value=''+list.intRequestID, style="display:none;")
+                                                            input.form-control.col-md-7.col-xs-12#oldHW(type='text', name='oldhwid' required='required' value=''+oldhwservice.intHWID style='display: none;')
+                                                        input#transID(type='text', name='transid', value=''+list.intRequestID, style="display:none;")
                                                         button.btn.btn-success.btn-lg#sendtoAdmin(type='submit' name='btn1' value='send') Send Request To Admin  
                                             
                                         else
@@ -227,17 +227,17 @@ block content
                         );
                     });
                     //send contract to Admin
-                    $('#sendtoAdmin').click(function(){
-                        swal({
-                            type: 'success',
-                            title: 'Contract sent to Admin',
-                            //- text: 'Wait for the confirmation of the household worker',
-                            },
-                            $(function(){
-                                location.reload();
-                                })
-                        );
-                    });
+                    //- $('#sendtoAdmin').click(function(){
+                    //-     swal({
+                    //-         type: 'success',
+                    //-         title: 'Contract sent to Admin',
+                    //-         //- text: 'Wait for the confirmation of the household worker',
+                    //-         },
+                    //-         $(function(){
+                    //-             location.reload();
+                    //-             })
+                    //-     );
+                    //- });
                     $('form#editSalary').submit(function(){
                         swal({
                             type: 'success',
@@ -250,6 +250,39 @@ block content
                                 location.reload();
                                 }, 6000)
                         );
+                    });
+                    $('#sendtoAdmin').click(function(e){
+                        e.preventDefault();
+                        var oldHW = $('input#oldHW').val();
+                        console.log(oldHW);
+                        var transID = $('input#transID').val();
+                        console.log(transID)
+                        var action = $('form#sendAdmin').attr('action');
+                        console.log(action);
+                        $.ajax({
+                            url: $('form#sendAdmin').attr('action'),
+                            method: 'post',
+                            data: {
+                                transid: transID,
+                                oldhwid: oldHW,
+                                btn1: "send"
+                            },
+                            success: function(response){
+                                console.log(response);
+                                if(response == 'sent'){
+                                    swal({
+                                        type: 'success',
+                                        title: 'Contract Sent',
+                                        text: 'Wait for the admin to settle  your transaction',
+                                        showConfirmButton: true,
+                                    },function(isConfirm){
+                                        if(isConfirm){
+                                            window.location.href = '/request_replacement/invoice_/-/'+transID+'/-/'+oldHW;
+                                        }
+                                    });
+                                }
+                            }
+                        })
                     });
 
                 });

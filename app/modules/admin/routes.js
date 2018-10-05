@@ -825,6 +825,42 @@ router.post('/edit_city',(req, res) => {
     res.redirect('/admin/maintenance_city');
     });
 });
+//==============================
+//=====INVOICE REPLACAMENT
+router.get('/replacementInvoice_:requestid', flog, findclient, findagency, findtrans, finditemsRep, findsubtotalRep, findotherfee, renderinvoiceReplace)
+function renderinvoiceReplace(req,res){
+  if(req.valid==0)
+    res.render('admin/views/repInvoice',{usertab: req.user, clienttab: req.client, agencytab: req.agency, dctab: req.dc, itemtabs: req.itemRep, otherfeetab: req.otherfee, subtotaltab: req.subtotalRep});
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+function finditemsRep(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT intServiceID,ta.strName, COUNT(intServiceID) AS service, fltFee, (COUNT(intServiceID)*fltfee) as subtotal FROM
+          (SELECT * FROM tblresults INNER JOIN tblhouseholdworker ON intHWID = intRHWID INNER JOIN tblmservice ON intServiceID = intID WHERE strRClientStatus ='Approved' and intRRequestID=?) as ta,
+          (SELECT * FROM tblfee WHERE intID=4) as tb 
+          GROUP BY intServiceID `,[req.params.requestid], function (err, results) {
+    if (err) return res.send(err);
+    if (!results[0])
+    console.log('');
+    req.itemRep = results;
+    return next();
+  });
+}
+function findsubtotalRep(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT (COUNT(intServiceID)*fltfee) as subtotal FROM
+            (SELECT * FROM tblresults INNER JOIN tblhouseholdworker ON intHWID = intRHWID INNER JOIN tblmservice ON intServiceID = intID WHERE strRClientStatus ='Approved' and intRRequestID=?) as ta,
+            (SELECT * FROM tblfee WHERE intID=4) as tb`, [req.params.requestid], function (err, results) {
+    if (err) return res.send(err);
+    if (!results[0])
+    console.log('');
+    req.subtotalRep = results;
+    return next();
+  });
+}
 // ----------------------------------------------------------------------------------- INVOICE
 router.get('/invoice_:requestid', flog, findclient, findagency, findtrans, finditems, findsubtotal, findotherfee, renderinvoice)
 function renderinvoice(req,res){
