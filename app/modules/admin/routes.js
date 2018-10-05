@@ -1765,8 +1765,8 @@ function approveClient2(req,res){
   var db = require('../../lib/database')();
   var db2 = require('../../lib/database')();
   if(req.body.btn1 == 'approve'){
-    var sql = "UPDATE tbluser SET strStatus= 'Registered' WHERE strStatus='Unregistered' AND intID = ?";
-    db.query(sql,[req.body.clientID],function (err) {
+    var sql = "UPDATE tbluser SET strStatus= 'Registered', datDateRegistered=? WHERE strStatus='Unregistered' AND intID = ?";
+    db.query(sql,[req.body.dateregistered, req.body.clientID],function (err) {
     if (err) return res.send(err)
     res.redirect('/admin/transactions/clients/pending');
     })
@@ -1847,8 +1847,8 @@ function hwoptions(req,res){
   var db2 = require('../../lib/database')();
   console.log('xxxxxxxxxxxxx'+req.body.hwID)
   if(req.body.btn1 == 'approve'){
-    var sql = "UPDATE tbluser SET strStatus= 'Registered', strPassword = ? WHERE strStatus='Unregistered' AND intID = ?";
-    db.query(sql,[code , req.body.hwID],function (err) {
+    var sql = "UPDATE tbluser SET strStatus= 'Registered', strPassword = ?, datDateRegistered=? WHERE strStatus='Unregistered' AND intID = ?";
+    db.query(sql,[code , req.body.dateregistered, req.body.hwID],function (err) {
     if (err) return res.send(err)
         else{
           mailer.sendMail({

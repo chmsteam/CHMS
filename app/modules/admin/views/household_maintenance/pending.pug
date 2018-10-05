@@ -86,7 +86,8 @@ block content
                     h4#myModalLabel.modal-title Requirements
                 .modal-body
                     form#myform.form-horizontal.form-label-left(method="POST" action="/admin/tr_approve_hw")
-                        input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='hwID' style='display:none;')                              
+                        input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='hwID' style='display:none;')
+                        input.form-control#thedate(type='date' name='dateregistered' style='display:none;')                              
                         input#email(type="text", name="email" hidden)
                         input#fname(type="text" name="fname" hidden)
                         input#lname(type="text" name="lname" hidden)
@@ -98,7 +99,7 @@ block content
                                         | &nbsp #{requirement.strName}
                         .ln_solid
                         .form-group.pull-right
-                            button.btn.btn-success#sub(type='submit' name='btn1' value='approve' disabled)
+                            button.btn.btn-success#sub(type='submit' name='btn1' value='approve' onCLick='time();' disabled)
                                 i.fa.fa-thumbs-up
                                 |   Approve
                             button#reject.btn.btn-danger(type='submit' name='btn1' value='reject')
@@ -136,4 +137,26 @@ block content
                 $('#sub').prop('disabled',$('input.check:checked').length < 3);
             });
         });
+        function time(){
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; //January is 0!
+            var yyyy = today.getFullYear();
+            var hh = today.getHours();
+            var min = today.getMinutes();
+            var sec = today.getSeconds();
+            var x= document.getElementById("thedate");
+            
+            if(dd<10) {
+                dd = '0'+dd
+            } 
+
+            if(mm<10) {
+                mm = '0'+mm
+            } 
+
+            today = yyyy + '-' + mm + '-' + dd ;
+            //- document.write(today);
+            document.getElementById("thedate").value=today;
+        }
     
