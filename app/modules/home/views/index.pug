@@ -161,7 +161,7 @@ block content
                                                                                     br
                                                                             -var fullname = lr.strLName + " " + lr.strFName + " " + lr.strMName
                                                                             .col-xs-12.bottom.text-center
-                                                                                button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLeave',
+                                                                                button.btn.btn-primary(data-toggle='modal', data-target='#viewLeave',
                                                                                     data-name=fullname, data-image=`../images/${lr.strPicture}`, data-ty=lr.strName, data-na=lr.intHouseholdID, data-id=lr.intLeaveRequestID,
                                                                                     data-start=lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View
                                                 else if lr.strLeaveStatus == 'On-going'
@@ -187,7 +187,7 @@ block content
                                                                                     br
                                                                             -var fullname = lr.strLName + " " + lr.strFName + " " + lr.strMName
                                                                             .col-xs-12.bottom.text-center
-                                                                                button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLeave',
+                                                                                button.btn.btn-primary(data-toggle='modal', data-target='#viewLeave',
                                                                                     data-name=fullname, data-image=`../images/${lr.strPicture}`, data-ty=lr.strName, data-na=lr.intHouseholdID, data-id=lr.intLeaveRequestID,
                                                                                     data-start=lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View Leave Details
                                                                                 a(href='/request_reliever/reliever_list_/-/'+lr.intLeaveRequestID+'/-/'+lr.intHouseholdID)
@@ -215,7 +215,7 @@ block content
                                                                                     br
                                                                             -var fullname = lr.strLName + " " + lr.strFName + " " + lr.strMName
                                                                             .col-xs-12.bottom.text-center
-                                                                                button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLeave',
+                                                                                button.btn.btn-primary(data-toggle='modal', data-target='#viewLeave',
                                                                                     data-name=fullname, data-image=`../images/${lr.strPicture}`, data-ty=lr.strName, data-na=lr.intHouseholdID, data-id=lr.intLeaveRequestID,
                                                                                     data-start=lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View Leave Details
                                                                                 a(href='/request_reliever/reliever_list_/-/'+lr.intLeaveRequestID+'/-/'+lr.intHouseholdID)
@@ -404,7 +404,7 @@ block content
                                                     b Reason:
                                                 textarea#exampleTextarea.form-control(rows='3' readonly)
                             .modal-footer
-                                button.btn.btn-primary(type='submit') Approve
+                                button.btn.btn-success(type='submit') Approve
                 //- scripts
             script.
                 function time(){
