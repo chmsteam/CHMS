@@ -208,16 +208,24 @@ html(lang='en')
                           a(href='/admin/utilities_freereplacement') Replacement
                     li
                       a
+                        i.fa.fa-gear
+                        |  Queries
+                        span.fa.fa-chevron-down
+                      ul.nav.child_menu
+                        li
+                          a(href='/admin/queries_client') Client
+                        li
+                          a(href='/admin/queries_hw') Household Worker
+                        li
+                          a(href='/admin/queries_city') City
+                    li
+                      a
                         i.fa.fa-pie-chart
                         |  Reports 
                         span.fa.fa-chevron-down
                       ul.nav.child_menu
                         //- li
                         //-   a(href='') Number of Household Workers Deployed
-                    li
-                      a()
-                        i.fa.fa-cubes
-                        |  Query
           #preloader        
               // /sidebar menu
           // top navigation
