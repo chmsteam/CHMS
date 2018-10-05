@@ -12,12 +12,12 @@ block content
                             
                             each list in listtab
                                 h2(style="font-size:33px;") &nbsp&nbspName of list: 
-                                    b   " #{list.strRequestName} "               
+                                    b    #{list.strRequestName}               
                             .x_title
                                 .clearfix
                                 .x_panel.alert-success(style='background-color:')
-                                    h3(style="font-size:18px;")(align='center')
-                                        b   &nbsp&nbsp&nbsp&nbsp&nbspDisclaimer !!!
+                                    h3(style="font-size:18px;")
+                                        b Disclaimer !!!
                                             br
                                             br
                                         li
@@ -55,7 +55,7 @@ block content
                                             tr(style="text-align:center")
                                                 td #{item.intIRequest_No}
                                                 td #{item.strName}
-                                                td #{item.intIQuantity}
+                                                td#bilang #{item.intIQuantity}
                                                 td #{item.forapproval}
                                                 td
                                                     button.btn.btn-info.btn-xs(type='button' data-toggle="modal" data-target="#view_item"
@@ -222,7 +222,7 @@ block content
                                         .form-group
                                             | Monthly Salary
                                             span.required
-                                            input#first-name.form-control.col-md-7.col-xs-12(type='number' name='salary' value='0')
+                                            input#first-name.form-control.col-md-7.col-xs-12(type='number' name='salary'  required)
                                 br
                                 .row
                                     .col-md-2

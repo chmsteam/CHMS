@@ -1172,6 +1172,8 @@ function addtolist(req,res){
 // ------------------------------------------------------------------------------------------------------TRANSACTION: SEND TO HW, SEND TO CLIENT
 function addfunctions(req,res){
   var db = require('../../lib/database')();
+  console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+  console.log(req.body.hwid);
   if(req.body.btn1 == 'sendtohw'){
     db.query(`UPDATE tblresults SET strRHWStatus= 'Waiting' WHERE strRHWStatus='' AND intRRequestID = '${req.params.requestid}' AND intRRequest_No = '${req.body.reqno}' AND intRHWID = '${req.body.hwid}'`,function (err) {
       console.log(''+err);
@@ -1189,14 +1191,14 @@ function addfunctions(req,res){
   else if(req.body.btn1 == 'sendtoclient'){
     db.query(`UPDATE tblresults SET strRClientStatus= 'Waiting' WHERE strRClientStatus='' AND intRRequestID = '${req.params.requestid}' AND intRRequest_No = '${req.body.reqno}' AND intRHWID = '${req.body.hwid}'`,function (err) {
       console.log(''+err);
-    res.send('sentclient')
+      res.send('sentclient')
       // res.redirect('/admin/transaction_client_request_'+req.params.requestid, flog, findclientrequestspecific, findclientlistspecific, findclient, findselected, rendertransclientspecific);
     })
   }
   else if(req.body.btn1 == 'removefromlist'){
     db.query(`DELETE FROM tblresults WHERE intRRequestID = '${req.params.requestid}' AND intRRequest_No = '${req.body.reqno}' AND intRHWID = '${req.body.hwid}'`,function (err) {
       console.log(''+err);
-    res.send('removed')
+      res.send('removed')
       // res.redirect('/admin/transaction_client_request_'+req.params.requestid, flog, findclientrequestspecific, findclientlistspecific, findclient, findselected, rendertransclientspecific);
     })
   }

@@ -23,14 +23,14 @@ block content
                             table#datatable-responsive.table.jambo_table.table-bordered
                                 thead
                                     tr
-                                        th ID
-                                        th NAME
-                                        th SERVICE
-                                        th AGE
-                                        th Gender
-                                        th EDUCATION
-                                        th WORK EXPERIENCE
-                                        th ACTION
+                                        //- th ID
+                                        th(style="text-align:center") NAME
+                                        th(style="text-align:center") SERVICE
+                                        th(style="text-align:center") AGE
+                                        th(style="text-align:center") Gender
+                                        th(style="text-align:center") EDUCATION
+                                        th(style="text-align:center") WORK EXPERIENCE
+                                        th(style="text-align:center") ACTION
                                 tbody
                                     each hw in hwtab
                                         each list in listtab
@@ -40,15 +40,15 @@ block content
                                                     input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='hwid', value=''+hw.intRHWID, style="display:none;")
                                                     input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transid', value=''+hw.intRRequestID, style="display:none;")
                                                     input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='reqno', value=''+hw.intRRequest_No, style="display:none;")                                 
-                                                    td #{hw.intRHWID}
+                                                    //- td #{hw.intRHWID}
                                                         //- input(type="number" name= 'hwid' style='visibility:hidden;', value=''+resulta.intHWID)
-                                                    td #{hw.stFName} #{hw.strLName}
-                                                    td #{hw.strName}
-                                                    td #{hw.age}
-                                                    td #{hw.strGender}
-                                                    td 
-                                                    td 
-                                                    td
+                                                    td(style="text-align:center") #{hw.stFName} #{hw.strLName}
+                                                    td(style="text-align:center") #{hw.strName}
+                                                    td(style="text-align:center") #{hw.age}
+                                                    td(style="text-align:center") #{hw.strGender}
+                                                    td(style="text-align:center")
+                                                    td(style="text-align:center") 
+                                                    td(style="text-align:center")
                                                         a(href='hw_profile_'+hw.intRRequestID+hw.intRHWID)
                                                             button.btn.btn-primary(type='button') View Profile
                                                         button.btn.btn-success#approveHW(type='submit' name='btn1' value='approve') Approve
@@ -64,32 +64,32 @@ block content
                                 table#datatable2.table.table.jambo_table.table-bordered
                                     thead
                                         tr
-                                            th ID
-                                            th NAME
-                                            th SERVICE
-                                            th AGE
-                                            th Gender
-                                            th EDUCATION
-                                            th WORK EXPERIENCE
-                                            th ACTION
+                                            //- th ID
+                                            th(style="text-align:center") NAME
+                                            th(style="text-align:center") SERVICE
+                                            th(style="text-align:center") AGE
+                                            th(style="text-align:center") Gender
+                                            th(style="text-align:center") EDUCATION
+                                            th(style="text-align:center") WORK EXPERIENCE
+                                            th(style="text-align:center") ACTION
                                     tbody
                                         each hw in hwtab
                                             each list in listtab
                                                 if hw.strRClientStatus == 'Approved'
-                                                    tr
+                                                    tr(style="text-align:center")
                                                     form(method="POST" action="/request_add/decision_/-/"+hw.intRRequestID+'/-/'+hw.intRRequest_No)
                                                         input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='hwid', value=''+hw.intRHWID, style="display:none;")
                                                         input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transid', value=''+hw.intRRequestID, style="display:none;")
                                                         input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='reqno', value=''+hw.intRRequest_No, style="display:none;") 
-                                                        td #{hw.intRHWID}
+                                                        //- td #{hw.intRHWID}
                                                             //- input(type="number" name= 'hwid' style='visibility:hidden;', value=''+resulta.intHWID)
-                                                        td #{hw.stFName} #{hw.strLName}
-                                                        td #{hw.strName}
-                                                        td #{hw.age}
-                                                        td #{hw.strGender}
-                                                        td 
-                                                        td 
-                                                        td
+                                                        td(style="text-align:center") #{hw.stFName} #{hw.strLName}
+                                                        td(style="text-align:center") #{hw.strName}
+                                                        td(style="text-align:center") #{hw.age}
+                                                        td(style="text-align:center") #{hw.strGender}
+                                                        td(style="text-align:center") 
+                                                        td(style="text-align:center") 
+                                                        td(style="text-align:center")
                                                             a(href='hw_profile_'+hw.intRRequestID+hw.intRHWID)
                                                                 button.btn.btn-primary(type='button') View Profile
                                                             button.btn.btn-warning.btn-md.revertHW(type='submit' name='btn1' value='revert') Revert
@@ -104,32 +104,32 @@ block content
                                 table#datatable3.table.table.jambo_table.table-bordered
                                     thead
                                         tr
-                                            th ID
-                                            th NAME
-                                            th SERVICE
-                                            th AGE
-                                            th Gender
-                                            th EDUCATION
-                                            th WORK EXPERIENCE
-                                            th ACTION
+                                            //- th ID
+                                            th(style="text-align:center") NAME
+                                            th(style="text-align:center") SERVICE
+                                            th(style="text-align:center") AGE
+                                            th(style="text-align:center") Gender
+                                            th(style="text-align:center") EDUCATION
+                                            th(style="text-align:center") WORK EXPERIENCE
+                                            th(style="text-align:center") ACTION
                                     tbody
                                         each hw in hwtab
                                             each list in listtab
                                                 if hw.strRClientStatus == 'Rejected'
-                                                    tr
+                                                    tr(style="text-align:center")
                                                     form(method="POST" action="/request_add/decision_/-/"+hw.intRRequestID+'/-/'+hw.intRRequest_No)
                                                         input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='hwid', value=''+hw.intRHWID, style="display:none;")
                                                         input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transid', value=''+hw.intRRequestID, style="display:none;")
                                                         input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='reqno', value=''+hw.intRRequest_No, style="display:none;") 
-                                                        td #{hw.intRHWID}
+                                                        //- td #{hw.intRHWID}
                                                             //- input(type="number" name= 'hwid' style='visibility:hidden;', value=''+resulta.intHWID)
-                                                        td #{hw.stFName} #{hw.strLName}
-                                                        td #{hw.strName}
-                                                        td #{hw.age}
-                                                        td #{hw.strGender}
-                                                        td 
-                                                        td 
-                                                        td
+                                                        td(style="text-align:center") #{hw.stFName} #{hw.strLName}
+                                                        td(style="text-align:center") #{hw.strName}
+                                                        td(style="text-align:center") #{hw.age}
+                                                        td(style="text-align:center") #{hw.strGender}
+                                                        td(style="text-align:center") 
+                                                        td(style="text-align:center")
+                                                        td(style="text-align:center")
                                                             a(href='hw_profile_'+hw.intRRequestID+hw.intRHWID)
                                                                 button.btn.btn-primary(type='button') View Profile
                                                             button.btn.btn-warning.btn-md.revertHW(type='submit' name='btn1' value='revert') Revert

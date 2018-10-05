@@ -24,13 +24,11 @@ block content
                                                 each agency in agencytab
                                                     | From
                                                     address
-                                                        strong #{agency.strName}
-                                                        br
-                                                        | #{agency.strAddress}
-                                                        br
-                                                        | #{agency.strTelNum}
-                                                        br
-                                                        | #{agency.strEmail}
+                                                        p
+                                                            strong#agency #{agency.strName}
+                                                        p#agenAdd #{agency.strAddress}
+                                                        p#agenTel(style="margin-top:-10px") #{agency.strTelNum}
+                                                        p#agenEmail(style="margin-top:-10px") #{agency.strEmail}
                                             // /.col
                                             .col-sm-4.invoice-col
                                                 each client in clienttab
@@ -116,14 +114,49 @@ block content
                                                 br
                                                 a(href='/request_add')
                                                     button.btn.btn-primary.btn-lg.pull-right(type='button') Back to List
+                                        button.btn.btn-primary#generateButton Pdfs
+        
+    script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+    script.
+        function total(){
+                var subtot=parseInt(document.getElementById("subtot").value)
+                var othfee=parseInt(document.getElementById("othfee").value)
+                var total;
 
-        script.
-            function total(){
-                 var subtot=parseInt(document.getElementById("subtot").value)
-                 var othfee=parseInt(document.getElementById("othfee").value)
-                 var total;
+                total = subtot+othfee;
 
-                 total = subtot+othfee;
+                document.getElementById("tots").innerHTML = 'P '+total;
+        };
+    script(type='text/javascript').
+        $(document).ready(function(){
+            $(document).on(	'click', '#generateButton', function(){
+                var agency = document.getElementById('agenAdd').value;
+                console.log(agency);
+                var docDefinition = { 
+                        content: [
+                            { text: "Invoice" , style: 'header', headlineLevel: 1},
+                                {   
+                                    width: 'auto',
+                                    columns:[
+                                            { text: "From" },
+                                            { text: agency},
+                                            { text: ''+document.getElementById('agenAdd').value },
+                                            { text: ''+document.getElementById('agenTel').value },
+                                            { text: ''+document.getElementById('agenEmail').value },
+                                    ],
+                                },
 
-                 document.getElementById("tots").innerHTML = 'P '+total;
-            }
+                        ],
+                            pageBreakBefore: function(currentNode, followingNodesOnPage, nodesOnNextPage, previousNodesOnPage) {
+                                return currentNode.headlineLevel === 1 && followingNodesOnPage.length === 0;
+                                },
+                        styles:{
+                            header:{
+                                alignment: 'center',
+                                fontSize: 10
+                            }
+                        }
+                    };
+                    pdfMake.createPdf(docDefinition).open();
+                });    
+        });
