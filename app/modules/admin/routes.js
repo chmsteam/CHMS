@@ -829,6 +829,7 @@ router.post('/edit_city',(req, res) => {
 //=====INVOICE REPLACAMENT
 router.get('/replacementInvoice_:requestid', flog, findclient, findagency, findtrans, finditemsRep, findsubtotalRep, findotherfee, renderinvoiceReplace)
 function renderinvoiceReplace(req,res){
+  if(req.valid==0)
     res.render('admin/views/repInvoice',{usertab: req.user, clienttab: req.client, agencytab: req.agency, dctab: req.dc, itemtabs: req.itemRep, otherfeetab: req.otherfee, subtotaltab: req.subtotalRep});
   else if(req.valid==1)
     res.render('admin/views/invalidpages/normalonly');

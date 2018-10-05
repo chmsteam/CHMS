@@ -220,7 +220,7 @@ block content
                                     .col-md-4
                                         br
                                         .form-group
-                                            | Monthly Salary
+                                            | Monthly Salary*
                                             span.required
                                             input#first-name.form-control.col-md-7.col-xs-12(type='number' name='salary'  required)
                                 br
@@ -542,7 +542,7 @@ block content
                             if(status == 'success'){
                                 swal({
                                     type: 'success',
-                                    title: 'Submitted',
+                                    title: 'Submitted!',
                                     text: 'List submitted to admin',
                                     showConfirmButton: true,
                                     timer: 5000
@@ -571,7 +571,7 @@ block content
                             $('#Add').modal('hide');
                             swal({
                                 type: 'success',
-                                title: 'Added',
+                                title: 'Added!',
                                 text: 'Service added to the list',
                                 showConfirmButton: false,
                                 },setTimeout(function() {

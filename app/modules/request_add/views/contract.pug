@@ -138,16 +138,19 @@ block content
             #rejectcontract.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
                 .modal-dialog.modal-md
                     .modal-content
-                        .modal-header
+                        .modal-header(style="background-color:#2A3F54; color:white")
                             button.close(type='button', data-dismiss='modal')
                                 span(aria-hidden='true') ×
-                            h4 Reject Contract
+                            h4#myModalLabel.modal-title 
+                                b   Reject Contract
                         .modal-body
                             form.form-horizontal(method='POST' action='deccontract')
                                 .form-group
-                                    label.control-label.col-md-4.col-sm-3.col-xs-12 Reasons:
-                                    .col-md-4.col-sm-9.col-xs-12
+                                    br
+                                    label.control-label.col-md-3.col-sm-3.col-xs-12 Reasons:
+                                    .col-md-6.col-sm-9.col-xs-12
                                         textarea.form-control(rows='5' cols='600' wrap='hard' name='conremark')
+                                br
                                 .form-group.pull-right
                                     input(type='text', id='transid' required='required', name='transid' style="display:none;")
                                     button.btn.btn-success(type='submit' name='btn1' value='reject' ) Send
@@ -191,21 +194,21 @@ block content
                                 location.reload();
                                 }, 6000));
                     });
-                    $('#rejectContract').click(function(){
-                        swal({
-                            type: 'warning',
-                            title: 'Rejected',
-                            text: 'Contract rejected',
-                            showConfirmButton: false,
-                            },
-                            $(function(){
-                                location.reload();
-                                }, 6000));
-                    });
+                    //- $('#rejectContract').click(function(){
+                    //-    swal({
+                    //-        type: 'warning',
+                    //-        title: 'Rejected!',
+                    //-        text: 'Contract rejected',
+                    //-        showConfirmButton: false,
+                    //-        },
+                    //-        $(function(){
+                    //-            location.reload();
+                    //-            }, 1000));
+                    //-});
                     $('#revertContract').click(function(){
                         swal({
                             type: 'info',
-                            title: 'Reverted',
+                            title: 'Reverted!',
                             text: 'Action Reverted',
                             showConfirmButton: false,
                             },
@@ -217,7 +220,7 @@ block content
                     $('#sendHW').click(function(){
                         swal({
                             type: 'success',
-                            title: 'Contract Sent',
+                            title: 'Contract Sent!',
                             text: 'Wait for the confirmation of the household worker',
                             },
                             $(function(){
@@ -240,7 +243,8 @@ block content
                     $('form#editSalary').submit(function(){
                         swal({
                             type: 'success',
-                            title: 'Salary Updated',
+                            title: 'Salary Updated!',
+                            text: 'Salary successfully updated.',
                             showConfirmButton: false,
                             timer: 5000
                             }),
@@ -268,7 +272,7 @@ block content
                                 if(response == 'sent'){
                                     swal({
                                         type: 'success',
-                                        title: 'Contract Sent',
+                                        title: 'Contract Sent!',
                                         text: 'Wait for the admin to settle  your transaction',
                                         showConfirmButton: true,
                                     },function(isConfirm){
