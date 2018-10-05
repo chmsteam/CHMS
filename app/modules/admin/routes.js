@@ -2039,7 +2039,7 @@ router.post('/register_householdworker',(req, res) => {
   var db65 = require('../../lib/database')();
   var db66 = require('../../lib/database')();
   //tbl user
-  db.query(`INSERT INTO tbluser(strFName, strMName, strLName, strEmail, strPassword, strPicture, strType, strStatus) VALUES ('${req.body.fname}', '${req.body.mname}', '${req.body.lname}', '${req.body.eaddress}', ?, 'blank.jpg', 'Household Worker', 'Unregistered')`,[retVal], (err) => {
+  db.query(`INSERT INTO tbluser(strFName, strMName, strLName, strEmail, strPassword, strPicture, strType, strStatus, datDateRegistered) VALUES ('${req.body.fname}', '${req.body.mname}', '${req.body.lname}', '${req.body.eaddress}', ?, 'blank.jpg', 'Household Worker', 'Unregistered', NULL)`,[retVal], (err) => {
     //find hw
     db2.query(`SELECT intID from tbluser WHERE strPassword=?`, [retVal], (err,results) => {
       if (err) console.log(err);
@@ -2208,7 +2208,7 @@ router.post('/register_client',(req, res) => {
   var db = require('../../lib/database')();
   var db2 = require('../../lib/database')();
   var db3 = require('../../lib/database')();
-  db.query(`INSERT INTO tbluser(strFName, strMName, strLName, strEmail, strPassword, strPicture, strType, strStatus) VALUES ("${req.body.firstname}", "${req.body.middlename}", "${req.body.lastname}","${req.body.email}", "${req.body.password}", 'blank.jpg', "Client", "Unregistered")`, (err) => {
+  db.query(`INSERT INTO tbluser(strFName, strMName, strLName, strEmail, strPassword, strPicture, strType, strStatus, datDateRegistered) VALUES ("${req.body.firstname}", "${req.body.middlename}", "${req.body.lastname}","${req.body.email}", "${req.body.password}", 'blank.jpg', "Client", "Unregistered", NULL)`, (err) => {
     if (err) console.log(err);
     db2.query(`SELECT * FROM tbluser WHERE strEmail=? and strPassword=?`,[req.body.email, req.body.password], (err, results)=>{
       if (err) console.log(err);
@@ -2245,7 +2245,7 @@ router.get('/utilities_staff', flog, findustaff, renderutilitiesStaff);
 
 router.post('/add_staff',(req, res) => {
   var db = require('../../lib/database')();
-  db.query(`INSERT INTO tbluser (strFName, strMName, strLName, strEmail, strPassword, strType, strStatus)  VALUES ("${req.body.firstname}", "${req.body.middlename}", "${req.body.lastname}", "${req.body.email}", "${req.body.password}", "${req.body.type}", "Registered")`, (err) => {
+  db.query(`INSERT INTO tbluser (strFName, strMName, strLName, strEmail, strPassword, strType, strStatus, datDateRegistered)  VALUES ("${req.body.firstname}", "${req.body.middlename}", "${req.body.lastname}", "${req.body.email}", "${req.body.password}", "${req.body.type}", "Registered", NULL)`, (err) => {
     if (err) console.log(err);
     res.redirect('/admin/utilities_staff');
     });
