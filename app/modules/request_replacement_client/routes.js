@@ -313,7 +313,7 @@ function clientdecision(req,res){
     db.query(`UPDATE tblresults SET strRClientStatus= 'Approved' WHERE strRClientStatus='Waiting' AND intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}'`,function (err) {
       console.log('xxxxxxxxxxxxxx'+err);
       db.query(`SELECT * FROM tblresults as a INNER JOIN tblinitialrequest as b on a.intRRequestID = b.intIRequestID WHERE intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}' AND strRClientStatus = 'Approved'`, function (err,results){
-        db.query(`INSERT INTO tblcontract VALUES ('${req.body.transid}', '${req.body.reqno}', '${req.body.hwid}', '${results[0].deciRequestSalary}', '', NULL, '',NULL)`, function(err,results2){
+        db.query(`INSERT INTO tblcontract VALUES ('${req.body.transid}', '${req.body.reqno}', '${req.body.hwid}', '${results[0].deciRequestSalary}', '', NULL, '',NULL,'')`, function(err,results2){
           console.log('yyyyyyyyyyyyy'+err)
           res.redirect('/request_replacement/result_/-/'+ req.body.transid +'/-/'+req.params.requestno+'/-/'+ req.body.oldhwid);
         })
@@ -349,18 +349,17 @@ router.post('/contract', flog, findcreatedlist2);
 
 function findcreatedlist2(req, res){
   var db = require('../../lib/database')();
-  var db2 = require('../../lib/database')();
-  var db3 = require('../../lib/database')();
   db.query("SELECT * FROM tbltransaction WHERE intTRequestID=?",[req.body.transid], function (err, results) {
     console.log(err);
     if (!results[0]){
-      db2.query(`INSERT INTO tbltransaction VALUES ('${req.body.transid}', '${req.session.user}', '${req.body.reqdate}', '${req.body.dep}', '${req.body.datedep}', '${req.body.timedep}', '', '', NULL, NULL, '','','${req.body.invnum}', '','')`, function(err){
-        console.log(err);
-        res.redirect('/request_replacement/contract_/-/'+req.body.transid+'/-/'+req.body.hwid)
-      })  
+      db.query(`SELECT * FROM tblcontract WHERE intConHWID= ? AND strCurStatus IN ('To be replaced')`,[req.body.hwid], function (err,results2){
+        db.query(`INSERT INTO tbltransaction VALUES ('${req.body.transid}', '${req.session.user}', '${req.body.reqdate}', '${req.body.dep}', '${req.body.datedep}', '${req.body.timedep}', '${results2[0].strConCopy}', 'Accepted', NULL, NULL, '','','${req.body.invnum}', '','')`, function(err){
+          res.redirect('/request_replacement/contract_/-/'+req.body.transid+'/-/'+req.body.hwid)
+        })  
+      })
     }
     else{
-      db3.query(`UPDATE tbltransaction SET datDateRequested='${req.body.reqdate}', intTypeofDeployment='${req.body.dep}', datDateofDeployment='${req.body.datedep}', timTimeofDeployment='${req.body.timedep}' WHERE intTClientID = '${req.session.user}' AND intTRequestID = '${req.body.transid}'`,function(err){
+      db.query(`UPDATE tbltransaction SET datDateRequested='${req.body.reqdate}', intTypeofDeployment='${req.body.dep}', datDateofDeployment='${req.body.datedep}', timTimeofDeployment='${req.body.timedep}' WHERE intTClientID = '${req.session.user}' AND intTRequestID = '${req.body.transid}'`,function(err){
         console.log(err);
         res.redirect('/request_replacement/contract_/-/'+req.body.transid+'/-/'+req.body.hwid)
       })
@@ -474,6 +473,15 @@ function findtotnoofacceptcontract(req,res,next){
     return next();
   })
 }
+// -------------------------------------------------------------------------------------EDIT SALARY
+router.post('/edit_salary', flog, editsalary)
+function editsalary (req,res){
+  var db = require('../../lib/database')();
+    db.query(`UPDATE tblcontract SET intConSalary=? WHERE intConHWID = ? and intConTransID = ?`, [req.body.salary, req.body.hwid , req.body.transid], function(err){
+      console.log('xxxxxxx'+req.body.id)
+      res.redirect('/request_replacement/contract_/-/'+req.body.transid+'/-/'+req.body.oldhwid)
+  })
+}
 
 // -------------------------------------------------------------------------------------SEND CONTRACT TO HW
 router.post('/send_contract_hw', flog, sendcontracttohw)
@@ -481,7 +489,7 @@ function sendcontracttohw (req,res){
   var db = require('../../lib/database')();
     if (req.body.btn1 == 'sendtohw'){
       db.query(`UPDATE tblcontract SET strConStatus='Waiting' WHERE intConHWID = '${req.body.hwid}' and intConTransID = '${req.body.transid}'`, function(err){
-        res.redirect('/request_replacement/contract_'+req.body.transid+ req.body.oldhwid,flog, findcreatedlist,rendercontract)
+        res.redirect('/request_replacement/contract_/-/'+req.body.transid+'/-/'+req.body.oldhwid)
       })
     }
 }
@@ -504,13 +512,13 @@ function sendtoadmin (req,res){
   if(req.body.btn1 == 'send'){
     db.query(`UPDATE tblfinalrequest SET strRequestStatus = 'Pending' WHERE intRequest_ClientID = '${req.session.user}' AND intRequestID = '${req.body.transid}'`,function(err){
         console.log(err);
-        res.redirect('/request_replacement/invoice_'+req.body.transid+req.body.oldhwid, flog, findagency, findclient, findtrans, finditems, findsubtotal, findotherfee, renderinvoice);
+        res.redirect('/request_replacement/invoice_/-/'+req.body.transid+'/-/'+req.body.oldhwid);
     })
   }
 }
 
 //------------------------------------------------------------------------------------------- INVOICE 
-router.get('/invoice_:userid:hwid',flog, findagency, findclient, findtrans, finditems, findsubtotal, findotherfee, renderinvoice);
+router.get('/invoice_/-/:userid/-/:hwid',flog, findagency, findclient, findtrans, finditems, findsubtotal, findotherfee, renderinvoice);
 function renderinvoice(req,res){
   if(req.valid==1)
     res.render('request_replacement_client/views/invoice',{usertab: req.user, agencytab: req.agency, clienttab: req.client, dctab: req.dc, itemtab: req.item, subtotaltab: req.subtotal, otherfeetab: req.otherfee});

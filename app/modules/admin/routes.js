@@ -1366,7 +1366,10 @@ function clientsettledecisionreplacement(req,res, next){
   var db = require('../../lib/database')();
   // var db2 = require('../../lib/database')();
   if(req.body.btn1='settle'){
-    db.query(`UPDATE tbltransaction SET strORNumber=?, datDateSettled=?, strTStatus='On-going' WHERE intTRequestID='${req.body.transid}'`,[req.body.ornum, req.body.datesettled], function (err) {
+    var randomId= makeid();
+    jpeg= req.body.transid+('-'+randomId+'.jpg');
+    req.files.postimage.mv('public/image/orpic/'+jpeg, function(err) {
+    db.query(`UPDATE tbltransaction SET strORNumber=?, datDateSettled=?, strORPicture=?, strTStatus='On-going' WHERE intTRequestID='${req.body.transid}'`,[req.body.ornum, req.body.datesettled, jpeg], function (err) {
       console.log(err);
       db.query(`UPDATE tblfinalrequest SET strRequestStatus ='Finished' WHERE intRequestID='${req.body.transid}'`, function (err) {
         console.log(err);
@@ -1388,6 +1391,7 @@ function clientsettledecisionreplacement(req,res, next){
           });
         });
       });
+    });
     });
   }
   else{

@@ -100,17 +100,16 @@ block content
                                                             td #{hw.intConSalary}
                                                             td #{hw.strConStatus}
                                                             td
-                                                                form(method='POST' action='/request_add/send_contract_hw')
+                                                                form(method='POST' action='/request_replacement/send_contract_hw')
                                                                     input(type='text', name='hwid', value=''+hw.intConHWID, style="display:none;")
                                                                     input(type='text', name='transid', value=''+hw.intConTransID, style="display:none;")
+                                                                    each oldhwservice in oldhwservicetab
+                                                                        input.form-control.col-md-7.col-xs-12(type='text', id='oldid', name='oldhwid' value=''+oldhwservice.intHWID style='display: none;' required='required')
                                                                     if hw.strConStatus == ''
-                                                                        //- button.btn.btn-primary(type='button' data-toggle='modal', data-target='#maincontract') View Contract
                                                                         button.btn.btn-warning.btn-md(type='button' data-toggle='modal', data-target='#edit_salary' data-id=hw.intConTransID, data-hwid=hw.intConHWID, data-salary=hw.intConSalary) Edit Salary
                                                                         button.btn.btn-success.btn-md#sendHW(type='submit' name='btn1' value='sendtohw') Send Contract
                                                                     else if hw.strConStatus == 'Waiting'
-                                                                        //- button.btn.btn-primary(type='button' data-toggle='modal', data-target='#maincontract') View Contract
                                                                     else if hw.strConStatus == 'Approved'
-                                                                        //- button.btn.btn-primary(type='button' data-toggle='modal', data-target='#maincontract') View Contract
                                                                     else if hw.strConStatus == 'Rejected'
                                                                         button.btn.btn-warning.btn-md(type='button' data-toggle='modal', data-target='#edit_salary' data-id=hw.intConTransID, data-hwid=hw.intConHWID, data-salary=hw.intConSalary) Edit Salary
                                                                         button.btn.btn-success.btn-md(type='button') Send Contract
@@ -121,7 +120,9 @@ block content
                                         if noacontract.noa == tnocontract.tno
                                             .pull-right
                                                 each list in listtab
-                                                    form(method='POST', action = '/request_add/send_to_admin')
+                                                    form(method='POST', action = '/request_replacement/send_to_admin')
+                                                        each oldhwservice in oldhwservicetab
+                                                            input.form-control.col-md-7.col-xs-12(type='text', id='oldid', name='oldhwid' required='required' value=''+oldhwservice.intHWID style='display: none;')
                                                         input(type='text', name='transid', value=''+list.intRequestID, style="display:none;")
                                                         button.btn.btn-success.btn-lg#sendtoAdmin(type='submit' name='btn1' value='send') Send Request To Admin  
                                             
@@ -156,7 +157,7 @@ block content
             #edit_salary.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
                 .modal-dialog.modal-sm
                     .modal-content
-                        form.form-horizontal#editSalary(method='POST' action='/request_add/edit_salary')
+                        form.form-horizontal#editSalary(method='POST' action='/request_replacement/edit_salary')
                             .modal-content
                                 .modal-header(style="background-color:#2A3F54; color:white")
                                     button.close(type='button', data-dismiss='modal')
@@ -166,12 +167,14 @@ block content
                                     br
                                     .form-group
                                         label.control-label.col-md-4.col-sm-3.col-xs-12
-                                            | Salary:  P
+                                            | Salary: &#8369;
                                             span.required
                                         .col-md-5.col-sm-6.col-xs-12
                                             input.form-control.col-md-7.col-xs-12(type='text', id='id', name='transid' required='required' style="display:none;")
                                             input.form-control.col-md-7.col-xs-12(type='text', id='hwid', name='hwid' required='required' style="display:none;")
                                             input.form-control.col-md-7.col-xs-12(type='number', id='salary', name='salary' required='required', min=1)
+                                            each oldhwservice in oldhwservicetab
+                                                input.form-control.col-md-7.col-xs-12(type='text', id='oldid', name='oldhwid' required='required' value=''+oldhwservice.intHWID style='display: none;')
                                 .modal-footer
                                     button.btn.btn-success.btn-md#editSalary(type='submit') Change
            

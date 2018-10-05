@@ -189,26 +189,35 @@ block content
                                 button.btn.btn-primary(type='button', data-dismiss='modal') Close
                                 button.btn.btn-success#settleAdd(type='submit' name='btn1' value='settle',  onCLick='time();') Ok
         #settle_replacementclient.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
-            .modal-dialog.modal-sm
+            .modal-dialog
                 .modal-content
-                    form(method='POST' action='transaction_settledecision_replacementclient')
+                    form(method='POST' action='transaction_settledecision_replacementclient' enctype='multipart/form-data')
                         .modal-header(style='background-color:#f1f1f1')
                             button.close(type='button', data-dismiss='modal', aria-label='Close')
                                 span(aria-hidden='true') ×
                             h4.modal-title Settle Transaction :
                                 i#a
                         .modal-body
-                            center
-                                h3
-                                    b Enter O.R. Number:
-                                br
+                            .row
                                 input#_id(type="text", name="transid", style='display:none;')
                                 input(id='thedate2' type='date', name='datesettled' style='display:none;')
-                                input#ss(type="text", name="ornum" required)
-                        br
+                                .col-md-12.text-center
+                                    img#uploadPreview3(style='width: 90%; height: 200px;')
+                                    br
+                                    br
+                                    
+                            .row
+                                .col-md-5(style="margin-left:30px;")
+                                    .form-group
+                                        b Upload Receipt
+                                        input.form-control.file-input(id="uploadImage3" type='file', name='postimage', accept='image/*' onchange="PreviewImage3();")
+                                .col-md-6
+                                    .form-group
+                                        b O.R Number
+                                        input.form-control#ss(type="text", name="ornum" required)
                         .modal-footer.center
                             button.btn.btn-primary(type='button', data-dismiss='modal') Close
-                            button.btn.btn-success(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
+                            button.btn.btn-success#settleAdd(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
         #settle_replaceclient.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog.modal-sm
                 .modal-content
