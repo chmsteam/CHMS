@@ -1475,34 +1475,38 @@ function clientsettledecisionreplacementleft2(req,res){
 router.post('/transaction_settledecision_reliever',flog, clientsettledecisionreliever, clientsettledecisionreplacementleft3);
 function clientsettledecisionreliever(req,res, next){
   var db = require('../../lib/database')();
-  // var db2 = require('../../lib/database')();
   if(req.body.btn1='settle'){
-    db.query(`UPDATE tbltransaction SET strORNumber=?, datDateSettled=?, strTStatus='On-going' WHERE intTRequestID='${req.body.transid}'`,[req.body.ornum, req.body.datesettled], function (err) {
-      console.log(err);
-      db.query(`UPDATE tblfinalrequest SET strRequestStatus ='Finished' WHERE intRequestID='${req.body.transid}'`, function (err) {
+    var randomId= makeid();
+    jpeg= req.body.transid+('-'+randomId+'.jpg');
+    req.files.postimage.mv('public/image/orpic/'+jpeg, function(err) {
+
+      db.query(`UPDATE tbltransaction SET strORNumber=?, datDateSettled=?, strTStatus='On-going' WHERE intTRequestID='${req.body.transid}'`,[req.body.ornum, req.body.datesettled], function (err) {
         console.log(err);
-        db.query(`SELECT * FROM tblfreereplacement`, function (err,result) {
+        db.query(`UPDATE tblfinalrequest SET strRequestStatus ='Finished' WHERE intRequestID='${req.body.transid}'`, function (err) {
           console.log(err);
-          db.query(`UPDATE tblcontract SET datDateStarted ='${req.body.datesettled}', strCurStatus='Current', intConReplacementLeft='${result[0].intFreeReplacement}' WHERE intConTransID='${req.body.transid}'`, function (err) {
+          db.query(`SELECT * FROM tblfreereplacement`, function (err,result) {
             console.log(err);
-            db.query(`UPDATE tbluser u INNER JOIN tblcontract c ON u.intID = c.intConHWID SET u.strStatus ='Deployed' WHERE u.strType = 'Household Worker' AND c.intConTransID = '${req.body.transid}'`, function (err) {
+            db.query(`UPDATE tblcontract SET datDateStarted ='${req.body.datesettled}', strCurStatus='Current', intConReplacementLeft='${result[0].intFreeReplacement}' WHERE intConTransID='${req.body.transid}'`, function (err) {
               console.log(err);
-              db.query(`UPDATE tblreliever SET intRelieverID =(SELECT intConHWID FROM tblcontract WHERE intConTransID = ?), strRelieverStatus='Deployed' WHERE intReq_RelID = ?`, [req.body.transid, req.body.transid],function (err) {
+              db.query(`UPDATE tbluser u INNER JOIN tblcontract c ON u.intID = c.intConHWID SET u.strStatus ='Deployed' WHERE u.strType = 'Household Worker' AND c.intConTransID = '${req.body.transid}'`, function (err) {
                 console.log(err);
-                // db.query(`UPDATE tblreplacement SET intReplaceNewHWID =(SELECT intConHWID FROM tblcontract WHERE intConTransID = ?) WHERE intReplaceReqID = ?`, [req.body.transid, req.body.transid],function (err) {
-                //   console.log(err);
-                  return next();
-                  // res.redirect('/admin/transaction_settle')
-                // });
+                db.query(`UPDATE tblreliever SET intRelieverID =(SELECT intConHWID FROM tblcontract WHERE intConTransID = ?), strRelieverStatus='Deployed' WHERE intReq_RelID = ?`, [req.body.transid, req.body.transid],function (err) {
+                  console.log(err);
+                  // db.query(`UPDATE tblreplacement SET intReplaceNewHWID =(SELECT intConHWID FROM tblcontract WHERE intConTransID = ?) WHERE intReplaceReqID = ?`, [req.body.transid, req.body.transid],function (err) {
+                    //   console.log(err);
+                    return next();
+                    // res.redirect('/admin/transaction_settle')
+                    // });
+                  });
+                });
               });
             });
           });
         });
-      });
-    });
-  }
-  else{
-    
+      }) 
+      }
+      else{
+        
   }
 }
 function clientsettledecisionreplacementleft3(req,res){
@@ -2035,7 +2039,7 @@ router.post('/register_householdworker',(req, res) => {
   var db65 = require('../../lib/database')();
   var db66 = require('../../lib/database')();
   //tbl user
-  db.query(`INSERT INTO tbluser(strFName, strMName, strLName, strEmail, strPassword, strPicture, strType, strStatus) VALUES ('${req.body.fname}', '${req.body.mname}', '${req.body.lname}', '${req.body.eaddress}', ?, 'blank.jpg', 'Household Worker', 'Unregistered')`,[retVal], (err) => {
+  db.query(`INSERT INTO tbluser(strFName, strMName, strLName, strEmail, strPassword, strPicture, strType, strStatus, datDateRegistered) VALUES ('${req.body.fname}', '${req.body.mname}', '${req.body.lname}', '${req.body.eaddress}', ?, 'blank.jpg', 'Household Worker', 'Unregistered', NULL)`,[retVal], (err) => {
     //find hw
     db2.query(`SELECT intID from tbluser WHERE strPassword=?`, [retVal], (err,results) => {
       if (err) console.log(err);
@@ -2204,7 +2208,7 @@ router.post('/register_client',(req, res) => {
   var db = require('../../lib/database')();
   var db2 = require('../../lib/database')();
   var db3 = require('../../lib/database')();
-  db.query(`INSERT INTO tbluser(strFName, strMName, strLName, strEmail, strPassword, strPicture, strType, strStatus) VALUES ("${req.body.firstname}", "${req.body.middlename}", "${req.body.lastname}","${req.body.email}", "${req.body.password}", 'blank.jpg', "Client", "Unregistered")`, (err) => {
+  db.query(`INSERT INTO tbluser(strFName, strMName, strLName, strEmail, strPassword, strPicture, strType, strStatus, datDateRegistered) VALUES ("${req.body.firstname}", "${req.body.middlename}", "${req.body.lastname}","${req.body.email}", "${req.body.password}", 'blank.jpg', "Client", "Unregistered", NULL)`, (err) => {
     if (err) console.log(err);
     db2.query(`SELECT * FROM tbluser WHERE strEmail=? and strPassword=?`,[req.body.email, req.body.password], (err, results)=>{
       if (err) console.log(err);
@@ -2216,182 +2220,6 @@ router.post('/register_client',(req, res) => {
   res.redirect('/admin/registration_client');
 });
 
-
-// 
-// --------------------------------------------------------------------------------CLIENT
-// Reinstate client
-// function reinstateClient(req,res){
-//   var db = require('../../lib/database')();
-//   var sql = "UPDATE tbluser SET strStatus= 'Registered' WHERE strStatus='Banned' AND intID = ?";
-//   db.query(sql,[req.params.userid],function (err) {
-//     if (err) return res.send(err);
-//     res.redirect('/admin/client_list');
-//   });
-// }
-// // Ban Client
-// function banClient(req,res){
-// var db = require('../../lib/database')();
-// var sql = "UPDATE tbluser SET strStatus= 'Banned' WHERE strStatus='Registered' AND intID = ?";
-// db.query(sql,[req.params.userid],function (err) {
-//   if (err) return res.send(err);
-//   res.redirect('/admin/client_list');
-// });
-// }
-// router.get('/reinstate_client/:userid',flog,reinstateClient);
-// router.get('/ban_client/:userid',flog,banClient);
-
-// function findclientlist(req, res, next){
-//   var db = require('../../lib/database')();
-//   db.query("SELECT *, CONCAT(strFName,' ', strLName) AS strName FROM tbluser WHERE strType='Client' AND (strStatus='Registered' OR strStatus='Banned')", function (err, results) {
-//     if (err) return res.send(err);
-//     if (!results[0])
-//     console.log('');
-//     req.item = results;
-//     return next();
-//   });
-// }
-// function renderclientlist(req,res){
-//   if(req.valid==0)
-//     res.render('admin/views/client_list',{usertab: req.user, itemtab: req.item});
-//   else if(req.valid==1)
-//     res.render('admin/views/invalidpages/normalonly');
-//   else
-//     res.render('login/views/invalid');
-
-// }
-// router.get('/client_list', flog, findclientlist, renderclientlist);
-
-// -------------------------------------------------------------------------------ClIENT PENDING REGISTRATION
-// Approve client
-// // // // function approveClient(req,res){
-// // // //   var db = require('../../lib/database')();
-// // // //   var sql = "UPDATE tbluser SET strStatus= 'Registered' WHERE strStatus='Unregistered' AND intID = ?";
-// // // //   db.query(sql,[req.params.userid],function (err) {
-// // // //     if (err) return res.send(err);
-// // // //     res.redirect('/admin/client_pending_registration');
-// // // //   });
-// // // // }
-// // // // // Revert client
-// // // // function revertClient(req,res){
-// // // //   var db = require('../../lib/database')();
-// // // //   var sql = "UPDATE tbluser SET strStatus= 'Unregistered' WHERE strStatus='Rejected' AND intID = ?";
-// // // //   db.query(sql,[req.params.userid],function (err) {
-// // // //     if (err) return res.send(err);
-// // // //     res.redirect('/admin/client_pending_registration');
-// // // //   });
-// // // // }
-// // // // reject Client
-// // // function rejectClient(req,res){
-// // //   var db = require('../../lib/database')();
-// // //   var sql = "UPDATE tbluser SET strStatus= 'Rejected' WHERE strStatus='Unregistered' AND intID = ?";
-// // //   db.query(sql,[req.params.userid],function (err) {
-// // //     if (err) return res.send(err);
-// // //     res.redirect('/admin/client_pending_registration');
-// // //   });
-// // // }
-// // // router.get('/approve_client/:userid',flog,approveClient);
-// // // router.get('/revert_client/:userid',flog,revertClient);
-// // // router.get('/reject_client/:userid',flog,rejectClient);
-
-// // function findclientregi(req, res, next){
-// //   var db = require('../../lib/database')();
-// //   db.query("SELECT *, CONCAT(strFName,' ', strLName) AS strName FROM tbluser WHERE strType='Client' AND (strStatus='Unregistered' OR strStatus='Rejected') ", function (err, results) {
-// //     if (err) return res.send(err);
-// //     if (!results[0])
-// //     console.log('');
-// //     req.item = results;
-// //     return next();
-// //   });
-// // }
-// // function renderclientregi(req,res){
-// //   if(req.valid==0)
-// //     res.render('admin/views/client_pending_registration',{usertab: req.user, itemtab: req.item});
-// //   else if(req.valid==1)
-// //     res.render('admin/views/invalidpages/normalonly');
-// //   else
-// //     res.render('login/views/invalid');
-
-// // }
-// // router.get('/client_pending_registration', flog, findclientregi, renderclientregi);
-
-
-// // ---------------------------------------------------------------------------------HOUSEHOLD WORKER
-// // Reinstate Household Worker
-// function reinstateHW(req,res){
-//   var db = require('../../lib/database')();
-//   var sql = "UPDATE tbluser SET strStatus= 'Registered' WHERE strStatus='Banned' AND intID = ?";
-//   db.query(sql,[req.params.userid],function (err) {
-//     if (err) return res.send(err);
-//     res.redirect('/admin/householdworker_list');
-//   });
-// }
-// // Ban Household Worker
-// function banHW(req,res){
-// var db = require('../../lib/database')();
-// var sql = "UPDATE tbluser SET strStatus= 'Banned' WHERE strStatus='Registered' AND intID = ?";
-// db.query(sql,[req.params.userid],function (err) {
-//   if (err) return res.send(err);
-//   res.redirect('/admin/householdworker_list');
-// });
-// }
-// router.get('/reinstate_householdworker/:userid',flog,reinstateHW);
-// router.get('/ban_householdworker/:userid',flog,banHW);
-
-
-
-
-// // -------------------------------------------------------------------------------Household Worker PENDING REGISTRATION
-// // Approve HW
-// function approveHW(req,res){
-//   var db = require('../../lib/database')();
-//   var sql = "UPDATE tbluser SET strStatus= 'Registered' WHERE strStatus='Unregistered' AND intID = ?";
-//   db.query(sql,[req.params.userid],function (err) {
-//     if (err) return res.send(err);
-//     res.redirect('/admin/householdworker_pending_registration');
-//   });
-// }
-// // Revert HW
-// function revertHW(req,res){
-//   var db = require('../../lib/database')();
-//   var sql = "UPDATE tbluser SET strStatus= 'Unregistered' WHERE strStatus='Rejected' AND intID = ?";
-//   db.query(sql,[req.params.userid],function (err) {
-//     if (err) return res.send(err);
-//     res.redirect('/admin/householdworker_pending_registration');
-//   });
-// }
-// // reject hw
-// function rejectHW(req,res){
-//   var db = require('../../lib/database')();
-//   var sql = "UPDATE tbluser SET strStatus= 'Rejected' WHERE strStatus='Unregistered' AND intID = ?";
-//   db.query(sql,[req.params.userid],function (err) {
-//     if (err) return res.send(err);
-//     res.redirect('/admin/householdworker_pending_registration');
-//   });
-// }
-// router.get('/approve_householdworker/:userid',flog,approveHW);
-// router.get('/revert_householdworker/:userid',flog,revertHW);
-// router.get('/reject_householdworker/:userid',flog,rejectHW);
-
-// function findhwregi(req, res, next){
-//   var db = require('../../lib/database')();
-//   db.query("SELECT *, CONCAT(strFName,' ', strLName) AS strName FROM tbluser WHERE strType='Household Worker' AND (strStatus='Unregistered' OR strStatus='Rejected') ", function (err, results) {
-//     if (err) return res.send(err);
-//     if (!results[0])
-//     console.log('');
-//     req.item = results;
-//     return next();
-//   });
-// }
-// function renderhwregi(req,res){
-//   if(req.valid==0)
-//     res.render('admin/views/householdworker_pending_registration',{usertab: req.user, itemtab: req.item});
-//   else if(req.valid==1)
-//     res.render('admin/views/invalidpages/normalonly');
-//   else
-//     res.render('login/views/invalid');
-
-// }
-// router.get('/householdworker_pending_registration', flog, findhwregi, renderhwregi);
 
 //----------------------------------------------------------------------------------UTILITIES
 function findustaff(req, res, next){
@@ -2417,7 +2245,7 @@ router.get('/utilities_staff', flog, findustaff, renderutilitiesStaff);
 
 router.post('/add_staff',(req, res) => {
   var db = require('../../lib/database')();
-  db.query(`INSERT INTO tbluser (strFName, strMName, strLName, strEmail, strPassword, strType, strStatus)  VALUES ("${req.body.firstname}", "${req.body.middlename}", "${req.body.lastname}", "${req.body.email}", "${req.body.password}", "${req.body.type}", "Registered")`, (err) => {
+  db.query(`INSERT INTO tbluser (strFName, strMName, strLName, strEmail, strPassword, strType, strStatus, datDateRegistered)  VALUES ("${req.body.firstname}", "${req.body.middlename}", "${req.body.lastname}", "${req.body.email}", "${req.body.password}", "${req.body.type}", "Registered", NULL)`, (err) => {
     if (err) console.log(err);
     res.redirect('/admin/utilities_staff');
     });
@@ -2472,6 +2300,17 @@ function renderutilagency(req,res){
   else
     res.render('login/views/invalid');
 }
+// -----------------------------------------------------------------QUERIES
+// -----------------------------------------------------------CLIENT
+function renderqueriesclient(req,res,next){
+  if(req.valid==0)
+    res.render('admin/views/queries_client',{usertab: req.user});
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+router.get('/queries_client',flog, renderqueriesclient);
 
 
 //-------------------------------------------Router.get(household request)

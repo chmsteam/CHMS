@@ -23,16 +23,16 @@ block content
                                     thead
                                         tr
                                             //- th Trans. ID
-                                            th Client Name
-                                            th Date Settled
-                                            th Transaction Will End
-                                            th Status
-                                            th ACTION
+                                            th(style="text-align:center") Client Name
+                                            th(style="text-align:center") Date Settled
+                                            th(style="text-align:center") Transaction Will End
+                                            th(style="text-align:center") Status
+                                            th(style="text-align:center") ACTION
                                     tbody
                                         each trans in transtab
-                                            tr
+                                            tr(style="text-align:center")
                                                 //- td #{trans.intTRequestID}
-                                                td #{trans.clientFName} #{trans.clientLName}
+                                                td(style="text-transform:capitalize") #{trans.clientFName} #{trans.clientLName}
                                                 td #{trans.datDateSettled}
                                                 td #{trans.datDateExpiry}
                                                 td #{trans.strTStatus}
@@ -53,14 +53,14 @@ block content
                                 table.table.table-striped.table-bordered
                                     thead
                                         tr
-                                            th NAME
-                                            th SERVICE
-                                            th SALARY
-                                            th STATUS
-                                            th ACTION
+                                            th(style="text-align:center") NAME
+                                            th(style="text-align:center") SERVICE
+                                            th(style="text-align:center") SALARY
+                                            th(style="text-align:center") STATUS
+                                            th(style="text-align:center") ACTION
                                     tbody
                                         each hw in hwtab
-                                            tr
+                                            tr(style="text-align:center")
                                                 td #{hw.strFName} #{hw.strLName}
                                                 td #{hw.strName}
                                                 td #{hw.intConSalary}

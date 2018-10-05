@@ -4,10 +4,10 @@ var router = express.Router();
 var moment = require('moment');
 
 // ----------------------------------------------------------------------------------index page
-router.get('/', flog, findcurrenthw,  findcurrenthwtobereplaced, renderreplacement)
+router.get('/', flog, dropReplaceReason, findcurrenthw,  findcurrenthwtobereplaced, renderreplacement)
 function renderreplacement(req,res){
     if(req.valid==1)
-    res.render('request_replacement_client/views/index',{usertab: req.user, currenthwtab: req.currenthw, currenthwtobereplacedtab: req.currenthwtobereplaced});
+    res.render('request_replacement_client/views/index',{usertab: req.user, currenthwtab: req.currenthw, currenthwtobereplacedtab: req.currenthwtobereplaced, reasons: req.dropReplaceReason});
     else if(req.valid==0)
     res.render('admin/views/invalidpages/normalonly');
     else
@@ -222,6 +222,14 @@ function renderreplacementlist(req,res){
       return next();
     })
   }
+  function dropReplaceReason(req, res, next){
+    var db = require('../../lib/database')();
+    db.query("SELECT * FROM tblmreplacereason WHERE strStatus= 'Active' ", function (err, results) {
+      if (err) return res.send(err);
+      req.dropReplaceReason= results;
+      return next();
+    });
+  }
   
   router.get('/replace_list_/-/:transid/-/:hwid', flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findoldhwservice,findcurrenthwtobereplaced, findtransaction, findnooftrans, findprevtransaction, renderreplacementlist)
   // -------------------------------------------------------------------------------Set attributes
@@ -352,7 +360,7 @@ function findcreatedlist2(req, res){
   db.query("SELECT * FROM tbltransaction WHERE intTRequestID=?",[req.body.transid], function (err, results) {
     console.log(err);
     if (!results[0]){
-      db.query(`SELECT * FROM tblcontract WHERE intConHWID= ? AND strCurStatus IN ('To be replaced')`,[req.body.hwid], function (err,results2){
+      db.query(`SELECT * FROM tblcontract WHERE intConHWID= (SELECT intTobeRelievedID FROM tblreliever WHERE intTobeRelievedID = ?)`,[req.body.hwid], function (err,results2){
         db.query(`INSERT INTO tbltransaction VALUES ('${req.body.transid}', '${req.session.user}', '${req.body.reqdate}', '${req.body.dep}', '${req.body.datedep}', '${req.body.timedep}', '${results2[0].strConCopy}', 'Accepted', NULL, NULL, '','','${req.body.invnum}', '','')`, function(err){
           res.redirect('/request_replacement/contract_/-/'+req.body.transid+'/-/'+req.body.hwid)
         })  
@@ -368,7 +376,7 @@ function findcreatedlist2(req, res){
 }
 
 // -----------------------------------------------------------------------CONTRACT
-router.get('/contract_/-/:transid/-/:hwid',flog, findcreatedlist, findcontractstatus, findcontractstatusforhw, findnoofacceptcontract, findtotnoofacceptcontract, findoldhwservice, findagency,agencyfee, transpofee, replacement, replacementfee, clientaddress, rendercontract);
+router.get('/contract_/-/:transid/-/:hwid',flog, findcreatedlist, findcontractstatus, findcontractstatusforhw, findnoofacceptcontract, findtotnoofacceptcontract, findoldhwservice, findagency, agencyfee, transpofee, replacement, replacementfee, clientaddress, rendercontract);
 function rendercontract(req,res){
   if(req.valid==1)
     res.render('request_replacement_client/views/contract',{usertab: req.user, listtab: req.list, conttab: req.cont, hwtab: req.hw, noacontracttab: req.noacontract, tnocontracttab: req.tnocontract, oldhwservicetab: req.oldhwservice, agencytab: req.agency, agencyfeetab: req.agencyfee, transpofeetab: req.transpofee, replacementtab: req.replacement, replacementfeetab: req.replacementfee, clientaddtab: req.clientadd});

@@ -190,7 +190,7 @@ block content
                                                                                 button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLeave',
                                                                                     data-name=fullname, data-image=`../images/${lr.strPicture}`, data-ty=lr.strName, data-na=lr.intHouseholdID, data-id=lr.intLeaveRequestID,
                                                                                     data-start=lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View Leave Details
-                                                                                a(href='/request_reliever/reliever_list_'+lr.intLeaveRequestID+lr.intHouseholdID)
+                                                                                a(href='/request_reliever/reliever_list_/-/'+lr.intLeaveRequestID+'/-/'+lr.intHouseholdID)
                                                                                     button.btn.btn-primary-sm(type='button') Choose a Reliver
                                                 else if lr.strLeaveStatus == 'Approved'
                                                     .row
@@ -218,55 +218,56 @@ block content
                                                                                 button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLeave',
                                                                                     data-name=fullname, data-image=`../images/${lr.strPicture}`, data-ty=lr.strName, data-na=lr.intHouseholdID, data-id=lr.intLeaveRequestID,
                                                                                     data-start=lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View Leave Details
-                                                                                a(href='/request_reliever/reliever_list_'+lr.intLeaveRequestID+lr.intHouseholdID)
+                                                                                a(href='/request_reliever/reliever_list_/-/'+lr.intLeaveRequestID+'/-/'+lr.intHouseholdID)
                                                                                     button.btn.btn-primary-sm(type='button') Choose a Reliver
                                             each replace in replacetab
-                                                .row
-                                                    .col-md-12
-                                                        br
-                                                        .x_content
-                                                            .row
-                                                                .col-md-12.col-sm-4.col-xs-12.profile_details
-                                                                    .well.profile_view(style='width:100%')
-                                                                        .col-xs-12
-                                                                            center
-                                                                                h2     
-                                                                                    br
-                                                                                    | Type of Request:
-                                                                                    b &nbsp&nbsp Replacement of Client
-                                                                                    br
-                                                                            .col-xs-12.text-center
-                                                                                if replace.strRequestStatus == 'Draft'
-                                                                                    p
-                                                                                    h2
-                                                                                        | Your household worker wants you to replace him/her. Your reamaining replacement will not decrease when you search for a replacement because this is not your request. This is a valid request and was validated by the agency. Failure to find a replacement for the household worker 
-                                                                                        | will result to termination of his/her contract.
-                                                                                    p
-                                                                                    br
-                                                                                else if replace.strRequestStatus == 'On process'
-                                                                                    p
-                                                                                    h2
-                                                                                        | You can monitor your list for replacement for #{replace.hwfname} here.
-                                                                                    p
-                                                                                    br
-                                                                                else if replace.strRequestStatus == 'Pending'
-                                                                                    p
-                                                                                    h2
-                                                                                        | Your request for replacement for replacement for #{replace.hwfname} is now awaiting for the approval of the admin. You can monitor your list for replacement here.
-                                                                                    p
-                                                                                    br
+                                                if replace.strRequestStatus != 'Finished'
+                                                    .row
+                                                        .col-md-12
+                                                            br
+                                                            .x_content
+                                                                .row
+                                                                    .col-md-12.col-sm-4.col-xs-12.profile_details
+                                                                        .well.profile_view(style='width:100%')
+                                                                            .col-xs-12
+                                                                                center
+                                                                                    h2     
+                                                                                        br
+                                                                                        | Type of Request:
+                                                                                        b &nbsp&nbsp Replacement of Client
+                                                                                        br
+                                                                                .col-xs-12.text-center
+                                                                                    if replace.strRequestStatus == 'Draft'
+                                                                                        p
+                                                                                        h2
+                                                                                            | Your household worker wants you to replace him/her. Your reamaining replacement will not decrease when you search for a replacement because this is not your request. This is a valid request and was validated by the agency. Failure to find a replacement for the household worker 
+                                                                                            | will result to termination of his/her contract.
+                                                                                        p
+                                                                                        br
+                                                                                    else if replace.strRequestStatus == 'On process'
+                                                                                        p
+                                                                                        h2
+                                                                                            | You can monitor your list for replacement for #{replace.hwfname} here.
+                                                                                        p
+                                                                                        br
+                                                                                    else if replace.strRequestStatus == 'Pending'
+                                                                                        p
+                                                                                        h2
+                                                                                            | Your request for replacement for replacement for #{replace.hwfname} is now awaiting for the approval of the admin. You can monitor your list for replacement here.
+                                                                                        p
+                                                                                        br
 
-                                                                        .col-xs-12.bottom.text-center
-                                                                            if replace.strRequestStatus == 'Draft'
-                                                                                a(href='/request_replacement/replace_list_/-/'+replace.intRequestID+'/-/'+replace.hwid)
-                                                                                    button.btn.btn-primary(type='button') Find Replacement
-                                                                            else if replace.strRequestStatus == 'On process'
-                                                                                a(href='/request_replacement/replace_list_/-/'+replace.intRequestID+'/-/'+replace.hwid)
-                                                                                    button.btn.btn-primary(type='button') Monitor List
-                                                                            else if replace.strRequestStatus == 'Pending'
-                                                                                a(href='/request_replacement/replace_list_/-/'+replace.intRequestID+'/-/'+replace.hwid)
-                                                                                    button.btn.btn-primary(type='button') Monitor List
-                                                                                button.btn.btn-primary(type='button') View Invoice             
+                                                                            .col-xs-12.bottom.text-center
+                                                                                if replace.strRequestStatus == 'Draft'
+                                                                                    a(href='/request_replacement/replace_list_/-/'+replace.intRequestID+'/-/'+replace.hwid)
+                                                                                        button.btn.btn-primary(type='button') Find Replacement
+                                                                                else if replace.strRequestStatus == 'On process'
+                                                                                    a(href='/request_replacement/replace_list_/-/'+replace.intRequestID+'/-/'+replace.hwid)
+                                                                                        button.btn.btn-primary(type='button') Monitor List
+                                                                                else if replace.strRequestStatus == 'Pending'
+                                                                                    a(href='/request_replacement/replace_list_/-/'+replace.intRequestID+'/-/'+replace.hwid)
+                                                                                        button.btn.btn-primary(type='button') Monitor List
+                                                                                    button.btn.btn-primary(type='button') View Invoice             
                                         #tab_content3.tab-pane.fade(role='tabpanel', aria-labelledby='history-tab')
                                             each request in requesttab
                                                 if request.strRequestType == 'Add' && (request.strRequestStatus == 'Finished' || request.strRequestStatus == 'Rejected' || request.strRequestStatus == 'Cancelled')
@@ -345,7 +346,7 @@ block content
                                                                                         br
                                                                                 .col-xs-12.bottom.text-center
                                                                                     if (request2.strRequestType == 'Replacement' || request2.strRequestType == 'Replace Client') && request2.strRequestStatus == 'Finished'
-                                                                                        a(href='/request_replacement/replace_list_'+request2.intRequestID+request2.intReplaceOldHWID)
+                                                                                        a(href='/request_replacement/replace_list_/-/'+request2.intRequestID+'/-/'+request2.intReplaceOldHWID)
                                                                                             button.btn.btn-primary(type='button')
                                                                                                 | View Details
                                                                                     else if (request2.strRequestType == 'Replacement' || request2.strRequestType == 'Replace Client') && request2.strRequestStatus == 'Cancelled'

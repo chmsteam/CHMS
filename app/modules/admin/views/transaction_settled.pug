@@ -18,18 +18,18 @@ block content
                                 table#datatable.table.table-striped.table-bordered
                                     thead
                                         tr
-                                            th ID
-                                            th NAME
-                                            th TYPE OF REQUEST
-                                            th DATE SETTLED
-                                            th TRANSACTION WILL END
-                                            th STATUS
-                                            th ACTION
+                                            //- th ID
+                                            th(style="text-align:center") NAME
+                                            th(style="text-align:center") TYPE OF REQUEST
+                                            th(style="text-align:center") DATE SETTLED
+                                            th(style="text-align:center") TRANSACTION WILL END
+                                            th(style="text-align:center") STATUS
+                                            th(style="text-align:center") ACTION
                                     tbody
                                         each list in listtab
-                                            tr
-                                                td #{list.intTRequestID}
-                                                td #{list.strName}
+                                            tr(style="text-align:center")
+                                                //- td #{list.intTRequestID}
+                                                td(style="text-transform:capitalize") #{list.strName}
                                                 td #{list.strRequestType}
                                                 td #{list.datDateSettled}
                                                 td #{list.dateexpire}

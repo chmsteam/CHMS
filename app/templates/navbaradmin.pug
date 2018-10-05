@@ -38,6 +38,9 @@ html(lang='en')
     link(href="/custom/alerts/css/popup.css" rel="stylesheet")
     //- link(rel="stylesheet", href="/asset_sweetalert/src/sweetalert2.css")
     //- script(src="/asset_sweetalert/src/sweetalert2.all.min.js")
+        //- pdfmake
+    script(type='text/javascript', src='/pdfmake/build/pdfmake.min.js')
+    script(type='text/javascript', src='/pdfmake/build/vfs_fonts.js')
 
 
   //- #preloader
@@ -168,8 +171,8 @@ html(lang='en')
                                   a(href='/admin/transaction_hhRequest_leave') Leave
                                 li.sub_menu
                                   a(href='/admin/transaction_replacement_of_client') Replacement of Client
-                            li.sub_menu
-                              a(href='/admin/transaction_rejected') Rejected
+                            //- li.sub_menu
+                            //-   a(href='/admin/transaction_rejected') Rejected
                             
                         li 
                           a
@@ -205,16 +208,24 @@ html(lang='en')
                           a(href='/admin/utilities_freereplacement') Replacement
                     li
                       a
+                        i.fa.fa-gear
+                        |  Queries
+                        span.fa.fa-chevron-down
+                      ul.nav.child_menu
+                        li
+                          a(href='/admin/queries_client') Client
+                        li
+                          a(href='/admin/queries_hw') Household Worker
+                        li
+                          a(href='/admin/queries_city') City
+                    li
+                      a
                         i.fa.fa-pie-chart
                         |  Reports 
                         span.fa.fa-chevron-down
                       ul.nav.child_menu
                         //- li
                         //-   a(href='') Number of Household Workers Deployed
-                    li
-                      a()
-                        i.fa.fa-cubes
-                        |  Query
           #preloader        
               // /sidebar menu
           // top navigation
@@ -612,6 +623,13 @@ html(lang='en')
                 oFReader.readAsDataURL(document.getElementById("uploadImage4").files[0]);
                 oFReader.onload = function (oFREvent) {
                 document.getElementById("uploadPreview4").src = oFREvent.target.result;
+                };
+              };
+            function PreviewImage5() {
+                var oFReader = new FileReader();
+                oFReader.readAsDataURL(document.getElementById("uploadImage5").files[0]);
+                oFReader.onload = function (oFREvent) {
+                document.getElementById("uploadPreview5").src = oFREvent.target.result;
                 };
               };
             $('#editpic').on('show.bs.modal', function (event) {
