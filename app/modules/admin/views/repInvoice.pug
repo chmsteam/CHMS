@@ -1,7 +1,7 @@
-extends ../../../templates/navbarclient.pug
+extends ../../../templates/navbaradmin.pug
 block content
     section#services
-        .right_col(role='main' style="background-color:transparent;")
+        .right_col(role='main' style="background-color:transparent;" window.onLoad="total();")
             .page-title
                 .row
                     .col-md-12.col-sm-12.col-xs-12
@@ -62,7 +62,7 @@ block content
                                                             th Rate	
                                                             th Subtotal
                                                     tbody
-                                                        each item in itemtab
+                                                        each item in itemtabs
                                                             //- each agencyf in agencyftab
                                                             tr
                                                                 td#servName #{item.strName}
@@ -101,8 +101,8 @@ block content
                                         // this row will not appear when printing
                                         .row.no-print
                                             .col-xs-12
-                                                a(href='/home_client')
-                                                    button.btn.btn-primary.pull-right(type='button') Home Page
+                                                //- a(href='/request_add')
+                                                //-     button.btn.btn-primary.pull-right(type='button') Back to List
                                                 button.btn.btn-success.pull-right#printInv
                                                     i.fa.fa-print
                                                     |  Print
@@ -113,15 +113,16 @@ block content
         
     script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
     script.
-        function total(){
-                var subtot=parseInt(document.getElementById("subtot").value)
-                var othfee=parseInt(document.getElementById("othfee").value)
-                var total;
+        $(document).ready(function(){
+            var subtot=parseInt(document.getElementById("subtot").value);
+            var othfee=parseInt(document.getElementById("othfee").value);
+            console.log(subtot);
+            var total;
 
-                total = subtot+othfee;
+            total = subtot+othfee;
 
-                document.getElementById("tots").innerHTML = 'P '+total;
-        };
+            document.getElementById("tots").innerHTML = 'P '+total;
+        });
     script(type='text/javascript').
         $(document).ready(function(){
             $(document).on(	'click', '#generateButton', function(){
