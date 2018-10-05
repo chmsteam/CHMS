@@ -41,13 +41,13 @@ block content
                                                     .col-sm-12
                                                         .right.col-sm-12
                                                         h3.brief    
-                                                            b   " #{list.strRequestName} "
+                                                            b   #{list.strRequestName}
                                                         .left.col-sm-12
                                                             br
                                                             ul.list-unstyled
-                                                                li
-                                                                    strong List no: 
-                                                                    |  #{list.intRequestID}
+                                                                //- li
+                                                                //-     strong List no: 
+                                                                //-     |  #{list.intRequestID}
                                                                 li
                                                                     strong Date needed: 
                                                                     |  #{list.datRequestNeedDate}
@@ -182,7 +182,7 @@ block content
                                 .col-md-10
                                     .form-group
                                         b   Other Details
-                                        textarea.form-control.AddMessage(rows='10' name='reqdesc')
+                                        textarea.form-control.AddMessage(rows='5' name='reqdesc')
                     .modal-footer
                         button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
                         button#add.btn.btn-success.btn-md(type='submit',  onCLick='time();') Create
@@ -190,22 +190,45 @@ block content
     //- scripts
     script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
     script.
-        $(document).ready(function(){
-            $('form#add').submit(function(){
-                swal({
-                    type: 'success',
-                    title: 'Success!',
-                    text:  'List successfully created.',
-                    showConfirmButton: false,
-                    timer: 2000
-                    }),
-                $('#Add').modal('hide').then(
-                    $(function(){
-                        location.reload();
-                        })
-                );
-            });
+        $('form#add').submit(function(e){
+            e.preventDefault();
+            $.ajax({
+                url: '/request_add/createlist_services/createlist',
+                method: 'post',
+                data: $('form#add').serialize(),
+                success: function(response){
+                    console.log(response);
+                    if(response == 'success'){
+                        $('#Add').modal('hide');
+                        swal({
+                            type: 'success',
+                            title: 'List Created',
+                            text: 'List successfully created',
+                            showConfirmButton: false,
+                            },setTimeout(function() {
+                                location.reload();
+                            }, 2500)
+                        );
+                    }
+                }
+            })
         });
+    //- script.
+    //-     $(document).ready(function(){
+    //-         $('form#add').submit(function(){
+    //-             swal({
+    //-                 type: 'success',
+    //-                 title: 'List created',
+    //-                 showConfirmButton: false,
+    //-                 timer: 1500
+    //-                 }),
+    //-             $('#Add').modal('hide').then(
+    //-                 $(function(){
+    //-                     location.reload();
+    //-                     })
+    //-             );
+    //-         });
+    //-     });
     script.
         function time(){
             var today = new Date();

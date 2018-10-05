@@ -12,12 +12,12 @@ block content
                             
                             each list in listtab
                                 h2(style="font-size:33px;") &nbsp&nbspName of list: 
-                                    b   " #{list.strRequestName} "               
+                                    b    #{list.strRequestName}               
                             .x_title
                                 .clearfix
                                 .x_panel.alert-success(style='background-color:')
-                                    h3(style="font-size:18px;")(align='center')
-                                        b   &nbsp&nbsp&nbsp&nbsp&nbspDisclaimer !!!
+                                    h3(style="font-size:18px;")
+                                        b Disclaimer !!!
                                             br
                                             br
                                         li
@@ -32,8 +32,8 @@ block content
 
                                 each count in counttab
                                     if (list.strRequestStatus == 'Draft' && count.counter != 0)
-                                        a(href='/request_add/submit_request_'+list.intRequestID)
-                                            button.btn.pull-right.btn-success.btn-lg#submit(type='button')
+                                        a#sub(href='/request_add/submit_request_'+list.intRequestID)
+                                            button.btn.pull-right.btn-success.btn-lg#submit(type='button' value=list.intRequestID)
                                                 i.fa.fa-envelope
                                                 |   Submit List
                                     else if list.strRequestStatus == 'On process' || list.strRequestStatus == 'Pending'
@@ -44,18 +44,18 @@ block content
                                 table.table.jambo_table.table-bordered
                                     thead
                                         tr
-                                            th Number
-                                            th Service
-                                            th Quantity
-                                            th Results
-                                            th Action
+                                            th(style="text-align:center") #
+                                            th(style="text-align:center") Service
+                                            th(style="text-align:center") Quantity
+                                            th(style="text-align:center") Results
+                                            th(style="text-align:center") Action
                                     tbody
                                     each item in itemtab
                                         each list in listtab  
-                                            tr
+                                            tr(style="text-align:center")
                                                 td #{item.intIRequest_No}
                                                 td #{item.strName}
-                                                td #{item.intIQuantity}
+                                                td#bilang #{item.intIQuantity}
                                                 td #{item.forapproval}
                                                 td
                                                     button.btn.btn-info.btn-xs(type='button' data-toggle="modal" data-target="#view_item"
@@ -66,7 +66,7 @@ block content
                                                                             , data-sal= item.deciRequestSalary, data-age=item.intIRequestAge1 , data-ages=item.intIRequestAge2 ) Edit
                                                             button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item" , data-requestno=item.intIRequest_No , data-requestid=item.intIRequestID ) Delete
                                                         else if list.strRequestStatus == 'On process'
-                                                            a(href='/request_add/result_/-/'+item.intIRequestID+'/-/'+item.intIRequest_No)
+                                                            a(href='result_/-/'+item.intIRequestID+'/-/'+item.intIRequest_No)
                                                                 button.btn.btn-primary.btn-xs(type='button') View Result
                                                             button.btn.btn-danger.btn-xs(type='button' data-toggle="modal" data-target="#remove_item2", data-requestno=item.intIRequest_No , data-requestid=item.intIRequestID ) Delete
                                 each list in listtab
@@ -204,7 +204,7 @@ block content
                                     .col-md-4
                                         .form-group
                                             br
-                                            | Highest Educational Attainment:
+                                            | Educational Attainment:
                                             span.required
                                             select.form-control(name='educ')
                                                 option(value='Elementary') Elementary
@@ -213,16 +213,16 @@ block content
                                                 option(value='Vocational') Vocational
                                     .col-md-2
                                         .form-group
-                                            | Work Experience (at least):
+                                            | Work Experience
                                             span.required
                                             input#first-name.form-control.col-md-7.col-xs-12(type='number' name='workexp' value='0')
                                 
                                     .col-md-4
                                         br
                                         .form-group
-                                            | Willing to work for a monthly salary of (minimum):&nbspP
+                                            | Monthly Salary
                                             span.required
-                                            input#first-name.form-control.col-md-7.col-xs-12(type='number' name='salary' value='0')
+                                            input#first-name.form-control.col-md-7.col-xs-12(type='number' name='salary'  required)
                                 br
                                 .row
                                     .col-md-2
@@ -528,31 +528,136 @@ block content
         script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
         script.
             $(document).ready(function(){
-                $('form#add').submit(function(){
-                    swal({
-                        type: 'success',
-                        title: 'Successful!!!',
-                        text: 'Service/s successfully added to the list',   
-                        showConfirmButton: false,
-                        timer: 3000
-                        }),
-                    $('#Add').modal('hide').then(
-                        $(function(){
-                            location.reload();
-                            }, 6000)
-                    );
-                });
-                $('#submit').click(function(){
-                    swal({
-                        type: 'success',
-                        title: 'Successful!!!',
-                        text: 'Request successfully sent to admin.'
-                        },
-                        $(function(){
-                            location.reload();
-                            }, 5000));
+                $("#submit").click(function(e){
+                    e.preventDefault();
+                    var idNow = $(this).val();
+                    var etolink = '/request_add/submit_request_'+ idNow;
+                    console.log(etolink);
+                    $.ajax({
+                        url: etolink,
+                        method: 'get',
+                        data: '',
+                        success: function(data, status){
+                            console.log(status);
+                            if(status == 'success'){
+                                swal({
+                                    type: 'success',
+                                    title: 'Submitted',
+                                    text: 'List submitted to admin',
+                                    showConfirmButton: true,
+                                    timer: 5000
+                                },
+                                function(isConfirm){
+                                    if(isConfirm){
+                                        location.reload();
+                                    }
+                                });
+                            }
+                        }
+                        
+                    })
                 });
             });
+        script.
+            $('form#add').submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: 'post',
+                    data: $('form#add').serialize(),
+                    success: function(response){
+                        console.log(response);
+                        if(response == 'success'){
+                            $('#Add').modal('hide');
+                            swal({
+                                type: 'success',
+                                title: 'Added',
+                                text: 'Service added to the list',
+                                showConfirmButton: false,
+                                },setTimeout(function() {
+                                    location.reload();
+                                }, 1000)
+                            );
+                        }
+                    }
+                })
+            });
+        //- script.
+        //-     $('#submit').click(function(){
+        //-         swal({
+        //-             type: 'info',
+        //-             title: 'Submitted',
+        //-             text: 'List submitted to admin',
+        //-             showConfirmButton: false,
+        //-             },setTimeout(function() {
+        //-                 location.reload();
+        //-             }, 3000)
+        //-         );
+        //-     });
+        //- script.
+        //-     $('#submit').click(function(e){
+        //-         e.preventDefault();
+        //-         swal({
+        //-             title: "Are you sure?",
+        //-             text: "You want to send this list?",
+        //-             icon: "info",
+        //-             buttons: true,
+        //-             dangerMode: true,
+        //-         }).then((willSend) => {
+        //-             if(willSend) {
+        //-                 var idko = $(this).val();
+        //-                 console.log(idko);
+        //-                 console.log(url);
+        //-                 $.ajax({
+        //-                 url: $(this).attr('#sub'),
+        //-                 method: 'post',
+        //-                 data: idko,
+        //-                 success: function(response){
+        //-                     console.log(response);
+        //-                     if(response == 'success'){
+        //-                         swal("List submitted!", {
+        //-                         icon: "success",
+        //-                     });
+        //-                 }
+        //-             };
+        //-             else{
+        //-                 swal("List submitted!", {
+        //-                         icon: "success",
+        //-                     });
+        //-             }
+        //-             });
+        //-         });
+        //-         });
+        //-     });
+        //- script.
+        //-     $(document).ready(function(){
+        //-         //- $('form#add').submit(function(){
+        //-         //-     swal({
+        //-         //-         type: 'success',
+        //-         //-         title: 'Service added to the list',
+        //-         //-         showConfirmButton: false,
+        //-         //-         timer: 5000
+        //-         //-         }),
+        //-         //-     $('#Add').modal('hide').then(
+        //-         //-         $(function(){
+        //-         //-             location.reload();
+        //-         //-             }, 6000)
+        //-         //-     );
+        //-         //- });
+        //-         $('#submit').click(function(){
+        //-             swal({
+        //-                 type: 'info',
+        //-                 title: 'List submitted to admin',
+        //-                 timer: 5000,
+        //-                 showConfirmButton: true,
+        //-                 closeOnConfirm: true,
+        //-                 },
+        //-                 $(function(){
+        //-                     location.reload();
+        //-                     }, 6000)
+        //-             );
+        //-         });
+        //-     });
         script.
             function time(){
                 var today = new Date();         

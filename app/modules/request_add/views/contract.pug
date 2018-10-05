@@ -24,13 +24,13 @@ block content
                                         table.table.jambo_table.table-bordered
                                             thead
                                                 tr
-                                                    th MAIN CONTRACT
-                                                    th STATUS
-                                                    th ACTION
+                                                    th(style="text-align:center") MAIN CONTRACT
+                                                    th(style="text-align:center") STATUS
+                                                    th(style="text-align:center") ACTION
                                                 
                                             tbody
                                                 each cont in conttab
-                                                    tr
+                                                    tr(style="text-align:center")
                                                         td
                                                             center
                                                                     if cont.strContractStatus == ''
@@ -85,14 +85,14 @@ block content
                                             table.table.jambo_table.table-bordered
                                                 thead
                                                     tr
-                                                        th NAME
-                                                        th SERVICE
-                                                        th SALARY
-                                                        th STATUS
-                                                        th ACTION
+                                                        th(style="text-align:center") NAME
+                                                        th(style="text-align:center") SERVICE
+                                                        th(style="text-align:center") SALARY
+                                                        th(style="text-align:center") STATUS
+                                                        th(style="text-align:center") ACTION
                                                 tbody
                                                     each hw in hwtab
-                                                        tr
+                                                        tr(style="text-align:center")
                                                             td #{hw.strFName} #{hw.strLName}
                                                             td #{hw.strName}
                                                             td #{hw.intConSalary}
@@ -119,8 +119,8 @@ block content
                                         if noacontract.noa == tnocontract.tno
                                             .pull-right
                                                 each list in listtab
-                                                    form(method='POST', action = '/request_add/send_to_admin')
-                                                        input(type='text', name='transid', value=''+list.intRequestID, style="display:none;")
+                                                    form#sendAdmin(method='POST', action = '/request_add/send_to_admin')
+                                                        input#red(type='text', name='transid', value=''+list.intRequestID, style="display:none;")
                                                         button.btn.btn-success.btn-lg#sendtoAdmin(type='submit' name='btn1' value='send') Send Request To Admin  
                                             
                                         else
@@ -174,6 +174,10 @@ block content
                                     button.btn.btn-success.btn-md#editSalary(type='submit') Change
            
             script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+            //- script.
+            //-     $(document).ready(function(){
+                   
+            //-     });
             script.
                 $(document).ready(function(){
                     $('#acceptContract').click(function(){
@@ -222,17 +226,17 @@ block content
                         );
                     });
                     //send contract to Admin
-                    $('#sendtoAdmin').click(function(){
-                        swal({
-                            type: 'success',
-                            title: 'Contract sent to Admin',
-                            //- text: 'Wait for the confirmation of the household worker',
-                            },
-                            $(function(){
-                                location.reload();
-                                })
-                        );
-                    });
+                    //- $('#sendtoAdmin').click(function(){
+                    //-     swal({
+                    //-         type: 'success',
+                    //-         title: 'Contract sent to Admin',
+                    //-         //- text: 'Wait for the confirmation of the household worker',
+                    //-         },
+                    //-         $(function(){
+                    //-             location.reload();
+                    //-             })
+                    //-     );
+                    //- });
                     $('form#editSalary').submit(function(){
                         swal({
                             type: 'success',
@@ -245,6 +249,36 @@ block content
                                 location.reload();
                                 }, 6000)
                         );
+                    });
+                    $('#sendtoAdmin').click(function(e){
+                        e.preventDefault();
+                        var redir = $('input#red').val();
+                        var action = $('form#sendAdmin').attr('action');
+                        console.log(action);
+                        console.log(redir);
+                        $.ajax({
+                            url: $('form#sendAdmin').attr('action'),
+                            method: 'post',
+                            data: {
+                                transid: redir,
+                                btn1: "send"
+                            },
+                            success: function(response){
+                                console.log(response);
+                                if(response == 'sent'){
+                                    swal({
+                                        type: 'success',
+                                        title: 'Contract Sent',
+                                        text: 'Wait for the admin to settle  your transaction',
+                                        showConfirmButton: true,
+                                    },function(isConfirm){
+                                        if(isConfirm){
+                                            window.location.href = '/request_add/invoice_'+redir;
+                                        }
+                                    });
+                                }
+                            }
+                        })
                     });
 
                 });

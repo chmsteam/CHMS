@@ -18,18 +18,16 @@ block content
                                 table#datatable.table.table-striped.table-bordered
                                     thead
                                         tr
-                                            th(style="text-align:center") ID
                                             th(style="text-align:center") NAME
                                             th(style="text-align:center") REQUEST
                                             th(style="text-align:center") DATE REQUESTED
                                             th(style="text-align:center") DATE NEEDED
                                             th(style="text-align:center") STATUS
-                                            th ACTION
+                                            th(style="text-align:center") ACTION
                                     tbody
                                         each request in requesttab
                                             tr(style="text-align:center")
-                                                td #{request.intRequestID}
-                                                td #{request.strName}
+                                                td(style="text-transform:capitalize") #{request.strName}
                                                 if request.strRequestType =='Replace Client'
                                                     td Replacement (via Household Worker's Request)
                                                 else

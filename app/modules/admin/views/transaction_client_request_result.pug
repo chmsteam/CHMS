@@ -25,21 +25,21 @@ block content
                                 table#datatable.table.table-striped.table-bordered
                                     thead
                                         tr
-                                            th ID
-                                            th NAME
-                                            th SERVICE
-                                            th AGE
-                                            th Gender
-                                            th EDUCATION
-                                            th WORK EXPERIENCE
-                                            th STATUS
-                                            th ACTION
+                                            //- th ID
+                                            th(style="text-align:center") NAME
+                                            th(style="text-align:center") SERVICE
+                                            th(style="text-align:center") AGE
+                                            th(style="text-align:center") Gender
+                                            th(style="text-align:center") EDUCATION
+                                            th(style="text-align:center") WORK EXPERIENCE
+                                            th(style="text-align:center") STATUS
+                                            th(style="text-align:center") ACTION
                                     tbody
                                         each resulta in resultatab
                                             each request in requesttab
-                                                tr
+                                                tr(style="text-align:center")
                                                     form(method="POST" action="/admin/transaction_add_to_list_/-/"+request.intIRequestID+'/-/'+request.intIRequest_No+'/-/'+resulta.intHWID)
-                                                        td #{resulta.intHWID}
+                                                        //- td #{resulta.intHWID}
                                                             //- input(type="number" name= 'hwid' style='visibility:hidden;', value=''+resulta.intHWID)
                                                         td #{resulta.hwname}
                                                         td #{resulta.strName}
@@ -64,21 +64,21 @@ block content
                                     table#datatable2.table.table-striped.table-bordered
                                         thead
                                             tr
-                                                th ID
-                                                th NAME
-                                                th SERVICE
-                                                th AGE
-                                                th GENDER
+                                                //- th ID
+                                                th(style="text-align:center") NAME
+                                                th(style="text-align:center") SERVICE
+                                                th(style="text-align:center") AGE
+                                                th(style="text-align:center") GENDER
                                                 //- th EDUCATION
-                                                th WORK EXPERIENCE
-                                                th STATUS
-                                                th ACTION
+                                                th(style="text-align:center") WORK EXPERIENCE
+                                                th(style="text-align:center") STATUS
+                                                th(style="text-align:center") ACTION
                                         tbody
                                             each otherresulta in otherresultatab
                                                 each request in requesttab
-                                                    tr
+                                                    tr(style="text-align:center")
                                                         form(method="POST" action="/admin/transaction_add_to_list_/-/"+request.intIRequestID+'/-/'+request.intIRequest_No+'/-/'+otherresulta.intHWID)
-                                                            td #{otherresulta.intHWID}
+                                                            //- td #{otherresulta.intHWID}
                                                                 //- input(type="number" name= 'hwid' style='visibility:hidden;', value=''+otherresulta.intHWID)
                                                             td #{otherresulta.hwname}
                                                             td #{otherresulta.strName}

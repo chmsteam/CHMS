@@ -36,8 +36,9 @@ html(lang='en')
     link(href='/assets4/css/style1.css', rel='stylesheet')
     // iCheck
     link(href='/admin/gentelella/vendors/iCheck/skins/flat/green.css', rel='stylesheet')
-    //- swaL
-    script(src='https://unpkg.com/sweetalert/dist/sweetalert.min.js')
+    // sweet alert
+    link(href="/custom/alerts/css/popup.css" rel="stylesheet")
+    script(src="/asset_sweetalert/src/sweetalert2.all.min.js")
     
     style.
         .x_panel{
@@ -57,7 +58,7 @@ html(lang='en')
     body   
         .col-lg-7(style="margin-left:23%;")
             .x_panel(style="background-color:white")
-                form.form-horizontal.form-label-left(id='regiclient' method="POST" action="/registration/client" style="background-color:white")
+                form.form-horizontal.form-label-left#regi(method="POST" action="/registration/client" style="background-color:white")
                     .x_title
                         center
                             h1 Client Registration
@@ -195,6 +196,8 @@ html(lang='en')
     //preloader
     script(src='/assets4/js/custom1.js')
     script(src='/assets4/lib/wow/wow.min.js')
+    //swal
+    script(src='/custom/alerts/js/sweetalert.min.js')
 
     //- swal
     //- script(src='/sweetalert/dist/sweetalert.min.js')
@@ -240,6 +243,53 @@ html(lang='en')
                 $('#submitbtn').attr('disabled', 'disabled');
             }
         }); 
+    //- script.
+    //-     $('form#regi').submit(function(){
+    //-         console.log("nakapunta dito");
+    //-         setTimeout(function() {
+    //-             window.location.href = "/login";
+    //-             }, 5000);
+    //-         swal({
+    //-             type: 'success',
+    //-             title: 'Submitted',
+    //-             text: 'You may now present the needed documents in the admin office',
+    //-         });
+    //-     })
+    script.
+        $('form#regi').submit(function(e){
+            e.preventDefault();
+            $.ajax({
+                url: '/registration/client',
+                method: 'post',
+                data: $('form#regi').serialize(),
+                success: function(response){
+                    console.log(response);
+                    if(response == 'success'){
+                        swal({
+                            type: 'success',
+                            title: 'Submitted',
+                            text: 'You may now present the needed documents to the admin office',
+                            showConfirmButton: true,
+                        },function(isConfirm){
+                            if(isConfirm){
+                                window.location.href = "/login";
+                                }
+                        });
+                    }
+                    else if(response == 'notmatch'){
+                        swal({
+                            type: 'warning',
+                            title: 'Password Not Matched',
+                            text: 'Password didnt match',
+                            showConfirmButton: false,
+                            },setTimeout(function() {
+                            window.location.href = "/registration/client";
+                            }, 3000)
+                        );
+                    }
+                }
+            })
+        });
 
 
         //- function pls(){

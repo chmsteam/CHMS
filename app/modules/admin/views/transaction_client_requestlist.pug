@@ -24,7 +24,7 @@ block content
                                                 #crop-avatar
                                                     // Current avatar
                                                     img.img-responsive.avatar-view(src='../images/'+client.strPicture, alt='Avatar', title='Change the avatar', style='width:170px; height:170px')
-                                            h3(style='color:white') #{client.strName}
+                                            h3(style='color:white; text-transform:capitalize;') #{client.strName}
                                             ul.list-unstyled.user_data(style='color:white')
                                                 li.m-top-xs
                                                     i.fa.fa-phone-square.user-profile-icon
@@ -47,16 +47,16 @@ block content
                                                 table.table.table-striped.table-bordered
                                                     thead
                                                         tr
-                                                            th Number
-                                                            th Service
-                                                            th Quantity
+                                                            //- th Number
+                                                            th(style="text-align:center")  Service
+                                                            th(style="text-align:center")  Quantity
                                                             //- th Approved
                                                             //- th Reject
-                                                            th Action
+                                                            th(style="text-align:center")  Action
                                                     tbody
                                                         each request in requesttab
-                                                            tr
-                                                                td #{request.intIRequest_No}
+                                                            tr(style="text-align:center") 
+                                                                //- td #{request.intIRequest_No}
                                                                 td #{request.strName}
                                                                 td #{request.intIQuantity}
                                                                 //- td 
@@ -188,27 +188,27 @@ block content
                                                                                     button.btn.btn-primary(type='button')
                                                                                         i.fa.fa-user  
                                                                                         |  View
-                                                                        form(method="POST" action="tr_add_actions_"+selected.intRRequestID)
+                                                                        form#sendReq(method="POST" action="tr_add_actions_"+selected.intRRequestID)
                                                                             .col-xs-12.col-sm-8.emphasis
-                                                                                input(type='text' name='hwid' value=''+selected.intRHWID , style="display:none;" )
-                                                                                input(type='text' name='reqno' value=''+selected.intRRequest_No , style="display:none;" )
+                                                                                //- input#hwid(type='text' name='hwid' value=''+selected.intRHWID , style="display:none;" )
+                                                                                input#reqno(type='text' name='reqno' value=''+selected.intRRequest_No , style="display:none;" )
                                                                                 if selected.strRHWStatus == '' && selected.strRClientStatus ==''
-                                                                                    button.btn.btn-success#sendRequest(type='submit' name='btn1' value='sendtohw')
+                                                                                    button.btn.btn-success#sendRequest(type='submit' name='hwid' value=selected.intRHWID)
                                                                                         i.fa.fa-paper-plane 
                                                                                         |  Send Request
-                                                                                    button.btn.btn-danger#removeList(type='submit' name='btn1' value='removefromlist')
+                                                                                    button.btn.btn-danger#removeList(type='submit' name='hwid' value=selected.intRHWID)
                                                                                         i.fa.fa-trash
                                                                                         |  Remove From List
                                                                                 else if selected.strRHWStatus == 'Waiting' && selected.strRClientStatus ==''
-                                                                                    button.btn.btn-warning#cancelRequest(type='submit' name='btn1' value='cancelsendtohw')
+                                                                                    button.btn.btn-warning#cancelRequest(type='submit' name='hwid' value=selected.intRHWID)
                                                                                         i.fa.fa-times  
                                                                                         |  Cancel Request
                                                                                 else if selected.strRHWStatus == 'Approved' && selected.strRClientStatus ==''
-                                                                                    button.btn.btn-success#sendClient(type='submit' name='btn1' value='sendtoclient')
+                                                                                    button.btn.btn-success#sendClient(type='submit' name='hwid' value=selected.intRHWID)
                                                                                         i.fa.fa-envelope 
                                                                                         |  Send to Client
                                                                                 else if selected.strRHWStatus == 'Rejected' && selected.strRClientStatus ==''
-                                                                                    button.btn.btn-danger(type='submit' name='btn1' value='removefromlist')
+                                                                                    button.btn.btn-danger#removeList(type='submit' name='hwid' value=selected.intRHWID)
                                                                                         i.fa.fa-fa-trash
                                                                                         |  Remove
                                         
@@ -386,59 +386,175 @@ block content
             var filename = x.replace(/^.*\\/, "");
             document.getElementById("nameoffile").value =filename;
         }
-                            
+                    
     script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
     script.
-        $(document).ready(function(){
-            $('button#sendRequest').click(function(){
-                swal({
-                    type: 'success',
-                    title: 'Request Sent',
-                    text: 'Wait for the confirmation of the household worker',
-                    showConfirmButton: true,
-                    closeOnConfirm: true,
+            $('button#sendRequest').click(function(e){
+                e.preventDefault();
+                var idNow1 = $(this).val();
+                console.log(idNow1);
+                $.ajax({
+                    url: $('form#sendReq').attr('action'),
+                    method: 'post',
+                    data: {
+                        hwid: idNow1,
+                        reqno: $('input#reqno').val(),
+                        btn1: "sendtohw"
                     },
-                    $(function(){
-                        location.reload();
-                        })
-                );
+                    success: function(response){
+                        console.log(response);
+                        if(response == 'success'){
+                            swal({
+                                type: 'success',
+                                title: 'Request Sent',
+                                text: 'Wait for the confirmation of the household worker',
+                                showConfirmButton: false,
+                                //- showConfirmButton: true,
+                                //- closeOnConfirm: true,
+                                },setTimeout(function() {
+                                    location.reload();
+                                }, 3000)
+                            );
+                        }
+                    }
+                })
             });
-            $('button#cancelRequest').click(function(){
-                swal({
-                    type: 'warning',
-                    title: 'Request Canceled',
-                    showConfirmButton: true,
-                    closeOnConfirm: true,
+            $('button#removeList').click(function(e){
+                e.preventDefault();
+                var idNow1 = $(this).val();
+                console.log(idNow1);
+                $.ajax({
+                    url: $('form#sendReq').attr('action'),
+                    method: 'post',
+                    data: {
+                        hwid: idNow1,
+                        reqno: $('input#reqno').val(),
+                        btn1: "removefromlist"
                     },
-                    $(function(){
-                        location.reload();
-                        })
-                );
+                    success: function(response){
+                        console.log(response);
+                        if(response == 'removed'){
+                            swal({
+                                type: 'info',
+                                title: 'Removed',
+                                text: 'Household worker removed form the list',
+                                showConfirmButton: false,
+                                //- closeOnConfirm: true,
+                                },setTimeout(function() {
+                                    location.reload();
+                                }, 1000)
+                            );
+                        }
+                    }
+                }) 
             });
-            $('button#removeList').click(function(){
-                swal({
-                    type: 'info',
-                    title: 'Removed',
-                    text: 'Household worker removed form the list',
-                    showConfirmButton: false,
-                    timer: 5000
+            $('button#cancelRequest').click(function(e){
+                e.preventDefault();
+                var idNow1 = $(this).val();
+                console.log(idNow1);
+                $.ajax({
+                    url: $('form#sendReq').attr('action'),
+                    method: 'post',
+                    data: {
+                        hwid: idNow1,
+                        reqno: $('input#reqno').val(),
+                        btn1: "cancelsendtohw"
                     },
-                    $(function(){
-                        location.reload();
-                        }, 6000)
-                    )
+                    success: function(response){
+                        console.log(response);
+                        if(response == 'cancel'){
+                            swal({
+                                type: 'warning',
+                                title: 'Request Canceled',
+                                //- text: 'Wait for the confirmation of the household worker',
+                                showConfirmButton: false,
+                                //- closeOnConfirm: true,
+                                },setTimeout(function() {
+                                    location.reload();
+                                }, 2000)
+                            );
+                        }
+                    }
+                })
             });
-            $('button#sendClient').click(function(){
-                swal({
-                    type: 'success',
-                    title: 'Sent',
-                    text: 'Household worker information sent to the client',
-                    showConfirmButton: false,
-                    timer: 5000
+            $('button#sendClient').click(function(e){
+                e.preventDefault();
+                var idNow1 = $(this).val();
+                console.log(idNow1);
+                $.ajax({
+                    url: $('form#sendReq').attr('action'),
+                    method: 'post',
+                    data: {
+                        hwid: idNow1,
+                        reqno: $('input#reqno').val(),
+                        btn1: "sendtoclient"
                     },
-                    $(function(){
-                        location.reload();
-                        }, 6000)
-                    )
+                    success: function(response){
+                        console.log(response);
+                        if(response == 'sentclient'){
+                            swal({
+                                type: 'success',
+                                title: 'Sent',
+                                text: 'Household worker information sent to the client',
+                                showConfirmButton: false,
+                                },setTimeout(function() {
+                                    location.reload();
+                                }, 2000)
+                            );
+                        }
+                    }
+                })
             });
-        });
+    //- script.
+    //-     $('button#sendClient').click(function(){
+    //-         swal({
+    //-             type: 'success',
+    //-             title: 'Sent',
+    //-             text: 'Household worker information sent to the client',
+    //-             showConfirmButton: false,
+    //-             timer: 5000
+    //-             },
+    //-             $(function(){
+    //-                 location.reload();
+    //-                 }, 6000)
+    //-             )
+    //-         });
+
+    //-         $('button#sendRequest').click(function(){
+    //-             swal({
+    //-                 type: 'success',
+    //-                 title: 'Request Sent',
+    //-                 text: 'Wait for the confirmation of the household worker',
+    //-                 showConfirmButton: true,
+    //-                 closeOnConfirm: true,
+    //-                 },
+    //-                 $(function(){
+    //-                     location.reload();
+    //-                     })
+    //-             );
+    //-         });
+    //-         $('button#cancelRequest').click(function(){
+    //-             swal({
+    //-                 type: 'warning',
+    //-                 title: 'Request Canceled',
+    //-                 showConfirmButton: true,
+    //-                 closeOnConfirm: true,
+    //-                 },
+    //-                 $(function(){
+    //-                     location.reload();
+    //-                     })
+    //-             );
+    //-         });
+    //-         $('button#removeList').click(function(){
+    //-             swal({
+    //-                 type: 'info',
+    //-                 title: 'Removed',
+    //-                 text: 'Household worker removed form the list',
+    //-                 showConfirmButton: false,
+    //-                 timer: 5000
+    //-                 },
+    //-                 $(function(){
+    //-                     location.reload();
+    //-                     }, 6000)
+    //-                 )
+    //-         });

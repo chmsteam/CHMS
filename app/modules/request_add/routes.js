@@ -40,7 +40,7 @@ router.post('/createlist_services/createlist', flog, (req, res) => {
   var db = require('../../lib/database')();
   db.query(`INSERT INTO tblfinalrequest (intRequest_ClientID, strRequestType,strRequestName, strRequestDesc, datRequestDate, strRequestStatus, datRequestNeedDate)  VALUES ("${req.session.user}", "Add", "${req.body.reqname}", "${req.body.reqdesc}", "${req.body.reqdate}", "Draft", "${req.body.dateneed}")`, (err) => {
     if (err) console.log(err);
-      res.redirect('/request_add');
+      res.send('success');
     });
   });
 //Delete a list: status = draft
@@ -202,7 +202,8 @@ router.post('/add_to_mylist_:userid',(req,res) =>{
     if (err) console.log(err);
     db2.query(`INSERT INTO tblinitialrequest VALUES ("${req.params.userid}", "${results[0].Num + 1}", "${req.body.service}", "${req.body.quantity}", "${req.body.age1}", "${req.body.age2}", "${req.body.gender}", "${req.body.educ}", "${req.body.workexp}", "${req.body.salary}")`, function(err){
       if (err) console.log(err);
-      res.redirect('/request_add/mylist_'+req.params.userid, flog, findcreatedlist, findcreateditem, rendermylist);
+      res.send('success')
+      // res.redirect('/request_add/mylist_'+req.params.userid, flog, findcreatedlist, findcreateditem, rendermylist);
     })
   })
 });
@@ -226,7 +227,8 @@ function submitrequest(req,res){
   var sql = "UPDATE tblfinalrequest SET strRequestStatus= 'On process' WHERE intRequestID = ?";
   db.query(sql,[req.params.requestid],function (err) {
     if (err) return res.send(err);
-    res.redirect('/request_add/mylist_'+req.params.requestid);
+    res.send('success');
+    // res.redirect('/request_add/mylist_'+req.params.requestid);
   });
 }
 router.get('/submit_request_:requestid',flog,submitrequest);
@@ -758,7 +760,8 @@ function sendtoadmin (req,res){
   if(req.body.btn1 == 'send'){
     db.query(`UPDATE tblfinalrequest SET strRequestStatus = 'Pending' WHERE intRequest_ClientID = '${req.session.user}' AND intRequestID = '${req.body.transid}'`,function(err){
         console.log(err);
-        res.redirect('/request_add/invoice_'+req.body.transid);
+        res.send('sent');
+        // res.redirect('/request_add/invoice_'+req.body.transid);
     })
   }
 }

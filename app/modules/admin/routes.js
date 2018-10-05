@@ -1172,28 +1172,34 @@ function addtolist(req,res){
 // ------------------------------------------------------------------------------------------------------TRANSACTION: SEND TO HW, SEND TO CLIENT
 function addfunctions(req,res){
   var db = require('../../lib/database')();
+  console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+  console.log(req.body.hwid);
   if(req.body.btn1 == 'sendtohw'){
     db.query(`UPDATE tblresults SET strRHWStatus= 'Waiting' WHERE strRHWStatus='' AND intRRequestID = '${req.params.requestid}' AND intRRequest_No = '${req.body.reqno}' AND intRHWID = '${req.body.hwid}'`,function (err) {
       console.log(''+err);
-      res.redirect('/admin/transaction_client_request_'+req.params.requestid, flog, findclientrequestspecific, findclientlistspecific, findclient, findselected, rendertransclientspecific);
+      res.send('success')
+      // res.redirect('/admin/transaction_client_request_'+req.params.requestid, flog, findclientrequestspecific, findclientlistspecific, findclient, findselected, rendertransclientspecific);
     })
   }
   else if(req.body.btn1 == 'cancelsendtohw'){
     db.query(`UPDATE tblresults SET strRHWStatus= '' WHERE strRHWStatus='Waiting' AND intRRequestID = '${req.params.requestid}' AND intRRequest_No = '${req.body.reqno}' AND intRHWID = '${req.body.hwid}'`,function (err) {
       console.log(''+err);
-    res.redirect('/admin/transaction_client_request_'+req.params.requestid, flog, findclientrequestspecific, findclientlistspecific, findclient, findselected, rendertransclientspecific);
+      res.send('cancel')
+    // res.redirect('/admin/transaction_client_request_'+req.params.requestid, flog, findclientrequestspecific, findclientlistspecific, findclient, findselected, rendertransclientspecific);
     })
   }
   else if(req.body.btn1 == 'sendtoclient'){
     db.query(`UPDATE tblresults SET strRClientStatus= 'Waiting' WHERE strRClientStatus='' AND intRRequestID = '${req.params.requestid}' AND intRRequest_No = '${req.body.reqno}' AND intRHWID = '${req.body.hwid}'`,function (err) {
       console.log(''+err);
-    res.redirect('/admin/transaction_client_request_'+req.params.requestid, flog, findclientrequestspecific, findclientlistspecific, findclient, findselected, rendertransclientspecific);
+      res.send('sentclient')
+      // res.redirect('/admin/transaction_client_request_'+req.params.requestid, flog, findclientrequestspecific, findclientlistspecific, findclient, findselected, rendertransclientspecific);
     })
   }
   else if(req.body.btn1 == 'removefromlist'){
     db.query(`DELETE FROM tblresults WHERE intRRequestID = '${req.params.requestid}' AND intRRequest_No = '${req.body.reqno}' AND intRHWID = '${req.body.hwid}'`,function (err) {
       console.log(''+err);
-    res.redirect('/admin/transaction_client_request_'+req.params.requestid, flog, findclientrequestspecific, findclientlistspecific, findclient, findselected, rendertransclientspecific);
+      res.send('removed')
+      // res.redirect('/admin/transaction_client_request_'+req.params.requestid, flog, findclientrequestspecific, findclientlistspecific, findclient, findselected, rendertransclientspecific);
     })
   }
 }
@@ -1731,7 +1737,21 @@ function findmrequirementscl(req, res, next){
   });
 }
 
-
+// function pik(req, res, next){
+//   var storage = multer.diskStorage({
+//     destination: function(cb){
+//       cb(null,'public/image/clientrequirements/');
+//     },
+//     filename: function(req, cb){
+//       cb(null, '[' + req.body.clientID + ']' + '-' + '[' + req.body.fullname + ']' + '-' + '(' + req.body.requiname +')' + '.jpg' );
+//     }
+//   });
+//   var upload = multer({storage:storage}).array({ name: 'postimage', maxCount: 15 });
+//   upload(req,res,function(err) { 
+//     console.log(err)
+//   });
+//   return next();
+// }
 // Approve client and reject client2
 function approveClient2(req,res){
   var db = require('../../lib/database')();
@@ -1758,7 +1778,8 @@ function approveClient2(req,res){
     })
   }
 }
-router.post('/tr_approve_client',flog,approveClient2);
+router.post('/tr_approve_client',flog, approveClient2);
+
 
 
 

@@ -89,8 +89,8 @@ block content
                                                                                             .col-xs-12.bottom.text-center
                                                                                                 -var fullname = offer.strLName + " " + offer.strFName
                                                                                                 -var address = offer.strCAHouseNo + " " + offer.strCAStreet + " " + offer.strCAProvince + ", " + offer.strCity
-                                                                                                button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjob', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No,
-                                                                                                        data-name=fullname, data-add = address, data-needed= offer.datRequestNeedDate, data-sal=offer.deciRequestSalary, data-serv=offer.strName)
+                                                                                                button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjobAccept', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No,
+                                                                                                        data-name=fullname, data-add = address, data-needed= offer.datRequestNeedDate, data-sal=offer.deciRequestSalary, data-serv=offer.strName, data-image=`../images/${offer.strPicture}`)
                                                                                                     | View Details
                                                                                         else if offer.strRHWStatus == 'Rejected' && offer.strRClientStatus ==''
                                                                                             .col-xs-12
@@ -113,8 +113,8 @@ block content
                                                                                             .col-xs-12.bottom.text-center
                                                                                                 -var fullname = offer.strLName + " " + offer.strFName
                                                                                                 -var address = offer.strCAHouseNo + " " + offer.strCAStreet + " " + offer.strCAProvince + ", " + offer.strCity
-                                                                                                button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjob', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No,
-                                                                                                        data-name=fullname, data-add = address, data-needed= offer.datRequestNeedDate, data-sal=offer.deciRequestSalary, data-serv=offer.strName)
+                                                                                                button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjobRej', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No,
+                                                                                                        data-name=fullname, data-add = address, data-needed= offer.datRequestNeedDate, data-sal=offer.deciRequestSalary, data-serv=offer.strName, data-image=`../images/${offer.strPicture}`)
                                                                                                     | View Details
                                                                                         else if offer.strRHWStatus == 'Approved' && offer.strRClientStatus =='Waiting'
                                                                                             .col-xs-12
@@ -152,7 +152,7 @@ block content
                                                                                                         br
                                                                                                 .col-xs-12.text-center
                                                                                                     p
-                                                                                                    h2 You accepted this job offer from #{offer.strFName} #{offer.strLName} . The client added you to the list. Wait for the contract that will be sent
+                                                                                                    h2 You accepted this job offer from #{offer.strFName} #{offer.strLName} . The client added you to the list. <br> Wait for the contract that will be sent
                                                                                                     h2  by the client 
                                                                                                     p
                                                                                                     br
@@ -230,9 +230,9 @@ block content
                                                                                                 h2 The agency rejected this request. You can now choose again from the job offers that will be sent to you.
                                                                                             p
                                                                                             br             
-        #viewjob.modal.fade.bs-add(tabindex='-1', role='dialog', aria-hidden='true')
+        #viewjob.modal.fade.bs-add.jobs(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog(style="width:630px;")
-                form#viewJob.form-horizontal.form-label-left(method="POST" action="/home_householdworker/job_offer")
+                form#viewJob.form-horizontal.form-label-left.trabaho(method="POST" action="/home_householdworker/job_offer")
                     .modal-content
                         .modal-header(style="background-color:#2A3F54; color:white")
                             button.close(type='button', data-dismiss='modal')
@@ -282,9 +282,10 @@ block content
                                             tr
                                                 th(scope='row')
                                                 td
-                                                    b Salary(Negotiable): Php
+                                                    b Salary(Negotiable): 
                                                 td 
-                                                    p(style="font-size:15px")#sal
+                                                    b(style="font-size:15px") &#8369; 
+                                                    span#sal
                                                 td
                                                 td
                         .modal-footer
@@ -294,6 +295,134 @@ block content
                             button.btn.btn-danger#rejectJob(type='submit' name='btn1' value='reject')
                                 i.fa.fa-trash
                                 |   Reject
+        #viewjobAccept.modal.fade.bs-add.jobs(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog(style="width:630px;")
+                form#viewJob.form-horizontal.form-label-left.trabaho(method="POST" action="/home_householdworker/job_offer")
+                    .modal-content
+                        .modal-header(style="background-color:#2A3F54; color:white")
+                            button.close(type='button', data-dismiss='modal')
+                                span(aria-hidden='true' style="color:white") ×
+                            h4#myModalLabel.modal-title Job Request Accepted
+                        .modal-body
+                            input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transID' style="display:none;")
+                            input.form-control.col-md-7.col-xs-12(type='text', id='_id2', required='required', name='reqno' style="display:none;") 
+                            
+                            .row
+                                .col-md-4
+                                    .profile_img
+                                        br
+                                        img#imagepreAccept(src="" style=' height: 200px; width:100%;')
+                                        h4(style="text-transform: capitalize;")
+                                            b 
+                                                p.text-center#name
+                                        p.text-center  (Client's Name)
+                                .col-md-8(style="margin-top:50px;")
+                                    table.table.table-striped
+                                        tbody
+                                            tr
+                                                th(scope='row')
+                                                td
+                                                    b Client's Address
+                                                td 
+                                                    p#add
+                                                td
+                                                td
+                                            tr
+                                                th(scope='row')
+                                                td
+                                                    b Type of Service
+                                                td 
+                                                    p#serv
+                                                td
+                                                td
+                                            tr
+                                                th(scope='row')
+                                                td
+                                                    b Date Needed:
+                                                td 
+                                                    p#date
+                                                td
+                                                td
+                                            tr
+                                                th(scope='row')
+                                                td
+                                                    b Salary(Negotiable): 
+                                                td 
+                                                    b(style="font-size:15px") &#8369; 
+                                                    span#sal
+                                                td
+                                                td
+                        //- .modal-footer
+                        //-     button.btn.btn-success#acceptJob(type='submit' name='btn1' value='accept')
+                        //-         i.fa.fa-thumbs-up
+                        //-         |   Accept
+                        //-     button.btn.btn-danger#rejectJob(type='submit' name='btn1' value='reject')
+                        //-         i.fa.fa-trash
+                        //-         |   Reject
+        #viewjobRej.modal.fade.bs-add.jobs(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog(style="width:630px;")
+                form#viewJob.form-horizontal.form-label-left.trabaho(method="POST" action="/home_householdworker/job_offer")
+                    .modal-content
+                        .modal-header(style="background-color:#2A3F54; color:white")
+                            button.close(type='button', data-dismiss='modal')
+                                span(aria-hidden='true' style="color:white") ×
+                            h4#myModalLabel.modal-title Job Request Rejected
+                        .modal-body
+                            input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transID' style="display:none;")
+                            input.form-control.col-md-7.col-xs-12(type='text', id='_id2', required='required', name='reqno' style="display:none;") 
+                            
+                            .row
+                                .col-md-4
+                                    .profile_img
+                                        br
+                                        img#imagepreRej(src="" style=' height: 200px; width:100%;')
+                                        h4(style="text-transform: capitalize;")
+                                            b 
+                                                p.text-center#name
+                                        p.text-center  (Client's Name)
+                                .col-md-8(style="margin-top:50px;")
+                                    table.table.table-striped
+                                        tbody
+                                            tr
+                                                th(scope='row')
+                                                td
+                                                    b Client's Address
+                                                td 
+                                                    p#add
+                                                td
+                                                td
+                                            tr
+                                                th(scope='row')
+                                                td
+                                                    b Type of Service
+                                                td 
+                                                    p#serv
+                                                td
+                                                td
+                                            tr
+                                                th(scope='row')
+                                                td
+                                                    b Date Needed:
+                                                td 
+                                                    p#date
+                                                td
+                                                td
+                                            tr
+                                                th(scope='row')
+                                                td
+                                                    b Salary(Negotiable): 
+                                                td 
+                                                    b(style="font-size:15px") &#8369; 
+                                                    span#sal
+                                                td
+                                                td
+                        //- .modal-footer
+                        //-     button.btn.btn-success#acceptJob(type='submit' name='btn1' value='accept')
+                        //-         i.fa.fa-thumbs-up
+                        //-         |   Accept
+                        //-     button.btn.btn-danger#rejectJob(type='submit' name='btn1' value='reject')
+                        //-         i.fa.fa-trash
+                        //-         |   Reject
         #viewjob_contract.modal.fade.bs-add-modal-lg(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog.modal-lg
                 .modal-content
@@ -338,26 +467,54 @@ block content
         script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
         script.
             $(document).ready(function(){
-                $('button#acceptJob').click(function(){
-                    swal({
-                        type: 'success',
-                        title: 'Job Request Accepted',
-                        text: 'Wait for the client contract for further information',
-                        showConfirmButton: true,
-                        closeOnConfirm: true,
-                        },
-                        $(function(){
-                            location.reload();
-                        }),
-                    $('#viewjob').modal('hide')
-                    );
+                $('button#acceptJob').click(function(e){
+                    e.preventDefault();
+                    var idNow = $('button#acceptJob').val();
+                    $.ajax({
+                        url: $('form#viewJob').attr('action'),
+                        method: 'post',
+                        data: {
+                            transID: $('input#_id').val(),
+                            reqno: $('input#_id2').val(),
+                            btn1: idNow },
+                            success: function(response){
+                                console.log(response);
+                                if(response == 'accepted'){
+                                    $('.jobs').modal('hide');
+                                    swal({
+                                        type: 'success',
+                                        title: 'Job Request Accepted',
+                                        text: 'Wait for the client contract for further information',
+                                        closeOnConfirm: true,
+                                    },
+                                    function(isConfirm){
+                                        if(isConfirm){
+                                            location.reload();
+                                        }
+                                    });
+                            }
+                        }
+                    });
                 });
+                //-     swal({
+                //-         type: 'success',
+                //-         title: 'Job Request Accepted',
+                //-         text: 'Wait for the client contract for further information',
+                //-         showConfirmButton: true,
+                //-         closeOnConfirm: true,
+                //-         },
+                //-         $(function(){
+                //-             location.reload();
+                //-         }),
+                //-     $('#viewjob').modal('hide')
+                //-     );
+                //- });
                 $('button#rejectJob').click(function(){
                     swal({
                         type: 'warning',
                         title: 'Job Request Rejected',
-                        showConfirmButton: true,
-                        closeOnConfirm: true,
+                        showConfirmButton: false,
+                        closeOnConfirm: false,
                         },
                         $(function(){
                             location.reload();
@@ -370,8 +527,8 @@ block content
                         type: 'success',
                         title: 'Contract Accepted',
                         //- text: 'Wait for the client contract for further information',
-                        showConfirmButton: true,
-                        closeOnConfirm: true,
+                        showConfirmButton: false,
+                        closeOnConfirm: false,
                         },
                         $(function(){
                             location.reload();
