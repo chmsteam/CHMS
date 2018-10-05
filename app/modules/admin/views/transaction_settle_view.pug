@@ -43,12 +43,12 @@ block content
                                 table.table.table-striped.table-bordered
                                     thead
                                         tr
-                                            th NAME
-                                            th ACTION
+                                            th(style="text-align:center;") NAME
+                                            th(style="text-align:center;") ACTION
                                     tbody
                                         each trans in transtab
-                                            tr
-                                                td #{trans.clientFName} #{trans.clientLName}
+                                            tr(style="text-align:center;")
+                                                td(style="text-transform:capitalize;") #{trans.clientFName} #{trans.clientLName}
                                                 td
                                                     a(href='/admin/profile_client_'+trans.clientid  )
                                                         button.btn.btn-primary.btn-md(type='button') View Profile
@@ -65,13 +65,13 @@ block content
                                 table.table.table-striped.table-bordered
                                     thead
                                         tr
-                                            th NAME
-                                            th SERVICE
-                                            th SALARY
-                                            th ACTION
+                                            th(style="text-align:center;") NAME
+                                            th(style="text-align:center;") SERVICE
+                                            th(style="text-align:center;") SALARY
+                                            th(style="text-align:center;") ACTION
                                     tbody
                                         each hw in hwtab
-                                            tr
+                                            tr(style="text-align:center;")
                                                 td #{hw.strFName} #{hw.strLName}
                                                 td #{hw.strName}
                                                 td #{hw.intConSalary}
@@ -113,7 +113,7 @@ block content
 
         #settle_viewcon_empty.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog(role='document')
-                .modal-content.modal-lg
+                .modal-content
                     .modal-header(style="background-color:#EDEDED") Upload Contract
                     .modal-body
                         form#demo-form2.form-horizontal.form-label-left(method="POST" enctype="multipart/form-data" action="upload_hwcon")
