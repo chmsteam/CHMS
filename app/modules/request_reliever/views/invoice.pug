@@ -62,16 +62,16 @@ block content
                                                 tr
                                                     th Service
                                                     th Qty
-                                                    th Rate	
-                                                    th Subtotal
+                                                    //- th Rate	
+                                                    //- th Subtotal
                                             tbody
                                                 each item in itemtab
                                                     //- each agencyf in agencyftab
                                                     tr
                                                         td #{item.strName}
                                                         td #{item.service}
-                                                        td P #{item.fltFee}
-                                                        td P #{item.subtotal}
+                                                        //- td P #{item.fltFee}
+                                                        //- td P #{item.subtotal}
                                     // /.col
                                 // /.row
                                 .row
@@ -84,7 +84,7 @@ block content
                                             table.table
                                                 tbody
                                                     tr
-                                                        th Subtotal:
+                                                        th Reliever Fee:
                                                         each subtotal in subtotaltab
                                                             td(align='right') P #{subtotal.subtotal}
                                                             input(id='subtot' type="number", value=subtotal.subtotal style="display:none;")
