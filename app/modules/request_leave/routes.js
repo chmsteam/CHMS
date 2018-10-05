@@ -39,7 +39,7 @@ function createleave(req,res){
               res.redirect('/request_leave?noCurrentClient') 
             }
             else{
-              db.query(`INSERT INTO tblfinalrequest (intRequest_ClientID, strRequestType,strRequestName, strRequestDesc, datRequestDate, strRequestStatus, datRequestNeedDate)  VALUES (?, 'Reliever', '${retVal}',"", NULL, "Draft", ?)`, [clID, req.body.started],  function(err) {
+              db.query(`INSERT INTO tblfinalrequest (intRequest_ClientID, strRequestType,strRequestName, strRequestDesc, datRequestDate, strRequestStatus, datRequestNeedDate)  VALUES (?, 'Reliever', '${retVal}',"", ?, "Draft", ?)`, [clID, req.body.started, req.body.started],  function(err) {
                 console.log(err)
                 db.query(`SELECT * FROM tblfinalrequest WHERE strRequestName = '${retVal}' AND intRequest_ClientID = ?`,[clID], function(err, results2) {
                  console.log(err)
