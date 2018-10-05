@@ -87,6 +87,7 @@ block content
                                                                     th Time of Deployment
                                                                     th Type of Deployment
                                                                     th 
+                                                                    th
                                                             tbody
                                                                 each contractdetails in contractdetailstab
                                                                     tr
@@ -102,10 +103,16 @@ block content
                                                                             button.btn.btn-info(type='button' data-toggle='modal', data-target='#viewcon', data-thecontract=''+contractdetails.strContract)
                                                                                 i.fa.fa-list
                                                                                 |   View Contract
-                                                                            a(href="/admin/invoice_"+contractdetails.intTRequestID)
-                                                                                button.btn.btn-primary(type='button')
-                                                                                    i.fa.fa-list
-                                                                                    |   View Invoice
+                                                                            if list.strRequestType == "Add"
+                                                                                a(href="/admin/invoice_"+contractdetails.intTRequestID)
+                                                                                    button.btn.btn-primary(type='button')
+                                                                                        i.fa.fa-list
+                                                                                        |   View Invoice
+                                                                            else if list.strRequestType == "Replacement"
+                                                                                a(href="/admin/replacementInvoice_"+contractdetails.intTRequestID)
+                                                                                    button.btn.btn-primary(type='button')
+                                                                                        i.fa.fa-list
+                                                                                        |   View Invoice
                                                     else if list.strRequestStatus == 'On process'
                                                         each contract in contracttab
                                                             if contract.contract == 0

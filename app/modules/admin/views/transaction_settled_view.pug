@@ -40,8 +40,12 @@ block content
                                                     //- button.btn.btn-primary.btn-md(type='button') Deployment Details
                                                     a(href='/admin/profile_client_'+trans.clientid  )
                                                         button.btn.btn-primary.btn-md(type='button') View Profile
-                                                    a(href="/admin/invoice_"+trans.intTRequestID)
-                                                        button.btn.btn-secondary.btn-md(type='button') Invoice
+                                                    if trans.strRequestType == "Add"
+                                                        a(href="/admin/invoice_"+trans.intTRequestID)
+                                                            button.btn.btn-secondary.btn-md(type='button') Invoice
+                                                    else if trans.strRequestType == "Replacement"
+                                                        a(href="/admin/replacementInvoice_"+trans.intTRequestID)
+                                                            button.btn.btn-primary(type='button') Invoice
                                                     button.btn.btn-secondary(type='button' data-toggle='modal' data-target='#viewOR', data-ornum=trans.strORNumber, data-image=`../image/orpic/${trans.strORPicture}`) O.R.
                                             //- View Deployment Details, View Contract, View Invoice, View OR,
                             br
