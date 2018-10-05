@@ -59,18 +59,18 @@ block content
                                 each count in counttab
                                     each list in listtab
                                         each oldhwservice in oldhwservicetab
-                                            if (list.strRequestStatus == 'Draft' && count.count != 0 && list.strRequestType =='Replacement')
+                                            if (list.strRequestStatus == 'Draft' && count.count != 0)
                                                 //- a(href='/request_replacement/submit_request_'+list.intRequestID+ oldhwservice.intHWID)
                                                 form(action="/request_replacement/submit_request_/-/"+list.intRequestID+'/-/' +oldhwservice.intHWID, method="post")
                                                     button.btn.pull-right.btn-success.btn-lg(type='submit')
                                                         i.fa.fa-envelope
                                                         |   Submit List
-                                            if (list.strRequestStatus == 'Draft' && count.count != 0 && list.strRequestType =='Replace Client')
-                                                //- a(href='/request_replacement/submit_request_replaceclient_'+list.intRequestID+ oldhwservice.intHWID)
-                                                form(action="/request_replacement/submit_replaceclient_/-/"+list.intRequestID+'/-/' +oldhwservice.intHWID, method="post")
-                                                    button.btn.pull-right.btn-success.btn-lg(type='submit')
-                                                        i.fa.fa-envelope
-                                                        |   Submit List
+                                            //- if (list.strRequestStatus == 'Draft' && count.count != 0 && list.strRequestType =='Replace Client')
+                                            //-     //- a(href='/request_replacement/submit_request_replaceclient_'+list.intRequestID+ oldhwservice.intHWID)
+                                            //-     form(action="/request_replacement/submit_replaceclient_/-/"+list.intRequestID+'/-/'+oldhwservice.intHWID, method="post")
+                                            //-         button.btn.pull-right.btn-success.btn-lg(type='submit')
+                                            //-             i.fa.fa-envelope
+                                            //-             |   Submit List
                                             else if list.strRequestStatus == 'On process' || list.strRequestStatus == 'Pending'
 
                                 

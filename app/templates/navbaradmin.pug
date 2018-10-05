@@ -607,6 +607,13 @@ html(lang='en')
                 document.getElementById("uploadPreview3").src = oFREvent.target.result;
                 };
               };
+            function PreviewImage4() {
+                var oFReader = new FileReader();
+                oFReader.readAsDataURL(document.getElementById("uploadImage4").files[0]);
+                oFReader.onload = function (oFREvent) {
+                document.getElementById("uploadPreview4").src = oFREvent.target.result;
+                };
+              };
             $('#editpic').on('show.bs.modal', function (event) {
               var button = $(event.relatedTarget)
               var id = button.data('id')

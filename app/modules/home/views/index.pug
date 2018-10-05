@@ -258,13 +258,13 @@ block content
 
                                                                         .col-xs-12.bottom.text-center
                                                                             if replace.strRequestStatus == 'Draft'
-                                                                                a(href='/request_replacement/replace_list_'+replace.intRequestID+replace.hwid)
+                                                                                a(href='/request_replacement/replace_list_/-/'+replace.intRequestID+'/-/'+replace.hwid)
                                                                                     button.btn.btn-primary(type='button') Find Replacement
                                                                             else if replace.strRequestStatus == 'On process'
-                                                                                a(href='/request_replacement/replace_list_'+replace.intRequestID+replace.hwid)
+                                                                                a(href='/request_replacement/replace_list_/-/'+replace.intRequestID+'/-/'+replace.hwid)
                                                                                     button.btn.btn-primary(type='button') Monitor List
                                                                             else if replace.strRequestStatus == 'Pending'
-                                                                                a(href='/request_replacement/replace_list_'+replace.intRequestID+replace.hwid)
+                                                                                a(href='/request_replacement/replace_list_/-/'+replace.intRequestID+'/-/'+replace.hwid)
                                                                                     button.btn.btn-primary(type='button') Monitor List
                                                                                 button.btn.btn-primary(type='button') View Invoice             
                                         #tab_content3.tab-pane.fade(role='tabpanel', aria-labelledby='history-tab')
