@@ -94,6 +94,15 @@ block content
                                     .col-md-5
                                         .form-group
                                             | Reason of Replacement
+                                            select.form-control#myselect(name='ir')
+                                                each reas in reasons
+                                                    option(value=''+reas.intID) #{reas.strName}
+                                                option(value='other') Other Reason
+
+                                        .form-group#textt(hidden)
+                                            textarea.form-control#textarea1(name='reason', placeholder='Specify Reason', rows='3', maxlength='150', hidden)
+                                            .txtcount-div.block-none
+                                                small#txtcount 0/150
                                     .col-md-5
                                         .form-group
                                             | Date Needed
@@ -110,7 +119,7 @@ block content
                                             | &nbsp
                                     .col-md-10
                                         .form-group
-                                            | Other Reason:
+                                            | Specific Description:
                                             textarea.form-control.AddMessage(rows='7' name='reqdesc')
                             .modal-footer
                                 button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Find Replacement

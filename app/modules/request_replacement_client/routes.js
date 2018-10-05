@@ -4,10 +4,10 @@ var router = express.Router();
 var moment = require('moment');
 
 // ----------------------------------------------------------------------------------index page
-router.get('/', flog, findcurrenthw,  findcurrenthwtobereplaced, renderreplacement)
+router.get('/', flog, dropReplaceReason, findcurrenthw,  findcurrenthwtobereplaced, renderreplacement)
 function renderreplacement(req,res){
     if(req.valid==1)
-    res.render('request_replacement_client/views/index',{usertab: req.user, currenthwtab: req.currenthw, currenthwtobereplacedtab: req.currenthwtobereplaced});
+    res.render('request_replacement_client/views/index',{usertab: req.user, currenthwtab: req.currenthw, currenthwtobereplacedtab: req.currenthwtobereplaced, reasons: req.dropReplaceReason});
     else if(req.valid==0)
     res.render('admin/views/invalidpages/normalonly');
     else
@@ -221,6 +221,14 @@ function renderreplacementlist(req,res){
       req.transdetails = results;
       return next();
     })
+  }
+  function dropReplaceReason(req, res, next){
+    var db = require('../../lib/database')();
+    db.query("SELECT * FROM tblmreplacereason WHERE strStatus= 'Active' ", function (err, results) {
+      if (err) return res.send(err);
+      req.dropReplaceReason= results;
+      return next();
+    });
   }
   
   router.get('/replace_list_/-/:transid/-/:hwid', flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findoldhwservice,findcurrenthwtobereplaced, findtransaction, findnooftrans, findprevtransaction, renderreplacementlist)
