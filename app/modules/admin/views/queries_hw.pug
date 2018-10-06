@@ -14,36 +14,34 @@ block content
                             .x_panel
                                 .x_title
                                     h1
-                                        b Client
+                                        b Household Worker
                                     br
                                     .row
                                         .col-md-12.col-sm-12.col-xs-12
-                                            form(method='POST' action='queries_client').form-inline
+                                            form.form-inline
                                                 .form-group
-                                                    //- .input-prepend.input-group
-                                                    //-     span.add-on.input-group-addon
-                                                    //-         i.glyphicon.glyphicon-calendar.fa.fa-calendar
-                                                    //-     input#reservation.form-control(type='text', style='width: 200px', name='reservation', value='01/01/2016 - 01/25/2016')
-                                                    label Date From:
-                                                        input.form-control(type='date', required='required', name='datefrom')
-                                                    label To:
-                                                        input.form-control(type='date', required='required', name='dateto')
+                                                    .input-prepend.input-group
+                                                        span.add-on.input-group-addon
+                                                            i.glyphicon.glyphicon-calendar.fa.fa-calendar
+                                                        input#reservation.form-control(type='text', style='width: 200px', name='reservation', value='01/01/2016 - 01/25/2016')
 
                                                 .form-group
                                                     label
-                                                        input.flat(type='radio', checked='', value='Registered' name='thestatus')
+                                                        input.flat(type='radio', checked='', name='iCheck')
                                                         b Registered&nbsp&nbsp&nbsp&nbsp
                                                     label
-                                                        input.flat(type='radio', value='Ban' name='thestatus')
+                                                        input.flat(type='radio', name='iCheck')
+                                                        b Deployed&nbsp&nbsp&nbsp&nbsp
+                                                    label
+                                                        input.flat(type='radio', name='iCheck')
+                                                        b Suspended&nbsp&nbsp&nbsp&nbsp
+                                                    label
+                                                        input.flat(type='radio', name='iCheck')
                                                         b Banned
                                                 .form-group
-                                                    button.btn.btn-info(type='submit')
+                                                    button.btn.btn-info(type='button')
                                                         i.fa.fa-eye
                                                         |  Query
-                                    br
-                                    br
-                                    //- each thequery in thequerytab
-                                    //-     h1 Displaying results From #{thequery.thequery[0]} to June 9,2020
                                     br
                                     br
                                     .col-md-12.col-sm-12.col-xs-12
@@ -54,6 +52,7 @@ block content
                                                     tr
                                                         th ID NO.
                                                         th NAME
+                                                        th NO. OF SERVICE/S
                                                         th STATUS
                                                         th ACTION
                                                     tr
@@ -64,16 +63,14 @@ block content
                                                                 |  ) 
                                                                 i.fa.fa-chevron-down
                                                 tbody
-                                                    each theresults in theresultstab
-                                                        if theresults == undefined
-                                                        else
-                                                            tr.even.pointer
-                                                                td 1
-                                                                td #{theresults.strFName}
-                                                                td Registered
-                                                                td
-                                                                    a(href='clientProfile')
-                                                                        button.btn.btn-info(type='button')
-                                                                            i.fa.fa-eye
-                                                                            |  view
+                                                    tr.even.pointer
+                                                        td 1
+                                                        td Myra Perez
+                                                        td 1
+                                                        td Registered
+                                                        td
+                                                            a(href='clientProfile')
+                                                                button.btn.btn-info(type='button')
+                                                                    i.fa.fa-eye
+                                                                    |  view
                                     .clearfix

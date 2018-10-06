@@ -2336,17 +2336,72 @@ function renderutilagency(req,res){
   else
     res.render('login/views/invalid');
 }
+
+
+// -----------------------------------------------------------------REPORTS
+router.get('/reports',flog, renderreports);
+function renderreports(req,res,next){
+  if(req.valid==0)
+    res.render('admin/views/reports',{usertab: req.user});
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+
+
 // -----------------------------------------------------------------QUERIES
 // -----------------------------------------------------------CLIENT
+function queryclient(req,res,next){
+  var db = require('../../lib/database')();
+  
+  if(req.body.thestatus == 'Registered'){
+    db.query(`SELECT * FROM tbluser INNER JOIN tblclient ON intID=intClientID WHERE datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}'`,function(err,results){
+      if(err){
+        res.send(err);
+      }
+      else{
+        req.theresults=results;
+        console.log(results);
+        res.render('admin/views/queries_client',{usertab: req.user, theresultstab: req.theresults});
+      }
+    })
+  }
+}
+router.post('/queries_client',flog, queryclient)
+
 function renderqueriesclient(req,res,next){
+  var db = require('../../lib/database')();
   if(req.valid==0)
-    res.render('admin/views/queries_client',{usertab: req.user});
+  db.query(`SELECT * FROM tbluser INNER JOIN tblclient ON intID=intClientID WHERE datDateRegistered BETWEEN '2018-05-10' AND '2019-05-10'`,function(err,results){
+    req.theresults=results;
+    res.render('admin/views/queries_client',{usertab: req.user, theresultstab: req.theresults});
+  })
   else if(req.valid==1)
     res.render('admin/views/invalidpages/normalonly');
   else
     res.render('login/views/invalid');
 }
 router.get('/queries_client',flog, renderqueriesclient);
+function renderquerieshw(req,res,next){
+  if(req.valid==0)
+  res.render('admin/views/queries_hw',{usertab: req.user});
+  else if(req.valid==1)
+  res.render('admin/views/invalidpages/normalonly');
+  else
+  res.render('login/views/invalid');
+}
+router.get('/queries_hw',flog, renderquerieshw);
+function renderqueriescity(req,res,next){
+  if(req.valid==0)
+  res.render('admin/views/queries_city',{usertab: req.user});
+  else if(req.valid==1)
+  res.render('admin/views/invalidpages/normalonly');
+  else
+  res.render('login/views/invalid');
+}
+router.get('/queries_city',flog, renderqueriescity);
+
 
 
 //-------------------------------------------Router.get(household request)

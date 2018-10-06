@@ -1,0 +1,67 @@
+extends ../../../templates/navbaradmin.pug
+
+block content
+    section#services
+        .right_col(role='main')
+            div
+                .page-title
+                    .title_left
+                        h5
+                            a(href='clientList')
+                                b
+                    .row
+                        .col-md-12.col-sm-12.col-xs-12
+                            .x_panel
+                                .x_title
+                                    h1
+                                        b City
+                                    br
+                                    .row
+                                        .col-md-12.col-sm-12.col-xs-12
+                                            form.form-inline
+                                                .form-group
+                                                    .input-prepend.input-group
+                                                        span.add-on.input-group-addon
+                                                            i.glyphicon.glyphicon-calendar.fa.fa-calendar
+                                                        input#reservation.form-control(type='text', style='width: 200px', name='reservation', value='01/01/2016 - 01/25/2016')
+                                                .form-group
+                                                    label City:
+                                                    select.form-control(name='reqtype')
+                                                        option(value='Makati') Makati
+                                                        option(value='Caloocan') Caloocan
+                                                .form-group
+                                                    button.btn.btn-info(type='button')
+                                                        i.fa.fa-eye
+                                                        |  Query        
+                                    br
+                                    br
+                                    .col-md-12.col-sm-12.col-xs-12
+                                        .table-responsive
+                                            table#datatable.table.table-striped.jambo_table.bulk_action
+                                                thead
+                                                    tr.headings
+                                                    tr
+                                                        th ID NO.
+                                                        th NAME
+                                                        th NO. OF SERVICE/S
+                                                        th STATUS
+                                                        th ACTION
+                                                    tr
+                                                        th.bulk-actions(colspan='7')
+                                                            a.antoo(style='color:#fff; font-weight:500;')
+                                                                | Bulk Actions ( 
+                                                                span.action-cnt  
+                                                                |  ) 
+                                                                i.fa.fa-chevron-down
+                                                tbody
+                                                    tr.even.pointer
+                                                        td 1
+                                                        td Myra Perez
+                                                        td 1
+                                                        td Registered
+                                                        td
+                                                            a(href='clientProfile')
+                                                                button.btn.btn-info(type='button')
+                                                                    i.fa.fa-eye
+                                                                    |  view
+                                    .clearfix
