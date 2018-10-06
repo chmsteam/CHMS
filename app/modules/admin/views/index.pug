@@ -131,48 +131,53 @@ block content
                 .x_panel.wow.fadeInRight(style='background-color:rgba(52,152,219,.3); width:49% ')
                   .x_panel
                       .x_panel.alert-info
-                          h3(style="font-weight:bold; text-align:center ") New Registration
+                          h3(style="font-weight:bold; text-align:center ") Registration
                       table.table.table-striped.table-bordered
                         thead
                           tr
                             th(style="text-align:center") &nbsp
-                            th(style="text-align:center") INCOMING REQUEST
+                            th(style="text-align:center") PENDING REGISTRATIONS
                             th(style="text-align:center") ACTION
                         tbody
                             tr(style="")
-                              td Client
-                              td 0
+                              each pending in clPending
+                                td Client
+                                td #{pending.CNT}
                               td   
-                                a(href='/admin')
+                                a(href='/admin/transactions/clients/pending')
                                   button.btn.btn-info(type='button')
                                     i.fa.fa-eye
                                     |   view
                             tr(style="")
-                              td Household Worker
-                              td 0
-                              td   
-                                button.btn.btn-info(type='button')
-                                  i.fa.fa-eye
-                                  |   view
+                              each hhwpen in hwPending
+                                td Household Worker
+                                td #{hhwpen.CNT}
+                              td 
+                                a(href='/admin/transactions/household_workers/pending')  
+                                  button.btn.btn-info(type='button')
+                                    i.fa.fa-eye
+                                    |   view
                 | &nbsp&nbsp&nbsp
                 .x_panel.wow.fadeInUp(style='background-color:rgba(52,152,219,.3); width:49%')
                   .x_panel
                       .x_panel.alert-info
-                          h3(style="font-weight:bold; text-align:center ") New Request
+                          h3(style="font-weight:bold; text-align:center ") Requests
                       table.table.table-striped.table-bordered
                         thead
                           tr
                             th(style="text-align:center") &nbsp
-                            th(style="text-align:center") INCOMING REQUEST
+                            th(style="text-align:center") REQUESTS
                             th(style="text-align:center") ACTION
                         tbody
                             tr(style="")
-                              td Client
-                              td 0
-                              td   
-                                button.btn.btn-info(type='button')
-                                  i.fa.fa-eye
-                                  |   view
+                              each req in clReq
+                                td Client
+                                td #{req.CNT}
+                              td
+                                a(href='/admin/transaction_client_request')   
+                                  button.btn.btn-info(type='button')
+                                    i.fa.fa-eye
+                                    |   view
                             tr(style="")
                               td Household Worker
                               td 0
@@ -193,19 +198,23 @@ block content
                             th(style="text-align:center") ACTION
                         tbody
                             tr(style="")
-                              td Client
-                              td 0
-                              td   
-                                button.btn.btn-info(type='button')
-                                  i.fa.fa-eye
-                                  |   view
+                              each inci in clIr
+                                td Client
+                                td #{inci.CNT}
+                              td
+                                a(href='/admin/transaction_ir_client')     
+                                  button.btn.btn-info(type='button')
+                                    i.fa.fa-eye
+                                    |   view
                             tr(style="")
-                              td Household Worker
-                              td 0
-                              td   
-                                button.btn.btn-info(type='button')
-                                  i.fa.fa-eye
-                                  |   view
+                              each hwinci in hwIr
+                                td Household Worker
+                                td #{hwinci.CNT}
+                              td
+                                a(href='/admin/transaction_ir_hw')    
+                                  button.btn.btn-info(type='button')
+                                    i.fa.fa-eye
+                                    |   view
                 | &nbsp&nbsp&nbsp
                 .x_panel.wow.fadeInLeft(style='background-color:rgba(52,152,219,.3); width:49% ')
                   .x_panel
@@ -215,23 +224,26 @@ block content
                         thead
                           tr
                             th(style="text-align:center") &nbsp
-                            th(style="text-align:center") INCOMING REQUEST
+                            th(style="text-align:center") FINISHED TRANSACTIONS
                             th(style="text-align:center") ACTION
                         tbody
                             tr(style="")
-                              td Client
-                              td 0
-                              td   
-                                button.btn.btn-info(type='button')
-                                  i.fa.fa-eye
-                                  |   view
+                              each set in clSet
+                                td Client
+                                td #{set.CNT}
+                              td 
+                                a(href='/admin/transaction_settled')    
+                                  button.btn.btn-info(type='button')
+                                    i.fa.fa-eye
+                                    |   view
                             tr(style="")
                               td Household Worker
                               td 0
-                              td   
-                                button.btn.btn-info(type='button')
-                                  i.fa.fa-eye
-                                  |   view
+                              td
+                                a(href='/admin/transaction_settled')      
+                                  button.btn.btn-info(type='button')
+                                    i.fa.fa-eye
+                                    |   view
 
                 //- .x_panel.wow.fadeInLeft(style='background-color:rgba(52,152,219,.3)')
                 

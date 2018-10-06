@@ -78,7 +78,7 @@ block content
                 .modal-footer
                     button.btn.btn-primary(type='button', data-dismiss='modal') Close
     #req_unregistered_hw.modal.fade.bs-add-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
-        .modal-dialog.modal-sm
+        .modal-dialog.sm(style="width:400px")
             .modal-content
                 .modal-header(style="background-color:#EDEDED")
                     button.close(type='button', data-dismiss='modal')
@@ -92,7 +92,7 @@ block content
                         input#lname(type="text" name="lname" hidden)
                         each requirement in HWreqtab
                             .form-group
-                                .col-md-6.col-sm-6.col-xs-12
+                                .col-md-12
                                     label
                                         input.check(id=requirement.intID, type='checkbox', value=requirement.intID, name='requ' onClick='getreq(this.id);')
                                         | &nbsp #{requirement.strName}
@@ -133,7 +133,9 @@ block content
         //- });
         $(function() {
             $(".check").click(function(){
-                $('#sub').prop('disabled',$('input.check:checked').length < 3);
+                var len = $('.check').length;
+                console.log(len);
+                $('#sub').prop('disabled',$('input.check:checked').length <= 7);
             });
         });
     

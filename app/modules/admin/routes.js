@@ -390,13 +390,24 @@ function repofcliaction (req,res){
 //-------------------------------------------------------------------------------------DASHBOARD
 function render(req,res){
   if(req.valid==0)
-    res.render('admin/views/index',{usertab: req.user});
+    res.render('admin/views/index',
+      {
+        usertab: req.user,
+        clPending: req.PendingCL,
+        hwPending: req.PendingHHW,
+        clReq: req.clientReq,
+        clIr: req.clientIr,
+        hwIr: req.hhwIr,
+        clSet: req.clientSet
+      });
   else if(req.valid==1)
     res.render('admin/views/invalidpages/normalonly');
   else
     res.render('login/views/invalid');
 }
-router.get('/', flog, render);
+var dashRender = [ cntPendingCL, cntPendingHHW, clientReq, clientIr, hhwIr, clientSet];
+
+router.get('/', flog, dashRender, render);
 
 //--------------------------------------------------------------------------------------MAINTENANCE
 router.get('/maintenance_contractofservices',flog,rendermaintcontractofservices)
@@ -2336,6 +2347,62 @@ function renderutilagency(req,res){
   else
     res.render('login/views/invalid');
 }
+//-----------------------------------------------------DASHBOARD
+//regitration client
+function cntPendingCL(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tbluser WHERE strStatus = 'Unregistered' AND strType = 'Client' ", function (err, results, fields) {
+      if (err) return res.send(err);
+      req.PendingCL = results;
+      return next();
+  });
+}
+//registration HHW
+function cntPendingHHW(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tbluser WHERE strStatus = 'Unregistered' AND strType = 'Household Worker'", function (err, results, fields) {
+      if (err) return res.send(err);
+      req.PendingHHW = results;
+      return next();
+  });
+}
+//client requests
+function clientReq(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tblfinalrequest WHERE strRequestStatus = 'On process'", function (err, results, fields) {
+      if (err) return res.send(err);
+      req.clientReq = results;
+      return next();
+  });
+}
+//indcident Report CL
+function clientIr(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tbluser tbu INNER JOIN tblreport tbr ON tbu.intID = tbr.intReporterID WHERE strType = 'Client'", function (err, results, fields) {
+      if (err) return res.send(err);
+      req.clientIr = results;
+      return next();
+  });
+}
+//indcident Report HHW
+function hhwIr(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tbluser tbu INNER JOIN tblreport tbr ON tbu.intID = tbr.intReporterID WHERE strType = 'Household Worker'", function (err, results, fields) {
+      if (err) return res.send(err);
+      req.hhwIr = results;
+      return next();
+  });
+}
+//settled CLIENT
+function clientSet(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tbltransaction tbt INNER JOIN tbluser tbu ON tbt.intTClientID = tbu.intID WHERE strTStatus = 'On-going' AND strType = 'Client'", function (err, results, fields) {
+      if (err) return res.send(err);
+      req.clientSet = results;
+      return next();
+  });
+}
+
 // -----------------------------------------------------------------QUERIES
 // -----------------------------------------------------------CLIENT
 function renderqueriesclient(req,res,next){
