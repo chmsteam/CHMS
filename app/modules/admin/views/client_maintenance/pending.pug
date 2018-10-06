@@ -73,6 +73,7 @@ block content
                         //- input#_req(type="text", name="" onClick='etreq();')
                         input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='clientID' style="display:none;")
                         input.form-control#pangalan(type='text' name='fullname' style="display:none;")
+                        input.form-control#thedate(type='date' name='dateregistered' style="display:none;")
                         br
                         each requirement in requirementtab
                             .form-group
@@ -86,10 +87,10 @@ block content
                                     //-     input.form-control.file-input(type='file', name='postimage', accept='image/*')        
                         .ln_solid
                         .form-group.pull-right
-                            button.btn.btn-success#sub(type='submit' name='btn1' value='approve' disabled)
+                            button.btn.btn-success#sub(type='submit' name='btn1' value='approve' onClick='time();' disabled)
                                 i.fa.fa-thumbs-up
                                 |   Approve
-                            button#reject.btn.btn-danger(type='submit' name='btn1' value='reject')
+                            button#reject.btn.btn-danger(type='submit' name='btn1' value='reject' )
                                 i.fa.fa-trash
                                 |   Reject
     #req_rejected.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
@@ -126,4 +127,25 @@ block content
         $("#uploadImage2").keyup(function(){
             $("#submit").attr("disabled", !$("#uploadImage2").val());
         })
-        
+        function time(){
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; //January is 0!
+            var yyyy = today.getFullYear();
+            var hh = today.getHours();
+            var min = today.getMinutes();
+            var sec = today.getSeconds();
+            var x= document.getElementById("thedate");
+            
+            if(dd<10) {
+                dd = '0'+dd
+            } 
+
+            if(mm<10) {
+                mm = '0'+mm
+            } 
+
+            today = yyyy + '-' + mm + '-' + dd ;
+            //- document.write(today);
+            document.getElementById("thedate").value=today;
+        }

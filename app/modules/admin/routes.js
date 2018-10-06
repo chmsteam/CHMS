@@ -1812,8 +1812,8 @@ function approveClient2(req,res){
   var db = require('../../lib/database')();
   var db2 = require('../../lib/database')();
   if(req.body.btn1 == 'approve'){
-    var sql = "UPDATE tbluser SET strStatus= 'Registered' WHERE strStatus='Unregistered' AND intID = ?";
-    db.query(sql,[req.body.clientID],function (err) {
+    var sql = "UPDATE tbluser SET strStatus= 'Registered', datDateRegistered=? WHERE strStatus='Unregistered' AND intID = ?";
+    db.query(sql,[req.body.dateregistered, req.body.clientID],function (err) {
     if (err) return res.send(err)
     res.redirect('/admin/transactions/clients/pending');
     })
@@ -1894,8 +1894,8 @@ function hwoptions(req,res){
   var db2 = require('../../lib/database')();
   console.log('xxxxxxxxxxxxx'+req.body.hwID)
   if(req.body.btn1 == 'approve'){
-    var sql = "UPDATE tbluser SET strStatus= 'Registered', strPassword = ? WHERE strStatus='Unregistered' AND intID = ?";
-    db.query(sql,[code , req.body.hwID],function (err) {
+    var sql = "UPDATE tbluser SET strStatus= 'Registered', strPassword = ?, datDateRegistered=? WHERE strStatus='Unregistered' AND intID = ?";
+    db.query(sql,[code , req.body.dateregistered, req.body.hwID],function (err) {
     if (err) return res.send(err)
         else{
           mailer.sendMail({
@@ -2347,6 +2347,7 @@ function renderutilagency(req,res){
   else
     res.render('login/views/invalid');
 }
+<<<<<<< HEAD
 //-----------------------------------------------------DASHBOARD
 //regitration client
 function cntPendingCL(req, res, next){
@@ -2403,17 +2404,74 @@ function clientSet(req, res, next){
   });
 }
 
+=======
+
+
+// -----------------------------------------------------------------REPORTS
+router.get('/reports',flog, renderreports);
+function renderreports(req,res,next){
+  if(req.valid==0)
+    res.render('admin/views/reports',{usertab: req.user});
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+
+
+>>>>>>> d36caad36f4a0679fbcd0406f66469791f8e8470
 // -----------------------------------------------------------------QUERIES
 // -----------------------------------------------------------CLIENT
+function queryclient(req,res,next){
+  var db = require('../../lib/database')();
+  
+  if(req.body.thestatus == 'Registered'){
+    db.query(`SELECT * FROM tbluser INNER JOIN tblclient ON intID=intClientID WHERE datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}'`,function(err,results){
+      if(err){
+        res.send(err);
+      }
+      else{
+        req.theresults=results;
+        console.log(results);
+        res.render('admin/views/queries_client',{usertab: req.user, theresultstab: req.theresults});
+      }
+    })
+  }
+}
+router.post('/queries_client',flog, queryclient)
+
 function renderqueriesclient(req,res,next){
+  var db = require('../../lib/database')();
   if(req.valid==0)
-    res.render('admin/views/queries_client',{usertab: req.user});
+  db.query(`SELECT * FROM tbluser INNER JOIN tblclient ON intID=intClientID WHERE datDateRegistered BETWEEN '2018-05-10' AND '2019-05-10'`,function(err,results){
+    req.theresults=results;
+    res.render('admin/views/queries_client',{usertab: req.user, theresultstab: req.theresults});
+  })
   else if(req.valid==1)
     res.render('admin/views/invalidpages/normalonly');
   else
     res.render('login/views/invalid');
 }
 router.get('/queries_client',flog, renderqueriesclient);
+function renderquerieshw(req,res,next){
+  if(req.valid==0)
+  res.render('admin/views/queries_hw',{usertab: req.user});
+  else if(req.valid==1)
+  res.render('admin/views/invalidpages/normalonly');
+  else
+  res.render('login/views/invalid');
+}
+router.get('/queries_hw',flog, renderquerieshw);
+function renderqueriescity(req,res,next){
+  if(req.valid==0)
+  res.render('admin/views/queries_city',{usertab: req.user});
+  else if(req.valid==1)
+  res.render('admin/views/invalidpages/normalonly');
+  else
+  res.render('login/views/invalid');
+}
+router.get('/queries_city',flog, renderqueriescity);
+
 
 
 //-------------------------------------------Router.get(household request)
