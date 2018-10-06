@@ -17,20 +17,28 @@ block content
                                         b City
                                     br
                                     .row
-                                        .col-md-12.col-sm-12.col-xs-12
-                                            form.form-inline
+                                        form.form-inline
+                                            .col-md-3
                                                 .form-group
                                                     .input-prepend.input-group
                                                         span.add-on.input-group-addon
                                                             i.glyphicon.glyphicon-calendar.fa.fa-calendar
                                                         input#reservation.form-control(type='text', style='width: 200px', name='reservation', value='01/01/2016 - 01/25/2016')
+                                            .col-md-5
+                                                |&nbsp
+                                                |&nbsp
                                                 .form-group
                                                     label City:
+                                                    |&nbsp
+                                                    |&nbsp
                                                     select.form-control(name='reqtype')
                                                         option(value='Makati') Makati
                                                         option(value='Caloocan') Caloocan
+                                                
                                                 .form-group
-                                                    button.btn.btn-info(type='button')
+                                                    |&nbsp
+                                                    |&nbsp
+                                                    button.btn.btn-info(type='button' style="margin-top:-6px")
                                                         i.fa.fa-eye
                                                         |  Query        
                                     br

@@ -17,31 +17,39 @@ block content
                                         b Household Worker
                                     br
                                     .row
-                                        .col-md-12.col-sm-12.col-xs-12
-                                            form.form-inline
+                                        form
+                                            .col-md-3
                                                 .form-group
                                                     .input-prepend.input-group
                                                         span.add-on.input-group-addon
                                                             i.glyphicon.glyphicon-calendar.fa.fa-calendar
                                                         input#reservation.form-control(type='text', style='width: 200px', name='reservation', value='01/01/2016 - 01/25/2016')
-
-                                                .form-group
-                                                    label
-                                                        input.flat(type='radio', checked='', name='iCheck')
-                                                        b Registered&nbsp&nbsp&nbsp&nbsp
-                                                    label
-                                                        input.flat(type='radio', name='iCheck')
-                                                        b Deployed&nbsp&nbsp&nbsp&nbsp
-                                                    label
-                                                        input.flat(type='radio', name='iCheck')
-                                                        b Suspended&nbsp&nbsp&nbsp&nbsp
-                                                    label
-                                                        input.flat(type='radio', name='iCheck')
-                                                        b Banned
+                                            
+                                            .col-md-1
                                                 .form-group
                                                     button.btn.btn-info(type='button')
                                                         i.fa.fa-eye
                                                         |  Query
+                                    .row
+                                        .col-md-12
+                                            .form-group
+                                                label
+                                                    input.flat(type='radio', checked='', name='iCheck')
+                                                    |&nbsp
+                                                    b Registered&nbsp&nbsp&nbsp&nbsp
+                                                label
+                                                    input.flat(type='radio', name='iCheck')
+                                                    |&nbsp
+                                                    b Deployed&nbsp&nbsp&nbsp&nbsp
+                                                label
+                                                    input.flat(type='radio', name='iCheck')
+                                                    |&nbsp
+                                                    b Suspended&nbsp&nbsp&nbsp&nbsp
+                                                label
+                                                    input.flat(type='radio', name='iCheck')
+                                                    |&nbsp
+                                                    b Banned
+                                                
                                     br
                                     br
                                     .col-md-12.col-sm-12.col-xs-12

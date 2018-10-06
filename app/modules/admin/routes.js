@@ -2347,7 +2347,6 @@ function renderutilagency(req,res){
   else
     res.render('login/views/invalid');
 }
-<<<<<<< HEAD
 //-----------------------------------------------------DASHBOARD
 //regitration client
 function cntPendingCL(req, res, next){
@@ -2404,7 +2403,6 @@ function clientSet(req, res, next){
   });
 }
 
-=======
 
 
 // -----------------------------------------------------------------REPORTS
@@ -2419,7 +2417,6 @@ function renderreports(req,res,next){
 }
 
 
->>>>>>> d36caad36f4a0679fbcd0406f66469791f8e8470
 // -----------------------------------------------------------------QUERIES
 // -----------------------------------------------------------CLIENT
 function queryclient(req,res,next){
