@@ -72,7 +72,7 @@ function displayLeaveReq(req, res, next){
       db.query(`UPDATE tblfinalrequest SET strRequestStatus = 'On process' WHERE intRequestID = ?`, [req.body.id], function(err){
         console.log(err);
       })
-      res.redirect('/request_reliever/reliever_list_'+req.body.id+req.body.hwid)  
+      res.redirect('/request_reliever/reliever_list_/-/'+req.body.id+'/-/'+req.body.hwid)  
     }
   })
   

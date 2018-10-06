@@ -360,7 +360,7 @@ function findcreatedlist2(req, res){
   db.query("SELECT * FROM tbltransaction WHERE intTRequestID=?",[req.body.transid], function (err, results) {
     console.log(err);
     if (!results[0]){
-      db.query(`SELECT * FROM tblcontract WHERE intConHWID= (SELECT intTobeRelievedID FROM tblreliever WHERE intTobeRelievedID = ?)`,[req.body.hwid], function (err,results2){
+      db.query(`SELECT * FROM tblcontract WHERE intConHWID= (SELECT intReplaceOldHWID FROM tblreplacement WHERE intReplaceOldHWID = ? AND strCurStatus='To be replaced') ORDER BY intContransID DESC LIMIT 1`,[req.body.hwid], function (err,results2){
         db.query(`INSERT INTO tbltransaction VALUES ('${req.body.transid}', '${req.session.user}', '${req.body.reqdate}', '${req.body.dep}', '${req.body.datedep}', '${req.body.timedep}', '${results2[0].strConCopy}', 'Accepted', NULL, NULL, '','','${req.body.invnum}', '','')`, function(err){
           res.redirect('/request_replacement/contract_/-/'+req.body.transid+'/-/'+req.body.hwid)
         })  
