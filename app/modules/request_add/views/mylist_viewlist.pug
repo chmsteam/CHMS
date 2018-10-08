@@ -16,10 +16,11 @@ block content
                                     h3
                                         b Results
                             br
+                            
+                            .x_panel(style='background-color:#394D5F')
+                                h2(style="font-weight:bold; color:white") Suggested service/s from the Admin:
                             br
-                            .x_title
-                                .x_panel(style='background-color:#394D5F')
-                                    h2(style="font-weight:bold; color:white") Suggested service/s from the Admin:
+                            br
                             table#datatable-responsive.table.jambo_table.table-bordered
                                 thead
                                     tr
@@ -92,7 +93,7 @@ block content
                                                         td(style="text-align:center")
                                                             a(href='hw_profile_'+hw.intRRequestID+hw.intRHWID)
                                                                 button.btn.btn-primary(type='button') View Profile
-                                                            button.btn.btn-warning.btn-md.revertHW(type='submit' name='btn1' value='revert') Revert
+                                                            button.btn.btn-danger.btn-md.revertHW(type='submit' name='btn1' value='revert') Remove
                     .col-md-12.col-sm-12.col-xs-12
                         br
                         .x_panel(style='background-color:rgba(231,76,60,0.3)')
@@ -132,7 +133,7 @@ block content
                                                         td(style="text-align:center")
                                                             a(href='hw_profile_'+hw.intRRequestID+hw.intRHWID)
                                                                 button.btn.btn-primary(type='button') View Profile
-                                                            button.btn.btn-warning.btn-md.revertHW(type='submit' name='btn1' value='revert') Revert
+                                                            button.btn.btn-danger.btn-md.revertHW(type='submit' name='btn1' value='revert') Remove
 
     script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
     script.

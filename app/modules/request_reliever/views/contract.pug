@@ -25,13 +25,13 @@ block content
                                         table.table.jambo_table.table-bordered
                                             thead
                                                 tr
-                                                    th MAIN CONTRACT
-                                                    th STATUS
-                                                    th ACTION
+                                                    th(style="text-align:center") MAIN CONTRACT
+                                                    th(style="text-align:center") STATUS
+                                                    th(style="text-align:center") ACTION
                                                 
                                             tbody
                                                 each cont in conttab
-                                                    tr
+                                                    tr(style="text-align:center")
                                                         td
                                                             center
                                                                     if cont.strContractStatus == ''
@@ -86,11 +86,11 @@ block content
                                             table.table.jambo_table.table-bordered
                                                 thead
                                                     tr
-                                                        th NAME
-                                                        th SERVICE
-                                                        th SALARY
-                                                        th STATUS
-                                                        th ACTION
+                                                        th(style="text-align:center") NAME
+                                                        th(style="text-align:center") SERVICE
+                                                        th(style="text-align:center") SALARY
+                                                        th(style="text-align:center") STATUS
+                                                        th(style="text-align:center") ACTION
                                                 tbody
                                                     each hw in hwtab
                                                         tr
@@ -138,10 +138,11 @@ block content
         #rejectcontract.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog.modal-md
                 .modal-content
-                    .modal-header
+                    .modal-header(style="background-color:#2A3F54; color:white")
                         button.close(type='button', data-dismiss='modal')
                             span(aria-hidden='true') ×
-                        h4 Reject Contract
+                        h4#myModalLabel.modal-title 
+                            b   Reject Contract
                     .modal-body
                         form.form-horizontal(method='POST' action='deccontract')
                             .form-group
