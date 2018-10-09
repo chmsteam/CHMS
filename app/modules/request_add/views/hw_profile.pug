@@ -9,7 +9,9 @@ block content
                             .x_panel
                                 .x_title
                                     each list in listtab
-                                        a(href='/request_add/mylist_'+list.intRequestID)
+                                        //- a(href='/request_add/mylist_'+list.intRequestID)
+                                            button.btn.btn-primary.pull-right.btn-lg(type='button') Back
+                                        a(href='javascript:history.back()')
                                             button.btn.btn-primary.pull-right.btn-lg(type='button') Back
                                     center
                                         h3
