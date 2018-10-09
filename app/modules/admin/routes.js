@@ -2485,6 +2485,87 @@ router.post('/register_client',(req, res) => {
 
 
 //----------------------------------------------------------------------------------UTILITIES
+//==================================UPDATE
+//name
+router.post('/updateAgencyName',(req, res) => {
+  var db = require('../../lib/database')();
+  var sql = "UPDATE tblagency SET strName= ? ";
+  db.query(sql,[req.body.agencyName],function (err) {
+      if (err) console.log(err);
+      res.send('updated');
+      // res.redirect('/admin/maintenance_reason_of_replacement');
+    });
+});
+//Address
+router.post('/updateAgencyAdd',(req, res) => {
+  var db = require('../../lib/database')();
+  var sql = "UPDATE tblagency SET strAddress= ? ";
+  db.query(sql,[req.body.agencyAdd],function (err) {
+      if (err) console.log(err);
+      res.send('updated');
+      // res.redirect('/admin/maintenance_reason_of_replacement');
+    });
+});
+//tel
+router.post('/updateAgencyTel',(req, res) => {
+  var db = require('../../lib/database')();
+  var sql = "UPDATE tblagency SET strTelNum= ? ";
+  db.query(sql,[req.body.agencyT],function (err) {
+      if (err) console.log(err);
+      res.send('updated');
+      // res.redirect('/admin/maintenance_reason_of_replacement');
+    });
+});
+//Email
+router.post('/updateAgencyEmail',(req, res) => {
+  var db = require('../../lib/database')();
+  var sql = "UPDATE tblagency SET strEmail= ? ";
+  db.query(sql,[req.body.agencyEmail],function (err) {
+      if (err) console.log(err);
+      res.send('updated');
+      // res.redirect('/admin/maintenance_reason_of_replacement');
+    });
+});
+//Owner
+router.post('/updateAgencyOwner',(req, res) => {
+  var db = require('../../lib/database')();
+  var sql = "UPDATE tblagency SET strOwner= ? ";
+  db.query(sql,[req.body.agencyOwner],function (err) {
+      if (err) console.log(err);
+      res.send('updated');
+      // res.redirect('/admin/maintenance_reason_of_replacement');
+    });
+});
+//Owner
+router.post('/updateAgencyOic',(req, res) => {
+  var db = require('../../lib/database')();
+  var sql = "UPDATE tblagency SET strOIC= ? ";
+  db.query(sql,[req.body.agencyOic],function (err) {
+      if (err) console.log(err);
+      res.send('updated');
+      // res.redirect('/admin/maintenance_reason_of_replacement');
+    });
+});
+//Fees
+router.post('/updateFees',(req, res) => {
+  var db = require('../../lib/database')();
+  var sql = "UPDATE tblfee SET fltFee = ? WHERE intID = ? ";
+  db.query(sql,[req.body.fee, req.body.feeid],function (err) {
+      if (err) console.log(err);
+      res.send('updated');
+      // res.redirect('/admin/maintenance_reason_of_replacement');
+    });
+});
+//Replacement Count
+router.post('/updateRep',(req, res) => {
+  var db = require('../../lib/database')();
+  var sql = "UPDATE tblfreereplacement SET intFreeReplacement = ? ";
+  db.query(sql,[req.body.replacement],function (err) {
+      if (err) console.log(err);
+      res.send('updated');
+      // res.redirect('/admin/maintenance_reason_of_replacement');
+    });
+});
 function findustaff(req, res, next){
   var db = require('../../lib/database')();
   db.query("SELECT *, CONCAT(strFName,' ', strLName) AS strName FROM tbluser WHERE strType='Admin' ", function (err, results) {
@@ -2622,16 +2703,69 @@ function clientSet(req, res, next){
 
 
 // -----------------------------------------------------------------REPORTS
-router.get('/reports',flog, renderreports);
-function renderreports(req,res,next){
+counters = [hwRegCnt, hwDepCnt, clBanCnt, clPenCnt, clRegCnt];
+router.get('/reports',flog, counters, renderreports);
+function renderreports(req,res){
   if(req.valid==0)
-    res.render('admin/views/reports',{usertab: req.user});
+    res.render('admin/views/reports',
+      {
+        usertab: req.user,
+        hwCount: req.hwRegCount,
+        hwRCount: req.hwDepCount,
+        clRCount: req.clRegCount,
+        clPCount: req.clPenCount,
+        clBCount: req.clBanCount
+      });
   else if(req.valid==1)
     res.render('admin/views/invalidpages/normalonly');
   else
     res.render('login/views/invalid');
 }
-
+//Registered HW
+function hwRegCnt(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Household Worker' AND strStatus = 'Registered'", function (err, results) {
+      if (err) return res.send(err);
+      req.hwRegCount = results;
+      return next();
+  });
+}
+//Deployed HW
+function hwDepCnt(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Household Worker' AND strStatus = 'Deployed'", function (err, results) {
+      if (err) return res.send(err);
+      req.hwDepCount = results;
+      return next();
+  });
+}
+//Pending CLients
+function clPenCnt(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Client' AND strStatus = 'Unregistered'", function (err, results) {
+      if (err) return res.send(err);
+      req.clPenCount = results;
+      return next();
+  });
+}
+//Registered CLients
+function clRegCnt(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Client' AND strStatus = 'Registered'", function (err, results) {
+      if (err) return res.send(err);
+      req.clRegCount = results;
+      return next();
+  });
+}
+//Registered CLients
+function clBanCnt(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Client' AND strStatus = 'Banned'", function (err, results) {
+      if (err) return res.send(err);
+      req.clBanCount = results;
+      return next();
+  });
+}
 
 // -----------------------------------------------------------------QUERIES
 // -----------------------------------------------------------CLIENT

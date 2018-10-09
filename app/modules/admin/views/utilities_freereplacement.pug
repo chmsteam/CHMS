@@ -22,15 +22,68 @@ block content
                                 table#datatable.table.table-striped.table-bordered
                                     thead
                                         tr
-                                            th REPLACEMENT 
-                                            th STATUS
-                                            th ACTION
+                                            th(style="text-align:center") REPLACEMENT 
+                                            //- th(style="text-align:center") STATUS
+                                            th(style="text-align:center") ACTION
                                     tbody
                                         each item in itemtab
-                                            tr
+                                            tr(style="text-align:center")
                                                 td #{item.intFreeReplacement}
-                                                td #{item.strStatus}
+                                                //- td #{item.strStatus}
                                                 td
-                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit', data-id=item.intID, data-name=item.strName)
+                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit_fee', data-name=item.intFreeReplacement)
                                                         i.fa.fa-edit
                                                         |   Edit
+    //- Edit
+    #edit_fee.modal.fade.bs-edit-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-xs
+            form#formEdit.form-horizontal.form-label-left(method="POST" action="updateRep")
+                .modal-content
+                    .modal-header(style='background-color:#f1f1f1')
+                        button.close(type='button', data-dismiss='modal')
+                            span(aria-hidden='true') ×
+                        h4#myModalLabel.modal-title Update Replacement Count
+                    .modal-body
+                        .row
+                            .col-md-8
+                                .form-group
+                                    input.form-control(type='number', id='name', required='required' name='replacement' min="1", align="center")
+                    .modal-footer
+                        button.btn.btn-success(type='submit') Update
+                        button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
+
+    script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+     script.
+        $('#edit_fee').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var name = button.data('name')
+
+            var modal = $(this)
+            modal.find('.modal-body #name').val(name)
+        });
+    script.
+        $(document).ready(function(){
+            $('form#formEdit').submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: $('form#formEdit').attr('action'),
+                    method: 'post',
+                    data: $('form#formEdit').serialize(),
+                    success: function(response){
+                        console.log(response);
+                        if(response == 'updated'){
+                            swal({
+                                type: 'success',
+                                title: 'Updated',
+                                text: 'Replacement Count Updated!',
+                                showConfirmButton: false,
+                                },setTimeout(function() {
+                                    location.reload();
+                                }, 1500)
+                            );
+                            $('.modal').modal('hide');
+                        }
+                    }
+                })
+            });
+        });

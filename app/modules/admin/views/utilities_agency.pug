@@ -15,66 +15,381 @@ block content
                                 table.table.table-striped.table-bordered
                                     tbody
                                         each agency in agencytab
-                                            tr
+                                            tr(style="text-align:center")
                                                 td 
                                                     strong
                                                         | Agency Name
                                                 td #{agency.strName}
                                                 td
-                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit')
+                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#editName', data-name=agency.strName)
                                                         i.fa.fa-edit
                                                         |   Edit
-                                            tr
+                                            tr(style="text-align:center")
                                                 td
                                                     strong
                                                         | Agency Address
                                                 td #{agency.strAddress}
                                                 td
-                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit')
+                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#editAddress', data-name=agency.strAddress)
                                                         i.fa.fa-edit
                                                         |   Edit
-                                            tr
+                                            tr(style="text-align:center")
                                                 td
                                                     strong
                                                         | Agency Telephone Number
                                                 td #{agency.strTelNum}
                                                 td
-                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit')
+                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#editT', data-name=agency.strTelNum)
                                                         i.fa.fa-edit
                                                         |   Edit
-                                            tr
+                                            tr(style="text-align:center")
                                                 td
                                                     strong
                                                         | Agency Email Address
                                                 td #{agency.strEmail}
                                                 td
-                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit')
+                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#editEmail', data-name=agency.strEmail)
                                                         i.fa.fa-edit
                                                         |   Edit
-                                            tr
+                                            tr(style="text-align:center")
                                                 td
                                                     strong
                                                         | Agency Owner
                                                 td #{agency.strOwner}
                                                 td
-                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit')
+                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#editOwner', data-name=agency.strOwner)
                                                         i.fa.fa-edit
                                                         |   Edit
-                                            tr
+                                            tr(style="text-align:center")
                                                 td
                                                     strong
                                                         | Agency Officer in Charge
                                                 td #{agency.strOIC}
                                                 td
-                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit')
+                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#editOIC', data-name=agency.strOIC)
                                                         i.fa.fa-edit
                                                         |   Edit
-                                            tr
-                                                td
-                                                    strong
-                                                        | Agency Logo
-                                                td #{agency.strLogo}
-                                                td
-                                                    button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit')
-                                                        i.fa.fa-edit
-                                                        |   Edit
+                                            //- tr(style="text-align:center")
+                                            //-     td
+                                            //-         strong
+                                            //-             | Agency Logo
+                                            //-     td #{agency.strLogo}
+                                            //-     td
+                                            //-         button.btn.btn-warning(type='button', data-toggle='modal', data-target='#editLogo', data-name=agency.strLogo)
+                                            //-             i.fa.fa-edit
+                                            //-             |   Edit
+
+    #editName.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-xs
+            form#formEdit.form-horizontal.form-label-left(method="POST" action="updateAgencyName")
+                .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal')
+                            span(aria-hidden='true') ×
+                        h4#myModalLabel.modal-title Agency Name:
+                    .modal-body
+                        .row
+                            .col-md-8
+                                .form-group
+                                    input#name.form-control(type='text', required='required', name='agencyName')
+                    .modal-footer
+                        button.btn.btn-success(type='submit') Update
+                        button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+
+    #editAddress.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-xs
+            form#formEditA.form-horizontal.form-label-left(method="POST" action="updateAgencyAdd")
+                .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal')
+                            span(aria-hidden='true') ×
+                        h4#myModalLabel.modal-title Agency Address:
+                    .modal-body
+                        .row
+                            .col-md-8
+                                .form-group
+                                    input#name.form-control(type='text', required='required', name='agencyAdd')
+                    .modal-footer
+                        button.btn.btn-success(type='submit') Update
+                        button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+    #editT.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-xs
+            form#formEditT.form-horizontal.form-label-left(method="POST" action="updateAgencyTel")
+                .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal')
+                            span(aria-hidden='true') ×
+                        h4#myModalLabel.modal-title Agency Telephone Number:
+                    .modal-body
+                        .row
+                            .col-md-8
+                                .form-group
+                                    input#name.form-control(type='text', required='required', name='agencyT' maxlength="11")
+                    .modal-footer
+                        button.btn.btn-success(type='submit') Update
+                        button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+    #editEmail.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-xs
+            form#formEditEmail.form-horizontal.form-label-left(method="POST" action="updateAgencyEmail")
+                .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal')
+                            span(aria-hidden='true') ×
+                        h4#myModalLabel.modal-title Agency Email Address:
+                    .modal-body
+                        .row
+                            .col-md-8
+                                .form-group
+                                    input#name.form-control(type='text', required='required', name='agencyEmail')
+                    .modal-footer
+                        button.btn.btn-success(type='submit') Update
+                        button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+    #editOwner.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-xs
+            form#formEditOw.form-horizontal.form-label-left(method="POST" action="updateAgencyOwner")
+                .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal')
+                            span(aria-hidden='true') ×
+                        h4#myModalLabel.modal-title Agency Owner:
+                    .modal-body
+                        .row
+                            .col-md-8
+                                .form-group
+                                    input#name.form-control(type='text', required='required', name='agencyOwner')
+                    .modal-footer
+                        button.btn.btn-success(type='submit') Update
+                        button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+    #editOIC.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-xs
+            form#formEditOic.form-horizontal.form-label-left(method="POST" action="updateAgencyOic")
+                .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal')
+                            span(aria-hidden='true') ×
+                        h4#myModalLabel.modal-title Officer In-charge:
+                    .modal-body
+                        .row
+                            .col-md-8
+                                .form-group
+                                    input#name.form-control(type='text', required='required', name='agencyOic')
+                    .modal-footer
+                        button.btn.btn-success(type='submit') Update
+                        button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+    #editLogo.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-xs
+            form#formEditEmail.form-horizontal.form-label-left(method="POST" action="updateAgencyLogo")
+                .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal')
+                            span(aria-hidden='true') ×
+                        h4#myModalLabel.modal-title Officer In-charge:
+                    .modal-body
+                        .row
+                            .col-md-8
+                                .form-group
+                                    input#name.form-control(type='text', required='required', name='agencyT')
+                    .modal-footer
+                        button.btn.btn-success(type='submit') Update
+                        button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+
+    script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+    script(src='/admin/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js')
+    script.
+        // Agency Name
+        $('#editName').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var name = button.data('name')
+
+            var modal = $(this)
+            modal.find('.modal-body #name').val(name)
+        });
+        // Agency Name
+        $('#editAddress').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var name = button.data('name')
+
+            var modal = $(this)
+            modal.find('.modal-body #name').val(name)
+        });
+        // Agency Name
+        $('#editT').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var name = button.data('name')
+
+            var modal = $(this)
+            modal.find('.modal-body #name').val(name)
+        });
+        // Agency Name
+        $('#editEmail').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var name = button.data('name')
+
+            var modal = $(this)
+            modal.find('.modal-body #name').val(name)
+        });
+        // Agency Name
+        $('#editOwner').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var name = button.data('name')
+
+            var modal = $(this)
+            modal.find('.modal-body #name').val(name)
+        });
+        // Agency Name
+        $('#editOIC').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var name = button.data('name')
+
+            var modal = $(this)
+            modal.find('.modal-body #name').val(name)
+        });
+        // Agency Name
+        $('#editLogo').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var name = button.data('name')
+
+            var modal = $(this)
+            modal.find('.modal-body #name').val(name)
+        });
+    script.
+        $(document).ready(function(){
+            $('form#formEdit').submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: $('form#formEdit').attr('action'),
+                    method: 'post',
+                    data: $('form#formEdit').serialize(),
+                    success: function(response){
+                        console.log(response);
+                        if(response == 'updated'){
+                            swal({
+                                type: 'success',
+                                title: 'Updated',
+                                text: 'Agency Name Updated!',
+                                showConfirmButton: false,
+                                },setTimeout(function() {
+                                    location.reload();
+                                }, 1500)
+                            );
+                            $('.modal').modal('hide');
+                        }
+                    }
+                })
+            });
+            $('form#formEditA').submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: $('form#formEditA').attr('action'),
+                    method: 'post',
+                    data: $('form#formEditA').serialize(),
+                    success: function(response){
+                        console.log(response);
+                        if(response == 'updated'){
+                            swal({
+                                type: 'success',
+                                title: 'Updated',
+                                text: 'Agency Address Updated!',
+                                showConfirmButton: false,
+                                },setTimeout(function() {
+                                    location.reload();
+                                }, 1500)
+                            );
+                            $('.modal').modal('hide');
+                        }
+                    }
+                })
+            });
+            $('form#formEditT').submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: $('form#formEditT').attr('action'),
+                    method: 'post',
+                    data: $('form#formEditT').serialize(),
+                    success: function(response){
+                        console.log(response);
+                        if(response == 'updated'){
+                            swal({
+                                type: 'success',
+                                title: 'Updated',
+                                text: 'Agency Telephone Number Updated!',
+                                showConfirmButton: false,
+                                },setTimeout(function() {
+                                    location.reload();
+                                }, 1500)
+                            );
+                            $('.modal').modal('hide');
+                        }
+                    }
+                })
+            });
+            $('form#formEditEmail').submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: $('form#formEditEmail').attr('action'),
+                    method: 'post',
+                    data: $('form#formEditEmail').serialize(),
+                    success: function(response){
+                        console.log(response);
+                        if(response == 'updated'){
+                            swal({
+                                type: 'success',
+                                title: 'Updated',
+                                text: 'Agency Email Address Updated!',
+                                showConfirmButton: false,
+                                },setTimeout(function() {
+                                    location.reload();
+                                }, 1500)
+                            );
+                            $('.modal').modal('hide');
+                        }
+                    }
+                })
+            });
+            $('form#formEditOw').submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: $('form#formEditOw').attr('action'),
+                    method: 'post',
+                    data: $('form#formEditOw').serialize(),
+                    success: function(response){
+                        console.log(response);
+                        if(response == 'updated'){
+                            swal({
+                                type: 'success',
+                                title: 'Updated',
+                                text: 'Agency Owner Updated!',
+                                showConfirmButton: false,
+                                },setTimeout(function() {
+                                    location.reload();
+                                }, 1500)
+                            );
+                            $('.modal').modal('hide');
+                        }
+                    }
+                })
+            });
+            $('form#formEditOic').submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: $('form#formEditOic').attr('action'),
+                    method: 'post',
+                    data: $('form#formEditOic').serialize(),
+                    success: function(response){
+                        console.log(response);
+                        if(response == 'updated'){
+                            swal({
+                                type: 'success',
+                                title: 'Updated',
+                                text: 'Agency OIC Updated!',
+                                showConfirmButton: false,
+                                },setTimeout(function() {
+                                    location.reload();
+                                }, 1500)
+                            );
+                            $('.modal').modal('hide');
+                        }
+                    }
+                })
+            });
+        });

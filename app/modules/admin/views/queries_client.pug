@@ -12,67 +12,53 @@ block content
                                     .x_title
                                         h1
                                             
-                                        br
-                                        .row
-                                            .col-md-12.col-sm-12.col-xs-12
-                                                form(method='POST' action='queries_client').form-inline
-                                                    .form-group 
-                                                        label Date From:
-                                                            |&nbsp
-                                                            |&nbsp
-                                                            input.form-control(type='date', required='required', name='datefrom')
-                                                        |&nbsp
-                                                        |&nbsp
-                                                        |&nbsp
-                                                        label To:
-                                                            |&nbsp
-                                                            |&nbsp
-                                                            input.form-control(type='date', required='required', name='dateto')
-                                                        |&nbsp
-                                                        |&nbsp
-                                                        |&nbsp
-                                                        label Status:
-                                                            |&nbsp
-                                                            |&nbsp
+                                        .x_panel
+                                            form.form-inline(method='POST' action='queries_client')
+                                                br
+                                                .row
+                                                    .col-md-4
+                                                        .form-group 
+                                                            label Date From:
+                                                                |&nbsp
+                                                                |&nbsp
+                                                                input.form-control(type='date', required='required', name='datefrom')
+                                                    .col-md-3  
+                                                        label Status: &nbsp
                                                             select.form-control(name='thestatus')
                                                                 option(value='Registered') Registered
                                                                 option(value='Banned') Banned
-                                                        |&nbsp
-                                                        |&nbsp
-                                                        |&nbsp
-                                                        label Residence:
-                                                            |&nbsp
-                                                            |&nbsp
+                                                    .col-md-4
+                                                        label Residence: &nbsp
                                                             select.form-control(id='residence' name='residence')
                                                                 option(value='All') All
                                                                 option(value='In Metro Manila') Metro Manila
                                                                 option(value='Outside Metro Manila') Outside Metro Manila
-                                                        |&nbsp
-                                                        |&nbsp
-                                                        |&nbsp
-                                                        label(id='NCRcities' style='display:none;') City:
-                                                            |&nbsp
-                                                            |&nbsp
+                                                br
+                                                .row
+                                                    .col-md-4   
+                                                        .form-group           
+                                                            label(style="margin-left:49px;") To:
+                                                                |&nbsp
+                                                                |&nbsp
+                                                                input.form-control(type='date', required='required', name='dateto')
+                                                    .col-md-4
+                                                        label(id='NCRcities' style='display:none;') City: &nbsp
                                                             select.form-control(name='city')
                                                                 option(value='All') All
                                                                 each item in itemtab
                                                                     option(value=''+item.strName) #{item.strName}
-                                                    br
-                                                    br
-                                                    center
-                                                        .form-group
-                                                            |&nbsp
-                                                            |&nbsp
-                                                            |&nbsp
-                                                            button.btn.btn-info(type='submit')
-                                                                i.fa.fa-eye
-                                                                |  Filter
+                                                .row(style="float:right; margin-bottom:10px")
+                                                    .form-group
+                                                        button.btn.btn-info(type='submit')
+                                                            i.fa.fa-eye
+                                                            |  Filter
                                         //- each thequery in thequerytab'
+                                        
                                         hr
-                                        br
-                                        each resultdates in resultdateslist
-                                            i
-                                                h4 Displaying results from "#{resultdates.date1}" to "#{resultdates.date2}". Status: "#{resultdates.status}". Location: "#{resultdates.location}". City: "#{resultdates.city}".
+                                        .x_panel
+                                            each resultdates in resultdateslist
+                                                i
+                                                    h4 Displaying results from "#{resultdates.date1}" to "#{resultdates.date2}". Status: "#{resultdates.status}". Location: "#{resultdates.location}". City: "#{resultdates.city}".
                                         br
                                         br
                                         .col-md-12.col-sm-12.col-xs-12
@@ -81,15 +67,15 @@ block content
                                                     thead
                                                         tr.headings
                                                         tr
-                                                            th NAME
-                                                            th DATE
-                                                            th RESIDENCE
-                                                            th ACTION
+                                                            th(style="text-align:center") NAME
+                                                            th(style="text-align:center") DATE
+                                                            th(style="text-align:center") RESIDENCE
+                                                            th(style="text-align:center") ACTION
                                                     tbody
                                                         each theresults in theresultstab
                                                             if theresults == undefined
                                                             else
-                                                                tr.even.pointer
+                                                                tr.even.pointer(style="text-align:center")
                                                                     td #{theresults.strFName} #{theresults.strLName}
                                                                     td #{theresults.datDateRegistered}
                                                                     td #{theresults.strCity}

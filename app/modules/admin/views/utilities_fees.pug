@@ -17,18 +17,18 @@ block content
                                     thead
                                         tr
                                             //- th ID NO.
-                                            th NAME
-                                            th FEE
-                                            th STATUS
-                                            th ACTION
+                                            th(style="text-align:center") NAME
+                                            th(style="text-align:center") FEE
+                                            th(style="text-align:center") STATUS
+                                            th(style="text-align:center") ACTION
                                     tbody
                                         each item in itemtab
-                                            tr
+                                            tr(style="text-align:center")
                                             
                                                 //- td #{item.intID}
-                                                td #{item.strName}
-                                                td #{item.fltFee}
-                                                td #{item.strStatus}
+                                                td  #{item.strName}
+                                                td &#8369; #{item.fltFee}
+                                                td  #{item.strStatus}
                                                     //- input.js-switch(type='checkbox', checked='')
                                                 td
                                                     //- button.btn.btn-info(type='button')
@@ -50,59 +50,70 @@ block content
                     //- Add
                     .modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
                         .modal-dialog.modal-xs
-                            .modal-content
-                                .modal-header(style='background-color:#f1f1f1')
-                                    button.close(type='button', data-dismiss='modal')
-                                        span(aria-hidden='true') ×
-                                    h4#myModalLabel.modal-title Add a Service
-                                .modal-body
-                                form#demo-form2.form-horizontal.form-label-left(method="POST" action="add_service")
-                                    .form-group
-                                        br
-                                        br
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12(for='service-name')
-                                            | Service Name 
-                                            span.required *
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            input#first-name.form-control.col-md-7.col-xs-12(type='text', required='required', name='servicename')
-                                    br
-                                    .ln_solid
-                                    .form-group.pull-right
+                            form#demo-form2.form-horizontal.form-label-left(method="POST" action="add_service")
+                                .modal-content
+                                    .modal-header(style='background-color:#f1f1f1')
+                                        button.close(type='button', data-dismiss='modal')
+                                            span(aria-hidden='true') ×
+                                        h4#myModalLabel.modal-title Add a Service
+                                    .modal-body
+                                        .row
+                                            .col-md-8
+                                                .form-group
+                                                    label Service Name 
+                                                    input#first-name.form-control(type='text', required='required', name='servicename')
+                                    .modal-footer
                                         button.btn.btn-primary(type='reset') Reset
                                         button.btn.btn-success(type='submit') Add
                                         button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
                     //- Edit
                     #edit_fee.modal.fade.bs-edit-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
                         .modal-dialog.modal-xs
-                            .modal-content
-                                .modal-header(style='background-color:#f1f1f1')
-                                    button.close(type='button', data-dismiss='modal')
-                                        span(aria-hidden='true') ×
-                                    h4#myModalLabel.modal-title Edit Fee
-                                .modal-body
-                                    form#demo-form2.form-horizontal.form-label-left(method="POST" action="")
-                                        .form-group
-                                            //- label.control-label.col-md-3.col-sm-3.col-xs-12
-                                            //-     | ID
-                                            //-     span.required *
-                                            .col-md-6.col-sm-6.col-xs-12
-                                                //- input.form-control.col-md-7.col-xs-12(type='text', id='txt1', required='required', disabled)
-                                                input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='feeid' style="display:none;")                          
-                                        .form-group
-                                            label.control-label.col-md-3.col-sm-3.col-xs-12
-                                                | Fee Name
-                                                span.required *
-                                            .col-md-6.col-sm-6.col-xs-12
-                                                input.form-control.col-md-7.col-xs-12(type='text', id='_name', required='required' disabled)
-                                        .form-group
-                                            label.control-label.col-md-3.col-sm-3.col-xs-12
-                                                | Fee 
-                                                span.required *
-                                            .col-md-6.col-sm-6.col-xs-12
-                                                input.form-control.col-md-7.col-xs-12(type='number', min='0' step='.01', id='_fee', required='required' name='fee')
-                                        .ln_solid
-                                        .form-group.pull-right
-                                            button.btn.btn-success(type='submit') Update
-                                            button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
+                            form#formEdit.form-horizontal.form-label-left(method="POST" action="updateFees")
+                                .modal-content
+                                    .modal-header(style='background-color:#f1f1f1')
+                                        button.close(type='button', data-dismiss='modal')
+                                            span(aria-hidden='true') ×
+                                        h4#myModalLabel.modal-title Edit Fee
+                                    .modal-body
+                                        input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='feeid' style="display:none;")                          
+                                        .row
+                                            .col-md-8
+                                                .form-group
+                                                    label Fee Name :
+                                                    input.form-control(type='text', id='_name', required='required' disabled)
+                                            .col-md-4
+                                                .form-group
+                                                    label Fee &#8369; :
+                                                    input.form-control(type='number', min='0' step='.01', id='_fee', required='required' name='fee')
+                                    .modal-footer
+                                        button.btn.btn-success(type='submit') Update
+                                        button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
 
-        
+    script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+    script.
+        $(document).ready(function(){
+            $('form#formEdit').submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: $('form#formEdit').attr('action'),
+                    method: 'post',
+                    data: $('form#formEdit').serialize(),
+                    success: function(response){
+                        console.log(response);
+                        if(response == 'updated'){
+                            swal({
+                                type: 'success',
+                                title: 'Updated',
+                                text: 'Agency Fee Updated!',
+                                showConfirmButton: false,
+                                },setTimeout(function() {
+                                    location.reload();
+                                }, 1500)
+                            );
+                            $('.modal').modal('hide');
+                        }
+                    }
+                })
+            });
+        });        

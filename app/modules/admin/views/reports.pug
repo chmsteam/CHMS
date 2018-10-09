@@ -6,19 +6,33 @@ block content
             .title_left
                 h5
                     b Reports
+            //hhowrkers
+            each cn in hwCount
+                p(hidden)#RegiC #{cn.CNT}
+            each cnr in hwRCount
+                p(hidden)#DepC #{cnr.CNT}
             .col-md-6.col-sm-6.col-xs-12
                 .x_panel
                     .x_title
                         h2
                             | Household Worker
+                            h2#HW(style="float:right") 
                         .clearfix
                     .x_content
                         canvas#myChart
             .col-md-6.col-sm-6.col-xs-12
+                //clients
+                each clP in clPCount
+                    p(hidden)#Pencl #{clP.CNT}
+                each clR in clRCount
+                    p(hidden)#Regcl #{clR.CNT}
+                each clB in clBCount
+                    p(hidden)#Bancl #{clB.CNT}
                 .x_panel
                     .x_title
                         h2
                             | Client
+                            h2#CL(style="float:right") 
                         .clearfix
                     .x_content
                         canvas#myChart2
@@ -55,17 +69,36 @@ block content
                     .x_content
                         canvas#myChart6
 
+    script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+    script.
+        $(document).ready(function(){
+            var regCn=parseInt(document.getElementById("RegiC").innerHTML);
+            var depCn=parseInt(document.getElementById("DepC").innerHTML);
+            var total;
+            totalHW = regCn + depCn;
+            document.getElementById("HW").innerHTML = totalHW;
+
+            var pencL=parseInt(document.getElementById("Pencl").innerHTML);
+            var regcL=parseInt(document.getElementById("Regcl").innerHTML);
+            var bancL=parseInt(document.getElementById("Bancl").innerHTML);
+            var totalCl;
+            totalCl = pencL + regcL + bancL;
+            document.getElementById("CL").innerHTML = totalCl;
+            
+        });
     // Chart.js
     script(src='/admin/gentelella/vendors/Chart.js/dist/Chart.js')
     script.
         var ctx = document.getElementById("myChart");
+        var regiC = document.getElementById("RegiC").innerHTML;
+        var depC = document.getElementById("DepC").innerHTML;
         var myChart = new Chart(ctx, {
             type: 'pie',
             data: {
                 labels: ["Registered", "Deployed"],
                 datasets: [{
                     label: 'Household Worker',
-                    data: [20, 19],
+                    data: [regiC, depC],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -84,13 +117,16 @@ block content
             }
         });
         var ctx2 = document.getElementById("myChart2");
+        var penCl = document.getElementById("Pencl").innerHTML;
+        var regCl = document.getElementById("Regcl").innerHTML;
+        var banCl = document.getElementById("Bancl").innerHTML;
         var myChart2 = new Chart(ctx2, {
             type: 'pie',
             data: {
                 labels: ["Pending","Registered", "Banned"],
                 datasets: [{
                     label: 'Household Worker',
-                    data: [5,20, 19],
+                    data: [penCl,regCl, banCl],
                     backgroundColor: [
                         'rgba(100, 32, 50, 0.2)',
                         'rgba(255, 99, 132, 0.2)',
