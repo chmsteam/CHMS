@@ -762,15 +762,15 @@ router.post('/edit_requirement',(req, res) => {
 
 router.post('/add_incidentreport',(req, res) => {
   var db = require('../../lib/database')();
-  db.query(`INSERT INTO tblmincidentreport (strName, strDesc, strStatus)  VALUES ("${req.body.incidentname}", "${req.body.incidentdesc}", "Active")`, (err) => {
+  db.query(`INSERT INTO tblmincidentreport (strName, strDesc, strLevel, strStatus)  VALUES ("${req.body.incidentname}", "${req.body.incidentdesc}", '${req.body.incidentlvl}', "Active")`, (err) => {
     if (err) console.log(err);
     res.redirect('/admin/maintenance_incident_report');
     });
 });
 router.post('/edit_incidentreport',(req, res) => {
   var db = require('../../lib/database')();
-  var sql = "UPDATE tblmincidentreport SET strName= ?, strDesc=? WHERE intID = ?";
-  db.query(sql,[req.body.incidentname, req.body.incidentdesc, req.body.incidentID],function (err) {
+  var sql = "UPDATE tblmincidentreport SET strName= ?, strDesc=?, strlevel=? WHERE intID = ?";
+  db.query(sql,[req.body.incidentname, req.body.incidentdesc, req.body.incidentlvl, req.body.incidentID],function (err) {
     res.redirect('/admin/maintenance_incident_report');
     });
 });
@@ -2369,7 +2369,7 @@ function cntPendingHHW(req, res, next){
 //client requests
 function clientReq(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tblfinalrequest WHERE strRequestStatus = 'On process'", function (err, results, fields) {
+  db.query("SELECT COUNT(*) AS CNT FROM tblfinalrequest WHERE strRequestStatus IN ('On process', 'Pending')", function (err, results, fields) {
       if (err) return res.send(err);
       req.clientReq = results;
       return next();
@@ -2421,35 +2421,104 @@ function renderreports(req,res,next){
 // -----------------------------------------------------------CLIENT
 function queryclient(req,res,next){
   var db = require('../../lib/database')();
-  
-  if(req.body.thestatus == 'Registered'){
-    db.query(`SELECT * FROM tbluser INNER JOIN tblclient ON intID=intClientID WHERE datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}'`,function(err,results){
+  var resultdates = [{
+    date1 : req.body.datefrom,
+    date2: req.body.dateto
+  }]
+  for(var i = 0; i < resultdates.length; i++){
+    resultdates[i].date1 =  moment(resultdates[i].date1).format("LL");
+    resultdates[i].date2 =  moment(resultdates[i].date2).format("LL"); 
+  }
+  req.resultdates = resultdates;
+  if(req.body.residence == 'All'){
+    db.query(`SELECT * FROM tbluser INNER JOIN tblclient ON intID=intClientID WHERE strStatus='${req.body.thestatus}' AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}')`,function(err,results){
       if(err){
         res.send(err);
       }
       else{
+        for(var i = 0; i < results.length; i++){
+          results[i].datDateRegistered =  moment(results[i].datDateRegistered).format("LL"); 
+        }
         req.theresults=results;
-        console.log(results);
-        res.render('admin/views/queries_client',{usertab: req.user, theresultstab: req.theresults});
+        res.render('admin/views/queries_client',{usertab: req.user, theresultstab: req.theresults, itemtab: req.item, resultdateslist: resultdates});
       }
     })
   }
+  else if(req.body.residence == 'Out Metro'){
+    db.query(`SELECT * FROM tbluser INNER JOIN tblclient ON intID=intClientID WHERE (strStatus='${req.body.thestatus}') AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND strCity NOT IN (SELECT strName FROM tblmcity)`,function(err,results){
+      if(err){
+        res.send(err);
+      }
+      else{
+        for(var i = 0; i < results.length; i++){
+          results[i].datDateRegistered =  moment(results[i].datDateRegistered).format("LL"); 
+        }
+        req.theresults=results;
+        res.render('admin/views/queries_client',{usertab: req.user, theresultstab: req.theresults, itemtab: req.item, resultdateslist: resultdates});
+      }
+    })
+  }
+  else if(req.body.residence == 'In Metro'){
+    if(req.body.city == 'All'){
+      db.query(`SELECT * FROM tbluser INNER JOIN tblclient ON intID=intClientID WHERE (strStatus='${req.body.thestatus}') AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND strCity IN (SELECT strName FROM tblmcity)`,function(err,results){
+        if(err){
+          res.send(err);
+        }
+        else{
+          for(var i = 0; i < results.length; i++){
+            results[i].datDateRegistered =  moment(results[i].datDateRegistered).format("LL"); 
+          }
+          req.theresults=results;
+          res.render('admin/views/queries_client',{usertab: req.user, theresultstab: req.theresults, itemtab: req.item, resultdateslist: resultdates});
+        }
+      })
+    }
+    else{
+      db.query(`SELECT * FROM tbluser INNER JOIN tblclient ON intID=intClientID WHERE (strStatus='${req.body.thestatus}') AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND strCity = '${req.body.city}'`,function(err,results){
+        if(err){
+          res.send(err);
+        }
+        else{
+          for(var i = 0; i < results.length; i++){
+            results[i].datDateRegistered =  moment(results[i].datDateRegistered).format("LL"); 
+          }
+          req.theresults=results;
+          res.render('admin/views/queries_client',{usertab: req.user, theresultstab: req.theresults, itemtab: req.item, resultdateslist: resultdates});
+        }
+      })
+
+    }
+  }
 }
-router.post('/queries_client',flog, queryclient)
+router.post('/queries_client',flog, findmcity, queryclient)
+
+
 
 function renderqueriesclient(req,res,next){
   var db = require('../../lib/database')();
+  var resultdates = [{
+    date1 : 'January 1, 2012',
+    date2: 'October 17, 2018'
+  }]
+  req.resultdates = resultdates;
+  console.log(resultdates);
   if(req.valid==0)
-  db.query(`SELECT * FROM tbluser INNER JOIN tblclient ON intID=intClientID WHERE datDateRegistered BETWEEN '2018-05-10' AND '2019-05-10'`,function(err,results){
+  db.query(`SELECT * FROM tbluser INNER JOIN tblclient ON intID=intClientID WHERE datDateRegistered BETWEEN '2012-01-01' AND '2018-05-17'`,function(err,results){
+    for(var i = 0; i < results.length; i++){
+      results[i].datDateRegistered =  moment(results[i].datDateRegistered).format("LL"); 
+    }
     req.theresults=results;
-    res.render('admin/views/queries_client',{usertab: req.user, theresultstab: req.theresults});
+    console.log(results);
+    res.render('admin/views/queries_client',{usertab: req.user, theresultstab: req.theresults, itemtab: req.item, resultdateslist: resultdates});
   })
   else if(req.valid==1)
     res.render('admin/views/invalidpages/normalonly');
   else
     res.render('login/views/invalid');
 }
-router.get('/queries_client',flog, renderqueriesclient);
+router.get('/queries_client',flog, findmcity, renderqueriesclient);
+
+
 function renderquerieshw(req,res,next){
   if(req.valid==0)
   res.render('admin/views/queries_hw',{usertab: req.user});

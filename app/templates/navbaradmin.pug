@@ -247,7 +247,7 @@ html(lang='en')
                         a(href='/login')
                           i.fa.fa-sign-out.pull-right
                           |  Log Out
-                  li.dropdown(role='presentation')
+                  //-li.dropdown(role='presentation')
                     a.dropdown-toggle.info-number(href='javascript:;', data-toggle='dropdown', aria-expanded='false')
                       i.fa.fa-envelope-o
                       span.badge.bg-green 6
@@ -293,7 +293,7 @@ html(lang='en')
                           a
                             strong See All Alerts
                             i.fa.fa-angle-right
-                  li.dropdown(role='presentation')
+                  //-li.dropdown(role='presentation')
                     a.dropdown-toggle.info-number(href='javascript:;', data-toggle='dropdown', aria-expanded='false')
                       i.fa.fa-bell-o
                       span.badge.bg-green
@@ -379,7 +379,8 @@ html(lang='en')
           // jQuery custom content scroller
           script(src="/admin/gentelella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js")
           script(src='/custom/alerts/js/sweetalert.min.js')
-
+          // Chart.js
+          script(src='/admin/gentelella/vendors/Chart.js/dist/Chart.js')
           //preloader
           script(src='/assets4/js/custom1.js')
           script(src='/assets4/lib/wow/wow.min.js')
@@ -457,6 +458,20 @@ html(lang='en')
               modal.find('.modal-body #_skillname').val(name)
               modal.find('.modal-body #_serviceid').val(servid)
               modal.find('.modal-body #_servicename').val(servname)
+              });
+
+            $('#editir').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('id')
+              var name = button.data('name')
+              var desc = button.data('desc')
+              var level = button.data('level')
+
+              var modal = $(this)
+              modal.find('.modal-body #id').val(id)
+              modal.find('.modal-body #name').val(name)
+              modal.find('.modal-body #desc').val(desc)
+              modal.find('.modal-body #level').val(level)
               });
             //- client list
             $('#req_unregistered').on('show.bs.modal', function (event) {
@@ -740,5 +755,5 @@ html(lang='en')
               modal.find('.modal-body #transid').val(transid)
               modal.find('.modal-body #thecon').attr('data',''+thecon)
             });
-
+            
           
