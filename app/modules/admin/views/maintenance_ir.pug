@@ -76,6 +76,12 @@ block content
                                         span.required *
                                     .col-md-6.col-sm-6.col-xs-12
                                         textarea.form-control(rows='3', placeholder='Add a description...' ,name='incidentdesc')
+                                .form-group
+                                        label.control-label.col-md-3.col-sm-3.col-xs-12 Severity
+                                        .col-md-6.col-sm-6.col-xs-12
+                                            select(name='incidentlvl').form-control
+                                                option(value='Low') Low
+                                                option(value='High') High
                                 br
                                 .ln_solid
                                 .form-group.pull-right
@@ -123,16 +129,6 @@ block content
                                         button.btn.btn-success(type='submit') Update
                                         button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
 
-        //- for update
-        //- script(type='text/javascript').
-        //-      function copyID2(clicked_id) {
-        //-         document.getElementById("txt11").value = clicked_id;
-        //-     }
-        //-     function copyName(clicked_name) {
-        //-         document.getElementById("txt2").value = clicked_name;
-        //-     }
-        //-     function copyValue(clicked_value) {
-        //-         document.getElementById("txt3").value = clicked_value;
-        //-     }
+
 
     
