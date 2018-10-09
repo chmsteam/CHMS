@@ -38,19 +38,32 @@ block content
                                                     | &nbsp Upload
                                                 
                                                 each hw1 in hw1tab
-                                                    if  hw1.stat == 'Deployed'
-                                                        button.btn.btn-danger(type='button') 
+                                                    if  hw1.stat == 'Registered'
+                                                        button.btn.btn-danger(type='button' data-toggle='modal' data-target='#ban' data-id=hw1.intHWID) 
                                                             i.fa.fa-exclamation-circle
                                                             | &nbsp Ban
                                                     else if hw1.stat =='Banned'
+                                                        button.btn.btn-warning(type='button' data-toggle='modal' data-target='#reinstate' data-id=hw1.intHWID) 
+                                                            i.fa.fa-mail-reply
+                                                            | &nbsp Reinstate
+                                                    else if hw1.stat =='Deployed'
+                                                        button.btn.btn-warning(type='button') 
+                                                            i.fa.fa-warning
+                                                            | &nbsp Suspend
+                                                    else if hw1.stat =='Suspended'
                                                         button.btn.btn-warning(type='button') 
                                                             i.fa.fa-mail-reply
-                                                            Reinstate
+                                                            | &nbsp Reinstate
+                                            br
+                                            br
                                             ul.list-unstyled.user_data(style="text-transform: capitalize; color:white") 
                                                 li Age: &nbsp #{hw1.age}
                                                 li Gender: &nbsp #{hw1.strGender}
                                                 li
                                                     i.fa.fa-map-marker.user-profile-icon
+                                                    |&nbsp #{hw1.strCAHouseNo} #{hw1.strCAStreet} #{hw1.strCAMunicipality}, #{hw1.strCity} 
+                                                li
+                                                    i.fa.fa-home.user-profile-icon
                                                     |&nbsp #{hw1.strPAddress}
                                                 li.m-top-xs
                                                     i.fa.fa-phone-square.user-profile-icon
@@ -206,3 +219,55 @@ block content
                         .modal-footer
                             button.btn.btn-primary(type='button', data-dismiss='modal') Close
                             button.btn.btn-success(type='submit') Update
+        #ban.modal.fade.modal-icon(tabindex='-1', role='dialog')
+            .modal-dialog(role='document')
+                form(method="POST"  action="/admin/profile_hw_banreinstate")
+                    .modal-content
+                        .modal-header(style="background-color:#EDEDED")
+                            h2.modal-title Ban Client
+                                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                    span(aria-hidden='true') ×
+                        .modal-body
+                            input#thedate(type='text' name='thedate' hidden)
+                            input#id(type='text' name='id' hidden)
+                            center
+                                h1 Are you sure you want to ban this user?
+                        .modal-footer
+                            button.btn.btn-danger(type='submit' name='btn1' value='ban' onclick='time();') Yes
+                            button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
+        #reinstate.modal.fade.modal-icon(tabindex='-1', role='dialog')
+            .modal-dialog(role='document')
+                form(method="POST"  action="/admin/profile_hw_banreinstate")
+                    .modal-content
+                        .modal-header(style="background-color:#EDEDED")
+                            h2.modal-title Reinstate Client
+                                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                    span(aria-hidden='true') ×
+                        .modal-body
+                            input#thedate2(type='text' name='thedate' hidden)
+                            input#id(type='text' name='id' hidden)
+                            center
+                                h1 Are you sure you want to reinstate this user?
+                        .modal-footer
+                            button.btn.btn-warning(type='submit' name='btn1' value='reinstate' onclick='time();') Yes
+                            button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
+    script.
+        function time(){
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; //January is 0!
+            var yyyy = today.getFullYear();
+            
+            if(dd<10) {
+                dd = '0'+dd
+            } 
+
+            if(mm<10) {
+                mm = '0'+mm
+            } 
+
+            today = yyyy + '-' + mm + '-' + dd ;
+
+            document.getElementById("thedate").value=today;
+            document.getElementById("thedate2").value=today;
+        }

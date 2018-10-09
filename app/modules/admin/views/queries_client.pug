@@ -5,10 +5,6 @@ block content
         .right_col(role='main' style="background-color:transparent")
             div
                 .page-title
-                    .title_left
-                        h5
-                            a(href='clientList')
-                                b
                     .row
                         .col-md-12.col-sm-12.col-xs-12
                             .x_panel(style='background-color:rgba(52,152,219,.3)')
@@ -49,8 +45,8 @@ block content
                                                             |&nbsp
                                                             select.form-control(id='residence' name='residence')
                                                                 option(value='All') All
-                                                                option(value='In Metro') Metro Manila
-                                                                option(value='Out Metro') Outside Metro Manila
+                                                                option(value='In Metro Manila') Metro Manila
+                                                                option(value='Outside Metro Manila') Outside Metro Manila
                                                         |&nbsp
                                                         |&nbsp
                                                         |&nbsp
@@ -75,7 +71,8 @@ block content
                                         hr
                                         br
                                         each resultdates in resultdateslist
-                                            h1 Displaying results from #{resultdates.date1} to #{resultdates.date2}
+                                            i
+                                                h4 Displaying results from "#{resultdates.date1}" to "#{resultdates.date2}". Status: "#{resultdates.status}". Location: "#{resultdates.location}". City: "#{resultdates.city}".
                                         br
                                         br
                                         .col-md-12.col-sm-12.col-xs-12
@@ -93,7 +90,7 @@ block content
                                                             if theresults == undefined
                                                             else
                                                                 tr.even.pointer
-                                                                    td #{theresults.strFName}
+                                                                    td #{theresults.strFName} #{theresults.strLName}
                                                                     td #{theresults.datDateRegistered}
                                                                     td #{theresults.strCity}
                                                                     td
@@ -106,29 +103,10 @@ block content
     script(src='/admin/gentelella/vendors/moment/min/moment.min.js')
     script.
         $('#residence').change(function(){
-            if($(this).val() == 'In Metro'){ 
+            if($(this).val() == 'In Metro Manila'){ 
                 $('#NCRcities').show();
             }
             else{
                 $('#NCRcities').hide();
             }
         });
-        //- function queries_client_time(){
-        //-     var today = new Date();
-        //-     var dd = today.getDate();
-        //-     var mm = today.getMonth()+1; //January is 0!
-        //-     var yyyy = today.getFullYear();
-            
-        //-     if(dd<10) {
-        //-         dd = '0'+dd
-        //-     } 
-
-        //-     if(mm<10) {
-        //-         mm = '0'+mm
-        //-     } 
-
-        //-     today = yyyy + '/' + mm + '/' + dd ;
-        //-     var todaywrapper = moment(today).format('LL');
-        //-     var result = 'Displaying Results From January 1, 2012 To '+todaywrapper
-        //-     document.getElementById("datetoday").innerHTML=result;
-        //- }

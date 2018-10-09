@@ -1307,7 +1307,7 @@ function renderhwprofile(req,res){
 }
 function findhw(req,res,next){
   var db = require('../../lib/database')();
-  db.query("SELECT *,tbluser.strStatus AS stat FROM tbluser INNER JOIN tblhouseholdworker on intID = intHWID INNER JOIN tblmservice AS a ON intServiceID=a.intID WHERE tbluser.intID =?",[req.params.hwid], function (err, results) {
+  db.query("SELECT *,tbluser.strStatus AS stat, TIMESTAMPDIFF(YEAR,datBirthDay,CURDATE()) as age FROM tbluser INNER JOIN tblhouseholdworker on intID = intHWID INNER JOIN tblmservice AS a ON intServiceID=a.intID WHERE tbluser.intID =?",[req.params.hwid], function (err, results) {
     console.log(''+req.params.hwid);
     if (err) return res.send(err);
     if (!results[0])
@@ -1943,15 +1943,7 @@ router.post('/tr_approve_hw',flog,hwoptions);
 
 
 // ------------------------------------------------------------------------------------------------------CLIENT PROFILE
-router.get('/profile_client_:userid',flog, findprofclient, renderprofclient);
-function renderprofclient(req,res){
-  if(req.valid==0)
-  res.render('admin/views/profile_client',{usertab: req.user, clienttab: req.client});
-  else if(req.valid==1)
-  res.render('admin/views/invalidpages/normalonly');
-  else
-  res.render('login/views/invalid');
-}
+router.get('/profile_client_:userid',flog, findprofclient, findclientcurrenthw, findclientreports, renderprofclient);
 function findprofclient(req,res,next){
   var db = require('../../lib/database')();
   db.query("SELECT *,CONCAT(strLName,', ', strFName) AS strName FROM tbluser INNER JOIN tblclient ON intID = intClientID WHERE intID=?",[req.params.userid], function (err, results) {
@@ -1964,6 +1956,69 @@ function findprofclient(req,res,next){
     return next();
   });
 }
+function findclientcurrenthw(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * FROM tbluser INNER JOIN tblcontract ON intID = intConHWID
+                                  INNER JOIN tbltransaction ON intTRequestID = intConTransID
+                      WHERE intTClientID = ? AND strCurStatus IN ('Current')`, [req.params.userid], function(err,results){
+    if(err) res.send(err);
+    else
+    for(var i = 0; i < results.length; i++){
+      results[i].datDateSettled =  moment(results[i].datDateSettled).format("LL");
+      results[i].datDateExpiry =  moment(results[i].datDateExpiry).format("LL");      
+    }
+    req.hw=results;
+    return next();
+  })
+}
+function findclientreports(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * , a.intID AS ReporterID, a.strFName AS RFName, a.strLName AS RLName, strName FROM tbluser As a INNER JOIN tblreport ON intID = intReporterID  INNER JOIN tblmincidentreport as i ON i.intID = intTypeofReport WHERE intRecipentID =? AND strValidity ='Valid'`, [req.params.userid], function(err,results){
+    console.log(err);
+    for(var i = 0; i < results.length; i++){
+      results[i].datDateReported =  moment(results[i].datDateReported).format("LL");   
+    }
+    req.hw2=results;
+    return next();
+  })
+}
+function renderprofclient(req,res){
+  if(req.valid==0)
+  res.render('admin/views/profile_client',{usertab: req.user, clienttab: req.client, hwtab: req.hw, hw2tab: req.hw2});
+  else if(req.valid==1)
+  res.render('admin/views/invalidpages/normalonly');
+  else
+  res.render('login/views/invalid');
+}
+
+router.post('/profile_client_banreinstate',flog, clientbanreinstate)
+function clientbanreinstate(req,res){
+  var db = require('../../lib/database')();
+  if (req.body.btn1 == 'ban'){
+    db.query(`UPDATE tbluser SET strStatus ='Banned', datDateRegistered=? WHERE intID=?`, [req.body.thedate, req.body.id], function(err){
+      if (err) res.send(err);
+      else
+        res.redirect('/admin/profile_client_'+req.body.id)
+    })
+  }
+  else if (req.body.btn1 == 'reinstate'){
+    db.query(`UPDATE tbluser SET strStatus ='Registered', datDateRegistered=? WHERE intID=?`, [req.body.thedate, req.body.id], function(err){
+      if (err) res.send(err);
+      else
+        res.redirect('/admin/profile_client_'+req.body.id)
+    })
+  }
+}
+
+
+
+
+
+
+
+
+
+
 //Update Picture - CLient
 router.post('/profile_client_:userid/updatePic',(req, res) =>{
   var db = require('../../lib/database')();
@@ -2005,6 +2060,25 @@ function findhwreports(req,res,next){
     req.hw5=results;
     return next();
   })
+}
+
+router.post('/profile_hw_banreinstate',flog, hwbanreinstate)
+function hwbanreinstate(req,res){
+  var db = require('../../lib/database')();
+  if (req.body.btn1 == 'ban'){
+    db.query(`UPDATE tbluser SET strStatus ='Banned', datDateRegistered=? WHERE intID=?`, [req.body.thedate, req.body.id], function(err){
+      if (err) res.send(err);
+      else
+        res.redirect('/admin/profile_hw_'+req.body.id)
+    })
+  }
+  else if (req.body.btn1 == 'reinstate'){
+    db.query(`UPDATE tbluser SET strStatus ='Registered', datDateRegistered=? WHERE intID=?`, [req.body.thedate, req.body.id], function(err){
+      if (err) res.send(err);
+      else
+        res.redirect('/admin/profile_hw_'+req.body.id)
+    })
+  }
 }
 //Update Picture
 router.post('/profile_hw_:hwid/updatePic',(req, res) =>{
@@ -2423,7 +2497,10 @@ function queryclient(req,res,next){
   var db = require('../../lib/database')();
   var resultdates = [{
     date1 : req.body.datefrom,
-    date2: req.body.dateto
+    date2: req.body.dateto,
+    status: req.body.thestatus,
+    location: req.body.residence,
+    city: req.body.city
   }]
   for(var i = 0; i < resultdates.length; i++){
     resultdates[i].date1 =  moment(resultdates[i].date1).format("LL");
@@ -2444,7 +2521,7 @@ function queryclient(req,res,next){
       }
     })
   }
-  else if(req.body.residence == 'Out Metro'){
+  else if(req.body.residence == 'Outside Metro Manila'){
     db.query(`SELECT * FROM tbluser INNER JOIN tblclient ON intID=intClientID WHERE (strStatus='${req.body.thestatus}') AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND strCity NOT IN (SELECT strName FROM tblmcity)`,function(err,results){
       if(err){
         res.send(err);
@@ -2458,7 +2535,7 @@ function queryclient(req,res,next){
       }
     })
   }
-  else if(req.body.residence == 'In Metro'){
+  else if(req.body.residence == 'In Metro Manila'){
     if(req.body.city == 'All'){
       db.query(`SELECT * FROM tbluser INNER JOIN tblclient ON intID=intClientID WHERE (strStatus='${req.body.thestatus}') AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND strCity IN (SELECT strName FROM tblmcity)`,function(err,results){
         if(err){
@@ -2492,13 +2569,14 @@ function queryclient(req,res,next){
 }
 router.post('/queries_client',flog, findmcity, queryclient)
 
-
-
 function renderqueriesclient(req,res,next){
   var db = require('../../lib/database')();
   var resultdates = [{
     date1 : 'January 1, 2012',
-    date2: 'October 17, 2018'
+    date2: 'October 17, 2018',
+    status: 'Registered',
+    location: 'All',
+    city: 'All'
   }]
   req.resultdates = resultdates;
   console.log(resultdates);
@@ -2520,23 +2598,192 @@ router.get('/queries_client',flog, findmcity, renderqueriesclient);
 
 
 function renderquerieshw(req,res,next){
+  var db = require('../../lib/database')();
+  var resultdates = [{
+    date1 : 'January 1, 2012',
+    date2: 'October 17, 2018',
+    status: 'Registered',
+    location: 'All',
+    city: 'All'
+  }]
+  req.resultdates = resultdates;
   if(req.valid==0)
-  res.render('admin/views/queries_hw',{usertab: req.user});
+  db.query(`SELECT * FROM tbluser INNER JOIN tblhouseholdworker ON intID=intHWID WHERE datDateRegistered BETWEEN '2012-01-01' AND '2018-05-17'`,function(err,results){
+    for(var i = 0; i < results.length; i++){
+      results[i].datDateRegistered =  moment(results[i].datDateRegistered).format("LL"); 
+    }
+    req.theresults=results;
+    console.log(results);
+    res.render('admin/views/queries_hw',{usertab: req.user, theresultstab: req.theresults, itemtab: req.item, resultdateslist: resultdates});
+  })
   else if(req.valid==1)
   res.render('admin/views/invalidpages/normalonly');
   else
   res.render('login/views/invalid');
 }
-router.get('/queries_hw',flog, renderquerieshw);
-function renderqueriescity(req,res,next){
-  if(req.valid==0)
-  res.render('admin/views/queries_city',{usertab: req.user});
-  else if(req.valid==1)
-  res.render('admin/views/invalidpages/normalonly');
-  else
-  res.render('login/views/invalid');
+router.get('/queries_hw',flog, findmcity, renderquerieshw);
+
+function queryhw(req,res,next){
+  var db = require('../../lib/database')();
+  var resultdates = [{
+    date1 : req.body.datefrom,
+    date2: req.body.dateto,
+    status: req.body.thestatus,
+    location: req.body.residence,
+    city: req.body.city
+  }]
+  for(var i = 0; i < resultdates.length; i++){
+    resultdates[i].date1 =  moment(resultdates[i].date1).format("LL");
+    resultdates[i].date2 =  moment(resultdates[i].date2).format("LL"); 
+  }
+  req.resultdates = resultdates;
+  if(req.body.thestatus =='Deployed'){
+    if(req.body.residence == 'All'){
+      db.query(`SELECT  * FROM tbluser as hw INNER JOIN tblcontract ON hw.intID = intConHWID 
+                                INNER JOIN tbltransaction ON intTRequestID = intConTransID
+                                INNER JOIN tblhouseholdworker ON intHWID = hw.intID
+                                INNER JOIN tblclient as cl ON intClientID = intTClientID
+                          WHERE strStatus = 'Deployed' AND (datDateSettled BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}')`,function(err,results){
+        if(err){
+          res.send(err);
+        }
+        else{
+          for(var i = 0; i < results.length; i++){
+            results[i].datDateSettled =  moment(results[i].datDateSettled).format("LL"); 
+          }
+          req.theresults=results;
+          res.render('admin/views/queries_hw',{usertab: req.user, theresultstab: req.theresults, itemtab: req.item, resultdateslist: resultdates});
+        }
+      })
+    }
+    else if(req.body.residence == 'Outside Metro Manila'){
+      db.query(`SELECT  hw.*, cl.*, t.*  FROM tbluser as hw INNER JOIN tblcontract ON hw.intID = intConHWID 
+                                INNER JOIN tbltransaction as t ON intTRequestID = intConTransID
+                                INNER JOIN tblhouseholdworker ON intHWID = hw.intID
+                                INNER JOIN tblclient as cl ON intClientID = intTClientID
+                          WHERE strStatus = 'Deployed' AND (datDateSettled BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND cl.strCity NOT IN (SELECT strName FROM tblmcity)`,function(err,results){
+        if(err){
+          res.send(err);
+        }
+        else{
+          for(var i = 0; i < results.length; i++){
+            results[i].datDateSettled =  moment(results[i].datDateSettled).format("LL"); 
+          }
+          req.theresults=results;
+          res.render('admin/views/queries_hw',{usertab: req.user, theresultstab: req.theresults, itemtab: req.item, resultdateslist: resultdates});
+        }
+      })
+    }
+    else if(req.body.residence == 'In Metro Manila'){
+      if(req.body.city == 'All'){
+        db.query(`SELECT  hw.*, cl.*, t.*  FROM tbluser as hw INNER JOIN tblcontract ON hw.intID = intConHWID 
+                                                INNER JOIN tbltransaction as t ON intTRequestID = intConTransID
+                                                INNER JOIN tblhouseholdworker ON intHWID = hw.intID
+                                                INNER JOIN tblclient as cl ON intClientID = intTClientID
+                                          WHERE strStatus = 'Deployed' AND (datDateSettled BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND cl.strCity IN (SELECT strName FROM tblmcity)`,function(err,results){
+          if(err){
+            res.send(err);
+          }
+          else{
+            for(var i = 0; i < results.length; i++){
+              results[i].datDateSettled =  moment(results[i].datDateSettled).format("LL"); 
+            }
+            req.theresults=results;
+            res.render('admin/views/queries_hw',{usertab: req.user, theresultstab: req.theresults, itemtab: req.item, resultdateslist: resultdates});
+          }
+        })
+      }
+      else{
+        db.query(`SELECT  hw.*, cl.*, t.*  FROM tbluser as hw INNER JOIN tblcontract ON hw.intID = intConHWID 
+                                                INNER JOIN tbltransaction as t ON intTRequestID = intConTransID
+                                                INNER JOIN tblhouseholdworker ON intHWID = hw.intID
+                                                INNER JOIN tblclient as cl ON intClientID = intTClientID
+                                          WHERE strStatus = 'Deployed' AND (datDateSettled BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND cl.strCity = '${req.body.city}'`,function(err,results){
+          if(err){
+            res.send(err);
+          }
+          else{
+            for(var i = 0; i < results.length; i++){
+              results[i].datDateSettled =  moment(results[i].datDateSettled).format("LL"); 
+            }
+            req.theresults=results;
+            res.render('admin/views/queries_client',{usertab: req.user, theresultstab: req.theresults, itemtab: req.item, resultdateslist: resultdates});
+          }
+        })
+  
+      }
+    }
+
+  }
+  else{
+    if(req.body.residence == 'All'){
+    db.query(`SELECT * FROM tbluser INNER JOIN tblhouseholdworker ON intID=intHWID WHERE strStatus='${req.body.thestatus}' AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}')`,function(err,results){
+      if(err){
+        res.send(err);
+      }
+      else{
+        for(var i = 0; i < results.length; i++){
+          results[i].datDateRegistered =  moment(results[i].datDateRegistered).format("LL"); 
+        }
+        req.theresults=results;
+        res.render('admin/views/queries_hw',{usertab: req.user, theresultstab: req.theresults, itemtab: req.item, resultdateslist: resultdates});
+      }
+    })
+  }
+  else if(req.body.residence == 'Outside Metro Manila'){
+    db.query(`SELECT * FROM tbluser INNER JOIN tblhw ON intID=intHWID WHERE (strStatus='${req.body.thestatus}') AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND strCity NOT IN (SELECT strName FROM tblmcity)`,function(err,results){
+      if(err){
+        res.send(err);
+      }
+      else{
+        for(var i = 0; i < results.length; i++){
+          results[i].datDateRegistered =  moment(results[i].datDateRegistered).format("LL"); 
+        }
+        req.theresults=results;
+        res.render('admin/views/queries_hw',{usertab: req.user, theresultstab: req.theresults, itemtab: req.item, resultdateslist: resultdates});
+      }
+    })
+  }
+  else if(req.body.residence == 'In Metro Manila'){
+    if(req.body.city == 'All'){
+      db.query(`SELECT * FROM tbluser INNER JOIN tblhouseholdworker ON intID=intHWID WHERE (strStatus='${req.body.thestatus}') AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND strCity IN (SELECT strName FROM tblmcity)`,function(err,results){
+        if(err){
+          res.send(err);
+        }
+        else{
+          for(var i = 0; i < results.length; i++){
+            results[i].datDateRegistered =  moment(results[i].datDateRegistered).format("LL"); 
+          }
+          req.theresults=results;
+          res.render('admin/views/queries_hw',{usertab: req.user, theresultstab: req.theresults, itemtab: req.item, resultdateslist: resultdates});
+        }
+      })
+    }
+    else{
+      db.query(`SELECT * FROM tbluser INNER JOIN tblhouseholdworker ON intID=intHWID WHERE (strStatus='${req.body.thestatus}') AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND strCity = '${req.body.city}'`,function(err,results){
+        if(err){
+          res.send(err);
+        }
+        else{
+          for(var i = 0; i < results.length; i++){
+            results[i].datDateRegistered =  moment(results[i].datDateRegistered).format("LL"); 
+          }
+          req.theresults=results;
+          res.render('admin/views/queries_hw',{usertab: req.user, theresultstab: req.theresults, itemtab: req.item, resultdateslist: resultdates});
+        }
+      })
+
+    }
+  }
+  }
+  
 }
-router.get('/queries_city',flog, renderqueriescity);
+router.post('/queries_hw',flog, findmcity, queryhw)
+
+
+
+
+
 
 
 
