@@ -198,7 +198,7 @@ block content
                                                                         form#sendReq(method="POST" action="tr_add_actions_"+selected.intRRequestID)
                                                                             .col-xs-12.col-sm-8.emphasis
                                                                                 //- input#hwid(type='text' name='hwid' value=''+selected.intRHWID , style="display:none;" )
-                                                                                input#reqno(type='text' name='reqno' value=''+selected.intRRequest_No , style="display:none;" )
+                                                                                input.reqno(type='text' name='reqno' value=''+selected.intRRequest_No, style="display:none;" )
                                                                                 if selected.strRHWStatus == '' && selected.strRClientStatus ==''
                                                                                     button.btn.btn-success#sendRequest(type='submit' name='hwid' value=selected.intRHWID)
                                                                                         i.fa.fa-paper-plane 
@@ -399,13 +399,15 @@ block content
             $('button#sendRequest').click(function(e){
                 e.preventDefault();
                 var idNow1 = $(this).val();
+                var reqNo = $(this).siblings('.reqno').val();
+                console.log(reqNo);
                 console.log(idNow1);
                 $.ajax({
                     url: $('form#sendReq').attr('action'),
                     method: 'post',
                     data: {
                         hwid: idNow1,
-                        reqno: $('input#reqno').val(),
+                        reqno: reqNo,
                         btn1: "sendtohw"
                     },
                     success: function(response){
@@ -429,13 +431,15 @@ block content
             $('button#removeList').click(function(e){
                 e.preventDefault();
                 var idNow1 = $(this).val();
+                var reqNo = $(this).siblings('.reqno').val();
+                console.log(reqNo);
                 console.log(idNow1);
                 $.ajax({
                     url: $('form#sendReq').attr('action'),
                     method: 'post',
                     data: {
                         hwid: idNow1,
-                        reqno: $('input#reqno').val(),
+                        reqno: reqNo,
                         btn1: "removefromlist"
                     },
                     success: function(response){
@@ -458,13 +462,15 @@ block content
             $('button#cancelRequest').click(function(e){
                 e.preventDefault();
                 var idNow1 = $(this).val();
+                var reqNo = $(this).siblings('.reqno').val();
+                console.log(reqNo);
                 console.log(idNow1);
                 $.ajax({
                     url: $('form#sendReq').attr('action'),
                     method: 'post',
                     data: {
                         hwid: idNow1,
-                        reqno: $('input#reqno').val(),
+                        reqno: reqNo,
                         btn1: "cancelsendtohw"
                     },
                     success: function(response){
@@ -487,13 +493,15 @@ block content
             $('button#sendClient').click(function(e){
                 e.preventDefault();
                 var idNow1 = $(this).val();
+                var reqNo = $(this).siblings('.reqno').val();
+                console.log(reqNo);
                 console.log(idNow1);
                 $.ajax({
                     url: $('form#sendReq').attr('action'),
                     method: 'post',
                     data: {
                         hwid: idNow1,
-                        reqno: $('input#reqno').val(),
+                        reqno: reqNo,
                         btn1: "sendtoclient"
                     },
                     success: function(response){

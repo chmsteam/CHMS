@@ -65,7 +65,7 @@ function offerdecision(req,res){
       console.log(''+err);
       db.query(`UPDATE tblresults SET strRHWStatus='Rejected' WHERE strRHWStatus NOT IN ('Approved') AND intRHWID = '${req.session.user}'`,function (err) {
         console.log(''+err);
-        res.send('accepted')
+        res.send('accepted');
         // res.redirect('/home_householdworker', flog, findjoboffers, noofincomingrequests, countcontract, findcontract, render);
       })
     })
