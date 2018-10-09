@@ -55,80 +55,125 @@ block content
                 //- Add
                 .modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
                     .modal-dialog.modal-xs
-                        .modal-content
-                            .modal-header(style="background-color:#EDEDED;")
-                                button.close(type='button', data-dismiss='modal')
-                                    span(aria-hidden='true') ×
-                                h4#myModalLabel.modal-title Add a Requirement
-                            .modal-body
-                               form#form1.form-horizontal.form-label-left(method="POST" action="add_requirement")
-                                .form-group
-                                    br
-                                    br
-                                    label.control-label.col-md-3.col-sm-3.col-xs-12(for='requirement-name')
-                                        | Requirement Name*
-                                    .col-md-6.col-sm-6.col-xs-12
-                                        input#requirementname.form-control.col-md-7.col-xs-12(type='text', required='required', name='requirementname')
-                                .form-group
-                                    label.control-label.col-md-3.col-sm-3.col-xs-12 Requirement For*:
-                                    .col-md-6.col-sm-6.col-xs-12
-                                        select(name='reqtype').form-control
-                                            option(value='Client') Client
-                                            option(value='Household Worker') Household Worker
-                                br
-                                .ln_solid
-                                .form-group.pull-right
+                        form#formAdd.form-horizontal.form-label-left(method="POST" action="add_requirement")
+                            .modal-content
+                                .modal-header(style="background-color:#EDEDED;")
+                                    button.close(type='button', data-dismiss='modal')
+                                        span(aria-hidden='true') ×
+                                    h4#myModalLabel.modal-title Add a Requirement
+                                .modal-body
+                                    .row
+                                        .col-md-6
+                                            .form-group
+                                                label Requirement Name
+                                                input#requirementname.form-control(type='text', required='required', name='requirementname')
+                                        .col-md-6
+                                            .form-group
+                                                label Requirement For:
+                                                select(name='reqtype').form-control
+                                                    option(value='Client') Client
+                                                    option(value='Household Worker') Household Worker
+                                .modal-footer
                                     button.btn.btn-success(type='submit' onsubmit = 'sendform(this.id);') Add
                                     button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
                 //- Edit
                 #edit_requirement.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
                     .modal-dialog.modal-xs
-                        .modal-content
-                            .modal-header(style="background-color:#EDEDED;")
-                                button.close(type='button', data-dismiss='modal')
-                                    span(aria-hidden='true') ×
-                                h4#myModalLabel.modal-title Edit Requirement
-                            .modal-body
-                                form#demo-form2.form-horizontal.form-label-left(method="POST" action="edit_requirement")
+                        form#formEdit.form-horizontal.form-label-left(method="POST" action="edit_requirement")
+                            .modal-content
+                                .modal-header(style="background-color:#EDEDED;")
+                                    button.close(type='button', data-dismiss='modal')
+                                        span(aria-hidden='true') ×
+                                    h4#myModalLabel.modal-title Edit Requirement
+                                .modal-body
                                     input.form-control.col-md-7.col-xs-12(type='number', id='_id', required='required', name='requirementID' style="display:none;")                          
-                                    .form-group
-                                        br
-                                        br
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12
-                                            | Requirement Name
-                                            span.required *
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            input.form-control.col-md-7.col-xs-12(type='text', id='_name', required='required', name='requirementname')
-                                    .form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12 Requirement For*:
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            select(name='reqtype').form-control
-                                                option(id='_type') 
-                                                    |
-                                                    i same as before
-                                                option(value='Client') Client
-                                                option(value='Household Worker') Household Worker
-                                    br
-                                    .ln_solid
-                                    .form-group.pull-right
-                                        button.btn.btn-success(type='submit') Update
-                                        button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+                                    .row
+                                        .col-md-6
+                                            .form-group
+                                                label Requirement Name
+                                                input.form-control(type='text', id='_name', required='required', name='requirementname')
+                                        .col-md-6
+                                            .form-group
+                                                label Requirement For:
+                                                select.form-control(name='reqtype' required)
+                                                    option(id='_type') 
+                                                        |
+                                                        i same as before
+                                                    option(value='Client') Client
+                                                    option(value='Household Worker') Household Worker
+                                .modal-footer
+                                    button.btn.btn-success(type='submit') Update
+                                    button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+    script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
     script.
-        function submitform(formid){
-            var form = $('#'+formid);
-            $.ajax({
-                type: 'POST',
-                url: $(form).attr('action'),
-                data: $(form).serialize(),
-                success: function() {
-                    swal("Oops!", "Something went wrong!", "error");
-                }
+        $(document).ready(function(){
+            $('form#formAdd').submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: $('form#formAdd').attr('action'),
+                    method: 'post',
+                    data: $('form#formAdd').serialize(),
+                    success: function(response){
+                        console.log(response);
+                        if(response == 'added'){
+                            swal({
+                                type: 'success',
+                                title: 'Added',
+                                text: 'Requirement Added!',
+                                showConfirmButton: false,
+                                },setTimeout(function() {
+                                    location.reload();
+                                }, 1500)
+                            );
+                            $('.modal').modal('hide');
+                        }
+                        else if(response == 'already exist'){
+                            swal({
+                                type: 'warning',
+                                title: 'Requirement Already Exists',
+                                showConfirmButton: false,
+                                timer: 1500
+                                }
+                            );
+                            $('.modal').modal('hide');
+                        }
+                    }
+                })
             });
-        }
-        function test(){
-            swal("Oops!", "Something went wrong!", "error");
-        }
-            
+            $('form#formEdit').submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: $('form#formEdit').attr('action'),
+                    method: 'post',
+                    data: $('form#formEdit').serialize(),
+                    success: function(response){
+                        console.log(response);
+                        if(response == 'updated'){
+                            swal({
+                                type: 'success',
+                                title: 'Updated',
+                                text: 'Requirement Updated!',
+                                showConfirmButton: false,
+                                },setTimeout(function() {
+                                    location.reload();
+                                }, 1500)
+                            );
+                            $('.modal').modal('hide');
+                        }
+                        else if(response == 'already exist'){
+                            swal({
+                                type: 'warning',
+                                title: 'Requirement Already Exists',
+                                showConfirmButton: false,
+                                timer: 1500
+                                }
+                            );
+                            $('.modal').modal('hide');
+                        }
+                    }
+                })
+            });
+        });
 
         //-     $.ajax({
         //-         url: "add_requirement",

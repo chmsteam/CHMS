@@ -55,80 +55,134 @@ block content
                 //- Add
                 .modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
                     .modal-dialog.modal-xs
-                        .modal-content
-                            .modal-header(style="background-color:#EDEDED;")
-                                button.close(type='button', data-dismiss='modal')
-                                    span(aria-hidden='true') ×
-                                h4#myModalLabel.modal-title Add an Incident Report
-                            .modal-body
-                               form#demo-form2.form-horizontal.form-label-left(method="POST" action="add_incidentreport")
-                                .form-group
-                                    br
-                                    br
-                                    label.control-label.col-md-3.col-sm-3.col-xs-12(for='incident-name')
-                                        | Incident Name 
-                                        span.required *
-                                    .col-md-6.col-sm-6.col-xs-12
-                                        input#first-name.form-control.col-md-7.col-xs-12(type='text', required='required', name='incidentname')
-                                .form-group
-                                    label.control-label.col-md-3.col-sm-3.col-xs-12
-                                        | Description
-                                        span.required *
-                                    .col-md-6.col-sm-6.col-xs-12
-                                        textarea.form-control(rows='3', placeholder='Add a description...' ,name='incidentdesc')
-                                .form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12 Severity
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            select(name='incidentlvl').form-control
-                                                option(value='Low') Low
-                                                option(value='High') High
-                                br
-                                .ln_solid
-                                .form-group.pull-right
+                        form#formAdd.form-horizontal.form-label-left(method="POST" action="add_incidentreport")
+                            .modal-content
+                                .modal-header(style="background-color:#EDEDED;")
+                                    button.close(type='button', data-dismiss='modal')
+                                        span(aria-hidden='true') ×
+                                    h4#myModalLabel.modal-title Add an Incident Report
+                                .modal-body
+                                    .row
+                                        .col-md-8
+                                            .form-group
+                                                label(for='incident-name') Incident Name:
+                                                input#first-name.form-control(type='text', required='required', name='incidentname')
+                                        .col-md-4
+                                            .form-group
+                                                label Severity:
+                                                select(name='incidentlvl').form-control
+                                                    option(value='Low') Low
+                                                    option(value='High') High
+                                    .row
+                                        .col-md-10
+                                            .form-group
+                                                label Description:
+                                                textarea.form-control(rows='3', placeholder='Add a description...' ,name='incidentdesc')
+                                    
+                                .modal-footer
                                     button.btn.btn-success(type='submit') Add
                                     button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
                 //- Edit
                 #editir.modal.fade.bs-edit-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
                     .modal-dialog.modal-xs
-                        .modal-content
-                            .modal-header(style="background-color:#EDEDED;")
-                                button.close(type='button', data-dismiss='modal')
-                                    span(aria-hidden='true') ×
-                                h4#myModalLabel.modal-title Edit Incident Report
-                            .modal-body
-                                form#demo-form2.form-horizontal.form-label-left(method="POST" action="edit_incidentreport")
-                                    .form-group
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            br
-                                            br
-                                            input.form-control.col-md-7.col-xs-12(type='text', id='id', required='required', name='incidentID' style="display:none;")                          
-                                    .form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12
-                                            | Incident Name
-                                            span.required *
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            input.form-control.col-md-7.col-xs-12(type='text', id='name', required='required', name='incidentname')
-                                    .form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12
-                                            | Description
-                                            span.required *
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            textarea.form-control(rows='3', id='desc', name='incidentdesc')
-                                    .form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12 Severity
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            select(name='incidentlvl').form-control
-                                                option(id='level')
-                                                    i same as before.
-                                                option(value='Low') Low
-                                                option(value='High') High
-                                                    
-                                    br
-                                    .ln_solid
-                                    .form-group.pull-right
-                                        button.btn.btn-success(type='submit') Update
-                                        button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+                        form#formEdit.form-horizontal.form-label-left(method="POST" action="edit_incidentreport")
+                            .modal-content
+                                .modal-header(style="background-color:#EDEDED;")
+                                    button.close(type='button', data-dismiss='modal')
+                                        span(aria-hidden='true') ×
+                                    h4#myModalLabel.modal-title Edit Incident Report
+                                .modal-body
+                                    input.form-control.col-md-7.col-xs-12(type='text', id='id', required='required', name='incidentID' style="display:none;")                          
+                                    .row
+                                        .col-md-8
+                                            .form-group
+                                                label Incident Name:
+                                                input.form-control(type='text', id='name', required='required', name='incidentname')
+                                        .col-md-4
+                                            .form-group
+                                                label Severity:
+                                                select(name='incidentlvl').form-control
+                                                    option(id='level')
+                                                        i same as before.
+                                                    option(value='Low') Low
+                                                    option(value='High') High
+                                    .row
+                                        .col-md-10
+                                            .form-group
+                                                label Description:
+                                                textarea.form-control(rows='3', id='desc', name='incidentdesc')
+                                .modal-footer
+                                    button.btn.btn-success(type='submit') Update
+                                    button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
 
 
-
-    
+        script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+        script.
+            $(document).ready(function(){
+                $('form#formAdd').submit(function(e){
+                    e.preventDefault();
+                    $.ajax({
+                        url: $('form#formAdd').attr('action'),
+                        method: 'post',
+                        data: $('form#formAdd').serialize(),
+                        success: function(response){
+                            console.log(response);
+                            if(response == 'added'){
+                                swal({
+                                    type: 'success',
+                                    title: 'Added',
+                                    text: 'Incident Report Added!',
+                                    showConfirmButton: false,
+                                    },setTimeout(function() {
+                                        location.reload();
+                                    }, 1500)
+                                );
+                                $('.modal').modal('hide');
+                            }
+                            else if(response == 'already exist'){
+                                swal({
+                                    type: 'warning',
+                                    title: 'Incident Report Already Exists',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                    }
+                                );
+                                $('.modal').modal('hide');
+                            }
+                        }
+                    })
+                });
+                $('form#formEdit').submit(function(e){
+                    e.preventDefault();
+                    $.ajax({
+                        url: $('form#formEdit').attr('action'),
+                        method: 'post',
+                        data: $('form#formEdit').serialize(),
+                        success: function(response){
+                            console.log(response);
+                            if(response == 'updated'){
+                                swal({
+                                    type: 'success',
+                                    title: 'Updated',
+                                    text: 'Incident Report Updated!',
+                                    showConfirmButton: false,
+                                    },setTimeout(function() {
+                                        location.reload();
+                                    }, 1500)
+                                );
+                                $('.modal').modal('hide');
+                            }
+                            else if(response == 'already exist'){
+                                swal({
+                                    type: 'warning',
+                                    title: 'Incident Report Already Exists',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                    }
+                                );
+                                $('.modal').modal('hide');
+                            }
+                        }
+                    })
+                });
+            });  

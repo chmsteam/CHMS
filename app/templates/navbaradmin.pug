@@ -6,7 +6,8 @@ html(lang='en')
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    title Admin
+    link(rel='icon', type='image/png', href='/admin/gentelella/production/images/mega.ico')
+    title CHMS | Admin
     // Bootstrap
     link(href='/admin/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css', rel='stylesheet')
     // Font Awesome
@@ -416,6 +417,16 @@ html(lang='en')
               modal.find('.modal-body #_id').val(id)
               modal.find('.modal-body #_name').val(name)
               modal.find('.modal-body #_type').val(type)
+            });
+            //maintenance Service
+            $('.bs-edit-modal-xs').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var id = button.data('id')
+              var name = button.data('name')
+
+              var modal = $(this)
+              modal.find('.modal-body #id').val(id)
+              modal.find('.modal-body #name').val(name)
             });
             $('#edit_city').on('show.bs.modal', function (event) {
               var button = $(event.relatedTarget)

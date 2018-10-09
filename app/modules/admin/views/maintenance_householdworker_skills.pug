@@ -50,66 +50,124 @@ block content
                 //- Add
                 .modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
                     .modal-dialog.modal-xs
-                        .modal-content
-                            .modal-header(style="background-color:#EDEDED;")
-                                button.close(type='button', data-dismiss='modal')
-                                    span(aria-hidden='true') ×
-                                h4#myModalLabel.modal-title Add a Skill
-                            .modal-body
-                               form#demo-form2.form-horizontal.form-label-left(method="POST" action="add_skill")
-                                .form-group
-                                    br
-                                    br
-                                    label.control-label.col-md-3.col-sm-3.col-xs-12
-                                        | Skill Name
-                                        span.required *
-                                    .col-md-6.col-sm-6.col-xs-12
-                                        input#requirementname.form-control.col-md-7.col-xs-12(type='text', required='required', name='skill')
-                                //- .form-group
-                                //-     label.control-label.col-md-3.col-sm-3.col-xs-12 Type of Service
-                                //-     .col-md-6.col-sm-6.col-xs-12
-                                //-         select(name='service').form-control
-                                //-             each items in itemtabs
-                                //-                 option(value=''+items.intID) #{items.strName}
-                                br
-                                .ln_solid
-                                .form-group.pull-right
+                        form#formAdd.form-horizontal.form-label-left(method="POST" action="add_skill")
+                            .modal-content
+                                .modal-header(style="background-color:#EDEDED;")
+                                    button.close(type='button', data-dismiss='modal')
+                                        span(aria-hidden='true') ×
+                                    h4#myModalLabel.modal-title Add a Skill
+                                .modal-body
+                                    .row
+                                        .col-md-8
+                                            .form-group
+                                                label Skill Name:
+                                                input#requirementname.form-control(type='text', required='required', name='skill')
+                                            //- .form-group
+                                            //-     label.control-label.col-md-3.col-sm-3.col-xs-12 Type of Service
+                                            //-     .col-md-6.col-sm-6.col-xs-12
+                                            //-         select(name='service').form-control
+                                            //-             each items in itemtabs
+                                            //-                 option(value=''+items.intID) #{items.strName}
+                                .modal-footer
                                     button.btn.btn-success(type='submit') Add
                                     button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
                 //- Edit
                 #editskill.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
                     .modal-dialog.modal-xs
-                        .modal-content
-                            .modal-header(style="background-color:#EDEDED;")
-                                button.close(type='button', data-dismiss='modal')
-                                    span(aria-hidden='true') ×
-                                h4#myModalLabel.modal-title Edit Skill
-                            .modal-body
-                                form#demo-form2.form-horizontal.form-label-left(method="POST" action="edit_skill")
-                                    .form-group
-                                        br
-                                        br
+                        form#formEdit.form-horizontal.form-label-left(method="POST" action="edit_skill")
+                            .modal-content
+                                .modal-header(style="background-color:#EDEDED;")
+                                    button.close(type='button', data-dismiss='modal')
+                                        span(aria-hidden='true') ×
+                                    h4#myModalLabel.modal-title Edit Skill
+                                .modal-body
                                         input.form-control.col-md-7.col-xs-12(type='number', id='_skillid', required='required', name='skillID' style='display:none;')                          
-                                    .form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12
-                                            | Skill
-                                            span.required *
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            input.form-control.col-md-7.col-xs-12(type='text', id='_skillname', required='required', name='skillname')
-                                    //- .form-group
-                                    //-     label.control-label.col-md-3.col-sm-3.col-xs-12 Type of Service
-                                    //-     .col-md-6.col-sm-6.col-xs-12
-                                    //-         select(name='serviceid').form-control
-                                    //-             option(id='_serviceid')
-                                    //-                 i same as before.
-                                    //-             each items in itemtabs
-                                    //-                 option(value=''+items.intID) #{items.strName}
-                                    br
-                                    .ln_solid
-                                    .form-group.pull-right
-                                        button.btn.btn-success(type='submit') Update
-                                        button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
-
+                                        .row
+                                            .col-md-8
+                                                .form-group
+                                                    label Skill:
+                                                    input.form-control(type='text', id='_skillname', required='required', name='skillname')
+                                                //- .form-group
+                                                //-     label.control-label.col-md-3.col-sm-3.col-xs-12 Type of Service
+                                                //-     .col-md-6.col-sm-6.col-xs-12
+                                                //-         select(name='serviceid').form-control
+                                                //-             option(id='_serviceid')
+                                                //-                 i same as before.
+                                                //-             each items in itemtabs
+                                                //-                 option(value=''+items.intID) #{items.strName}
+                                .modal-footer
+                                    button.btn.btn-success(type='submit') Update
+                                    button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+        script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+        script.
+            $(document).ready(function(){
+                $('form#formAdd').submit(function(e){
+                    e.preventDefault();
+                    $.ajax({
+                        url: $('form#formAdd').attr('action'),
+                        method: 'post',
+                        data: $('form#formAdd').serialize(),
+                        success: function(response){
+                            console.log(response);
+                            if(response == 'added'){
+                                swal({
+                                    type: 'success',
+                                    title: 'Added',
+                                    text: 'Household Worker Skill Added!',
+                                    showConfirmButton: false,
+                                    },setTimeout(function() {
+                                        location.reload();
+                                    }, 1500)
+                                );
+                                $('.modal').modal('hide');
+                            }
+                            else if(response == 'already exist'){
+                                swal({
+                                    type: 'warning',
+                                    title: 'Household Worker Skill Already Exists',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                    }
+                                );
+                                $('.modal').modal('hide');
+                            }
+                        }
+                    })
+                });
+                $('form#formEdit').submit(function(e){
+                    e.preventDefault();
+                    $.ajax({
+                        url: $('form#formEdit').attr('action'),
+                        method: 'post',
+                        data: $('form#formEdit').serialize(),
+                        success: function(response){
+                            console.log(response);
+                            if(response == 'updated'){
+                                swal({
+                                    type: 'success',
+                                    title: 'Updated',
+                                    text: 'Household Worker Skill Updated!',
+                                    showConfirmButton: false,
+                                    },setTimeout(function() {
+                                        location.reload();
+                                    }, 1500)
+                                );
+                                $('.modal').modal('hide');
+                            }
+                            else if(response == 'already exist'){
+                                swal({
+                                    type: 'warning',
+                                    title: 'Household Worker Skill Already Exists',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                    }
+                                );
+                                $('.modal').modal('hide');
+                            }
+                        }
+                    })
+                });
+            });
         //- script.
             //- $('#editskill').on('show.bs.modal', function (event) {
             //- var button = $(event.relatedTarget)

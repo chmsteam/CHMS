@@ -549,17 +549,37 @@ function renderReasonReplacement(req,res){
 }
 router.post('/add_repReason',(req, res) => {
   var db = require('../../lib/database')();
-  db.query(`INSERT INTO tblmreplacereason (strName, strStatus)  VALUES ("${req.body.reason}", "Active")`, (err) => {
-    if (err) console.log(err);
-    res.redirect('/admin/maintenance_reason_of_replacement');
+  db.query("SELECT * FROM tblmreplacereason WHERE strName = ?",[req.body.reason], (err, results)=>{
+    console.log(err);
+    var reasons = results[0];
+    console.log(reasons);
+    if(!reasons){
+      db.query(`INSERT INTO tblmreplacereason (strName, strStatus)  VALUES ("${req.body.reason}", "Active")`, (err) => {
+        if (err) console.log(err);
+        res.send('added');
+        // res.redirect('/admin/maintenance_reason_of_replacement');
+      });
+    }
+    else
+      res.send('already exist');
   });
 });
 router.post('/edit_repReason',(req, res) => {
   var db = require('../../lib/database')();
   var sql = "UPDATE tblmreplacereason SET strName= ? WHERE intID = ?";
-  db.query(sql,[req.body.reason,  req.body.repID],function (err) {
-    if (err) console.log(err);
-    res.redirect('/admin/maintenance_reason_of_replacement');
+  db.query("SELECT * FROM tblmreplacereason WHERE strName = ?",[req.body.reason], (err, results)=>{
+    console.log(err);
+    var reasons = results[0];
+    console.log(reasons);
+    if(!reasons){
+      db.query(sql,[req.body.reason, req.body.repID],function (err) {
+        if (err) console.log(err);
+        res.send('updated');
+        // res.redirect('/admin/maintenance_reason_of_replacement');
+        });
+      }
+    else
+      res.send('already exist');
     });
 });
 function displayReason(req, res, next){
@@ -747,93 +767,215 @@ router.get('/disable_reas/:userid',flog,disableReason);
 
 router.post('/add_requirement',(req, res) => {
   var db = require('../../lib/database')();
-  db.query(`INSERT INTO tblmrequirements (strName, strType, strStatus)  VALUES ("${req.body.requirementname}", "${req.body.reqtype}", "Active")`, (err) => {
-    if (err) console.log(err);
-    res.redirect('/admin/maintenance_requirements');
-    });
+  db.query("SELECT * FROM tblmrequirements WHERE strName = ? AND strType = ?",[req.body.requirementname,req.body.reqtype], (err, results)=>{
+    console.log(err);
+    var requirements = results[0];
+    console.log(requirements);
+    if(!requirements){
+      db.query(`INSERT INTO tblmrequirements (strName, strType, strStatus)  VALUES ("${req.body.requirementname}", "${req.body.reqtype}", "Active")`, (err) => {
+        if (err) console.log(err);
+        res.send('added');
+        // res.redirect('/admin/maintenance_requirements');
+      });
+    }
+    else
+      res.send('already exist');
+  });
 });
 router.post('/edit_requirement',(req, res) => {
   var db = require('../../lib/database')();
   var sql = "UPDATE tblmrequirements SET strName= ?, strType= ? WHERE intID = ?";
-  db.query(sql,[req.body.requirementname, req.body.reqtype, req.body.requirementID],function (err) {
-    res.redirect('/admin/maintenance_requirements');
-    });
+  db.query("SELECT * FROM tblmrequirements WHERE strName = ? AND strType = ?",[req.body.requirementname,req.body.reqtype], (err, results)=>{
+    console.log(err);
+    var requirements = results[0];
+    console.log(requirements);
+    if(!requirements){
+      db.query(sql,[req.body.requirementname, req.body.reqtype, req.body.requirementID],function (err) {
+        console.log(err);
+        res.send('updated');
+        // res.redirect('/admin/maintenance_requirements');
+        });
+    }
+    else
+    res.send('already exist');
+  });
 });
 
 router.post('/add_incidentreport',(req, res) => {
   var db = require('../../lib/database')();
-  db.query(`INSERT INTO tblmincidentreport (strName, strDesc, strLevel, strStatus)  VALUES ("${req.body.incidentname}", "${req.body.incidentdesc}", '${req.body.incidentlvl}', "Active")`, (err) => {
-    if (err) console.log(err);
-    res.redirect('/admin/maintenance_incident_report');
+  db.query("SELECT * FROM tblmincidentreport WHERE strName = ? AND strLevel = ?",[req.body.incidentname,req.body.incidentlvl], (err, results)=>{
+    console.log(err);
+    var incidentReport = results[0];
+    console.log(incidentReport);
+    if(!incidentReport){
+      db.query(`INSERT INTO tblmincidentreport (strName, strDesc, strLevel, strStatus)  VALUES ("${req.body.incidentname}", "${req.body.incidentdesc}", '${req.body.incidentlvl}', "Active")`, (err) => {
+        if (err) console.log(err);
+        res.send('added');
+        // res.redirect('/admin/maintenance_incident_report');
+        });
+      }
+    else
+      res.send('already exist');
     });
 });
 router.post('/edit_incidentreport',(req, res) => {
   var db = require('../../lib/database')();
   var sql = "UPDATE tblmincidentreport SET strName= ?, strDesc=?, strlevel=? WHERE intID = ?";
-  db.query(sql,[req.body.incidentname, req.body.incidentdesc, req.body.incidentlvl, req.body.incidentID],function (err) {
-    res.redirect('/admin/maintenance_incident_report');
+  db.query("SELECT * FROM tblmincidentreport WHERE strName = ? AND strLevel = ?",[req.body.incidentname,req.body.incidentlvl], (err, results)=>{
+    console.log(err);
+    var incidentReport = results[0];
+    console.log(incidentReport);
+    if(!incidentReport){
+      db.query(sql,[req.body.incidentname, req.body.incidentdesc, req.body.incidentlvl, req.body.incidentID],function (err) {
+        res.send('updated');
+        // res.redirect('/admin/maintenance_incident_report');
+        });
+      }
+    else
+      res.send('already exist');
     });
 });
 
 router.post('/add_leave',(req, res) => {
   var db = require('../../lib/database')();
-  db.query(`INSERT INTO tblmleave (strName, intDays, strStatus)  VALUES ("${req.body.leavename}", "${req.body.leaveday}","Active")`, (err) => {
-    if (err) console.log(err);
-    res.redirect('/admin/maintenance_type_of_leave');
+  db.query("SELECT * FROM tblmleave WHERE strName = ? AND intDays = ?",[req.body.leavename,req.body.leaveday], (err, results)=>{
+    console.log(err);
+    var leave = results[0];
+    console.log(leave);
+    if(!leave){
+      db.query(`INSERT INTO tblmleave (strName, intDays, strStatus)  VALUES ("${req.body.leavename}", "${req.body.leaveday}","Active")`, (err) => {
+        if (err) console.log(err);
+        res.send('added');
+        // res.redirect('/admin/maintenance_type_of_leave');
+        });
+      }
+    else
+      res.send('already exist');
     });
 });
 router.post('/edit_leave',(req, res) => {
   var db = require('../../lib/database')();
   var sql = "UPDATE tblmleave SET strName= ?, intDays=? WHERE intID = ?";
-  db.query(sql,[req.body.leavename, req.body.leaveday, req.body.leaveID],function (err) {
-    res.redirect('/admin/maintenance_type_of_leave');
+  db.query("SELECT * FROM tblmleave WHERE strName = ? AND intDays = ?",[req.body.leavename,req.body.leaveday], (err, results)=>{
+    console.log(err);
+    var leave = results[0];
+    console.log(leave);
+    if(!leave){
+      db.query(sql,[req.body.leavename, req.body.leaveday, req.body.leaveID],function (err) {
+        res.send('updated');
+        // res.redirect('/admin/maintenance_type_of_leave');
+        });
+      }
+    else
+      res.send('already exist');
     });
 });
 
 router.post('/add_service',(req, res) => {
   var db = require('../../lib/database')();
-  db.query(`INSERT INTO tblmservice (strName, strStatus)  VALUES ("${req.body.servicename}","Active")`, (err) => {
-    if (err) console.log(err);
-    res.redirect('/admin/maintenance_type_of_services');
+  db.query("SELECT * FROM tblmservice WHERE strName = ? ",[req.body.servicename], (err, results)=>{
+    console.log(err);
+    var services = results[0];
+    console.log(services);
+    if(!services){
+      db.query(`INSERT INTO tblmservice (strName, strStatus)  VALUES ("${req.body.servicename}","Active")`, (err) => {
+        if (err) console.log(err);
+        res.send('added');
+        // res.redirect('/admin/maintenance_type_of_services');
+      });
+    }
+    else
+      res.send('already exist');
   });
 });
 router.post('/edit_service',(req, res) => {
   var db = require('../../lib/database')();
   var sql = "UPDATE tblmservice SET strName= ? WHERE intID = ?";
-  db.query(sql,[req.body.servicename, req.body.serviceID],function (err) {
-    res.redirect('/admin/maintenance_type_of_services');
-    });
+  db.query("SELECT * FROM tblmservice WHERE strName = ? ",[req.body.servicename], (err, results)=>{
+    console.log(err);
+    var services = results[0];
+    console.log(services);
+    if(!services){
+      db.query(sql,[req.body.servicename, req.body.serviceID],function (err) {
+        console.log(err);
+        res.send('updated');
+        // res.redirect('/admin/maintenance_type_of_services');
+        });
+      }
+    else
+      res.send('already exist');
+  });
 });
 
 router.post('/add_skill',(req, res) => {
   var db = require('../../lib/database')();
-  db.query(`INSERT INTO tblmskills (strName, strStatus)  VALUES ("${req.body.skill}", "Active")`, (err) => {
-    if (err) console.log(err);
-    res.redirect('/admin/maintenance_householdworker_skills');
+  db.query("SELECT strName FROM tblmskills WHERE strName = ? ",[req.body.skill], (err, results)=>{
+    console.log(err);
+    var skills = results[0];
+    console.log(skills);
+    if(!skills){
+      db.query(`INSERT INTO tblmskills (strName, strStatus)  VALUES ("${req.body.skill}", "Active")`, (err) => {
+        if (err) console.log(err);
+        res.send('added');
+        // res.redirect('/admin/maintenance_householdworker_skills');
+      });
+    }
+    else
+      res.send('already exist');
   });
 });
 router.post('/edit_skill',(req, res) => {
   var db = require('../../lib/database')();
   var sql = "UPDATE tblmskills SET strName= ?, intSkillID_intID=? WHERE intID = ?";
-  db.query(sql,[req.body.skillname, req.body.serviceid, req.body.skillID],function (err) {
-    if (err) console.log(err);
-    res.redirect('/admin/maintenance_householdworker_skills');
-    });
+  db.query("SELECT strName FROM tblmskills WHERE strName = ? ",[req.body.skillname], (err, results)=>{
+    console.log(err);
+    var skills = results[0];
+    console.log(skills);
+    if(!skills){
+      db.query(sql,[req.body.skillname, req.body.serviceid, req.body.skillID],function (err) {
+        if (err) console.log(err);
+        res.send('updated');
+        // res.redirect('/admin/maintenance_householdworker_skills');
+        });
+      }
+    else
+      res.send('already exist');
+  });
 });
 
 router.post('/add_city',(req, res) => {
   var db = require('../../lib/database')();
-  db.query(`INSERT INTO tblmcity (strName, strStatus)  VALUES ("${req.body.cityname}", "Active")`, (err) => {
-    if (err) console.log(err);
-    res.redirect('/admin/maintenance_city');
+  db.query("SELECT * FROM tblmcity WHERE strName = ? ",[req.body.cityname], (err, results)=>{
+    console.log(err);
+    var city = results[0];
+    console.log(city);
+    if(!city){
+      db.query(`INSERT INTO tblmcity (strName, strStatus)  VALUES ("${req.body.cityname}", "Active")`, (err) => {
+        if (err) console.log(err);
+        res.send('added');
+        // res.redirect('/admin/maintenance_city');
+      });
+    }
+    else
+      res.send('already exist');
   });
 });
 router.post('/edit_city',(req, res) => {
   var db = require('../../lib/database')();
   var sql = "UPDATE tblmcity SET strName= ? WHERE intID = ?";
-  db.query(sql,[req.body.cityname,  req.body.cityID],function (err) {
-    if (err) console.log(err);
-    res.redirect('/admin/maintenance_city');
+  db.query("SELECT * FROM tblmcity WHERE strName = ? ",[req.body.cityname], (err, results)=>{
+    console.log(err);
+    var city = results[0];
+    console.log(city);
+    if(!city){
+      db.query(sql,[req.body.cityname,  req.body.cityID],function (err) {
+        if (err) console.log(err);
+        res.send('updated');
+        // res.redirect('/admin/maintenance_city');
+        });
+      }
+    else
+      res.send('already exist');
     });
 });
 //==============================

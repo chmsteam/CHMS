@@ -46,50 +46,109 @@ block content
                 //- Add
                 .modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
                     .modal-dialog.modal-xs
-                        .modal-content
-                            .modal-header(style="background-color:#EDEDED;")
-                                button.close(type='button', data-dismiss='modal')
-                                    span(aria-hidden='true') ×
-                                h4#myModalLabel.modal-title Add Reason 
-                            .modal-body
-                                form#demo-form2.form-horizontal.form-label-left(method="POST" action="add_repReason")
-                                    .form-group
-                                        br
-                                        br
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12(for='leave-name')
-                                            | Reason 
-                                            span.required *
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            input#first-name.form-control.col-md-7.col-xs-12(type='text', required='required', name='reason')
-                                    br
-                                    .ln_solid
-                                    .form-group.pull-right
-                                        button.btn.btn-success(type='submit') Add
-                                        button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+                        form#formAdd.form-horizontal.form-label-left(method="POST" action="add_repReason")
+                            .modal-content
+                                .modal-header(style="background-color:#EDEDED;")
+                                    button.close(type='button', data-dismiss='modal')
+                                        span(aria-hidden='true') ×
+                                    h4#myModalLabel.modal-title Add Reason 
+                                .modal-body
+                                    .row
+                                        .col-md-8
+                                            .form-group
+                                                label Reason:
+                                                input#first-name.form-control(type='text', required='required', name='reason')
+                                .modal-footer
+                                    button.btn.btn-success(type='submit') Add
+                                    button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
 
                 //- Edit
                 #edit_reas.modal.fade.bs-edit-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
                     .modal-dialog.modal-xs
-                        .modal-content
-                            .modal-header(style="background-color:#EDEDED;")
-                                button.close(type='button', data-dismiss='modal')
-                                    span(aria-hidden='true') ×
-                                h4#myModalLabel.modal-title Edit Reason
-                            .modal-body
-                                form#demo-form2.form-horizontal.form-label-left(method="POST" action="edit_repReason")
-                                    .form-group
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            br
-                                            br
-                                            input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='repID' style="display:none;")                          
-                                    .form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12
-                                            | Reason
-                                            span.required *
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            input.form-control.col-md-7.col-xs-12(type='text', id='_name', required='required', name='reason')
-                                    br
-                                    .ln_solid
-                                    .form-group.pull-right
-                                        button.btn.btn-success(type='submit') Update
-                                        button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+                        form#formEdit.form-horizontal.form-label-left(method="POST" action="edit_repReason")
+                            .modal-content
+                                .modal-header(style="background-color:#EDEDED;")
+                                    button.close(type='button', data-dismiss='modal')
+                                        span(aria-hidden='true') ×
+                                    h4#myModalLabel.modal-title Edit Reason
+                                .modal-body
+                                    input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='repID' style="display:none;")                          
+                                    .row
+                                        .col-md-8
+                                            .form-group
+                                                label Reason:
+                                                input.form-control(type='text', id='_name', required='required', name='reason')
+                                .modal-footer
+                                    button.btn.btn-success(type='submit') Update
+                                    button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+
+        script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+        script.
+            $(document).ready(function(){
+                $('form#formAdd').submit(function(e){
+                    e.preventDefault();
+                    $.ajax({
+                        url: $('form#formAdd').attr('action'),
+                        method: 'post',
+                        data: $('form#formAdd').serialize(),
+                        success: function(response){
+                            console.log(response);
+                            if(response == 'added'){
+                                swal({
+                                    type: 'success',
+                                    title: 'Added',
+                                    text: 'Reason Added!',
+                                    showConfirmButton: false,
+                                    },setTimeout(function() {
+                                        location.reload();
+                                    }, 1500)
+                                );
+                                $('.modal').modal('hide');
+                            }
+                            else if(response == 'already exist'){
+                                swal({
+                                    type: 'warning',
+                                    title: 'Reason Already Exists',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                    }
+                                );
+                                $('.modal').modal('hide');
+                            }
+                        }
+                    })
+                });
+                $('form#formEdit').submit(function(e){
+                    e.preventDefault();
+                    $.ajax({
+                        url: $('form#formEdit').attr('action'),
+                        method: 'post',
+                        data: $('form#formEdit').serialize(),
+                        success: function(response){
+                            console.log(response);
+                            if(response == 'updated'){
+                                swal({
+                                    type: 'success',
+                                    title: 'Updated',
+                                    text: 'Reason Updated!',
+                                    showConfirmButton: false,
+                                    },setTimeout(function() {
+                                        location.reload();
+                                    }, 1500)
+                                );
+                                $('.modal').modal('hide');
+                            }
+                            else if(response == 'already exist'){
+                                swal({
+                                    type: 'warning',
+                                    title: 'Reason Already Exists',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                    }
+                                );
+                                $('.modal').modal('hide');
+                            }
+                        }
+                    })
+                });
+            });

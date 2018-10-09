@@ -44,76 +44,131 @@ block content
                                                         //- button.btn.btn-info(type='button')
                                                             i.fa.fa-eye
                                                             |   View
-                                                        button.btn.btn-warning(type='button', id=''+item.intID, name=''+item.strName,data-toggle='modal', data-target='.bs-edit-modal-xs', onclick="copyID2(this.id), copyName(this.name);" )
+                                                        button.btn.btn-warning(type='button', data-id=item.intID, data-name=item.strName ,data-toggle='modal', data-target='.bs-edit-modal-xs' )
                                                             i.fa.fa-edit
                                                             |   Edit
                                                 
                 //- Add
                 .modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
                     .modal-dialog.modal-xs
-                        .modal-content
-                            .modal-header
-                                button.close(type='button', data-dismiss='modal')
-                                    span(aria-hidden='true') ×
-                                h4#myModalLabel.modal-title Add a Service
-                            .modal-body
-                               form#demo-form2.form-horizontal.form-label-left(method="POST" action="add_service")
-                                .form-group
-                                    br
-                                    br
-                                    label.control-label.col-md-3.col-sm-3.col-xs-12(for='service-name')
-                                        | Service Name 
-                                        span.required *
-                                    .col-md-6.col-sm-6.col-xs-12
-                                        input#first-name.form-control.col-md-7.col-xs-12(type='text', required='required', name='servicename')
-                                br
-                                .ln_solid
-                                .form-group.pull-right
+                        form#formAdd.form-horizontal.form-label-left(method="POST" action="add_service")
+                            .modal-content
+                                .modal-header
+                                    button.close(type='button', data-dismiss='modal')
+                                        span(aria-hidden='true') ×
+                                    h4#myModalLabel.modal-title Add a Service
+                                .modal-body
+                                    .row
+                                        .col-md-8
+                                            .form-group
+                                                label(for='service-name') Service Name:
+                                                input#first-name.form-control(type='text', required='required', name='servicename')
+                                .modal-footer
                                     button.btn.btn-success(type='submit') Add
                                     button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
                 //- Edit
                 .modal.fade.bs-edit-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
                     .modal-dialog.modal-xs
-                        .modal-content
-                            .modal-header
-                                button.close(type='button', data-dismiss='modal')
-                                    span(aria-hidden='true') ×
-                                h4#myModalLabel.modal-title Edit Service
-                            .modal-body
-                                form#demo-form2.form-horizontal.form-label-left(method="POST" action="edit_service")
-                                    .form-group
-                                        //- label.control-label.col-md-3.col-sm-3.col-xs-12
-                                        //-     | ID
-                                        //-     span.required *
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            //- input.form-control.col-md-7.col-xs-12(type='text', id='txt1', required='required', disabled)
-                                            input.form-control.col-md-7.col-xs-12(type='text', id='txt11', required='required', name='serviceID' style="display:none;")                          
-                                    .form-group
-                                        br
-                                        br
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12
-                                            | Service Name
-                                            span.required *
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            input.form-control.col-md-7.col-xs-12(type='text', id='txt2', required='required', name='servicename')
-                                    br
-                                    .ln_solid
-                                    .form-group.pull-right
-                                        button.btn.btn-success(type='submit') Update
-                                        button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+                        form#formEdit.form-horizontal.form-label-left(method="POST" action="edit_service")
+                            .modal-content
+                                .modal-header
+                                    button.close(type='button', data-dismiss='modal')
+                                        span(aria-hidden='true') ×
+                                    h4#myModalLabel.modal-title Edit Service
+                                .modal-body
+                                    input.form-control#id(type='text',required='required', name='serviceID' style="display:none;")                          
+                                    .row
+                                        .col-md-8    
+                                            .form-group
+                                                label Service Name:
+                                                input.form-control#name(type='text', required='required', name='servicename')
+                                .modal-footer
+                                    button.btn.btn-success(type='submit') Update
+                                    button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
 
 
  
+        script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+        script.
+            $(document).ready(function(){
+                $('form#formAdd').submit(function(e){
+                    e.preventDefault();
+                    $.ajax({
+                        url: $('form#formAdd').attr('action'),
+                        method: 'post',
+                        data: $('form#formAdd').serialize(),
+                        success: function(response){
+                            console.log(response);
+                            if(response == 'added'){
+                                swal({
+                                    type: 'success',
+                                    title: 'Added',
+                                    text: 'Service Added!',
+                                    showConfirmButton: false,
+                                    },setTimeout(function() {
+                                        location.reload();
+                                    }, 1500)
+                                );
+                                $('.modal').modal('hide');
+                            }
+                            else if(response == 'already exist'){
+                                swal({
+                                    type: 'warning',
+                                    title: 'Service Already Exists',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                    }
+                                );
+                                $('.modal').modal('hide');
+                            }
+                        }
+                    })
+                });
+                $('form#formEdit').submit(function(e){
+                    e.preventDefault();
+                    $.ajax({
+                        url: $('form#formEdit').attr('action'),
+                        method: 'post',
+                        data: $('form#formEdit').serialize(),
+                        success: function(response){
+                            console.log(response);
+                            if(response == 'updated'){
+                                swal({
+                                    type: 'success',
+                                    title: 'Updated',
+                                    text: 'Service Updated!',
+                                    showConfirmButton: false,
+                                    },setTimeout(function() {
+                                        location.reload();
+                                    }, 1500)
+                                );
+                                $('.modal').modal('hide');
+                            }
+                            else if(response == 'already exist'){
+                                swal({
+                                    type: 'warning',
+                                    title: 'Service Already Exists',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                    }
+                                );
+                                $('.modal').modal('hide');
+                            }
+                        }
+                    })
+                });
+            });
+        
         //- for update
-        script(type='text/javascript').
-            function copyID(clicked_id) {
-                document.getElementById("txt1").value = clicked_id;
-            }
-             function copyID2(clicked_id) {
-                document.getElementById("txt11").value = clicked_id;
-            }
-            function copyName(clicked_name) {
-                document.getElementById("txt2").value = clicked_name;
-            }
+        //- script.
+        //-     function copyID(clicked_id){
+        //-         document.getElementById("txt1").value = clicked_id;
+        //-         }
+        //-     function copyID2(clicked_id){
+        //-         document.getElementById("txt11").value = clicked_id;
+        //-         }
+        //-     function copyName(clicked_name){
+        //-         document.getElementById("txt2").value = clicked_name;
+        //-         }
 
-    
+        
