@@ -769,8 +769,8 @@ router.post('/add_incidentreport',(req, res) => {
 });
 router.post('/edit_incidentreport',(req, res) => {
   var db = require('../../lib/database')();
-  var sql = "UPDATE tblmincidentreport SET strName= ?, strDesc=? WHERE intID = ?";
-  db.query(sql,[req.body.incidentname, req.body.incidentdesc, req.body.incidentID],function (err) {
+  var sql = "UPDATE tblmincidentreport SET strName= ?, strDesc=?, strlevel=? WHERE intID = ?";
+  db.query(sql,[req.body.incidentname, req.body.incidentdesc, req.body.incidentlvl, req.body.incidentID],function (err) {
     res.redirect('/admin/maintenance_incident_report');
     });
 });
@@ -2369,7 +2369,7 @@ function cntPendingHHW(req, res, next){
 //client requests
 function clientReq(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tblfinalrequest WHERE strRequestStatus = 'On process'", function (err, results, fields) {
+  db.query("SELECT COUNT(*) AS CNT FROM tblfinalrequest WHERE strRequestStatus IN ('On process', 'Pending')", function (err, results, fields) {
       if (err) return res.send(err);
       req.clientReq = results;
       return next();

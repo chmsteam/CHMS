@@ -48,7 +48,7 @@ block content
                                                         //- button.btn.btn-info(type='button')
                                                             i.fa.fa-eye
                                                             |   View
-                                                        button.btn.btn-warning(type='button', id=''+item.intID, name=''+item.strName, value=''+item.strDesc, data-toggle='modal', data-target='.bs-edit-modal-xs', onclick=" copyID2(this.id), copyName(this.name), copyValue(this.value);" )
+                                                        button.btn.btn-warning(type='button' data-toggle='modal', data-target='#editir', data-id=''+item.intID, data-name=''+item.strName, data-desc=''+item.strDesc, data-level=''+item.strLevel)
                                                             i.fa.fa-edit
                                                             |   Edit
                                                 
@@ -82,7 +82,7 @@ block content
                                     button.btn.btn-success(type='submit') Add
                                     button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
                 //- Edit
-                .modal.fade.bs-edit-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+                #editir.modal.fade.bs-edit-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
                     .modal-dialog.modal-xs
                         .modal-content
                             .modal-header(style="background-color:#EDEDED;")
@@ -95,19 +95,28 @@ block content
                                         .col-md-6.col-sm-6.col-xs-12
                                             br
                                             br
-                                            input.form-control.col-md-7.col-xs-12(type='text', id='txt11', required='required', name='incidentID' style="display:none;")                          
+                                            input.form-control.col-md-7.col-xs-12(type='text', id='id', required='required', name='incidentID' style="display:none;")                          
                                     .form-group
                                         label.control-label.col-md-3.col-sm-3.col-xs-12
                                             | Incident Name
                                             span.required *
                                         .col-md-6.col-sm-6.col-xs-12
-                                            input.form-control.col-md-7.col-xs-12(type='text', id='txt2', required='required', name='incidentname')
+                                            input.form-control.col-md-7.col-xs-12(type='text', id='name', required='required', name='incidentname')
                                     .form-group
                                         label.control-label.col-md-3.col-sm-3.col-xs-12
                                             | Description
                                             span.required *
                                         .col-md-6.col-sm-6.col-xs-12
-                                            textarea.form-control(rows='3', id='txt3', name='incidentdesc')
+                                            textarea.form-control(rows='3', id='desc', name='incidentdesc')
+                                    .form-group
+                                        label.control-label.col-md-3.col-sm-3.col-xs-12 Severity
+                                        .col-md-6.col-sm-6.col-xs-12
+                                            select(name='incidentlvl').form-control
+                                                option(id='level')
+                                                    i same as before.
+                                                option(value='Low') Low
+                                                option(value='High') High
+                                                    
                                     br
                                     .ln_solid
                                     .form-group.pull-right
@@ -115,15 +124,15 @@ block content
                                         button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
 
         //- for update
-        script(type='text/javascript').
-             function copyID2(clicked_id) {
-                document.getElementById("txt11").value = clicked_id;
-            }
-            function copyName(clicked_name) {
-                document.getElementById("txt2").value = clicked_name;
-            }
-            function copyValue(clicked_value) {
-                document.getElementById("txt3").value = clicked_value;
-            }
+        //- script(type='text/javascript').
+        //-      function copyID2(clicked_id) {
+        //-         document.getElementById("txt11").value = clicked_id;
+        //-     }
+        //-     function copyName(clicked_name) {
+        //-         document.getElementById("txt2").value = clicked_name;
+        //-     }
+        //-     function copyValue(clicked_value) {
+        //-         document.getElementById("txt3").value = clicked_value;
+        //-     }
 
     
