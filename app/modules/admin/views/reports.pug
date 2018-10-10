@@ -6,12 +6,16 @@ block content
             .title_left
                 h5
                     b Reports
-            //hhowrkers
-            each cn in hwCount
-                p(hidden)#RegiC #{cn.CNT}
-            each cnr in hwRCount
-                p(hidden)#DepC #{cnr.CNT}
             .col-md-6.col-sm-6.col-xs-12
+                //hhowrkers
+                each cn in hwCount
+                    p(hidden)#RegiC #{cn.CNT}
+                each cnr in hwRCount
+                    p(hidden)#DepC #{cnr.CNT}
+                each hwpcount in hwPCount
+                    p(hidden)#PenC #{hwpcount.CNT}
+                each hwbcount in hwBCount
+                    p(hidden)#BanC #{hwbcount.CNT}
                 .x_panel
                     .x_title
                         h2
@@ -20,6 +24,7 @@ block content
                         .clearfix
                     .x_content
                         canvas#myChart
+                            
             .col-md-6.col-sm-6.col-xs-12
                 //clients
                 each clP in clPCount
@@ -37,53 +42,116 @@ block content
                     .x_content
                         canvas#myChart2
             .col-md-6.col-sm-6.col-xs-12
+                each hwleavereq in hwleavereqtab
+                    p(hidden)#hwleavereq #{hwleavereq.CNT}
+                each hwreplacereq in hwreplacereqtab
+                    p(hidden)#hwreplacereq #{hwreplacereq.CNT}
                 .x_panel
                     .x_title
                         h2
                             | Household Worker Requests
+                            h2#hwreq(style="float:right") 
                         .clearfix
                     .x_content
                         canvas#myChart4
             .col-md-6.col-sm-6.col-xs-12
+                each clientaddreq in clientaddreqtab
+                    p(hidden)#clientaddreq #{clientaddreq.CNT}
+                each clientreplacereq in clientreplacereqtab
+                    p(hidden)#clientreplacereq #{clientreplacereq.CNT}
+                each clientrelieverreq in clientrelieverreqtab
+                    p(hidden)#clientrelieverreq #{clientrelieverreq.CNT}
                 .x_panel
                     .x_title
                         h2
                             | Client Requests
+                            h2#clientreq(style="float:right") 
                         .clearfix
                     .x_content
                         canvas#myChart3
             .col-md-6.col-sm-6.col-xs-12
                 .x_panel
+                    each irclient in irclienttab
+                        p(hidden)#irclient #{irclient.CNT}
+                    each irhw in irhwtab
+                        p(hidden)#irhw #{irhw.CNT}
                     .x_title
                         h2
                             | Incident Report
+                            h2#ir(style="float:right") 
                         .clearfix
                     .x_content
                         canvas#myChart5
             .col-md-6.col-sm-6.col-xs-12
+                each transpending in transpendingtab
+                    p(hidden)#transpending #{transpending.CNT}
+                each transapproved in transapprovedtab
+                    p(hidden)#transapproved #{transapproved.CNT}
+                each transrejected in transrejectedtab
+                    p(hidden)#transrejected #{transrejected.CNT}
+                each transongoing in transongoingtab
+                    p(hidden)#transongoing #{transongoing.CNT}
+                each transfinished in transfinishedtab
+                    p(hidden)#transfinished #{transfinished.CNT}
+                each transterminated in transterminatedtab
+                    p(hidden)#transterminated #{transterminated.CNT}
                 .x_panel
                     .x_title
                         h2
                             | Transactions
+                            h2#trans(style="float:right") 
                         .clearfix
                     .x_content
                         canvas#myChart6
+                        br
 
     script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
     script.
         $(document).ready(function(){
             var regCn=parseInt(document.getElementById("RegiC").innerHTML);
             var depCn=parseInt(document.getElementById("DepC").innerHTML);
-            var total;
-            totalHW = regCn + depCn;
-            document.getElementById("HW").innerHTML = totalHW;
+            var penCn=parseInt(document.getElementById("PenC").innerHTML);
+            var banCn=parseInt(document.getElementById("BanC").innerHTML);
+            var totalHW = regCn + depCn + penCn+ banCn;
+            var totalhwdisp = 'Total: '+ totalHW
+            document.getElementById("HW").innerHTML = totalhwdisp;
 
             var pencL=parseInt(document.getElementById("Pencl").innerHTML);
             var regcL=parseInt(document.getElementById("Regcl").innerHTML);
             var bancL=parseInt(document.getElementById("Bancl").innerHTML);
-            var totalCl;
-            totalCl = pencL + regcL + bancL;
-            document.getElementById("CL").innerHTML = totalCl;
+            var totalCl = pencL + regcL + bancL;
+            var totalCldisp = 'Total: '+ totalCl
+            document.getElementById("CL").innerHTML = totalCldisp;
+
+            var hwleavereq=parseInt(document.getElementById("hwleavereq").innerHTML);
+            var hwreplacereq=parseInt(document.getElementById("hwreplacereq").innerHTML);
+            var totalhwreq = hwleavereq+hwreplacereq;
+            var totalhwreqdisp = 'Total: '+totalhwreq;
+            document.getElementById("hwreq").innerHTML = totalhwreqdisp;
+
+            var clientaddreq=parseInt(document.getElementById("clientaddreq").innerHTML);
+            var clientreplacereq=parseInt(document.getElementById("clientreplacereq").innerHTML);
+            var clientrelieverreq=parseInt(document.getElementById("clientrelieverreq").innerHTML);
+            var totalclientreq = clientaddreq + clientreplacereq + clientrelieverreq ;
+            var totalclientreqdisp = 'Total: '+totalclientreq;
+            document.getElementById("clientreq").innerHTML = totalclientreqdisp;
+
+            var irclient=parseInt(document.getElementById("irclient").innerHTML);
+            var irhw=parseInt(document.getElementById("irhw").innerHTML);
+            var totalir = irclient + irhw;
+            var totalirdisp = 'Total: '+totalir;
+            document.getElementById("ir").innerHTML = totalirdisp;
+
+            var transpending=parseInt(document.getElementById("transpending").innerHTML);
+            var transapproved=parseInt(document.getElementById("transapproved").innerHTML);
+            var transrejected=parseInt(document.getElementById("transrejected").innerHTML);
+            var transongoing=parseInt(document.getElementById("transongoing").innerHTML);
+            var transfinished=parseInt(document.getElementById("transfinished").innerHTML);
+            var transterminated=parseInt(document.getElementById("transterminated").innerHTML);
+            var totaltrans = transpending + transapproved + transrejected + transongoing + transfinished +  transterminated;
+            var totaltransdisp = 'Total: '+ totaltrans;
+            document.getElementById("trans").innerHTML = totaltransdisp;
+            console.log('??totaltrans: '+ totaltransdisp);
             
         });
     // Chart.js
@@ -92,20 +160,26 @@ block content
         var ctx = document.getElementById("myChart");
         var regiC = document.getElementById("RegiC").innerHTML;
         var depC = document.getElementById("DepC").innerHTML;
+        var penC = document.getElementById("PenC").innerHTML;
+        var banC = document.getElementById("BanC").innerHTML;
         var myChart = new Chart(ctx, {
             type: 'pie',
             data: {
-                labels: ["Registered", "Deployed"],
+                labels: ["Pending: "+penC, "Registered: "+regiC, "Deployed: "+depC, "Banned: "+banC],
                 datasets: [{
                     label: 'Household Worker',
-                    data: [regiC, depC],
+                    data: [penC,regiC, depC,banC],
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(32, 29, 195, 1)',
+                        'rgba(26, 224, 66, 1)',
+                        'rgba(218, 232, 17, 1)',
+                        'rgba(151, 17, 7, 1)',
                     ],
                     borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
+                        'rgba(32, 29, 195, 1)',
+                        'rgba(26, 224, 66, 1)',
+                        'rgba(218, 232, 17, 1)',
+                        'rgba(151, 17, 7, 1)',
 
                     ],
                     borderWidth: 1
@@ -123,19 +197,19 @@ block content
         var myChart2 = new Chart(ctx2, {
             type: 'pie',
             data: {
-                labels: ["Pending","Registered", "Banned"],
+                labels: ["Pending: "+penCl,"Registered: "+regCl, "Banned: "+banCl],
                 datasets: [{
-                    label: 'Household Worker',
+                    label: 'Client',
                     data: [penCl,regCl, banCl],
                     backgroundColor: [
-                        'rgba(100, 32, 50, 0.2)',
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(32, 29, 195, 1)',
+                        'rgba(26, 224, 66, 1)',
+                        'rgba(151, 17, 7, 1)',
                     ],
                     borderColor: [
-                        'rgba(100, 32, 50, 0.2)',
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
+                        'rgba(32, 29, 195, 1)',
+                        'rgba(26, 224, 66, 1)',
+                        'rgba(151, 17, 7, 1)',
 
                     ],
                     borderWidth: 1
@@ -147,23 +221,25 @@ block content
             }
         });
         var ctx3 = document.getElementById("myChart3");
+        var clientaddreq = document.getElementById("clientaddreq").innerHTML;
+        var clientreplacereq = document.getElementById("clientreplacereq").innerHTML;
+        var clientrelieverreq = document.getElementById("clientrelieverreq").innerHTML;
         var myChart3 = new Chart(ctx3, {
             type: 'pie',
             data: {
-                labels: ["Add","Replacement", "Reliever"],
+                labels: ["Add: "+clientaddreq,"Replacement: "+clientreplacereq, "Reliever: "+clientrelieverreq],
                 datasets: [{
-                    label: 'Household Worker',
-                    data: [5,20, 19],
+                    label: 'Client Request',
+                    data: [clientaddreq, clientreplacereq, clientrelieverreq],
                     backgroundColor: [
-                        'rgba(100, 32, 50, 0.2)',
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(32, 29, 195, 1)',
+                        'rgba(26, 224, 66, 1)',
+                        'rgba(218, 232, 17, 1)'
                     ],
                     borderColor: [
-                        'rgba(100, 32, 50, 0.2)',
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-
+                        'rgba(32, 29, 195, 1)',
+                        'rgba(26, 224, 66, 1)',
+                        'rgba(218, 232, 17, 1)'
                     ],
                     borderWidth: 1
                 }]
@@ -174,20 +250,23 @@ block content
             }
         });
         var ctx4 = document.getElementById("myChart4");
+        var hwleavereq = document.getElementById("hwleavereq").innerHTML;
+        var hwreplacereq = document.getElementById("hwreplacereq").innerHTML;
         var myChart4 = new Chart(ctx4, {
             type: 'pie',
             data: {
-                labels: ["Leave","Replacement"],
+                labels: ["Leave: "+hwleavereq,"Replacement: "+hwreplacereq],
                 datasets: [{
                     label: 'Household Worker',
-                    data: [5, 19],
+                    data: [hwleavereq, hwreplacereq],
                     backgroundColor: [
-                        'rgba(100, 32, 50, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(32, 29, 195, 1)',
+                        'rgba(26, 224, 66, 1)',
+
                     ],
                     borderColor: [
-                        'rgba(100, 32, 50, 0.2)',
-                        'rgba(54, 162, 235, 1)',
+                        'rgba(32, 29, 195, 1)',
+                        'rgba(26, 224, 66, 1)',
 
                     ],
                     borderWidth: 1
@@ -199,20 +278,23 @@ block content
             }
         });
         var ctx5 = document.getElementById("myChart5");
+        var irclient = document.getElementById("irclient").innerHTML;
+        var irhw = document.getElementById("irhw").innerHTML;
         var myChart5 = new Chart(ctx5, {
             type: 'pie',
             data: {
-                labels: ["Client","Household Worker"],
+                labels: ["Client: "+irclient,"Household Worker: "+irhw],
                 datasets: [{
-                    label: 'Household Worker',
-                    data: [20, 19],
+                    label: 'Incident Report',
+                    data: [irclient, irhw],
                     backgroundColor: [
-                        'rgba(100, 32, 50, 0.2)',
-                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(32, 29, 195, 1)',
+                        'rgba(26, 224, 66, 1)',
+
                     ],
                     borderColor: [
-                        'rgba(100, 32, 50, 0.2)',
-                        'rgba(255,99,132,1)',
+                        'rgba(32, 29, 195, 1)',
+                        'rgba(26, 224, 66, 1)',
 
                     ],
                     borderWidth: 1
@@ -224,27 +306,33 @@ block content
             }
         });
         var ctx6 = document.getElementById("myChart6");
+        var transpending = document.getElementById("transpending").innerHTML;
+        var transapproved = document.getElementById("transapproved").innerHTML;
+        var transrejected = document.getElementById("transrejected").innerHTML;
+        var transongoing = document.getElementById("transongoing").innerHTML;
+        var transfinished = document.getElementById("transfinished").innerHTML;
+        var transterminated = document.getElementById("transterminated").innerHTML;
         var myChart6 = new Chart(ctx6, {
             type: 'pie',
             data: {
                 labels: ["Pending","Approved","Rejected","On-going","Finished","Terminated"],
                 datasets: [{
                     label: 'Household Worker',
-                    data: [20, 19, 32, 20, 40, 12],
+                    data: [transpending, transapproved, transrejected, transongoing, transfinished, transterminated],
                     backgroundColor: [
-                        'rgba(100, 32, 50, 0.2)',
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(255, 8, 132, 0.2)',
-                        'rgba(100, 120, 150, 0.2)',
+                        'rgba(32, 29, 195, 1)',
+                        'rgba(26, 224, 66, 1)',
+                        'rgba(218, 232, 17, 1)',
+                        'rgba(151, 17, 7, 1)',
                         'rgba(50, 182, 202, 0.2)',
                         'rgba(140, 102, 255, 0.2)',
                         
                     ],
                     borderColor: [
-                        'rgba(100, 32, 50, 0.2)',
-                        'rgba(255,99,132,1)',
-                        'rgba(255, 8, 132, 0.2)',
-                        'rgba(100, 120, 150, 0.2)',
+                        'rgba(32, 29, 195, 1)',
+                        'rgba(26, 224, 66, 1)',
+                        'rgba(218, 232, 17, 1)',
+                        'rgba(151, 17, 7, 1)',
                         'rgba(50, 182, 202, 0.2)',
                         'rgba(140, 102, 255, 0.2)',
 
