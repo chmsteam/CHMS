@@ -1962,16 +1962,16 @@ function approveClient2(req,res){
     var sql = "UPDATE tbluser SET strStatus= 'Registered', datDateRegistered=? WHERE strStatus='Unregistered' AND intID = ?";
     db.query(sql,[req.body.dateregistered, req.body.clientID],function (err) {
     if (err) return res.send(err)
-    res.send('approved');
-    // res.redirect('/admin/transactions/clients/pending');
+    // res.send('approved');
+    res.redirect('/admin/transactions/clients/pending');
     })
   }
   else if (req.body.btn1 == 'reject'){
     var sql = "UPDATE tbluser SET strStatus= 'Rejected' WHERE strStatus='Unregistered' AND intID = ?";
     db2.query(sql,[req.body.clientID],function (err) {
     if (err) return res.send(err);
-    res.send('rejected');
-    // res.redirect('/admin/transactions/clients/pending');
+    // res.send('rejected');
+    res.redirect('/admin/transactions/clients/pending');
     })
   }
   else if(req.body.btn1 == 'revert'){
@@ -2223,20 +2223,25 @@ function hwbanreinstate(req,res){
     })
   }
   else if (req.body.btn1 == 'reinstate'){
-    if(req.body.thestatus == 'Registered'){
-      db.query(`UPDATE tbluser SET strStatus ='Registered', datDateRegistered=? WHERE intID=?`, [req.body.thedate, req.body.id], function(err){
-        if (err) res.send(err);
-        else
-          res.redirect('/admin/profile_hw_'+req.body.id)
-      })  
-    }
-    else{
-      db.query(`UPDATE tbluser SET strStatus ='Deployed' WHERE intID=?`, [req.body.id], function(err){
-        if (err) res.send(err);
-        else
-          res.redirect('/admin/profile_hw_'+req.body.id)
-      })  
-    }
+    db.query(`SELECT COUNT(*) as hw FROM tbluser INNER JOIN tblcontract ON intID = intConHWID WHERE strCurStatus IN ('Current', 'Reliever', 'On leave') AND intID =?`, [req.body.id], function(err,results){
+      if(err) res.send(err);
+      else{
+        if(results[0].hw == 0){
+          db.query(`UPDATE tbluser SET strStatus ='Registered', datDateRegistered=? WHERE intID=?`, [req.body.thedate, req.body.id], function(err){
+            if (err) res.send(err);
+            else
+              res.redirect('/admin/profile_hw_'+req.body.id)
+          })  
+        }
+        else{
+          db.query(`UPDATE tbluser SET strStatus ='Deployed' WHERE intID=?`, [req.body.id], function(err){
+            if (err) res.send(err);
+            else
+              res.redirect('/admin/profile_hw_'+req.body.id)
+          })  
+        }
+      }
+    })
   }
 }
 //Update Picture
@@ -2584,8 +2589,8 @@ router.post('/updateRep',(req, res) => {
   var sql = "UPDATE tblfreereplacement SET intFreeReplacement = ? ";
   db.query(sql,[req.body.replacement],function (err) {
       if (err) console.log(err);
-      res.send('updated');
-      // res.redirect('/admin/maintenance_reason_of_replacement');
+      // res.send('updated');
+      res.redirect('/admin/utilities_agency');
     });
 });
 function findustaff(req, res, next){
@@ -2657,10 +2662,10 @@ function findfreereplacement(req, res, next){
   });
 }
 
-router.get('/utilities_agency', flog,findagency, renderutilagency);
+router.get('/utilities_agency', flog,findagency,findfreereplacement, renderutilagency);
 function renderutilagency(req,res){
   if(req.valid==0)
-    res.render('admin/views/utilities_agency',{usertab: req.user, agencytab: req.agency});
+    res.render('admin/views/utilities_agency',{usertab: req.user, agencytab: req.agency, itemtab: req.item});
   else if(req.valid==1)
     res.render('admin/views/invalidpages/normalonly');
   else
@@ -2697,7 +2702,7 @@ function clientReq(req, res, next){
 //indcident Report CL
 function clientIr(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tbluser tbu INNER JOIN tblreport tbr ON tbu.intID = tbr.intReporterID WHERE strType = 'Client'", function (err, results, fields) {
+  db.query("SELECT COUNT(*) AS CNT FROM tbluser tbu INNER JOIN tblreport tbr ON tbu.intID = tbr.intReporterID WHERE strType = 'Client' AND tbr.strReportStatus NOT IN ('Resolved', 'Hid by client')" , function (err, results, fields) {
       if (err) return res.send(err);
       req.clientIr = results;
       return next();
@@ -2706,7 +2711,7 @@ function clientIr(req, res, next){
 //indcident Report HHW
 function hhwIr(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tbluser tbu INNER JOIN tblreport tbr ON tbu.intID = tbr.intReporterID WHERE strType = 'Household Worker'", function (err, results, fields) {
+  db.query("SELECT COUNT(*) AS CNT FROM tbluser tbu INNER JOIN tblreport tbr ON tbu.intID = tbr.intReporterID WHERE strType = 'Household Worker' AND tbr.strReportStatus NOT IN ('Resolved', 'Hid by Household Worker')", function (err, results, fields) {
       if (err) return res.send(err);
       req.hhwIr = results;
       return next();

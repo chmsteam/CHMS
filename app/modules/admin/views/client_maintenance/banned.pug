@@ -16,17 +16,14 @@ block content
                                 table#datatable-responsive.table.table-striped.table-bordered.dt-responsive.nowrap(cellspacing='0', width='100%')
                                     thead
                                         tr
-                                            //- th ID NO.
                                             th(style="text-align:center") NAME
                                             th(style="text-align:center") STATUS
                                             th(style="text-align:center") ACTION
                                     tbody 
                                         each item in itemtab 
                                             tr(style="text-align:center")
-                                                //- td #{item.intID}
                                                 td #{item.strName}
                                                 td #{item.strStatus}
-                                                    //- input.js-switch(type='checkbox', checked='')
                                                 td
                                                     a(href='/admin/profile_client_'+item.intID)
                                                         button.btn.btn-info(type='button')

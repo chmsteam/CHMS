@@ -422,12 +422,13 @@ block content
                                 type: 'success',
                                 title: 'Request Sent!',
                                 text: 'Wait for the confirmation of the household worker',
-                                showConfirmButton: false,
+                                showConfirmButton: true,
                                 //- showConfirmButton: true,
                                 //- closeOnConfirm: true,
-                                },setTimeout(function() {
+                                },
+                                function() {
                                     location.reload();
-                                }, 3000)
+                                }, 
                             );
                         }
                     }
@@ -516,10 +517,11 @@ block content
                                 type: 'success',
                                 title: 'Sent!',
                                 text: 'Household worker information sent to the client',
-                                showConfirmButton: false,
-                                },setTimeout(function() {
+                                showConfirmButton: true,
+                                },
+                                function() {
                                     location.reload();
-                                }, 2000)
+                                },
                             );
                         }
                     }

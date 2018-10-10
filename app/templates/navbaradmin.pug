@@ -206,7 +206,7 @@ html(lang='en')
                         li
                           a(href='/admin/utilities_fees') Fees
                         li
-                          a(href='/admin/utilities_freereplacement') Replacement
+                          //- a(href='/admin/utilities_freereplacement') Replacement
                     li
                       a
                         i.fa.fa-list-alt
@@ -437,6 +437,7 @@ html(lang='en')
 
             $('#datatable2').DataTable();
             $('#datatable3').DataTable();
+            $('#datatable4').DataTable();
             //- utilities
             $('#edit_fee').on('show.bs.modal', function (event) {
               var button = $(event.relatedTarget)

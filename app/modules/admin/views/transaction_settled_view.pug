@@ -39,7 +39,7 @@ block content
                                                 td
                                                     //- button.btn.btn-primary.btn-md(type='button') Deployment Details
                                                     a(href='/admin/profile_client_'+trans.clientid  )
-                                                        button.btn.btn-info.btn-md(type='button') View Profile
+                                                        button.btn.btn-primary.btn-md(type='button') View Profile
                                                     if trans.strRequestType == "Add"
                                                         a(href="/admin/invoice_"+trans.intTRequestID)
                                                             button.btn.btn-secondary.btn-md(type='button') Invoice
@@ -80,18 +80,21 @@ block content
                                                     td #{hw.strCurStatus}
                                                 td
                                                     a(href="/admin/profile_hw_"+hw.intConHWID)
-                                                        button.btn.btn-info.btn-md(type='button') View Profile
+                                                        button.btn.btn-primary.btn-md(type='button') View Profile
                                                     if hw.strConCopy == ''
-                                                        button.btn.btn-info.btn-md(type='button' data-toggle='modal', data-target='#settle_viewcon_empty', data-con=hw.strConCopy, data-conname=hw.strConCopy, data-hwid=hw.intConHWID, data-transid=hw.intConTransID) View Contract
+                                                        button.btn.btn-primary.btn-md(type='button' data-toggle='modal', data-target='#settle_viewcon_empty', data-con=hw.strConCopy, data-conname=hw.strConCopy, data-hwid=hw.intConHWID, data-transid=hw.intConTransID) View Contract
                                                     else
-                                                        button.btn.btn-info.btn-md(type='button' data-toggle='modal', data-target='#settle_viewcon', data-con=hw.strConCopy, data-conname=hw.strConCopy, data-hwid=hw.intConHWID, data-transid=hw.intConTransID) View Contract
+                                                        button.btn.btn-primary.btn-md(type='button' data-toggle='modal', data-target='#settle_viewcon', data-con=hw.strConCopy, data-conname=hw.strConCopy, data-hwid=hw.intConHWID, data-transid=hw.intConTransID) View Contract
                                                     if hw.strCurStatus == 'Current' || hw.strCurStatus == 'On leave'
                                                         button.btn.btn-danger.btn-md(type='button' data-toggle='modal' data-target='#terminate_contract' data-hwid=hw.intConHWID, data-transid=hw.intConTransID) Terminate Contract
                                                     
         #settle_viewcon_empty.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog(role='document')
                 .modal-content.modal-lg
-                    .modal-header(style="background-color:#EDEDED") Upload Contract
+                    .modal-header(style="background-color:#EDEDED") 
+                        h2.modal-title Upload Contract
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') ×
                     .modal-body
                         form#demo-form2.form-horizontal.form-label-left(method="POST" enctype="multipart/form-data" action="upload_hwcon")
                             input(type="text", id='hwid' name='hwid' style='display:none;')
@@ -155,25 +158,32 @@ block content
         #terminate_contract.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog(role='document')
                 .modal-content.modal-md
-                    .modal-header(style="background-color:#EDEDED") Terminate Contract
+                    .modal-header(style="background-color:#EDEDED") 
+                        h2.modal-title Terminate Contract
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') ×
                     .modal-body
                         form#demo-form2.form-horizontal.form-label-left(method="POST" action="terminatecontract")
                             input(type="text", id='hwid' name='hwid' style='display:none;')
                             input(type="text", id='transid' name='transid' style='display:none;')
                             input(type="date", id='thedate' name='thedate' style='display:none;')
                             center
-                                h3 Are you sure you want to terminate household worker's contract?
+                                br
+                                h3 
+                                    b   Are you sure you want to terminate household worker's contract?
                             .form-group
                                 br
                                 br
                                 label
                                     | State Reason:
                                     span.required *
-                                textarea.form-control.col-md-7.col-xs-12(type='text', id='reason' name='reason')
+                                textarea.form-control.col-md-5.col-xs-12(type='text', id='reason' name='reason')
                             .ln_solid
                             .form-group.pull-right
-                                button.btn.btn-danger(type='submit' onClick='time();') Yes
-                                button.btn.btn-secondary(type='button', data-dismiss='modal') No
+                                button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+                                button.btn.btn-success(type='submit' onClick='time();') Yes
+                                
+                                
         script.
             function time(){
                 var today = new Date();

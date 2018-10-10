@@ -154,14 +154,15 @@ block content
                 $('form#settleAdd').submit(function(){
                         swal({
                             type: 'success',
-                            title: 'Transaction Settled',
-                            showConfirmButton: false,
-                            timer: 5000
+                            title: 'Transaction Settled!',
+                            text: 'Go to "Settled Transaction" page to view all settled transactions.',
+                            showConfirmButton: true,
+                            //- timer: 5000
                             }),
                         $('#settle').modal('hide').then(
-                            $(function(){
+                            function(){
                                 location.reload();
-                                }, 6000)
+                                }, 
                         );
                     });
             });

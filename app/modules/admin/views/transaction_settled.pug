@@ -14,28 +14,116 @@ block content
                             br
                             .x_content
                             .x_panel
-                                br
-                                table#datatable.table.table-striped.table-bordered
-                                    thead
-                                        tr
-                                            //- th ID
-                                            th(style="text-align:center") NAME
-                                            th(style="text-align:center") TYPE OF REQUEST
-                                            th(style="text-align:center") DATE SETTLED
-                                            th(style="text-align:center") TRANSACTION WILL END / TERMINATED
-                                            th(style="text-align:center") STATUS
-                                            th(style="text-align:center") ACTION
-                                    tbody
-                                        each list in listtab
-                                            tr(style="text-align:center")
-                                                //- td #{list.intTRequestID}
-                                                td(style="text-transform:capitalize") #{list.strName}
-                                                td #{list.strRequestType}
-                                                td #{list.datDateSettled}
-                                                td #{list.dateexpire}
-                                                td #{list.strTStatus}
-                                                td 
-                                                    a(href='transaction_settled_'+list.intTRequestID)
-                                                        button.btn.btn-info(type='button')
-                                                            i.fa.fa-eye
-                                                            |   View
+                                div(role='tabpanel', data-example-id='togglable-tabs')
+                                    ul#myTab.nav.nav-tabs.bar_tabs(role='tablist')
+                                        li.active(role='presentation')
+                                            a#ongoing-tab(href='#ongoing', role='tab', data-toggle='tab', aria-expanded='true') On-going
+                                        li(role='presentation')
+                                            a#finished-tab(href='#finished', role='tab', data-toggle='tab', aria-expanded='false') Finished
+                                        li(role='presentation')
+                                            a#terminated-tab(href='#terminated', role='tab', data-toggle='tab', aria-expanded='false') Terminated
+                                        li(role='presentation')
+                                            a#cancelled-tab(href='#cancelled', role='tab', data-toggle='tab', aria-expanded='false') Cancelled
+                                        //- li(role='presentation')
+                                        //-     a#history-tab(href='#tab_content3', role='tab', data-toggle='tab', aria-expanded='false') Rejected
+                                    #myTabContent.tab-content
+                                        #ongoing.tab-pane.fade.active.in(role='tabpanel', aria-labelledby='ongoing-tab')
+                                            br
+                                            table#datatable.table.table-striped.table-bordered
+                                                thead
+                                                    tr
+                                                        th(style="text-align:center") NAME
+                                                        th(style="text-align:center") TYPE OF REQUEST
+                                                        th(style="text-align:center") DATE SETTLED
+                                                        th(style="text-align:center") TRANSACTION WILL END
+                                                        th(style="text-align:center") STATUS
+                                                        th(style="text-align:center") ACTION
+                                                tbody
+                                                    each list in listtab
+                                                        if list.strTStatus == 'On-going'
+                                                            tr(style="text-align:center")
+                                                                td(style="text-transform:capitalize") #{list.strName}
+                                                                td #{list.strRequestType}
+                                                                td #{list.datDateSettled}
+                                                                td #{list.dateexpire}
+                                                                td #{list.strTStatus}
+                                                                td 
+                                                                    a(href='transaction_settled_'+list.intTRequestID)
+                                                                        button.btn.btn-info(type='button')
+                                                                            i.fa.fa-eye
+                                                                            |   View
+                                        #finished.tab-pane.fade(role='tabpanel', aria-labelledby='finished-tab')
+                                            br
+                                            table#datatable2.table.table-striped.table-bordered
+                                                thead
+                                                    tr
+                                                        th(style="text-align:center") NAME
+                                                        th(style="text-align:center") TYPE OF REQUEST
+                                                        th(style="text-align:center") DATE SETTLED
+                                                        th(style="text-align:center") DATE FINISHED
+                                                        th(style="text-align:center") STATUS
+                                                        th(style="text-align:center") ACTION
+                                                tbody
+                                                    each list in listtab
+                                                        if list.strTStatus == 'Finished'
+                                                            tr(style="text-align:center")
+                                                                td(style="text-transform:capitalize") #{list.strName}
+                                                                td #{list.strRequestType}
+                                                                td #{list.datDateSettled}
+                                                                td #{list.dateexpire}
+                                                                td #{list.strTStatus}
+                                                                td 
+                                                                    a(href='transaction_settled_'+list.intTRequestID)
+                                                                        button.btn.btn-info(type='button')
+                                                                            i.fa.fa-eye
+                                                                            |   View
+                                        #terminated.tab-pane.fade(role='tabpanel', aria-labelledby='terminated-tab')
+                                            br
+                                            table#datatable3.table.table-striped.table-bordered
+                                                thead
+                                                    tr
+                                                        th(style="text-align:center") NAME
+                                                        th(style="text-align:center") TYPE OF REQUEST
+                                                        th(style="text-align:center") DATE SETTLED
+                                                        th(style="text-align:center") DATE TERMINATED
+                                                        th(style="text-align:center") STATUS
+                                                        th(style="text-align:center") ACTION
+                                                tbody
+                                                    each list in listtab
+                                                        if list.strTStatus == 'Terminated'
+                                                            tr(style="text-align:center")
+                                                                td(style="text-transform:capitalize") #{list.strName}
+                                                                td #{list.strRequestType}
+                                                                td #{list.datDateSettled}
+                                                                td #{list.dateexpire}
+                                                                td #{list.strTStatus}
+                                                                td 
+                                                                    a(href='transaction_settled_'+list.intTRequestID)
+                                                                        button.btn.btn-info(type='button')
+                                                                            i.fa.fa-eye
+                                                                            |   View 
+                                        #cancelled.tab-pane.fade(role='tabpanel', aria-labelledby='cancelled-tab')
+                                            br
+                                            table#datatable4.table.table-striped.table-bordered
+                                                thead
+                                                    tr
+                                                        th(style="text-align:center") NAME
+                                                        th(style="text-align:center") TYPE OF REQUEST
+                                                        th(style="text-align:center") DATE SETTLED
+                                                        th(style="text-align:center") DATE CANCELLED
+                                                        th(style="text-align:center") STATUS
+                                                        th(style="text-align:center") ACTION
+                                                tbody
+                                                    each list in listtab
+                                                        if list.strTStatus == 'Cancelled'
+                                                            tr(style="text-align:center")
+                                                                td(style="text-transform:capitalize") #{list.strName}
+                                                                td #{list.strRequestType}
+                                                                td #{list.datDateSettled}
+                                                                td #{list.dateexpire}
+                                                                td #{list.strTStatus}
+                                                                td 
+                                                                    a(href='transaction_settled_'+list.intTRequestID)
+                                                                        button.btn.btn-info(type='button')
+                                                                            i.fa.fa-eye
+                                                                            |   View                                                                                                                               

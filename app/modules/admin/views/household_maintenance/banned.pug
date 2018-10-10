@@ -21,7 +21,6 @@ block content
                             table#datatable.table.table-striped.table-bordered
                                 thead
                                     tr
-                                        //- th ID NO.
                                         th(style="text-align:center") NAME
                                         th(style="text-align:center") SERVICE
                                         th(style="text-align:center") STATUS
@@ -29,14 +28,11 @@ block content
                                 tbody
                                     each item in itemtab
                                         tr(style="text-align:center")
-                                        
-                                            td #{item.intHWID}
+                                    
                                             td #{item.strNames}
                                             td #{item.strName}
                                             td #{item.stat}
-                                                //- input.js-switch(type='checkbox', checked='')
                                             td
-                                                
                                                 a(href='/admin/profile_hw_'+item.intHWID)
                                                     button.btn.btn-info(type='button')
                                                         i.fa.fa-eye

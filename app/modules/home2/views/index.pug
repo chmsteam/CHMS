@@ -50,9 +50,7 @@ block content
                                                                                                 center
                                                                                                     h2
                                                                                                         br
-                                                                                                        | &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                                                                                                        | &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                                                                                                        | &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspType of Request:
+                                                                                                        | Type of Request:
                                                                                                         if offer.strRequestType == 'Add'
                                                                                                             b &nbsp&nbspAdd Household Worker
                                                                                                         else if offer.strRequestType == 'Replacement' || offer.strRequestType == 'Replace Client'
@@ -62,10 +60,7 @@ block content
                                                                                                         br
                                                                                                 .col-xs-12.text-center
                                                                                                     p
-                                                                                                    h2 
-                                                                                                        |   &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                                                                                                        |   &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                                                                                                        |   &nbsp&nbsp&nbsp&nbsp&nbsp&nbspYou are qualified from a job offer from #{offer.strFName} #{offer.strLName}
+                                                                                                    h2 You are qualified from a job offer from #{offer.strFName} #{offer.strLName}
                                                                                                     p
                                                                                                     br
                                                                                                     br
@@ -80,9 +75,7 @@ block content
                                                                                                 center
                                                                                                     h2
                                                                                                         br
-                                                                                                        | &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                                                                                                        | &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                                                                                                        | &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspType of Request:
+                                                                                                        |   Type of Request:
                                                                                                         if offer.strRequestType == 'Add'
                                                                                                             b &nbsp&nbspAdd Household Worker
                                                                                                         else if offer.strRequestType == 'Replacement' || offer.strRequestType == 'Replace Client'
@@ -92,7 +85,7 @@ block content
                                                                                                         br
                                                                                                 .col-xs-12.text-center
                                                                                                     p
-                                                                                                    h2 You accepted this job offer from #{offer.strFName} #{offer.strLName} . Waiting for the admin to send yout approval to the client
+                                                                                                    h2 You accepted this job offer from #{offer.strFName} #{offer.strLName} . Please wait for Client's approval.
                                                                                                     p
                                                                                                     br
                                                                                             .col-xs-12.bottom.text-center
@@ -140,11 +133,14 @@ block content
                                                                                                         br
                                                                                                 .col-xs-12.text-center
                                                                                                     p
-                                                                                                    h2 You accepted this job offer from #{offer.strFName} #{offer.strLName} . Waiting for the approval of the client
+                                                                                                    h2 You accepted this job offer from #{offer.strFName} #{offer.strLName} . Please wait for Client's approval.
                                                                                                     p
                                                                                                     br
                                                                                             .col-xs-12.bottom.text-center
-                                                                                                button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjob', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No)
+                                                                                                -var fullname = offer.strLName + " " + offer.strFName
+                                                                                                -var address = offer.strCAHouseNo + " " + offer.strCAStreet + " " + offer.strCAProvince + ", " + offer.strCity
+                                                                                                button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjobAccept', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No,
+                                                                                                        data-name=fullname, data-add = address, data-needed= offer.datRequestNeedDate, data-sal=offer.deciRequestSalary, data-serv=offer.strName, data-image=`../images/${offer.strPicture}`)
                                                                                                     | View Details
                                                                                         else if offer.strRHWStatus == 'Approved' && offer.strRClientStatus =='Approved'
                                                                                             .col-xs-12
@@ -161,7 +157,9 @@ block content
                                                                                                         br
                                                                                                 .col-xs-12.text-center
                                                                                                     p
-                                                                                                    h2 You accepted this job offer from #{offer.strFName} #{offer.strLName} . The client added you to the list. <br> Wait for the contract that will be sent
+                                                                                                    //-h2 You accepted this job offer from #{offer.strFName} #{offer.strLName} . The client added you to the list. <br> Wait for the contract that will be sent
+                                                                                                        |  by the client 
+                                                                                                    h2 #{offer.strFName} #{offer.strLName} added you to the list. Please wait for the contract that will be sent
                                                                                                         |  by the client 
                                                                                                     p
                                                                                                     br
@@ -445,13 +443,13 @@ block content
                                                     span#sal
                                                 td
                                                 td
-                        .modal-footer
-                            button.btn.btn-success#acceptJob(type='submit' name='btn1' value='accept')
-                                i.fa.fa-thumbs-up
-                                |   Accept
-                            button.btn.btn-danger#rejectJob(type='submit' name='btn1' value='reject')
-                                i.fa.fa-trash
-                                |   Reject
+                        //- .modal-footer
+                        //-     button.btn.btn-success#acceptJob(type='submit' name='btn1' value='accept')
+                        //-         i.fa.fa-thumbs-up
+                        //-         |   Accept
+                        //-     button.btn.btn-danger#rejectJob(type='submit' name='btn1' value='reject')
+                        //-         i.fa.fa-trash
+                        //-         |   Reject
         #viewjob_contract.modal.fade.bs-add-modal-lg(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog.modal-lg
                 .modal-content
@@ -493,6 +491,12 @@ block content
                                                     button#rejectContract.btn.btn-danger(type='submit' name='btn1' value='reject')
                                                         i.fa.fa-trash
                                                         |   Reject
+                                                else if cont.strConStatus == 'Rejected'
+                                                    h3 You already Rejected this Contract.
+                                                    br
+                                                    button#acceptContract.btn.btn-success(type='submit' name='btn1' value='accept')
+                                                        i.fa.fa-thumbs-up
+                                                        |   Accept
                                                                                      
         script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
         script.
@@ -557,11 +561,11 @@ block content
                     swal({
                         type: 'success',
                         title: 'Contract Accepted',
-                        //- text: 'Wait for the client contract for further information',
-                        showConfirmButton: false,
+                        text: 'Accepting the contract means you agree to the terms and conditions.',
+                        showConfirmButton: true,
                         closeOnConfirm: false,
                         },
-                        $(function(){
+                        (function(){
                             location.reload();
                         }),
                     $('#viewjob_contract').modal('hide')

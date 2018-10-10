@@ -18,7 +18,7 @@ block content
                                             tr(style="text-align:center")
                                                 td 
                                                     strong
-                                                        | Agency Name
+                                                        | Name
                                                 td #{agency.strName}
                                                 td
                                                     button.btn.btn-warning(type='button', data-toggle='modal', data-target='#editName', data-name=agency.strName)
@@ -27,7 +27,7 @@ block content
                                             tr(style="text-align:center")
                                                 td
                                                     strong
-                                                        | Agency Address
+                                                        | Address
                                                 td #{agency.strAddress}
                                                 td
                                                     button.btn.btn-warning(type='button', data-toggle='modal', data-target='#editAddress', data-name=agency.strAddress)
@@ -36,7 +36,7 @@ block content
                                             tr(style="text-align:center")
                                                 td
                                                     strong
-                                                        | Agency Telephone Number
+                                                        | Telephone Number
                                                 td #{agency.strTelNum}
                                                 td
                                                     button.btn.btn-warning(type='button', data-toggle='modal', data-target='#editT', data-name=agency.strTelNum)
@@ -45,7 +45,7 @@ block content
                                             tr(style="text-align:center")
                                                 td
                                                     strong
-                                                        | Agency Email Address
+                                                        | Email Address
                                                 td #{agency.strEmail}
                                                 td
                                                     button.btn.btn-warning(type='button', data-toggle='modal', data-target='#editEmail', data-name=agency.strEmail)
@@ -54,7 +54,7 @@ block content
                                             tr(style="text-align:center")
                                                 td
                                                     strong
-                                                        | Agency Owner
+                                                        | Owner
                                                 td #{agency.strOwner}
                                                 td
                                                     button.btn.btn-warning(type='button', data-toggle='modal', data-target='#editOwner', data-name=agency.strOwner)
@@ -63,21 +63,23 @@ block content
                                             tr(style="text-align:center")
                                                 td
                                                     strong
-                                                        | Agency Officer in Charge
+                                                        | Officer in Charge
                                                 td #{agency.strOIC}
                                                 td
                                                     button.btn.btn-warning(type='button', data-toggle='modal', data-target='#editOIC', data-name=agency.strOIC)
                                                         i.fa.fa-edit
                                                         |   Edit
-                                            //- tr(style="text-align:center")
-                                            //-     td
-                                            //-         strong
-                                            //-             | Agency Logo
-                                            //-     td #{agency.strLogo}
-                                            //-     td
-                                            //-         button.btn.btn-warning(type='button', data-toggle='modal', data-target='#editLogo', data-name=agency.strLogo)
-                                            //-             i.fa.fa-edit
-                                            //-             |   Edit
+                                            each item in itemtab
+                                                tr(style="text-align:center")
+                                                    td
+                                                        strong
+                                                            | Replacement 
+                                                    td #{item.intFreeReplacement}
+                                                    td
+                                                        button.btn.btn-warning(type='button', data-toggle='modal', data-target='#edit_fee', data-name=item.intFreeReplacement)
+                                                            i.fa.fa-edit
+                                                            |   Edit
+
 
     #editName.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
         .modal-dialog.modal-xs
@@ -192,6 +194,22 @@ block content
                     .modal-footer
                         button.btn.btn-success(type='submit') Update
                         button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+    #edit_fee.modal.fade.bs-edit-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-xs
+            form.form-horizontal.form-label-left(method="POST" action="updateRep")
+                .modal-content
+                    .modal-header(style='background-color:#f1f1f1')
+                        button.close(type='button', data-dismiss='modal')
+                            span(aria-hidden='true') ×
+                        h4#myModalLabel.modal-title Update Replacement Count
+                    .modal-body
+                        .row
+                            .col-md-8
+                                .form-group
+                                    input.form-control(type='number', id='name', required='required' name='replacement' min="1", align="center")
+                    .modal-footer
+                        button.btn.btn-success(type='submit') Update
+                        button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
 
     script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
     script(src='/admin/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js')
