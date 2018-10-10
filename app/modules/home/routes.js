@@ -200,14 +200,25 @@ function findreplacementofclient(req,res, next){
   });
 }
 // ------------------------------------------------------------------------------- HW PROFILE
-router.get('/hw_profile_:hwid', flog, findhw, findhweduc, findhwwork, renderhwprofile)
+router.get('/hw_profile_:hwid', flog, findhw, findhweduc, findhwwork,findhwreports, renderhwprofile)
 function renderhwprofile(req,res){
   if(req.valid==1)
-    res.render('home/views/hw_profile',{usertab: req.user, hw1tab: req.hw1, hw2tab: req.hw2, hw3tab: req.hw3});
+    res.render('home/views/hw_profile',{usertab: req.user, hw1tab: req.hw1, hw2tab: req.hw2, hw3tab: req.hw3, hw5tab: req.hw5});
   else if(req.valid==0)
     res.render('admin/views/invalidpages/normalonly');
   else
     res.render('login/views/invalid');
+}
+function findhwreports(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * , a.intID AS ReporterID, a.strFName AS RFName, a.strLName AS RLName, strName FROM tbluser As a INNER JOIN tblreport ON intID = intReporterID  INNER JOIN tblmincidentreport as i ON i.intID = intTypeofReport WHERE intRecipentID =? AND strValidity ='Valid'`, [req.params.hwid], function(err,results){
+    console.log(err);
+    for(var i = 0; i < results.length; i++){
+      results[i].datDateReported =  moment(results[i].datDateReported).format("LL");   
+    }
+    req.hw5=results;
+    return next();
+  })
 }
 function findhw(req,res,next){
   var db = require('../../lib/database')();
@@ -216,6 +227,9 @@ function findhw(req,res,next){
     if (err) return res.send(err);
     if (!results[0])
     console.log('???'+req.params.userid);
+    for(var i = 0; i < results.length; i++){
+      results[i].datBirthDay =  moment(results[i].datBirthDay).format("LL");   
+    }
     req.hw1 = results;
     return next();
   });

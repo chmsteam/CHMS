@@ -60,7 +60,8 @@ block content
                                                 td #{currenthw.intConReplacementLeft}
                                                 td #{currenthw.strCurStatus}
                                                 td
-                                                    button.btn.btn-primary.btn-md(type='button') View Profile
+                                                    a(href="/home_client/hw_profile_"+currenthw.intConHWID)
+                                                        button.btn.btn-primary.btn-md(type='button') View Profile
                                                     if currenthw.strCurStatus == 'Current'
                                                         if currenthw.intConReplacementLeft !=0
                                                             button.btn.btn-danger.btn-md(type='button' data-toggle='modal', data-target='#replace', data-transid=currenthw.intConTransID, data-transno=currenthw.intConReqNo, data-hwid=currenthw.intConHWID,
@@ -106,7 +107,7 @@ block content
                                     .col-md-4
                                         .form-group
                                             | Date Needed
-                                            input.form-control(type='date', name='dateneed' required)
+                                            input.form-control#need(type='date', name='dateneed' required)
 
                                             input.form-control(id='thedate' type='date', name='reqdate' style='display:none;')
                                             input.form-control(id='transid' type='text', name='transid' style='display:none;')
@@ -168,6 +169,16 @@ block content
                                         button.btn.btn-primary(type='button', data-dismiss='modal') No
                                         button.btn.btn-danger(type='submit' name='btn1' value='cancel_onprocess') Yes
             //- scripts
+            script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+             script(src="/custom/moment.min.js")
+            script.
+                $(document).ready(function(){
+                    var now = moment().format("YYYY-MM-DD");
+                    var week = moment(now).add(7, 'days').format("YYYY-MM-DD");
+                    console.log(week);
+                    console.log(now);
+                    $("#need").attr("min", week);
+                });
             script.
                 function time(){
                     var today = new Date();

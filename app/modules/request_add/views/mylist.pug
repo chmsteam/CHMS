@@ -502,7 +502,7 @@ block content
                                                 .form-group
                                                     label Preferred Date For Deployment
                                                     .input-group.date
-                                                        input.form-control.has-feedback-left#deploy1(type='date', name='datedep' required min="")
+                                                        input.form-control.has-feedback-left.deploy(type='date', name='datedep' required )
                                                         span.input-group-addon
                                                             span.fa.fa-calendar
                                         .row
@@ -512,7 +512,7 @@ block content
                                                 .form-group
                                                     label Preferred Time For Deployment
                                                     .input-group.date
-                                                        input.form-control.has-feedback-left#time1(type='time' name='timedep' required)
+                                                        input.form-control.has-feedback-left.time(type='time' name='timedep' required)
                                                         span.input-group-addon
                                                             span.glyphicon.glyphicon-time
                                     else
@@ -538,7 +538,7 @@ block content
                                                     .form-group
                                                         label Preferred Date For Deployment
                                                         .input-group.date
-                                                            input.form-control.has-feedback-left#deploy2(type='date', aria-describedby='inputSuccess2Status4'  name='datedep' value=''+prevtransdetails.datDateofDeployment required)
+                                                            input.form-control.has-feedback-left.deploy1(type='date', aria-describedby='inputSuccess2Status4'  name='datedep' value=''+prevtransdetails.datDateofDeployment required)
                                                             span.input-group-addon
                                                                 span.fa.fa-calendar
                                             .row
@@ -548,64 +548,36 @@ block content
                                                     .form-group
                                                         label Preferred Time For Deployment
                                                         .input-group.date
-                                                            input.form-control.has-feedback-left#time2(type='time' name='timedep' value=''+prevtransdetails.timTimeofDeployment required)
+                                                            input.form-control.has-feedback-left.time(type='time' name='timedep' value=''+prevtransdetails.timTimeofDeployment required)
                                                             span.input-group-addon
                                                                 span.glyphicon.glyphicon-time
                         .modal-footer
                             button.btn.btn-primary(type='button', data-dismiss='modal') Close
                             button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Next
         script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+        script(src="/custom/moment.min.js")
         script.
             $(document).ready(function(){
                 //================================
                 //minimum for date deployement
                 //===============================
-                    var minDate1 = new Date();
-                    var minDay1 = minDate1.getDate()+3;
-                    var minMon1 = minDate1.getMonth()+1; //January is 0!
-                    var minYear1 = minDate1.getFullYear();
-                    var minDate = document.getElementById("deploy1");
-                    //- var minDate2 = document.getElementById("deploy2");
-                    
-                    if(minDay1<10) {
-                        minDay1 = '0'+minDay1
-                    } 
+                    var now = moment().format("YYYY-MM-DD");
+                    var minimum = moment(now).add(3, 'days').format("YYYY-MM-DD");
+                    console.log(minimum);
 
-                    if(minMon1<10) {
-                        minMon1 = '0'+minMon1
-                    } 
-
-                    minDate1 = minYear1 + '-' + minMon1 + '-' + minDay1 ;
-                    console.log(minDate1);
-                    $("#deploy1").attr("min", minDate1);
-                    $("#deploy2").attr("min", minDate1);
-                    $("#time1").attr("min", "08:00");
-                    $("#time2").attr("min", "08:00");
+                    $(".deploy").attr("min", minimum);
+                    $(".deploy1").attr("min", minimum);
+                    $(".deploy").attr("value", minimum);
+                    $(".time").attr("min", "08:00");
 
                 //================================
                 //max for date deployement
                 //===============================
-                    var maxDate1 = new Date();
-                    var maxDay1 = maxDate1.getDate()+7;
-                    var maxMon1 = maxDate1.getMonth()+1; //January is 0!
-                    var maxYear1 = maxDate1.getFullYear();
-                    var maxDate = document.getElementById("deploy1");
-                    //- var maxDate2 = document.getElementById("deploy2");
-                    
-                    if(maxDay1<10) {
-                        maxDay1 = '0'+maxDay1
-                    } 
+                    var maximum = moment(now).add(7, 'days').format("YYYY-MM-DD");
 
-                    if(maxMon1<10) {
-                        maxMon1 = '0'+maxMon1
-                    } 
-
-                    maxDate1 = maxYear1 + '-' + maxMon1 + '-' + maxDay1 ;
-                    console.log(maxDate1);
-                    $("#deploy1").attr("max", maxDate1);
-                    $("#deploy2").attr("max", maxDate1);
-                    $("#time1").attr("max", "17:00");
-                    $("#time2").attr("max", "17:00");
+                    $(".deploy").attr("max", maximum);
+                    $(".deploy1").attr("max", maximum);
+                    $(".time").attr("max", "17:00");
                     
                 $("#submit").click(function(e){
                     e.preventDefault();

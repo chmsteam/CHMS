@@ -52,7 +52,8 @@ function createreplacement(req,res){
         console.log(err)
         // db.query(`UPDATE tblcontract SET strCurStatus = 'To be replaced' WHERE intConHWID =${req.body.hwid}`, function(err) {
           console.log(err)
-            res.redirect('/request_replacement_hw',flog, render);
+          res.send('success');
+            // res.redirect('/request_replacement_hw',flog, render);
             // res.redirect('/request_replacement')
         // });
       });

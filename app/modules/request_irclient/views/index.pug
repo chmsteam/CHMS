@@ -18,14 +18,14 @@ block content
                                             table#datatable2-responsive.table.jambo_table.table-bordered
                                                 thead
                                                     tr
-                                                        th NAME
-                                                        th Incident Report
-                                                        th STATUS
-                                                        th ACTION
+                                                        th(style="text-align:center") NAME
+                                                        th(style="text-align:center") Incident Report
+                                                        th(style="text-align:center") STATUS
+                                                        th(style="text-align:center") ACTION
                                                 tbody
                                                     each reported in reportedtab
                                                         if reported.strReportStatus != 'Resolved (hid by client)'
-                                                            tr
+                                                            tr(style="text-align:center")
                                                                 td #{reported.RFName} #{reported.RLName}
                                                                 td #{reported.strName}
                                                                 td #{reported.strReportStatus}
@@ -43,13 +43,13 @@ block content
                                     table#datatable-responsive.table.jambo_table.table-bordered
                                         thead
                                             tr
-                                                th NAME
-                                                th SERVICE
-                                                th STATUS
-                                                th ACTION
+                                                th(style="text-align:center") NAME
+                                                th(style="text-align:center") SERVICE
+                                                th(style="text-align:center") STATUS
+                                                th(style="text-align:center") ACTION
                                         tbody
                                             each currenthw in currenthwtab
-                                                tr
+                                                tr(style="text-align:center")
                                                     //- td #{currenthw.}
                                                     td #{currenthw.strFName} #{currenthw.strLName}
                                                     td #{currenthw.strName}
@@ -80,7 +80,7 @@ block content
                         br
                         .modal-footer
                             button.btn.btn-primary(type='button', data-dismiss='modal') No
-                            button.btn.btn-danger(type='submit' name='btn' value='cancel') Yes
+                            button.btn.btn-danger#cancel(type='submit' name='btn' value='cancel') Yes
                             
         #report_hide.modal.fade(tabindex='-1', role='dialog', aria-labelledby='report', aria-hidden='true')
             .modal-dialog.modal-md
@@ -103,7 +103,7 @@ block content
         
         #report.modal.fade(tabindex='-1', role='dialog', aria-labelledby='report', aria-hidden='true')
             .modal-dialog.modal-md
-                form.form-horizontal(method='POST' action='/request_irclient/ir_client' enctype='multipart/form-data')
+                form.form-horizontal#report(method='POST' action='/request_irclient/ir_client' enctype='multipart/form-data')
                     .modal-content
                         .modal-header(style="background-color:#2A3F54; color:white")
                             button.close(type='button', data-dismiss='modal')
@@ -138,6 +138,52 @@ block content
                             button.btn.btn-success(type='submit', disabled='' onCLick='time();') Submit
                             button.btn.btn-primary(type='button', data-dismiss='modal') Close
         //- scripts
+        script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+        script(src="/custom/moment.min.js")
+        script.
+            $(document).ready(function(){
+                $('button#cancel').click(function(){
+                    $('.modal').modal('hide');
+                    swal({
+                        type: 'info',
+                        title: 'Cancelled!',
+                        text: 'Report Cancelled',
+                        showConfirmButton: false,
+                        },
+                        $(function(){
+                            location.reload();
+                            }, 6000));
+                });
+                $('form#report').submit(function(e){
+                    var form = $('form#report')[0];
+                    var data = new FormData(form);
+                    e.preventDefault();
+                    $.ajax({
+                        url: '/request_irclient/ir_client',
+                        enctype: 'multipart/form-data',
+                        processData: false,  // Important!
+                        contentType: false,
+                        cache: false,
+                        method: 'post',
+                        data: new FormData(form),
+                        success: function(response){
+                            console.log(response);
+                            if(response == 'success'){
+                                $('.modal').modal('hide');
+                                swal({
+                                    type: 'success',
+                                    title: 'Reported!',
+                                    text: 'Household Worker Reported.',
+                                    showConfirmButton: false,
+                                    },setTimeout(function() {
+                                        location.reload();
+                                    }, 800)
+                                );
+                            }
+                        }
+                    })
+                });
+            });
         script.
             function time(){
                 var today = new Date();

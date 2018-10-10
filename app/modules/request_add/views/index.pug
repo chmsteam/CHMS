@@ -189,6 +189,15 @@ block content
     
     //- scripts
     script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+    script(src="/custom/moment.min.js")
+    script.
+        $(document).ready(function(){
+            var now = moment().format("YYYY-MM-DD");
+            var week = moment(now).add(7, 'days').format("YYYY-MM-DD");
+            console.log(week);
+            console.log(now);
+            $("#need").attr("min", week);
+        });
     script.
         $('form#add').submit(function(e){
             e.preventDefault();
@@ -278,24 +287,24 @@ block content
             //- document.write(today);
            document.getElementById("thedate").value=today;
 
-            var valid = new Date();
-                var dd1 = valid.getDate()+7;
-                var mm2 = valid.getMonth()+1; //January is 0!
-                var yyyy2 = valid.getFullYear();
-                var hh2 = valid.getHours();
-                var min2 = valid.getMinutes();
-                var sec2 = valid.getSeconds();
-                var y= document.getElementById("need");
+        //-     var valid = new Date();
+        //-         var dd1 = valid.getDate()+7;
+        //-         var mm2 = valid.getMonth()+1; //January is 0!
+        //-         var yyyy2 = valid.getFullYear();
+        //-         var hh2 = valid.getHours();
+        //-         var min2 = valid.getMinutes();
+        //-         var sec2 = valid.getSeconds();
+        //-         var y= document.getElementById("need");
                 
-                if(dd1<10) {
-                    dd1 = '0'+dd1
-                } 
+        //-         if(dd1<10) {
+        //-             dd1 = '0'+dd1
+        //-         } 
 
-                if(mm2<10) {
-                    mm2 = '0'+mm2
-                } 
+        //-         if(mm2<10) {
+        //-             mm2 = '0'+mm2
+        //-         } 
 
-                valid = yyyy2 + '-' + mm2 + '-' + dd1 ;
-                //- document.write(valid);
-           document.getElementById("need").setAttribute("min", valid);
+        //-         valid = yyyy2 + '-' + mm2 + '-' + dd1 ;
+        //-         //- document.write(valid);
+        //-    document.getElementById("need").setAttribute("min", valid);
         }

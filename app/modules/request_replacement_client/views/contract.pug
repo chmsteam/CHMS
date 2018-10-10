@@ -26,13 +26,13 @@ block content
                                         table.table.jambo_table.table-bordered
                                             thead
                                                 tr
-                                                    th MAIN CONTRACT
-                                                    th STATUS
-                                                    th ACTION
+                                                    th(style="text-align:center") MAIN CONTRACT
+                                                    th(style="text-align:center") STATUS
+                                                    th(style="text-align:center") ACTION
                                                 
                                             tbody
                                                 each cont in conttab
-                                                    tr
+                                                    tr(style="text-align:center")
                                                         td
                                                             center
                                                                     if cont.strContractStatus == ''
@@ -87,14 +87,14 @@ block content
                                             table.table.jambo_table.table-bordered
                                                 thead
                                                     tr
-                                                        th NAME
-                                                        th SERVICE
-                                                        th SALARY
-                                                        th STATUS
-                                                        th ACTION
+                                                        th(style="text-align:center") NAME
+                                                        th(style="text-align:center") SERVICE
+                                                        th(style="text-align:center") SALARY
+                                                        th(style="text-align:center") STATUS
+                                                        th(style="text-align:center") ACTION
                                                 tbody
                                                     each hw in hwtab
-                                                        tr
+                                                        tr(style="text-align:center")
                                                             td #{hw.strFName} #{hw.strLName}
                                                             td #{hw.strName}
                                                             td #{hw.intConSalary}
@@ -173,7 +173,7 @@ block content
                                         .col-md-5.col-sm-6.col-xs-12
                                             input.form-control.col-md-7.col-xs-12(type='text', id='id', name='transid' required='required' style="display:none;")
                                             input.form-control.col-md-7.col-xs-12(type='text', id='hwid', name='hwid' required='required' style="display:none;")
-                                            input.form-control.col-md-7.col-xs-12(type='number', id='salary', name='salary' required='required', min=1)
+                                            input.form-control.col-md-7.col-xs-12(type='number', id='salary', name='salary' required='required', min=2500)
                                             each oldhwservice in oldhwservicetab
                                                 input.form-control.col-md-7.col-xs-12(type='text', id='oldid', name='oldhwid' required='required' value=''+oldhwservice.intHWID style='display: none;')
                                 br

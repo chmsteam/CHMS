@@ -126,11 +126,11 @@ block content
                                                                 table.table.table-striped.table-bordered
                                                                     thead
                                                                         tr
-                                                                            th Status
-                                                                            th Action
+                                                                            th(style="text-align:center") Status
+                                                                            th(style="text-align:center") Action
                                                                     tbody
                                                                         each contractdetails in contractdetailstab
-                                                                            tr
+                                                                            tr(style="text-align:center")
                                                                                 td #{contractdetails.strContractStatus}
                                                                                 td
                                                                                     button.btn.btn-info(type='button', data-toggle='modal', data-target='#viewcon', data-thecontract=''+contractdetails.strContract)
