@@ -1291,18 +1291,25 @@ function resultothers(req,res,next){
     if (err) return res.send(err);
     console.log('');
       if (results[0].strIRequestGender == 'Any'){
-        db2.query(`SELECT *
-                    FROM
-                        (SELECT a.intHWID, g.strName, f.strStatus, CONCAT(f.strFName,' ', f.strLName) AS hwname, a.intServiceID, a.strGender, TIMESTAMPDIFF(YEAR,a.datBirthDay,CURDATE()) as age
-                        FROM tblhouseholdworker as a INNER JOIN tblmservice as g on a.intServiceID=g.intID inner join tbluser as f on a.intHWID = f.intID
-                        ) as ta INNER JOIN
-                        (SELECT intHWID_workbg, sum(intWorkEnd - intWorkStart) AS Work_exp
-                          FROM tblhw_workbg
+        db2.query(`SELECT * 
+                   FROM (SELECT *
+                         FROM (SELECT a.intHWID, g.strName, f.strStatus, CONCAT(f.strFName,' ', f.strLName) AS hwname, a.intServiceID, a.strGender, TIMESTAMPDIFF(YEAR,a.datBirthDay,CURDATE()) as age
+                               FROM tblhouseholdworker as a INNER JOIN tblmservice as g on a.intServiceID=g.intID inner join tbluser as f on a.intHWID = f.intID) as ta 
+                              INNER JOIN (SELECT intHWID_workbg, sum(intWorkEnd - intWorkStart) AS Work_exp
+                                          FROM tblhw_workbg
                           Group by intHWID_workbg) as tb 
-                    ON tb.intHWID_workbg =  ta.intHWID
-                    WHERE (((strStatus = 'Registered') AND (intServiceID = ${results[0].intITypeOfService})) AND ((age BETWEEN ${results[0].intIRequestAge1} AND ${results[0].intIRequestAge2})
-                            OR (strGender IN ('Male', 'Female')))) AND intHWID NOT IN(SELECT intRHWID FROM tblresults WHERE intRRequestID = ${req.params.requestid})
-                    HAVING Work_exp >= ${results[0].intIRequestExp} `,function(err,results2){
+                      ON tb.intHWID_workbg =  ta.intHWID
+                      WHERE (((strStatus = 'Registered') AND (intServiceID = ${results[0].intITypeOfService})) AND ((age BETWEEN ${results[0].intIRequestAge1} AND ${results[0].intIRequestAge2}) OR (strGender IN ('Male', 'Female')))) AND intHWID NOT IN(SELECT intRHWID FROM tblresults WHERE intRRequestID =${req.params.requestid})
+                      HAVING Work_exp >= ${results[0].intIRequestExp}) as thetable                                 
+                  WHERE intHWID NOT IN (SELECT intHWID
+                              FROM (SELECT a.intHWID, b.strType, g.strName, f.strStatus, CONCAT(f.strFName,' ', f.strLName) AS hwname, a.intServiceID, a.strGender, TIMESTAMPDIFF(YEAR,a.datBirthDay,CURDATE()) as age
+                                  FROM tblhouseholdworker as a INNER JOIN tblhw_educbg as b on a.intHWID= b.intHWID_educbg  inner join tblmservice as g on a.intServiceID=g.intID 
+                                      inner join tbluser as f on a.intHWID = f.intID) as ta 
+                                                          INNER JOIN (SELECT intHWID_workbg, sum(intWorkEnd - intWorkStart) AS Work_exp
+                                              FROM tblhw_workbg
+                                              Group by intHWID_workbg) as tb 
+                                  ON tb.intHWID_workbg =  ta.intHWID
+                              WHERE ((strStatus = 'Registered') AND (intServiceID = ${results[0].intITypeOfService}) AND (age BETWEEN ${results[0].intIRequestAge1} AND ${results[0].intIRequestAge2}) AND (strGender IN ('Male', 'Female')) AND (strType="${results[0].strIRequestEduc}")) AND intHWID NOT IN(SELECT intRHWID FROM tblresults WHERE intRRequestID = ${req.params.requestid}) )`,function(err,results2){
           console.log('query1');
           if (err) return res.send(err);
           req.otherresulta = results2; 
@@ -1311,17 +1318,29 @@ function resultothers(req,res,next){
       }
       else {
         db2.query(`SELECT *
-                    FROM
-                        (SELECT a.intHWID, b.strType, g.strName, f.strStatus, CONCAT(f.strFName,' ', f.strLName) AS hwname, a.intServiceID, a.strGender, TIMESTAMPDIFF(YEAR,a.datBirthDay,CURDATE()) as age
-                        FROM tblhouseholdworker as a INNER JOIN tblhw_educbg as b on a.intHWID= b.intHWID_educbg  inner join tblmservice as g on a.intServiceID=g.intID inner join tbluser as f on a.intHWID = f.intID
-                        ) as ta INNER JOIN
-                        (SELECT intHWID_workbg, sum(intWorkEnd - intWorkStart) AS Work_exp
-                          FROM tblhw_workbg
-                          Group by intHWID_workbg) as tb 
-                    ON tb.intHWID_workbg =  ta.intHWID
-                    WHERE (((strStatus = 'Registered') AND (intServiceID = ${results[0].intITypeOfService})) AND ((age BETWEEN ${results[0].intIRequestAge1} AND ${results[0].intIRequestAge2})
-                            OR (strGender = '${results[0].strIRequestGender}') OR (strType="${results[0].strIRequestEduc}"))) AND intHWID NOT IN(SELECT intRHWID FROM tblresults WHERE intRRequestID = ${req.params.requestid})
-                    HAVING Work_exp >= ${results[0].intIRequestExp} `,function(err,results2){
+        FROM (SELECT *
+            FROM
+              (SELECT a.intHWID, b.strType, g.strName, f.strStatus, CONCAT(f.strFName,' ', f.strLName) AS hwname, a.intServiceID, a.strGender, TIMESTAMPDIFF(YEAR,a.datBirthDay,CURDATE()) as age
+              FROM tblhouseholdworker as a INNER JOIN tblhw_educbg as b on a.intHWID= b.intHWID_educbg  inner join tblmservice as g on a.intServiceID=g.intID inner join tbluser as f on a.intHWID = f.intID
+              ) as ta INNER JOIN
+              (SELECT intHWID_workbg, sum(intWorkEnd - intWorkStart) AS Work_exp
+                FROM tblhw_workbg
+                Group by intHWID_workbg) as tb 
+            ON tb.intHWID_workbg =  ta.intHWID
+            WHERE (((strStatus = 'Registered') AND (intServiceID = ${results[0].intITypeOfService})) AND ((age BETWEEN ${results[0].intIRequestAge1} AND ${results[0].intIRequestAge2})
+                OR (strGender = '${results[0].strIRequestGender}') OR (strType="${results[0].strIRequestEduc}"))) AND intHWID NOT IN(SELECT intRHWID FROM tblresults WHERE intRRequestID = ${req.params.requestid})
+            HAVING Work_exp >= ${results[0].intIRequestExp} ) as angtable
+        WHERE intHWID NOT IN (SELECT intHWID
+                            FROM
+                                (SELECT a.intHWID, b.strType, g.strName, f.strStatus, CONCAT(f.strFName,' ', f.strLName) AS hwname, a.intServiceID, a.strGender, TIMESTAMPDIFF(YEAR,a.datBirthDay,CURDATE()) as age
+                                FROM tblhouseholdworker as a INNER JOIN tblhw_educbg as b on a.intHWID= b.intHWID_educbg  inner join tblmservice as g on a.intServiceID=g.intID inner join tbluser as f on a.intHWID = f.intID
+                                ) as ta INNER JOIN
+                                (SELECT intHWID_workbg, sum(intWorkEnd - intWorkStart) AS Work_exp
+                                  FROM tblhw_workbg
+                                  Group by intHWID_workbg) as tb 
+                            ON tb.intHWID_workbg =  ta.intHWID
+                            WHERE ((strStatus = 'Registered') AND (intServiceID = ${results[0].intITypeOfService}) AND (age BETWEEN ${results[0].intIRequestAge1} AND ${results[0].intIRequestAge2})
+                                    AND (strGender = '${results[0].strIRequestGender}') AND (strType="${results[0].strIRequestEduc}")) AND intHWID NOT IN(SELECT intRHWID FROM tblresults WHERE intRRequestID = ${req.params.requestid}))`,function(err,results2){
           console.log('query2');
           if (err) return res.send(err);
           req.otherresulta = results2; 
@@ -1934,21 +1953,7 @@ function findmrequirementscl(req, res, next){
   });
 }
 
-// function pik(req, res, next){
-//   var storage = multer.diskStorage({
-//     destination: function(cb){
-//       cb(null,'public/image/clientrequirements/');
-//     },
-//     filename: function(req, cb){
-//       cb(null, '[' + req.body.clientID + ']' + '-' + '[' + req.body.fullname + ']' + '-' + '(' + req.body.requiname +')' + '.jpg' );
-//     }
-//   });
-//   var upload = multer({storage:storage}).array({ name: 'postimage', maxCount: 15 });
-//   upload(req,res,function(err) { 
-//     console.log(err)
-//   });
-//   return next();
-// }
+
 // Approve client and reject client2
 function approveClient2(req,res){
   var db = require('../../lib/database')();
