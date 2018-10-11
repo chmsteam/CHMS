@@ -16,12 +16,13 @@ block content
                             .x_title
                                 .clearfix
                                 .x_panel.alert-success(style='background-color:')
-                                    h3(style="font-size:18px;")
-                                        b Disclaimer !!!
-                                            br
-                                            br
-                                        li
-                                            | To add service on your list, just click <b>"add service"</b> button.
+                                    center
+                                        h3(style="font-size:18px;")
+                                            b Disclaimer !!!
+                                                br
+                                                br
+                                            li
+                                                | To add service on your list, just click <b>"add service"</b> button.
                             br
                             each list in listtab
                                 if (list.strRequestStatus == 'Draft' || list.strRequestStatus == 'On process')
@@ -543,7 +544,7 @@ block content
                                 swal({
                                     type: 'success',
                                     title: 'Submitted!',
-                                    text: 'List submitted to admin',
+                                    text: 'List successfully submitted to admin.',
                                     showConfirmButton: true,
                                     timer: 5000
                                 },
@@ -572,7 +573,7 @@ block content
                             swal({
                                 type: 'success',
                                 title: 'Added!',
-                                text: 'Service added to the list',
+                                text: 'Service successfully added to the list.',
                                 showConfirmButton: false,
                                 },setTimeout(function() {
                                     location.reload();
