@@ -2708,23 +2708,49 @@ function clientSet(req, res, next){
 
 
 // -----------------------------------------------------------------REPORTS
-counters = [hwRegCnt, hwDepCnt, clBanCnt, clPenCnt, clRegCnt];
+counters = [hwPenCnt, hwRegCnt, hwDepCnt, hwBanCnt, clBanCnt, clPenCnt, clRegCnt, hwleavereq, hwreplacereq,
+   clientaddreq, clientreplacereq, clientrelieverreq, irclient, irhw, 
+   transpending, transapproved, transrejected, transongoing, transfinished, transterminated];
 router.get('/reports',flog, counters, renderreports);
 function renderreports(req,res){
   if(req.valid==0)
     res.render('admin/views/reports',
       {
         usertab: req.user,
+        hwPCount: req.hwPenCount,
         hwCount: req.hwRegCount,
         hwRCount: req.hwDepCount,
+        hwBCount: req.hwBanCount,
         clRCount: req.clRegCount,
         clPCount: req.clPenCount,
-        clBCount: req.clBanCount
+        clBCount: req.clBanCount,
+        hwleavereqtab: req.hwleavereq,
+        hwreplacereqtab: req.hwreplacereq,
+        clientaddreqtab: req.clientaddreq,
+        clientreplacereqtab: req.clientreplacereq,
+        clientrelieverreqtab: req.clientrelieverreq,
+        irclienttab: req.irclient,
+        irhwtab: req.irhw,
+        transpendingtab: req.transpending, 
+        transapprovedtab: req.transapproved, 
+        transrejectedtab: req.transrejected, 
+        transongoingtab: req.transongoing, 
+        transfinishedtab: req.transfinished, 
+        transterminatedtab: req.transterminated
       });
   else if(req.valid==1)
     res.render('admin/views/invalidpages/normalonly');
   else
     res.render('login/views/invalid');
+}
+//Pending WH
+function hwPenCnt(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Household Worker' AND strStatus = 'Unregistered'", function (err, results) {
+      if (err) return res.send(err);
+      req.hwPenCount = results;
+      return next();
+  });
 }
 //Registered HW
 function hwRegCnt(req, res, next){
@@ -2741,6 +2767,15 @@ function hwDepCnt(req, res, next){
   db.query("SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Household Worker' AND strStatus = 'Deployed'", function (err, results) {
       if (err) return res.send(err);
       req.hwDepCount = results;
+      return next();
+  });
+}
+// Banned HW
+function hwBanCnt(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Household Worker' AND strStatus = 'Banned'", function (err, results) {
+      if (err) return res.send(err);
+      req.hwBanCount = results;
       return next();
   });
 }
@@ -2762,12 +2797,133 @@ function clRegCnt(req, res, next){
       return next();
   });
 }
-//Registered CLients
+//Banned CLients
 function clBanCnt(req, res, next){
   var db = require('../../lib/database')();
   db.query("SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Client' AND strStatus = 'Banned'", function (err, results) {
       if (err) return res.send(err);
       req.clBanCount = results;
+      return next();
+  });
+}
+
+// HW Leave Request 
+function hwleavereq(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tblleaverequest", function (err, results) {
+      if (err) return res.send(err);
+      req.hwleavereq = results;
+      return next();
+  });
+}
+// HW Replacement of Client Request 
+function hwreplacereq(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tblfinalrequest WHERE strRequestType='Replace Client'", function (err, results) {
+      if (err) return res.send(err);
+      req.hwreplacereq = results;
+      return next();
+  });
+}
+
+// Client Add Request
+function clientaddreq(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tblfinalrequest WHERE strRequestType='Add'", function (err, results) {
+      if (err) return res.send(err);
+      req.clientaddreq = results;
+      return next();
+  });
+}
+// Client Replacement Request
+function clientreplacereq(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tblfinalrequest WHERE strRequestType='Replacement'", function (err, results) {
+      if (err) return res.send(err);
+      req.clientreplacereq = results;
+      return next();
+  });
+}
+// Client Reliever Request
+function clientrelieverreq(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tblfinalrequest WHERE strRequestType='Reliever'", function (err, results) {
+      if (err) return res.send(err);
+      req.clientrelieverreq = results;
+      return next();
+  });
+}
+
+// Incident Report na ginawa ni Client
+function irclient(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tblreport INNER JOIN tbluser ON intReporterID = intID WHERE strType = 'Client'", function (err, results) {
+      if (err) return res.send(err);
+      req.irclient = results;
+      return next();
+  });
+}
+// Incident Report na ginawa ni HW
+function irhw(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tblreport INNER JOIN tbluser ON intReporterID = intID WHERE strType = 'Household Worker'", function (err, results) {
+      if (err) return res.send(err);
+      req.irhw = results;
+      return next();
+  });
+}
+
+// transactions pending
+function transpending(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tbltransaction WHERE strTStatus = 'Pending'", function (err, results) {
+      if (err) return res.send(err);
+      req.transpending = results;
+      return next();
+  });
+}
+// transactions approved
+function transapproved(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tbltransaction WHERE strTStatus = 'Approved'", function (err, results) {
+      if (err) return res.send(err);
+      req.transapproved = results;
+      return next();
+  });
+}
+// transactions rejected
+function transrejected(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tbltransaction WHERE strTStatus = 'Rejected'", function (err, results) {
+      if (err) return res.send(err);
+      req.transrejected = results;
+      return next();
+  });
+}
+// transactions ongoing
+function transongoing(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tbltransaction WHERE strTStatus = 'On-going'", function (err, results) {
+      if (err) return res.send(err);
+      req.transongoing = results;
+      return next();
+  });
+}
+// transactions finished
+function transfinished(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tbltransaction WHERE strTStatus = 'Finished'", function (err, results) {
+      if (err) return res.send(err);
+      req.transfinished = results;
+      return next();
+  });
+}
+// transactions terminated
+function transterminated(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tbltransaction WHERE strTStatus = 'Terminated'", function (err, results) {
+      if (err) return res.send(err);
+      req.transterminated = results;
       return next();
   });
 }
