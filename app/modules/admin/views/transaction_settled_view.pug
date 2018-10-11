@@ -39,7 +39,7 @@ block content
                                                 td
                                                     //- button.btn.btn-primary.btn-md(type='button') Deployment Details
                                                     a(href='/admin/profile_client_'+trans.clientid  )
-                                                        button.btn.btn-primary.btn-md(type='button') View Profile
+                                                        button.btn.btn-info.btn-md(type='button') View Profile
                                                     if trans.strRequestType == "Add"
                                                         a(href="/admin/invoice_"+trans.intTRequestID)
                                                             button.btn.btn-secondary.btn-md(type='button') Invoice
@@ -76,11 +76,11 @@ block content
                                                     td On leave
                                                 td
                                                     a(href="/admin/profile_hw_"+hw.intConHWID)
-                                                        button.btn.btn-primary.btn-md(type='button') View Profile
+                                                        button.btn.btn-info.btn-md(type='button') View Profile
                                                     if hw.strConCopy == ''
-                                                        button.btn.btn-primary.btn-md(type='button' data-toggle='modal', data-target='#settle_viewcon_empty', data-con=hw.strConCopy, data-conname=hw.strConCopy, data-hwid=hw.intConHWID, data-transid=hw.intConTransID) View Contract
+                                                        button.btn.btn-info.btn-md(type='button' data-toggle='modal', data-target='#settle_viewcon_empty', data-con=hw.strConCopy, data-conname=hw.strConCopy, data-hwid=hw.intConHWID, data-transid=hw.intConTransID) View Contract
                                                     else
-                                                        button.btn.btn-primary.btn-md(type='button' data-toggle='modal', data-target='#settle_viewcon', data-con=hw.strConCopy, data-conname=hw.strConCopy, data-hwid=hw.intConHWID, data-transid=hw.intConTransID) View Contract
+                                                        button.btn.btn-info.btn-md(type='button' data-toggle='modal', data-target='#settle_viewcon', data-con=hw.strConCopy, data-conname=hw.strConCopy, data-hwid=hw.intConHWID, data-transid=hw.intConTransID) View Contract
         
         #settle_viewcon_empty.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog(role='document')
