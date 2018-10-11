@@ -3,17 +3,21 @@ extends ../../../templates/navbaradmin.pug
 block content
     section#services
         .right_col(role='main' style="background-color:transparent")
-            div
-                .page-title
+                    .title_left
+                    h5
+                        | Queries /&nbsp
+                        b Household Worker
+                
                     .row
                         .col-md-12.col-sm-12.col-xs-12
                             .x_panel(style='background-color:rgba(52,152,219,.3)')
                                 .x_panel
-                                    .x_title
+                                    
                                         h1
-                                            
-                                        .x_panel
+                                        br 
+                                        .x_panel(style='background-color:rgba(52,152,219,.3)')
                                             form(method='POST' action='queries_hw').form-inline
+                                                br
                                                 br
                                                 .row
                                                     .col-md-4
@@ -22,7 +26,7 @@ block content
                                                                 |&nbsp
                                                                 |&nbsp
                                                                 input.form-control(type='date', required='required', name='datefrom')
-                                                    .col-md-4
+                                                    .col-md-3
                                                         .form-group
                                                             label Status: &nbsp
                                                                     select.form-control(id='status' name='thestatus')
@@ -54,49 +58,66 @@ block content
                                                         
                                                 .row(style="float:right; margin-bottom:10px")
                                                     .form-group
-                                                        button.btn.btn-info(type='submit')
-                                                            i.fa.fa-eye
+                                                        button.btn.btn-primary(type='submit')
+                                                            i.fa.fa-search
                                                             |  Filter
-                                        hr
+                                        //- hr
+                                        br
+                                        br
                                         .x_panel
-                                            each resultdates in resultdateslist
-                                                i
-                                                    h4 Displaying results from "#{resultdates.date1}" to "#{resultdates.date2}". Status: "#{resultdates.status}". Location: "#{resultdates.location}". City: "#{resultdates.city}".
-                                        br
-                                        br
-                                        .col-md-12.col-sm-12.col-xs-12
-                                            .table-responsive
-                                                table#datatable.table.table-striped.jambo_table.table-bordered
-                                                    thead
-                                                        tr.headings
-                                                        tr
-                                                            th NAME
-                                                            th DATE
-                                                            th CITY
-                                                            th ACTION
-                                                    tbody
-                                                        each theresults in theresultstab
-                                                            if theresults == undefined
-                                                            else if theresults.strStatus != 'Deployed'
-                                                                tr.even.pointer
-                                                                    td #{theresults.strFName} #{theresults.strLName}
-                                                                    td #{theresults.datDateRegistered}
-                                                                    td #{theresults.strCity}
-                                                                    td
-                                                                        a(href='/admin/profile_client_'+theresults.intHWID)
-                                                                            button.btn.btn-info(type='button')
-                                                                                i.fa.fa-eye
-                                                                                |  view
-                                                            else
-                                                                tr.even.pointer
-                                                                    td #{theresults.strFName} #{theresults.strLName}
-                                                                    td #{theresults.datDateSettled}
-                                                                    td #{theresults.strCity}
-                                                                    td
-                                                                        a(href='/admin/profile_client_'+theresults.intHWID)
-                                                                            button.btn.btn-info(type='button')
-                                                                                i.fa.fa-eye
-                                                                                |  view
+                                            br
+                                            .x_panel.alert-info(style='color:white')
+                                                each resultdates in resultdateslist
+                                                    i
+                                                        h4 
+                                                            b   Displaying results;
+                                                            br
+                                                            br
+                                                            b &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspfrom 
+                                                            |   #{resultdates.date1} 
+                                                            b   to 
+                                                            |   #{resultdates.date2}
+                                                            b   &nbsp&nbsp&nbsp&nbspStatus: 
+                                                            |   #{resultdates.status} 
+                                                            b   &nbsp&nbsp&nbsp&nbspLocation: 
+                                                            |   #{resultdates.location} 
+                                                            b   &nbsp&nbsp&nbsp&nbspCity: 
+                                                            |   #{resultdates.city}
+                                            br
+                                            br
+                                            .col-md-12.col-sm-12.col-xs-12
+                                                .table-responsive
+                                                    table#datatable.table.table-striped.jambo_table.table-bordered
+                                                        thead
+                                                            tr.headings
+                                                            tr
+                                                                th NAME
+                                                                th DATE
+                                                                th CITY
+                                                                th ACTION
+                                                        tbody
+                                                            each theresults in theresultstab
+                                                                if theresults == undefined
+                                                                else if theresults.strStatus != 'Deployed'
+                                                                    tr.even.pointer
+                                                                        td #{theresults.strFName} #{theresults.strLName}
+                                                                        td #{theresults.datDateRegistered}
+                                                                        td #{theresults.strCity}
+                                                                        td
+                                                                            a(href='/admin/profile_client_'+theresults.intHWID)
+                                                                                button.btn.btn-info(type='button')
+                                                                                    i.fa.fa-eye
+                                                                                    |  view
+                                                                else
+                                                                    tr.even.pointer
+                                                                        td #{theresults.strFName} #{theresults.strLName}
+                                                                        td #{theresults.datDateSettled}
+                                                                        td #{theresults.strCity}
+                                                                        td
+                                                                            a(href='/admin/profile_client_'+theresults.intHWID)
+                                                                                button.btn.btn-info(type='button')
+                                                                                    i.fa.fa-eye
+                                                                                    |  view
 
                                         .clearfix
     script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
