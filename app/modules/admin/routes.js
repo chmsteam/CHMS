@@ -843,7 +843,7 @@ router.post('/add_leave',(req, res) => {
     var leave = results[0];
     console.log(leave);
     if(!leave){
-      db.query(`INSERT INTO tblmleave (strName, intDays, strStatus)  VALUES ("${req.body.leavename}", "${req.body.leaveday}","Active")`, (err) => {
+      db.query(`INSERT INTO tblmleave (strName, intDays, intDaysForFile, strStatus)  VALUES ("${req.body.leavename}", "${req.body.leaveday}", "${req.body.leavefileday}", "Active")`, (err) => {
         if (err) console.log(err);
         res.send('added');
         // res.redirect('/admin/maintenance_type_of_leave');
@@ -855,13 +855,13 @@ router.post('/add_leave',(req, res) => {
 });
 router.post('/edit_leave',(req, res) => {
   var db = require('../../lib/database')();
-  var sql = "UPDATE tblmleave SET strName= ?, intDays=? WHERE intID = ?";
-  db.query("SELECT * FROM tblmleave WHERE strName = ? AND intDays = ?",[req.body.leavename,req.body.leaveday], (err, results)=>{
+  var sql = "UPDATE tblmleave SET strName= ?, intDays=?, intDaysForFile=? WHERE intID = ?";
+  db.query("SELECT * FROM tblmleave WHERE strName = ? AND intDays = ? AND intDaysForFile=?",[req.body.leavename,req.body.leaveday, req.body.leavefileday], (err, results)=>{
     console.log(err);
     var leave = results[0];
     console.log(leave);
     if(!leave){
-      db.query(sql,[req.body.leavename, req.body.leaveday, req.body.leaveID],function (err) {
+      db.query(sql,[req.body.leavename, req.body.leaveday, req.body.leavefileday,req.body.leaveID],function (err) {
         res.send('updated');
         // res.redirect('/admin/maintenance_type_of_leave');
         });
@@ -1910,8 +1910,8 @@ function irc_actions(req,res){
     res.redirect('/admin/transaction_ir_client')
   })
 }
-router.post('/tr_ir_hw',flog, irc_actions);
-function irc_actions(req,res){
+router.post('/tr_ir_hw',flog, irc_actions2);
+function irc_actions2(req,res){
   var db = require('../../lib/database')();
   db.query(`UPDATE tblreport SET strValidity =?, strReportStatus= ?, strActionTaken=? WHERE intReportID =?`,[req.body.validity, req.body.stat, req.body.action, req.body.reportid],function (err){
     console.log( req.body.action)

@@ -34,7 +34,7 @@ block content
                                                 td #{rep.strReportStatus}
                                                 td
                                                     button.btn.btn-info(type='button' data-toggle='modal', data-target='#view_report', data-id=rep.intReportID, data-doreport=rep.datDateReported,
-                                                                            data-reportname=rep.strName, data-desc=rep.strDesc, data-reason=rep.strReason, data-recfname=rep.RFName, data-reclname=rep.RLName, data-rec=rep.intRecipentID)
+                                                                            data-reportname=rep.strName, data-desc=rep.strDesc, data-reason=rep.strReason, data-recfname=rep.RFName, data-reclname=rep.RLName, data-rec=rep.intRecipentID, data-image=`../image/reports/${rep.strEviPic}`)
                                                         i.fa.fa-eye
                                                         |   View
                                                     //- if rep.strReportStatus == 'Acknowledged'
@@ -70,10 +70,14 @@ block content
                                 .col-md-6.col-sm-6.col-xs-12
                                     textarea.form-control.col-md-7.col-xs-12(id='desc' type='text', rows='3' readonly)
                             .form-group
+                                img#imagepre(src="" style='width: 100%; height: 200px;')
+                            .form-group
                                 label.control-label.col-md-3.col-sm-3.col-xs-12
                                     | Reason:
+                                //- .col-md-6.col-sm-6.col-xs-12
+                                //-     input.form-control.col-md-7.col-xs-12(id='reason' type='text',  readonly)
                                 .col-md-6.col-sm-6.col-xs-12
-                                    input.form-control.col-md-7.col-xs-12(id='reason' type='text',  readonly)
+                                    textarea.form-control.col-md-7.col-xs-12(id='reason'  type='text', rows='3'  readonly)
                             .form-group
                                 label.control-label.col-md-3.col-sm-3.col-xs-12
                                     | Household Worker:
@@ -94,7 +98,6 @@ block content
                                         option(value='2nd offense') 2nd offense
                                         option(value='3rd offense') 3rd offense
                                         option(value='Ban') Ban 
-                                        option(value='Suspend') Suspend
                             .form-group
                                 label.control-label.col-md-3.col-sm-3.col-xs-12 Report Status
                                 .col-md-6.col-sm-6.col-xs-12
