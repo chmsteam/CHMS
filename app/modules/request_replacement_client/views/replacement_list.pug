@@ -27,14 +27,14 @@ block content
                                     table.table.jambo_table.table-bordered
                                         thead
                                             tr
-                                                th NAME
-                                                th SERVICE
-                                                th REPLACEMENT LEFT
-                                                th STATUS
-                                                th ACTION
+                                                th(style="text-align:center") NAME
+                                                th(style="text-align:center") SERVICE
+                                                th(style="text-align:center") REPLACEMENT LEFT
+                                                th(style="text-align:center") STATUS
+                                                th(style="text-align:center") ACTION
                                         tbody
                                             each currenthwtobereplaced in currenthwtobereplacedtab
-                                                tr 
+                                                tr(style="text-align:center") 
                                                     //- td #{currenthwtobereplaced.}
                                                     td #{currenthwtobereplaced.strFName} #{currenthwtobereplaced.strLName}
                                                     td #{currenthwtobereplaced.strName}
@@ -61,7 +61,7 @@ block content
                                         each oldhwservice in oldhwservicetab
                                             if (list.strRequestStatus == 'Draft' && count.count != 0)
                                                 //- a(href='/request_replacement/submit_request_'+list.intRequestID+ oldhwservice.intHWID)
-                                                form(action="/request_replacement/submit_request_/-/"+list.intRequestID+'/-/' +oldhwservice.intHWID, method="post")
+                                                form#sendAttri(action="/request_replacement/submit_request_/-/"+list.intRequestID+'/-/' +oldhwservice.intHWID, method="post")
                                                     button.btn.pull-right.btn-success.btn-lg(type='submit')
                                                         i.fa.fa-envelope
                                                         |   Submit List
@@ -78,15 +78,15 @@ block content
                                 table.table.jambo_table.table-bordered
                                     thead
                                         tr
-                                            th Number
-                                            th Service
-                                            th Quantity
-                                            th Results
-                                            th Action
+                                            th(style="text-align:center") Number
+                                            th(style="text-align:center") Service
+                                            th(style="text-align:center") Quantity
+                                            th(style="text-align:center") Results
+                                            th(style="text-align:center") Action
                                     tbody
                                     each item in itemtab
                                         each list in listtab  
-                                            tr
+                                            tr(style="text-align:center")
                                                 td #{item.intIRequest_No}
                                                 td #{item.strName}
                                                 td #{item.intIQuantity}
@@ -110,12 +110,12 @@ block content
                                             table.table.jambo_table.bulk_action
                                                 thead
                                                     tr
-                                                        th Date of Deployment
-                                                        th Time of Deployment
-                                                        th Type of Deployment
-                                                        th Invoice
+                                                        th(style="text-align:center") Date of Deployment
+                                                        th(style="text-align:center") Time of Deployment
+                                                        th(style="text-align:center") Type of Deployment
+                                                        th(style="text-align:center") Invoice
                                                 tbody
-                                                    tr
+                                                    tr(style="text-align:center")
                                                         td #{transdetails.datDateofDeployment}
                                                         td #{transdetails.timTimeofDeployment}
                                                         if transdetails.intTypeofDeployment == '2'
@@ -200,7 +200,7 @@ block content
                             .form-group.pull-right
                                 .col-md-12.col-sm-9.col-xs-12.pull-right
                                     button.btn.btn-primary(type='button', data-dismiss='modal') No
-                                    button.btn.btn-danger(type='submit' name='btn1' value='cancel_draft') Yes
+                                    button.btn.btn-danger#c(type='submit' name='btn1' value='cancel_draft') Yes
         #cancel_replacement_onprocess.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog.modal-md
                 .modal-content
@@ -229,7 +229,7 @@ block content
             .modal-dialog(role='document')
                 each list in listtab
                     each oldhwservice in oldhwservicetab
-                        form(method='POST', action='/request_replacement/set_attributes_/-/'+list.intRequestID+'/-/'+oldhwservice.intHWID).form-horizontal
+                        form#SetAttri(method='POST', action='/request_replacement/set_attributes_/-/'+list.intRequestID+'/-/'+oldhwservice.intHWID).form-horizontal
                             .modal-content
                                 .modal-header(style="background-color:#2A3F54; color:white")
                                     button.close(type='button', data-dismiss='modal')
@@ -281,15 +281,14 @@ block content
                                                     option(value='Vocational') Vocational
                                         .col-md-4
                                             .form-group
-                                                b Work Experience (at least):
+                                                b Work Experience
                                                 span.required
                                                 input#first-name.form-control.col-md-7.col-xs-12(type='number' name='workexp' value='0')
                                     .row
                                         .col-md-4
                                             .form-group
-                                                b Willing to work for a monthly salary of (minimum):&nbspP
-                                                span.required
-                                                input#first-name.form-control.col-md-7.col-xs-12(type='number' name='salary' value='0')     
+                                                b Monthly Salary*
+                                                input#first-name.form-control.col-md-7.col-xs-12(type='number' name='salary' required, min='2500')     
                                         .col-md-8
                                             .x_panel
                                                 .x_title
@@ -462,6 +461,64 @@ block content
                         .modal-footer
                             button.btn.btn-primary(type='button', data-dismiss='modal') Close
                             button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Next
+            
+            script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+            script.
+                $(document).ready(function(){
+                    $('form#SetAttri').submit(function(e){
+                        e.preventDefault();
+                        var ur = $(this).attr('action');
+                        console.log(ur);
+                        $.ajax({
+                            url: $(this).attr('action'),
+                            method: 'post',
+                            data: $('form#SetAttri').serialize(),
+                            success: function(response){
+                                console.log(response);
+                                if(response == 'success'){
+                                    $('#setattritbutes').modal('hide');
+                                    swal({
+                                        type: 'success',
+                                        title: 'Attributes Set!',
+                                        text: 'You may now submit your request to the admin',
+                                        showConfirmButton: true,
+                                        },
+                                    function(isConfirm){
+                                        if(isConfirm){
+                                            location.reload();
+                                        }
+                                    });
+                                }
+                            }
+                        })
+                    });
+                    $("form#sendAttri").submit(function(e){
+                        e.preventDefault();
+                        $.ajax({
+                            url: $(this).attr('action'),
+                            method: 'post',
+                            data: $('form#sendAttri').serialize(),
+                            success: function(data, status){
+                                console.log(status);
+                                if(status == 'success'){
+                                    swal({
+                                        type: 'success',
+                                        title: 'Submitted!',
+                                        text: 'List submitted to admin',
+                                        showConfirmButton: true,
+                                        timer: 5000,
+                                    },
+                                    function(isConfirm){
+                                        if(isConfirm){
+                                            location.reload();
+                                        }
+                                    });
+                                }
+                            }
+                            
+                        })
+                    });
+                });
             script.
                 function time(){
                     var today = new Date();

@@ -35,14 +35,37 @@ function findlist(req, res, next){
   }
 router.get('/', flog, findlist, render);
 
+// function dateValidation(req, res, next){
+//   var today = moment().format("LL");
+//   console.log(today)
+//   var plus7 = moment(today, "LL").add(6, 'days').format("LL");
+//   console.log(plus7);
+//   var dateinput = moment(req.body.dateneed).format("LL");
+//   console.log(dateinput);
+//   if (dateinput < plus7 ){
+//     res.send('invalid date');
+//   }
+//   else if (dateinput > plus7){
+//     return next();
+//   }
+// }
 //Create a list
 router.post('/createlist_services/createlist', flog, (req, res) => {
   var db = require('../../lib/database')();
-  db.query(`INSERT INTO tblfinalrequest (intRequest_ClientID, strRequestType,strRequestName, strRequestDesc, datRequestDate, strRequestStatus, datRequestNeedDate)  VALUES ("${req.session.user}", "Add", "${req.body.reqname}", "${req.body.reqdesc}", "${req.body.reqdate}", "Draft", "${req.body.dateneed}")`, (err) => {
-    if (err) console.log(err);
-      res.send('success');
+  db.query("SELECT strRequestName FROM tblfinalrequest WHERE strRequestName = ?",[req.body.reqname], (err, results)=>{
+    console.log(err);
+    var listname = results[0];
+    console.log(listname);
+    if(!listname){
+      db.query(`INSERT INTO tblfinalrequest (intRequest_ClientID, strRequestType,strRequestName, strRequestDesc, datRequestDate, strRequestStatus, datRequestNeedDate)  VALUES ("${req.session.user}", "Add", "${req.body.reqname}", "${req.body.reqdesc}", "${req.body.reqdate}", "Draft", "${req.body.dateneed}")`, (err) => {
+        if (err) console.log(err);
+          res.send('success');
+        });
+      }
+    else
+      res.send('already exists');
     });
-  });
+});
 //Delete a list: status = draft
 router.post('/delete_draftlist', flog, (req, res) => {
   var db = require('../../lib/database')();

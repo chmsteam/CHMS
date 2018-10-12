@@ -16,16 +16,16 @@ block content
                             table#datatable.table.table-striped.table-bordered
                                 thead
                                     tr
-                                        th ID NO.
-                                        th NAME
-                                        th SERVICE
-                                        th STATUS
-                                        th ACTION
+                                        //- th ID NO.
+                                        th(style="text-align:center") NAME
+                                        th(style="text-align:center") SERVICE
+                                        th(style="text-align:center") STATUS
+                                        th(style="text-align:center") ACTION
                                 tbody
                                     each item in itemtab
-                                        tr
+                                        tr(style="text-align:center")
                                         
-                                            td #{item.intHWID}
+                                            //- td #{item.intHWID}
                                             td #{item.strNames}
                                             td #{item.strName}
                                             td #{item.stat}

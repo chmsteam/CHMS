@@ -17,14 +17,14 @@ block content
                                     table#datatable2-responsive.table.jambo_table.table-bordered
                                         thead
                                             tr
-                                                th NAME
-                                                th SERVICE
-                                                th REPLACEMENT LEFT
-                                                th STATUS
-                                                th ACTION
+                                                th(style="text-align:center") NAME
+                                                th(style="text-align:center") SERVICE
+                                                th(style="text-align:center") REPLACEMENT LEFT
+                                                th(style="text-align:center") STATUS
+                                                th(style="text-align:center") ACTION
                                         tbody
                                             each currenthwtobereplaced in currenthwtobereplacedtab
-                                                tr 
+                                                tr(style="text-align:center")
                                                     //- td #{currenthwtobereplaced.}
                                                     td #{currenthwtobereplaced.strFName} #{currenthwtobereplaced.strLName}
                                                     td #{currenthwtobereplaced.strName}
@@ -46,14 +46,14 @@ block content
                                 table#datatable-responsive.table.jambo_table.table-bordered
                                     thead
                                         tr
-                                            th NAME
-                                            th SERVICE
-                                            th REPLACEMENT LEFT
-                                            th STATUS
-                                            th ACTION
+                                            th(style="text-align:center") NAME
+                                            th(style="text-align:center") SERVICE
+                                            th(style="text-align:center") REPLACEMENT LEFT
+                                            th(style="text-align:center") STATUS
+                                            th(style="text-align:center") ACTION
                                     tbody
                                         each currenthw in currenthwtab
-                                            tr
+                                            tr(style="text-align:center")
                                                 //- td #{currenthw.}
                                                 td #{currenthw.strFName} #{currenthw.strLName}
                                                 td #{currenthw.strName}
@@ -91,7 +91,7 @@ block content
                                     .col-md-1
                                         .form-group
                                             | &nbsp
-                                    .col-md-5
+                                    .col-md-6
                                         .form-group
                                             | Reason of Replacement
                                             select.form-control#myselect(name='ir')
@@ -103,7 +103,7 @@ block content
                                             textarea.form-control#textarea1(name='reason', placeholder='Specify Reason', rows='3', maxlength='150', hidden)
                                             .txtcount-div.block-none
                                                 small#txtcount 0/150
-                                    .col-md-5
+                                    .col-md-4
                                         .form-group
                                             | Date Needed
                                             input.form-control(type='date', name='dateneed' required)

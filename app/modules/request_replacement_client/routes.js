@@ -239,7 +239,8 @@ function renderreplacementlist(req,res){
       if (err) console.log(err);
       db.query(`INSERT INTO tblinitialrequest VALUES ("${req.params.transid}", "${results[0].Num + 1}", "${req.body.service}", "${req.body.quantity}", "${req.body.age1}", "${req.body.age2}", "${req.body.gender}", "${req.body.educ}", "${req.body.workexp}", "${req.body.salary}")`, function(err){
         if (err) console.log(err);
-        res.redirect('/request_replacement/replace_list_/-/'+ req.params.transid +'/-/'+ req.params.hwid);
+        res.send('success');
+        // res.redirect('/request_replacement/replace_list_/-/'+ req.params.transid +'/-/'+ req.params.hwid);
       })
   })
 });
@@ -273,7 +274,8 @@ function submitrequest(req,res){
   var sql = "UPDATE tblfinalrequest SET strRequestStatus= 'On process' WHERE intRequestID = ?";
   db.query(sql,[req.params.transid],function (err) {
     if (err) return res.send(err);
-    res.redirect('/request_replacement/replace_list_/-/'+ req.params.transid +'/-/'+ req.params.hwid);
+    res.send('success');
+    // res.redirect('/request_replacement/replace_list_/-/'+ req.params.transid +'/-/'+ req.params.hwid);
   });
 }
 

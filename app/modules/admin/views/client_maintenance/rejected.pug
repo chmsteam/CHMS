@@ -16,14 +16,14 @@ block content
                                 table#datatable-responsive.table.table-striped.table-bordered.dt-responsive.nowrap(cellspacing='0', width='100%')
                                     thead
                                         tr
-                                            th ID NO.
-                                            th NAME
-                                            th STATUS
-                                            th ACTION
+                                            //- th ID NO.
+                                            th(style="text-align:center") NAME
+                                            th(style="text-align:center") STATUS
+                                            th(style="text-align:center") ACTION
                                     tbody 
                                         each item in itemtab 
-                                            tr
-                                                td #{item.intID}
+                                            tr(style="text-align:center")
+                                                //- td #{item.intID}
                                                 td #{item.strName}
                                                 td #{item.strStatus}
                                                     //- input.js-switch(type='checkbox', checked='')

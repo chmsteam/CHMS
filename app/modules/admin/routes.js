@@ -1944,7 +1944,7 @@ function regifindclientlist(req, res, next){
 }
 function findmrequirementscl(req, res, next){
   var db = require('../../lib/database')();
-  db.query(`SELECT * FROM tblmrequirements WHERE strType='Client' `, function (err, results) {
+  db.query(`SELECT * FROM tblmrequirements WHERE strType='Client' AND strStatus ='Active' `, function (err, results) {
     if (err) return res.send(err);
     if (!results[0])
     console.log('');
@@ -1962,14 +1962,16 @@ function approveClient2(req,res){
     var sql = "UPDATE tbluser SET strStatus= 'Registered', datDateRegistered=? WHERE strStatus='Unregistered' AND intID = ?";
     db.query(sql,[req.body.dateregistered, req.body.clientID],function (err) {
     if (err) return res.send(err)
-    res.redirect('/admin/transactions/clients/pending');
+    res.send('approved');
+    // res.redirect('/admin/transactions/clients/pending');
     })
   }
   else if (req.body.btn1 == 'reject'){
     var sql = "UPDATE tbluser SET strStatus= 'Rejected' WHERE strStatus='Unregistered' AND intID = ?";
     db2.query(sql,[req.body.clientID],function (err) {
     if (err) return res.send(err);
-    res.redirect('/admin/transactions/clients/pending');
+    res.send('rejected');
+    // res.redirect('/admin/transactions/clients/pending');
     })
   }
   else if(req.body.btn1 == 'revert'){
@@ -1999,11 +2001,12 @@ function findhwlist(req, res, next){
 }
 function houseHoldReq(req, res, next){
   var db = require('../../lib/database')();
-  db.query(`SELECT * FROM tblmrequirements WHERE strType='Household Worker' `, function (err, results) {
+  db.query(`SELECT * FROM tblmrequirements WHERE strType = 'Household Worker' AND strStatus = 'Active' `, function (err, results) {
     if (err) return res.send(err);
     if (!results[0])
     console.log('');
     req.houseHoldReq = results;
+    console.log(req.houseHoldReq);
     return next();
   });
 }
@@ -2454,8 +2457,9 @@ router.post('/register_householdworker',(req, res) => {
         db66.query(`INSERT INTO tblhw_ref VALUES ('${results[0].intID}', 'Non-relative', '${req.body.name6}', '${req.body.add6}', '${req.body.occ6}', '${req.body.contact6}')`, (err) => {
           console.log(err);
         })
-
-      res.redirect('/admin/registration_household_worker');
+      
+      res.send('success');
+      // res.redirect('/admin/registration_household_worker');
       });
     });
 });
@@ -2474,19 +2478,23 @@ router.get('/registration_client', flog, renderregistrationClient);
 
 router.post('/register_client',(req, res) => {
   var db = require('../../lib/database')();
-  var db2 = require('../../lib/database')();
-  var db3 = require('../../lib/database')();
-  db.query(`INSERT INTO tbluser(strFName, strMName, strLName, strEmail, strPassword, strPicture, strType, strStatus, datDateRegistered) VALUES ("${req.body.firstname}", "${req.body.middlename}", "${req.body.lastname}","${req.body.email}", "${req.body.password}", 'blank.jpg', "Client", "Unregistered", NULL)`, (err) => {
-    if (err) console.log(err);
-    db2.query(`SELECT * FROM tbluser WHERE strEmail=? and strPassword=?`,[req.body.email, req.body.password], (err, results)=>{
-      if (err) console.log(err);
-        db3.query(`INSERT INTO tblClient VALUES ("${results[0].intID}", "${req.body.contactnum}", "${req.body.housenum}", "${req.body.streetnum}","${req.body.province}", "${req.body.city}", "${req.body.permanentadd}", "${req.body.ofcaddress}", "${req.body.ofcnum}")`,(err) =>{
+    if(req.body.password === req.body.conpassword && req.body.password != ""){
+      db.query(`INSERT INTO tbluser(strFName, strMName, strLName, strEmail, strPassword, strPicture, strType, strStatus, datDateRegistered) VALUES ("${req.body.firstname}", "${req.body.middlename}", "${req.body.lastname}","${req.body.email}", "${req.body.password}", 'blank.jpg', "Client", "Unregistered", NULL)`, (err) => {
+        if (err) console.log(err);
+        db.query(`SELECT * FROM tbluser WHERE strEmail=? and strPassword=?`,[req.body.email, req.body.password], (err, results)=>{
           if (err) console.log(err);
-      })
-    })
+            db.query(`INSERT INTO tblClient VALUES ("${results[0].intID}", "${req.body.contactnum}", "${req.body.housenum}", "${req.body.streetnum}","${req.body.province}", "${req.body.city}", "${req.body.permanentadd}", "${req.body.ofcaddress}", "${req.body.ofcnum}")`,(err) =>{
+              if (err) console.log(err);
+          })
+        })
+      });
+      res.send('success');
+    }
+    else{
+      res.send('notmatch');
+    }
+    
   });
-  res.redirect('/admin/registration_client');
-});
 
 
 //----------------------------------------------------------------------------------UTILITIES

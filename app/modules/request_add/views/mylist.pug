@@ -12,7 +12,7 @@ block content
                             
                             each list in listtab
                                 h2(style="font-size:33px;") &nbsp&nbspName of list: 
-                                    b    #{list.strRequestName}               
+                                    b    #{list.strRequestName}          
                             .x_title
                                 .clearfix
                                 .x_panel.alert-success(style='background-color:')
@@ -140,7 +140,7 @@ block content
                                         each noofapprove in noofapprovetab
                                             each list in listtab
                                                 if noofapprove.NOOFapprove > 0 && list.strRequestStatus=='On process'
-                                                    button.btn.btn-success.btn-lg(type='button' data-toggle="modal" data-target="#deployment") Proceed to Deployment Details
+                                                    button.btn.btn-success.btn-lg(type='button' data-toggle="modal" data-target="#deployment" onCLick="validate();") Proceed to Deployment Details
                                                 else 
 
         
@@ -222,7 +222,8 @@ block content
                                         .form-group
                                             | Monthly Salary*
                                             span.required
-                                            input#first-name.form-control.col-md-7.col-xs-12(type='number' name='salary'  required)
+                                            input#first-name.form-control.col-md-7.col-xs-12(type='number' name='salary'  required, min='2500')
+                                            //ung salary na search ko eto minimum sa kasambahay law
                                 br
                                 .row
                                     .col-md-2
@@ -473,7 +474,7 @@ block content
                                                 .form-group
                                                     label Preferred Date For Deployment
                                                     .input-group.date
-                                                        input.form-control.has-feedback-left(type='date', placeholder='First Name', aria-describedby='inputSuccess2Status4'  name='datedep' required)
+                                                        input.form-control.has-feedback-left#deploy1(type='date', name='datedep' required min="")
                                                         span.input-group-addon
                                                             span.fa.fa-calendar
                                         .row
@@ -483,7 +484,7 @@ block content
                                                 .form-group
                                                     label Preferred Time For Deployment
                                                     .input-group.date
-                                                        input.form-control.has-feedback-left(type='time' name='timedep' required)
+                                                        input.form-control.has-feedback-left#time1(type='time' name='timedep' required)
                                                         span.input-group-addon
                                                             span.glyphicon.glyphicon-time
                                     else
@@ -509,7 +510,7 @@ block content
                                                     .form-group
                                                         label Preferred Date For Deployment
                                                         .input-group.date
-                                                            input.form-control.has-feedback-left(type='date', aria-describedby='inputSuccess2Status4'  name='datedep' value=''+prevtransdetails.datDateofDeployment required)
+                                                            input.form-control.has-feedback-left#deploy2(type='date', aria-describedby='inputSuccess2Status4'  name='datedep' value=''+prevtransdetails.datDateofDeployment required)
                                                             span.input-group-addon
                                                                 span.fa.fa-calendar
                                             .row
@@ -519,7 +520,7 @@ block content
                                                     .form-group
                                                         label Preferred Time For Deployment
                                                         .input-group.date
-                                                            input.form-control.has-feedback-left(type='time' name='timedep' value=''+prevtransdetails.timTimeofDeployment required)
+                                                            input.form-control.has-feedback-left#time2(type='time' name='timedep' value=''+prevtransdetails.timTimeofDeployment required)
                                                             span.input-group-addon
                                                                 span.glyphicon.glyphicon-time
                         .modal-footer
@@ -528,6 +529,56 @@ block content
         script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
         script.
             $(document).ready(function(){
+                //================================
+                //minimum for date deployement
+                //===============================
+                    var minDate1 = new Date();
+                    var minDay1 = minDate1.getDate()+3;
+                    var minMon1 = minDate1.getMonth()+1; //January is 0!
+                    var minYear1 = minDate1.getFullYear();
+                    var minDate = document.getElementById("deploy1");
+                    //- var minDate2 = document.getElementById("deploy2");
+                    
+                    if(minDay1<10) {
+                        minDay1 = '0'+minDay1
+                    } 
+
+                    if(minMon1<10) {
+                        minMon1 = '0'+minMon1
+                    } 
+
+                    minDate1 = minYear1 + '-' + minMon1 + '-' + minDay1 ;
+                    console.log(minDate1);
+                    $("#deploy1").attr("min", minDate1);
+                    $("#deploy2").attr("min", minDate1);
+                    $("#time1").attr("min", "08:00");
+                    $("#time2").attr("min", "08:00");
+
+                //================================
+                //max for date deployement
+                //===============================
+                    var maxDate1 = new Date();
+                    var maxDay1 = maxDate1.getDate()+7;
+                    var maxMon1 = maxDate1.getMonth()+1; //January is 0!
+                    var maxYear1 = maxDate1.getFullYear();
+                    var maxDate = document.getElementById("deploy1");
+                    //- var maxDate2 = document.getElementById("deploy2");
+                    
+                    if(maxDay1<10) {
+                        maxDay1 = '0'+maxDay1
+                    } 
+
+                    if(maxMon1<10) {
+                        maxMon1 = '0'+maxMon1
+                    } 
+
+                    maxDate1 = maxYear1 + '-' + maxMon1 + '-' + maxDay1 ;
+                    console.log(maxDate1);
+                    $("#deploy1").attr("max", maxDate1);
+                    $("#deploy2").attr("max", maxDate1);
+                    $("#time1").attr("max", "17:00");
+                    $("#time2").attr("max", "17:00");
+                    
                 $("#submit").click(function(e){
                     e.preventDefault();
                     var idNow = $(this).val();
@@ -576,13 +627,42 @@ block content
                                 showConfirmButton: false,
                                 },setTimeout(function() {
                                     location.reload();
-                                }, 1000)
+                                }, 800)
                             );
                         }
                     }
                 })
             });
-        //- script.
+        script.
+            function time(){
+                var today = new Date();         
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; //January is 0!
+                var yyyy = today.getFullYear();
+                var hh = today.getHours();
+                var min = today.getMinutes();
+                var sec = today.getSeconds();
+                var x= document.getElementById("thedate");
+                var y=document.getElementById("idtrans").value
+                var inv;
+                
+                if(dd<10) {
+                    dd = '0'+dd
+                } 
+
+                if(mm<10) {
+                    mm = '0'+mm
+                } 
+
+                today = yyyy + '-' + mm + '-' + dd ;
+                //- document.write(today);
+                document.getElementById("thedate").value=today;
+                inv = yyyy+y;
+                document.getElementById("invo").value=inv;
+            };
+
+
+                    //- script.
         //-     $('#submit').click(function(){
         //-         swal({
         //-             type: 'info',
@@ -658,30 +738,3 @@ block content
         //-             );
         //-         });
         //-     });
-        script.
-            function time(){
-                var today = new Date();         
-                var dd = today.getDate();
-                var mm = today.getMonth()+1; //January is 0!
-                var yyyy = today.getFullYear();
-                var hh = today.getHours();
-                var min = today.getMinutes();
-                var sec = today.getSeconds();
-                var x= document.getElementById("thedate");
-                var y=document.getElementById("idtrans").value
-                var inv;
-                
-                if(dd<10) {
-                    dd = '0'+dd
-                } 
-
-                if(mm<10) {
-                    mm = '0'+mm
-                } 
-
-                today = yyyy + '-' + mm + '-' + dd ;
-                //- document.write(today);
-               document.getElementById("thedate").value=today;
-               inv = yyyy+y;
-               document.getElementById("invo").value=inv;
-            }

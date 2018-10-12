@@ -17,14 +17,14 @@ block content
                                 table#datatable-responsive.table.table-striped.table-bordered.dt-responsive.nowrap(cellspacing='0', width='100%')
                                     thead
                                         tr
-                                            th ID NO.
-                                            th NAME
-                                            th STATUS
-                                            th ACTION
+                                            //- th ID NO.
+                                            th(style="text-align:center") NAME
+                                            th(style="text-align:center") STATUS
+                                            th(style="text-align:center") ACTION
                                     tbody 
                                         each item in itemtab 
-                                            tr
-                                                td #{item.intID}
+                                            tr(style="text-align:center")
+                                                //- td #{item.intID}
                                                 td #{item.strName}
                                                 td #{item.strStatus}
                                                     //- input.js-switch(type='checkbox', checked='')
@@ -62,7 +62,7 @@ block content
                 .modal-footer
                     button.btn.btn-primary(type='button', data-dismiss='modal') Close
     #req_unregistered.modal.fade.bs-add-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
-        .modal-dialog.modal-sm
+        .modal-dialog
             .modal-content
                 .modal-header(style="background-color:#EDEDED")
                     button.close(type='button', data-dismiss='modal')
@@ -74,17 +74,17 @@ block content
                         input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='clientID' style="display:none;")
                         input.form-control#pangalan(type='text' name='fullname' style="display:none;")
                         input.form-control#thedate(type='date' name='dateregistered' style="display:none;")
-                        br
-                        each requirement in requirementtab
-                            .form-group
-                                .row
-                                    .col-md-12
-                                        label
-                                            input.flat.check(id=requirement.intID, type='checkbox', value=requirement.intID, name='requ' onClick='getreq(this.id);')
-                                            input.form-control(type='text' value=requirement.strName name='requiname' style="display:none;")
-                                            | &nbsp #{requirement.strName}  
-                                    //- .col-md-8
-                                    //-     input.form-control.file-input(type='file', name='postimage', accept='image/*')        
+                        p(style="font-size:15px") The following requirements should be presented in able to approve a client
+                            .row
+                                .col-md-12
+                                    each requirement in requirementtab
+                                        li #{requirement.strName}
+                            br
+                            .row
+                                .col-md-12
+                                    input.check(type='checkbox') 
+                                    span 
+                                        label(style='margin-left:5px') All requirements are presented.
                         .ln_solid
                         .form-group.pull-right
                             button.btn.btn-success#sub(type='submit' name='btn1' value='approve' onClick='time();' disabled)
@@ -119,11 +119,13 @@ block content
         //-         $("#sub").attr("disabled", !$(".check:checked").length);
         //-     });
         //- });
-        $(function() {
-            $(".check").click(function(){
-                $('#sub').prop('disabled',$('input.check:checked').length <= 2);
-            });
-        });
+        $('.check').click(function() {
+            if ($('#sub').is(':disabled')) {
+                $('#sub').removeAttr('disabled');
+            } else {
+                $('#sub').attr('disabled', 'disabled');
+            }
+        }); 
         $("#uploadImage2").keyup(function(){
             $("#submit").attr("disabled", !$("#uploadImage2").val());
         })

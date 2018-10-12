@@ -13,7 +13,7 @@ block content
                             br
                             .x_panel(style='background-color:#3E5367')
                                 .x_content
-                                    form(method="POST"  action="/request_leave")
+                                    form#leave(method="POST"  action="/request_leave")
                                         br
                                         .col-md-7(style='background-color:#f1f1f1')
                                             .col-md-6
@@ -22,27 +22,32 @@ block content
                                                     label Type Of Leave *
                                                     select#sort.form-control(name='type')
                                                         each leave in leavetab
-                                                            option(value=''+leave.intID readonly) #{leave.strName}
+                                                            option.sort.form-control(value=''+leave.intID, readonly days=leave.intDays fileDate= leave.intDaysForFile )
+                                                                |#{leave.strName}
+                                            .col-md-5
+                                                .form-group
+                                                    br
+                                                    label Total Number Of Days:
+                                                    input.form-control#total(type='number' readonly, name='totaldays')
+                                                    each cl in clientko
+                                                        input.form-control#cliednt(type='text' readonly, name='client', value=cl.strFName style="display:none;")
+                                                        -console.log(cl.strFName + "CLIENT AKO")
+                                                    input.form-control#days(type='number' readonly, name='file' style="display:none;")
                                             .col-md-11
                                                 .form-group
                                                     label Address While On Leave *
                                                     input.form-control(type='text' name="addLeave" required)
-                                            .col-md-4
+                                            .col-md-5
                                                 .form-group
                                                     br
                                                     label Starting From: *
                                                     input(type='date' id='thedate'  onkeyup='time();' name="created"  hidden)
-                                                    input.form-control(type='date' name="started")
-                                            .col-md-4
+                                                    input.form-control#start(type='date' name="started")
+                                            .col-md-5
                                                 .form-group
                                                     br
                                                     label To: *
-                                                    input.form-control( type='date' name="end")
-                                            .col-md-3
-                                                .form-group
-                                                    label Total Number Of Days:
-                                                    input.form-control(type='number' readonly)
-                                                    br
+                                                    input.form-control#end(type='date' name="end", readonly)
                                         .col-md-5
                                             
                                             .form-group
@@ -51,7 +56,6 @@ block content
                                                 br
                                         .form-group
                                             .pull-right
-                                                
                                                 button.btn.btn-lg.btn-primary(type='submit' onclick="time();" ) Submit
                             br
                             br
@@ -76,6 +80,87 @@ block content
                         //-     .clearfix
                         //- .x_content
                         //-     | Add content to the page ...
+        //- script(src="/custom/bootstrap-datetimepicker.min.js")
+        //- script(src="/custom/moment.min.js")
+        script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+        script(src="/custom/moment.min.js")
+        script.
+            $(document).ready(function(){
+                $('select#sort').change(function(){
+                    var now = moment().format("YYYY-MM-DD");
+                    var totalDate = $(this).find('option:selected').attr('days')
+                    var fileDate = $(this).find('option:selected').attr('fileDate')
+                    var intfDate = parseInt(fileDate)
+                    var intmaxDate = parseInt(totalDate)
+                    var maxx = intfDate + intmaxDate;
+                    console.log(totalDate);
+                    console.log(fileDate);
+                    console.log(now);
+
+                    $('#total').val($(this).find('option:selected').attr('days'))
+                    $('#days').val($(this).find('option:selected').attr('fileDate'))
+
+                    var minDate1 = moment(now).add(intfDate, 'days').format("YYYY-MM-DD");
+                    var maxDate1 = moment(now).add(maxx, 'days').format("YYYY-MM-DD");
+                    console.log(minDate1);
+                    
+                    $("#start").attr("min", minDate1);
+                    $("input#start").val(minDate1)
+                    //- $("#start").attr("value", minDate1);
+                    console.log(maxDate1);
+
+                    $("#end").attr("max", maxDate1);
+                    $("#end").attr("value", maxDate1);
+                })
+                $("#start").change(function(){
+                    var totalDate = $('#total').val()
+                    var fileDate = $('#days').val();
+                    var intfDate = parseInt(fileDate)
+                    var intmaxDate = parseInt(totalDate)
+                    var eto = intfDate + intmaxDate;
+                    console.log(eto)
+
+                    var simula = $('#start').val();
+                    var ending = moment(simula).add(intmaxDate, 'days').format("YYYY-MM-DD");
+                    console.log(simula);
+                    console.log(ending);
+
+                    $("#end").attr("value", ending);
+                })
+            });
+        script.
+            $('form#leave').submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: 'post',
+                    data: $('form#leave').serialize(),
+                    success: function(response){
+                        console.log(response);
+                        if(response == 'success'){
+                            swal({
+                                type: 'success',
+                                title: 'Submitted!',
+                                text: 'Leave Request Submitted',
+                                showConfirmButton: false,
+                                },setTimeout(function() {
+                                    location.reload();
+                                }, 1500)
+                            );
+                        }
+                        else if(response == 'wala client'){
+                            swal({
+                                type: 'warning',
+                                title: 'Failed!',
+                                text: 'You dont have any client',
+                                showConfirmButton: false,
+                                timer: 1000
+                                }
+                            );
+                        }
+                    }
+                })
+            });
         script.
             function time(){
                 var today = new Date();
@@ -99,3 +184,42 @@ block content
                 //- document.write(today);
                document.getElementById("thedate").value=today;
             }
+                //================================
+                //minimum for date Leave
+                //===============================
+                    //- var minDate1 = new Date();
+                    //- var minDay1 = minDate1.getDate()+intfDate;
+                    //- var minMon1 = minDate1.getMonth()+1; //January is 0!
+                    //- var minYear1 = minDate1.getFullYear();
+                    //- //- var minDate = document.getElementById("deploy1");
+                    //- //- var minDate2 = document.getElementById("deploy2");
+                    
+                    //- if(minDay1<10) {
+                    //-     minDay1 = '0'+minDay1
+                    //- } 
+
+                    //- if(minMon1<10) {
+                    //-     minMon1 = '0'+minMon1
+                    //- } 
+
+                    //- minDate1 = minYear1 + '-' + minMon1 + '-' + minDay1 ;
+                //================================
+                //max for date leave
+                //===============================
+                    //- var maxDate1 = new Date();
+                    //- var maxx = moment(now).add(intmaxDate, 'days').format("YYYY-DD-MM");
+                    //- var maxDay1 = maxDate1.getDate()+intfDate+intmaxDate;
+                    //- var maxMon1 = maxDate1.getMonth()+1; //January is 0!
+                    //- var maxYear1 = maxDate1.getFullYear();
+                    //- var maxDate = document.getElementById("deploy1");
+                    //- console.log(maxx)
+                    //- //- var maxDate2 = document.getElementById("deploy2");
+                    //- if(maxDay1<10) {
+                    //-     maxDay1 = '0'+maxDay1
+                    //- } 
+
+                    //- if(maxMon1<10) {
+                    //-     maxMon1 = '0'+maxMon1
+                    //- } 
+
+                    //- maxDate1 = maxYear1 + '-' + maxMon1 + '-' + maxDay1 ;
