@@ -37,7 +37,9 @@ block content
                                                             td #{myhw.strName}
                                                             td #{myhw.strCurStatus}
                                                             td
-                                                                button.btn.btn-primary-sm(type='button') View Profile
+                                                                a(href="/home_client/hw_profile_"+myhw.intConHWID)
+                                                                    button.btn.btn-sm.btn-primary(type='button') View Profile
+                                                                    
 
                                     #tab_content2.tab-pane.fade.in(role='tabpanel', aria-labelledby='replaced-tab')
                                         table#datatable-responsive.table.jambo_table.table-bordered
@@ -55,6 +57,8 @@ block content
                                                             td #{myhw.strName}
                                                             td #{myhw.strCurStatus}
                                                             td
+                                                                a(href="/home_client/hw_profile_"+myhw.intConHWID)
+                                                                    button.btn.btn-sm.btn-primary(type='button') View Profile
                                     #tab_content3.tab-pane.fade.in(role='tabpanel', aria-labelledby='reported-tab')
                                         table#datatable-responsive.table.jambo_table.table-bordered
                                             thead

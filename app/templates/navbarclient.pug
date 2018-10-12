@@ -187,33 +187,6 @@ html(lang='en')
       script(src='/admin/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.js')
       script(src='/custom/alerts/js/sweetalert.min.js')
       script(src="/custom/modal-report.js")
-      
-      //- script(src="/custom/add.js")
-      //- script.
-      //-   $(document).ready(function(){
-      //-       $('form#add').submit(function(e){
-      //-           e.preventDefault();
-      //-           $.ajax({
-      //-               url: '/request_add/createlist_services/createlist',
-      //-               method: 'post',
-      //-               data: $('form#add').serialize(),
-      //-               success: function(response){
-      //-                   console.log(response);
-      //-                   if(response == 'success'){
-      //-                       swal({
-      //-                           title:'Success', 
-      //-                           text:'Added', 
-      //-                           icon:'success',
-      //-                           closeOnConfirm: false}
-      //-                       ).then(function(){
-      //-                           location.reload();
-      //-                           })
-      //-                       }   
-      //-                   }
-      //-               })
-      //-           });
-      //-       });
-
       script.
         $('#datatable2').DataTable();
         $('#datatable3').DataTable();
@@ -222,56 +195,57 @@ html(lang='en')
           format: 'hh:mm A'
         });
           // script
+         
         $('#view_item').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget)
-        var a = button.data('requestno')
-        var b = button.data('servicename')
-        var c = button.data('quantity')
-        var d = button.data('gender')
-        var e = button.data('educ')
-        var f = button.data('exp')
-        var sal = button.data('sal')
-        var age1 = button.data('age')
-        var age2 = button.data('ages')
+          var button = $(event.relatedTarget)
+          var a = button.data('requestno')
+          var b = button.data('servicename')
+          var c = button.data('quantity')
+          var d = button.data('gender')
+          var e = button.data('educ')
+          var f = button.data('exp')
+          var sal = button.data('sal')
+          var age1 = button.data('age')
+          var age2 = button.data('ages')
 
-        var modal = $(this)
-          modal.find('.modal-header #a').text(b)
-          modal.find('.modal-body #b').val(b)
-          modal.find('.modal-body #c').val(c)
-          modal.find('.modal-body #d').val(d)
-          modal.find('.modal-body #e').val(e)
-          modal.find('.modal-body #f').val(f)
-          modal.find('.modal-body #age1').val(age1)
-          modal.find('.modal-body #age2').val(age2)
-          modal.find('.modal-body #sal').val(sal)
+          var modal = $(this)
+            modal.find('.modal-header #a').text(b)
+            modal.find('.modal-body #b').val(b)
+            modal.find('.modal-body #c').val(c)
+            modal.find('.modal-body #d').val(d)
+            modal.find('.modal-body #e').val(e)
+            modal.find('.modal-body #f').val(f)
+            modal.find('.modal-body #age1').val(age1)
+            modal.find('.modal-body #age2').val(age2)
+            modal.find('.modal-body #sal').val(sal)
         });
 
         $('#edit_item').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget)
-        var requestid = button.data('requestid')
-        var requestno = button.data('requestno')
-        //- var a = button.data('requestno')
-        var b = button.data('servicename')
-        var c = button.data('quantity')
-        var d = button.data('gender')
-        var e = button.data('educ')
-        var f = button.data('exp')
-        var sal = button.data('sal')
-        var age1 = button.data('age')
-        var age2 = button.data('ages')
+          var button = $(event.relatedTarget)
+          var requestid = button.data('requestid')
+          var requestno = button.data('requestno')
+          //- var a = button.data('requestno')
+          var b = button.data('servicename')
+          var c = button.data('quantity')
+          var d = button.data('gender')
+          var e = button.data('educ')
+          var f = button.data('exp')
+          var sal = button.data('sal')
+          var age1 = button.data('age')
+          var age2 = button.data('ages')
 
-        var modal = $(this)
-          modal.find('.modal-body #requestid').val(requestid)
-          modal.find('.modal-body #requestno').val(requestno)
-          modal.find('.modal-header #a').text(b)
-          modal.find('.modal-body #b').val(b)
-          modal.find('.modal-body #c').val(c)
-          modal.find('.modal-body #mySelectList').val(d)
-          modal.find('.modal-body #e').val(e)
-          modal.find('.modal-body #f').val(f)
-          modal.find('.modal-body #age1').val(age1)
-          modal.find('.modal-body #age2').val(age2)
-          modal.find('.modal-body #sal').val(sal)
+          var modal = $(this)
+            modal.find('.modal-body #requestid').val(requestid)
+            modal.find('.modal-body #requestno').val(requestno)
+            modal.find('.modal-header #a').text(b)
+            modal.find('.modal-body #b').val(b)
+            modal.find('.modal-body #c').val(c)
+            modal.find('.modal-body #mySelectList').val(d)
+            modal.find('.modal-body #e').val(e)
+            modal.find('.modal-body #f').val(f)
+            modal.find('.modal-body #age1').val(age1)
+            modal.find('.modal-body #age2').val(age2)
+            modal.find('.modal-body #sal').val(sal)
         });
         //- $('mySelectList option[value=''+d]').attr("selected", "selected");
         //- $("mySelectList option[id='1']").attr("selected", "selected");
@@ -373,6 +347,21 @@ html(lang='en')
             var modal = $(this)
             modal.find('.modal-body #_id').val(id)
         });
+        $('#report_cancel').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id)
+        });
+        $('#report_hide').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+
+            var modal = $(this)
+            modal.find('.modal-body #id2').val(id)
+        });
+
         $('#viewLeave').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)
             var id = button.data('id')

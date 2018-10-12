@@ -102,7 +102,7 @@ router.post('/remove_list', flog, (req,res) =>{
 // My list Page
 function rendermylist(req,res){
     if(req.valid==1)
-      res.render('request_add/views/mylist',{usertab: req.user, itemtab: req.item, listtab: req.list, counttab:req.count, servicetab: req.service, skilltab: req.skill, hwtab: req.hw, noofapprovetab: req.noofapprove, feetab: req.fee, transdetailstab: req.transdetails, nooftranstab: req.nooftrans, prevtransdetailstab: req.prevtransdetails});
+      res.render('request_add/views/mylist',{usertab: req.user, itemtab: req.item, listtab: req.list, counttab:req.count, servicetab: req.service, skilltab: req.skill, hwtab: req.hw, noofapprovetab: req.noofapprove, totalquantitytab: req.totalquantity, feetab: req.fee, transdetailstab: req.transdetails, nooftranstab: req.nooftrans, prevtransdetailstab: req.prevtransdetails});
     else if(req.valid==0)
       res.render('admin/views/invalidpages/normalonly');
     else
@@ -120,8 +120,7 @@ function findcreatedlist(req, res, next){
 }
   function findcreateditem(req, res, next){
     var db = require('../../lib/database')();
-    db.query(`SELECT * FROM (SELECT *, COUNT(intRRequest_No) forapproval FROM tblresults  WHERE intRRequestID =? AND strRClientStatus= 'Waiting' GROUP BY intRRequest_No) as ta RIGHT JOIN tblinitialrequest ON 
-    ta.intRRequestID = intIRequestID  INNER JOIN tblMservice ON intITypeOfService = intID WHERE intIRequestID = ?`,[req.params.userid, req.params.userid], function (err, results) {
+    db.query(`SELECT * FROM tblinitialrequest INNER JOIN tblmservice ON intID = intITypeOfService WHERE intIRequestID = ?`,[req.params.userid], function (err, results) {
       if (err) return res.send(err);
       if (!results[0])
       console.log('');
@@ -155,6 +154,14 @@ function findcreatedlist(req, res, next){
       if (err) return res.send(err);
       console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'+req.params.userid);
       req.noofapprove= results;
+      return next();
+    });
+  }
+  function totalquantity(req, res, next){
+    var db = require('../../lib/database')();
+    db.query(`SELECT SUM(intIQuantity) AS totalquantity FROM tblinitialrequest WHERE intIRequestID ='${req.params.userid}'`, function (err, results) {
+      if (err) return res.send(err);
+      req.totalquantity= results;
       return next();
     });
   }
@@ -194,7 +201,7 @@ function findcreatedlist(req, res, next){
       return next();
     })
   }
-  router.get('/mylist_:userid', flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findtransaction, findnooftrans,findprevtransaction, rendermylist);
+  router.get('/mylist_:userid', flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, findtransaction, findnooftrans,findprevtransaction, totalquantity, rendermylist);
 
 
 // Add service to list
@@ -244,6 +251,7 @@ function findnooftrans(req,res,next){
   })
 }
 
+
 //------------------------------------------submit list to admin
 function submitrequest(req,res){
   var db = require('../../lib/database')();
@@ -255,6 +263,16 @@ function submitrequest(req,res){
   });
 }
 router.get('/submit_request_:requestid',flog,submitrequest);
+
+// ---------------------------------------- edit desciption
+router.post( '/editdesc', editdesc)
+function editdesc(req, res){
+  var db = require('../../lib/database')();
+  db.query(`UPDATE tblfinalrequest SET strRequestDesc=? WHERE intRequestID=?`,[req.body.reqdesc, req.body.requestid], function(err){
+    if (err) res.send(err)
+    else res.redirect('/request_add/mylist_'+req.body.requestid)
+  })
+}
 
 // ---------------------------------------- delete services
 router.post('/removeitem', deleteservice)

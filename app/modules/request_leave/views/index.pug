@@ -5,58 +5,69 @@ block content
             .page-title
                 .row
                     .col-md-12.col-sm-12.col-xs-12
-                        .x_panel
-                            .x_title
-                                h1
-                                    b Request For Leave
-                                .clearfix
+                            .x_panel
+                                .x_title
+                                    h1
+                                        b Request For Leave
+                                    .clearfix
                             br
-                            .x_panel(style='background-color:#3E5367')
+                            .x_panel(style='background-color:rgba(52,152,219,.3)')
                                 .x_content
                                     form#leave(method="POST"  action="/request_leave")
                                         br
-                                        .col-md-7(style='background-color:#f1f1f1')
-                                            .col-md-6
-                                                .form-group
-                                                    br
-                                                    label Type Of Leave *
-                                                    select#sort.form-control(name='type')
-                                                        each leave in leavetab
-                                                            option.sort.form-control(value=''+leave.intID, readonly days=leave.intDays fileDate= leave.intDaysForFile )
-                                                                |#{leave.strName}
-                                            .col-md-5
-                                                .form-group
-                                                    br
-                                                    label Total Number Of Days:
-                                                    input.form-control#total(type='number' readonly, name='totaldays')
-                                                    each cl in clientko
-                                                        input.form-control#cliednt(type='text' readonly, name='client', value=cl.strFName style="display:none;")
-                                                        -console.log(cl.strFName + "CLIENT AKO")
-                                                    input.form-control#days(type='number' readonly, name='file' style="display:none;")
-                                            .col-md-11
-                                                .form-group
-                                                    label Address While On Leave *
-                                                    input.form-control(type='text' name="addLeave" required)
-                                            .col-md-5
-                                                .form-group
-                                                    br
-                                                    label Starting From: *
-                                                    input(type='date' id='thedate'  onkeyup='time();' name="created"  hidden)
-                                                    input.form-control#start(type='date' name="started")
-                                            .col-md-5
-                                                .form-group
-                                                    br
-                                                    label To: *
-                                                    input.form-control#end(type='date' name="end", readonly)
+                                        //- .col-md-7(style='background-color:#394D5F')
+                                        .col-md-7(style='background-color:rgba(52,152,219,.3)')
+                                    
+                                            .row
+                                                .col-md-1
+                                                    .form-group
+                                                .col-md-6
+                                                    .form-group
+                                                        br
+                                                        br
+                                                        label(style='color:#394D5F') Type Of Leave *
+                                                        select#sort.form-control(name='type')
+                                                            each leave in leavetab
+                                                                option.sort.form-control(value=''+leave.intID, readonly days=leave.intDays fileDate= leave.intDaysForFile )
+                                                .col-md-4
+                                                        .form-group
+                                                            br
+                                                            br
+                                                            label(style='color:#394D5F') Corresponding Days:
+                                                            input.form-control#total(type='number' readonly, name='totaldays')
+                                                            input.form-control#days(type='number' readonly, name='file' style='display:none')
+                                            .row
+                                                .col-md-1
+                                                    .form-group
+                                                .col-md-5
+                                                    .form-group
+                                                        
+                                                        label(style='color:#394D5F') Starting From: *
+                                                        input#start(type='date' id='thedate'  onkeyup='time();' name="created"  hidden)
+                                                        input.form-control(type='date' name="started")
+                                                .col-md-5
+                                                    .form-group
+                                                        
+                                                        label(style='color:#394D5F') To: *
+                                                        input.form-control#end( type='date' name="end")
+                                            .row
+                                                .col-md-1
+                                                    .form-group
+                                                .col-md-10
+                                                    .form-group
+                                                        label(style='color:#394D5F') Address While On Leave *
+                                                        input.form-control(type='text' name="addLeave" required)
+                                                        br
                                         .col-md-5
                                             
                                             .form-group
-                                                label(style='color:white') Reason of Leave *
-                                                textarea#exampleTextarea.form-control(rows='11' placeholder='Reason' name="reason" required)
-                                                br
+                                                label(style='color:#394D5F') Reason of Leave *
+                                                textarea#exampleTextarea.form-control(rows='11' placeholder='' name="reason" required)
+                                                
                                         .form-group
                                             .pull-right
-                                                button.btn.btn-lg.btn-primary(type='submit' onclick="time();" ) Submit
+                                                
+                                                button.btn.btn-lg.btn-success(type='submit' onclick="time();" ) Submit
                             br
                             br
 

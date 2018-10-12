@@ -1,0 +1,145 @@
+extends ../../../templates/navbarclient.pug
+block content
+    section#services
+        .right_col(role='main' style="background-color:transparent;")
+            div
+                .page-title
+                    .row
+                        .col-md-12.col-sm-12.col-xs-12
+                            .x_panel
+                                .x_title
+                                    a(href='javascript:history.back()')
+                                        button.btn.btn-primary.pull-right.btn-lg(type='button') Back
+                                    center
+                                        h3
+                                            b Household Worker's Profile
+                                .x_content
+                                    each hw1 in hw1tab
+                                        .col-md-3.col-sm-3.col-xs-12.profile_left
+                                            center
+                                                .profile_img
+                                                    #crop-avatar
+                                                        // Current avatar
+                                                        img.img-responsive.avatar-view(src='../images/'+hw1.strPicture, alt='Avatar', title='Change the avatar')
+                                                h3 #{hw1.strLName}, #{hw1.strFName} #{hw1.strMName}
+                                                h5 #{hw1.strName}
+                                            ul.list-unstyled.user_data
+                                                li Age: &nbsp 
+                                                li Gender: &nbsp #{hw1.strGender}
+                                                li
+                                                    i.fa.fa-map-marker.user-profile-icon
+                                                    | Malolos, Bulacan
+                                                li.m-top-xs
+                                                    i.fa.fa-phone-square.user-profile-icon
+                                                    | 09356031898
+                                            //- a.btn.btn-success
+                                            //-     i.fa.fa-edit.m-right-xs
+                                            //-     | &nbspEdit Profile
+                                        br
+                                    .col-md-9.col-sm-9.col-xs-12
+                                        .x_panel
+                                            div(role='tabpanel', data-example-id='togglable-tabs')
+                                                ul#myTab.nav.nav-tabs.bar_tabs(role='tablist')
+                                                    li.active(role='presentation')
+                                                        a#profile-tab(href='#tab_content1', role='tab', data-toggle='tab', aria-expanded='true') Profile
+                                                    li(role='presentation')
+                                                        a#educ-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Educational Background
+                                                    li(role='presentation')
+                                                        a#work-tab(href='#tab_content3', role='tab', data-toggle='tab', aria-expanded='false') Working Background
+                                                #myTabContent.tab-content
+                                                    #tab_content1.tab-pane.fade.active.in(role='tabpanel', aria-labelledby='profile-tab')
+                                                        // Profile
+                                                        br
+                                                        .col-md-12.col-sm-12.col-xs-12
+                                                            .x_panel
+                                                                table.table.table-striped
+                                                                    each hw1 in hw1tab
+                                                                        br
+                                                                        tbody
+                                                                            tr
+                                                                                th(scope='row')
+                                                                                td
+                                                                                    b Date of Birth:
+                                                                                td #{hw1.datBirthDay}
+                                                                                td
+                                                                                td
+                                                                            tr
+                                                                                th(scope='row')
+                                                                                td
+                                                                                    b Place of Birth:
+                                                                                td 
+                                                                                td
+                                                                                td
+                                                                            tr
+                                                                                th(scope='row')
+                                                                                td
+                                                                                    b Civil Status:
+                                                                                td 
+                                                                                td
+                                                                                td
+                                                                            tr
+                                                                                th(scope='row')
+                                                                                td
+                                                                                    b Height:
+                                                                                td 
+                                                                                td
+                                                                                td
+                                                                            tr
+                                                                                th(scope='row')
+                                                                                td
+                                                                                    b Weight:
+                                                                                td 
+                                                                                td
+                                                                                td
+                                                                            tr
+                                                                                th(scope='row')
+                                                                                td
+                                                                                    b Religion:
+                                                                                td 
+                                                                                td
+                                                                                td
+                                                                            tr
+                                                                                th(scope='row')
+                                                                                td
+                                                                                    b Color of Eyes:
+                                                                                td 
+                                                                                td
+                                                                                td
+                                                    #tab_content2.tab-pane.fade(role='tabpanel', aria-labelledby='educ-tab')
+                                                        br
+                                                        .col-md-12.col-sm-12.col-xs-12
+                                                            .x_panel
+                                                                table.table.table-striped
+                                                                    thead
+                                                                        th Type
+                                                                        th Name
+                                                                        th Address
+                                                                        th Year
+                                                                        th Skills/Awards
+                                                                    tbody
+                                                                        each hw2 in hw2tab
+                                                                            tr
+                                                                                td #{hw2.strType}
+                                                                                td #{hw2.strSchoolName}
+                                                                                td #{hw2.strSchoolAdd}
+                                                                                td #{hw2.intSchoolGrad}
+                                                                                td #{hw2.strSchoolSkill}
+                                                    #tab_content3.tab-pane.fade(role='tabpanel', aria-labelledby='work-tab')
+                                                        br
+                                                        .col-md-12.col-sm-12.col-xs-12
+                                                            .x_panel
+                                                                table.table.table-striped
+                                                                    thead
+                                                                        th Name
+                                                                        th Address
+                                                                        th Position
+                                                                        th From 
+                                                                        th To
+                                                                    tbody
+                                                                        each hw3 in hw3tab
+                                                                            tr
+                                                                                td #{hw3.strWorkName}
+                                                                                td #{hw3.strWorkAdd}
+                                                                                td #{hw3.strWorkPosition}
+                                                                                td #{hw3.intWorkStart}
+                                                                                td #{hw3.intWorkEnd}

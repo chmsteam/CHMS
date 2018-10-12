@@ -16,12 +16,13 @@ block content
                             .x_title
                                 .clearfix
                                 .x_panel.alert-success(style='background-color:')
-                                    h3(style="font-size:18px;")
-                                        b Disclaimer !!!
-                                            br
-                                            br
-                                        li
-                                            | To add service on your list, just click <b>"add service"</b> button.
+                                    center
+                                        h3(style="font-size:18px;")
+                                            b Disclaimer !!!
+                                                br
+                                                br
+                                            li
+                                                | To add service on your list, just click <b>"add service"</b> button.
                             br
                             each list in listtab
                                 if (list.strRequestStatus == 'Draft' || list.strRequestStatus == 'On process')
@@ -41,13 +42,15 @@ block content
 
                             .x_panel.wow.fadeInRight
                                 h2 Requested Service/s:
+                                    .pull-right
+                                        button.btn.btn-warning.btn-xs(type='button' data-toggle='modal' data-target='#desc') Description
                                 table.table.jambo_table.table-bordered
                                     thead
                                         tr
                                             th(style="text-align:center") #
                                             th(style="text-align:center") Service
                                             th(style="text-align:center") Quantity
-                                            th(style="text-align:center") Results
+                                            //- th(style="text-align:center") Results
                                             th(style="text-align:center") Action
                                     tbody
                                     each item in itemtab
@@ -56,7 +59,7 @@ block content
                                                 td #{item.intIRequest_No}
                                                 td #{item.strName}
                                                 td#bilang #{item.intIQuantity}
-                                                td #{item.forapproval}
+                                                //- td #{item.forapproval}
                                                 td
                                                     button.btn.btn-info.btn-xs(type='button' data-toggle="modal" data-target="#view_item"
                                                                             , data-requestno=item.intIRequest_No, data-servicename=item.strName, data-quantity=item.intIQuantity, data-gender=item.strIRequestGender, data-educ=item.strIRequestEduc, data-exp=item.intIRequestExp
@@ -92,56 +95,56 @@ block content
                                                             a(href="/request_add/invoice_"+transdetails.intTRequestID)
                                                                 button.btn.btn-primary.btn-xs(type='button') View
                     .col-md-12.col-sm-12.col-xs-12
-                        
                         .x_panel(style='background-color:rgba(38,185,154,0.3)')
                                 .x_title
                                     .x_panel(style='background-color:#394D5F; border-color:#394D5F')
                                         h2(style="font-weight:bold; color:white") List of service/s you approved:
                                 .x_panel
-                                    .clearfix
-                                        br
+                                    .row
                                         each hw in hwtab
                                             .col-md-4.col-sm-4.col-xs-12.profile_details
-                                                form(method="POST" action="/request_add/decision_"+hw.intRRequestID+hw.intRRequest_No)
-                                                    input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='hwid', value=''+hw.intRHWID, style="display:none;")
-                                                    input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='transid', value=''+hw.intRRequestID, style="display:none;")                              
-                                                    .well.profile_view
-                                                        .col-sm-12
-                                                            h4.brief
-                                                                i #{hw.strName}
-                                                            .left.col-xs-7
-                                                                h2 #{hw.strFName} #{hw.strLName}
-                                                                p
-                                                                    | Age:
-                                                                    strong  #{hw.age} 
-                                                                ul.list-unstyled
-                                                                    li
-                                                                        | Gender: 
-                                                                        b #{hw.strGender}
-                                                                    li
-                                                                        | Working Experience: 
-                                                                        b 
-                                                                    li
-                                                                        | Education: 
-                                                                        b 
-                                                            .right.col-xs-5.text-center
-                                                                img.img-circle.img-responsive(src='../images/'+hw.strPicture, alt='', style='width:100px; height:100px')
-                                                        .col-xs-12.bottom.text-center
-                                                                a(href='hw_profile_'+hw.intRRequestID+hw.intRHWID)
-                                                                    button.btn.btn-primary(type='button')
-                                                                        i.fa.fa-user  
-                                                                        |  View Profile
-                                                                    //- button.btn.btn-warning.btn-md(type='submit' name='btn1' value='revert') Revert
+                                                .well.profile_view
+                                                    .col-sm-12
+                                                        h4.brief
+                                                            i #{hw.strName}
+                                                        .left.col-xs-7
+                                                            h2 #{hw.strFName} #{hw.strLName}
+                                                            p
+                                                                | Age:
+                                                                strong  #{hw.age} 
+                                                            ul.list-unstyled
+                                                                li
+                                                                    | Gender: 
+                                                                    b #{hw.strGender}
+                                                                li
+                                                                    | Working Experience: 
+                                                                    b 
+                                                                li
+                                                                    | Education: 
+                                                                    b 
+                                                        .right.col-xs-5.text-center
+                                                            img.img-circle.img-responsive(src='../images/'+hw.strPicture, alt='', style='width:100px; height:100px')
+                                                    .col-xs-12.bottom.text-center
+                                                        form(method="POST" action="/request_add/decision_"+hw.intRRequestID+hw.intRRequest_No)
+                                                        .col-xs-12.col-sm-8.emphasis
+                                                            input(type='text', id='_id', required='required', name='hwid', value=''+hw.intRHWID, style="display:none;")
+                                                            input(type='text', id='_id', required='required', name='transid', value=''+hw.intRRequestID, style="display:none;")                              
+                                                            a(href='/home_client/hw_profile_'+hw.intRHWID)
+                                                                button.btn.btn-primary(type='button')
+                                                                    i.fa.fa-user  
+                                                                    |  View Profile
+                                                                //- button.btn.btn-warning.btn-md(type='submit' name='btn1' value='revert') Revert
                                 .form-group.pull-right
                                     .col-md-12.col-sm-9.col-xs-12.pull-right
                                         
                                         //-a(href='/request_add')
                                             button.btn.btn-primary.btn-lg(type='button') Back
                                         each noofapprove in noofapprovetab
-                                            each list in listtab
-                                                if noofapprove.NOOFapprove > 0 && list.strRequestStatus=='On process'
-                                                    button.btn.btn-success.btn-lg(type='button' data-toggle="modal" data-target="#deployment" onCLick="validate();") Proceed to Deployment Details
-                                                else 
+                                            each totalquantity in totalquantitytab
+                                                each list in listtab
+                                                    if (noofapprove.NOOFapprove <= totalquantity.totalquantity) && (noofapprove.NOOFapprove> 0 ) && (list.strRequestStatus=='On process')
+                                                        button.btn.btn-success.btn-lg(type='button' data-toggle="modal" data-target="#deployment") Proceed to Deployment Details
+                                                    else 
 
         
 
@@ -261,7 +264,32 @@ block content
                                 button.btn.btn-success.btn-md#add(type='submit') Add
 
 
-
+        #desc.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog.modal-md
+                form(method='POST' action='/request_add/editdesc')
+                    .modal-content
+                        .modal-header(style="background-color:#2A3F54; color:white")
+                            button.close(type='button', data-dismiss='modal')
+                                span(aria-hidden='true') ×
+                            h2#myModalLabel.modal-title(align='center')(style='color:white') 
+                                p(style="text-align:center; font-weight:bold; font-size:28px") Desciption
+                        br
+                        .modal-body
+                            .form-group(align='center')
+                                b   Other Details
+                                each list in listtab 
+                                    input(id='requestid' type='text' name='requestid', value=''+list.intRequestID style='display: none;') 
+                                    if list.strRequestStatus == 'Draft' || list.strRequestStatus == 'On process'
+                                        textarea.form-control.AddMessage(rows='5' name='reqdesc') #{list.strRequestDesc}
+                                    else
+                                        textarea.form-control.AddMessage(rows='5' name='reqdesc' disabled) #{list.strRequestDesc}
+                        .modal-footer
+                            button.btn.btn-secondary(type='button', data-dismiss='modal') Close
+                            each list in listtab 
+                                if list.strRequestStatus == 'Draft' || list.strRequestStatus == 'On process'
+                                    button.btn.btn-warning.btn-md(type='submit') Change
+                                else
+                                    button.btn.btn-warning.btn-md(type='submit' disabled) Change
         #view_item.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog(role='document')
                 .modal-content
@@ -594,7 +622,7 @@ block content
                                 swal({
                                     type: 'success',
                                     title: 'Submitted!',
-                                    text: 'List submitted to admin',
+                                    text: 'List successfully submitted to admin.',
                                     showConfirmButton: true,
                                     timer: 5000
                                 },
@@ -623,7 +651,7 @@ block content
                             swal({
                                 type: 'success',
                                 title: 'Added!',
-                                text: 'Service added to the list',
+                                text: 'Service successfully added to the list.',
                                 showConfirmButton: false,
                                 },setTimeout(function() {
                                     location.reload();

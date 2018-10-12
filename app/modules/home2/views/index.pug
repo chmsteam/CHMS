@@ -49,7 +49,9 @@ block content
                                                                                                 center
                                                                                                     h2
                                                                                                         br
-                                                                                                        | Type of Request:
+                                                                                                        | &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                                                                                        | &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                                                                                        | &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspType of Request:
                                                                                                         if offer.strRequestType == 'Add'
                                                                                                             b &nbsp&nbspAdd Household Worker
                                                                                                         else if offer.strRequestType == 'Replacement' || offer.strRequestType == 'Replace Client'
@@ -59,8 +61,12 @@ block content
                                                                                                         br
                                                                                                 .col-xs-12.text-center
                                                                                                     p
-                                                                                                    h2 You are qualified from a job offer from #{offer.strFName} #{offer.strLName}
+                                                                                                    h2 
+                                                                                                        |   &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                                                                                        |   &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                                                                                        |   &nbsp&nbsp&nbsp&nbsp&nbsp&nbspYou are qualified from a job offer from #{offer.strFName} #{offer.strLName}
                                                                                                     p
+                                                                                                    br
                                                                                                     br
                                                                                             .col-xs-12.bottom.text-center
                                                                                                 -var fullname = offer.strLName + " " + offer.strFName
@@ -73,7 +79,9 @@ block content
                                                                                                 center
                                                                                                     h2
                                                                                                         br
-                                                                                                        | Type of Request:
+                                                                                                        | &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                                                                                        | &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                                                                                        | &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspType of Request:
                                                                                                         if offer.strRequestType == 'Add'
                                                                                                             b &nbsp&nbspAdd Household Worker
                                                                                                         else if offer.strRequestType == 'Replacement' || offer.strRequestType == 'Replace Client'
@@ -135,7 +143,7 @@ block content
                                                                                                     p
                                                                                                     br
                                                                                             .col-xs-12.bottom.text-center
-                                                                                                button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjo', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No)
+                                                                                                button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjob', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No)
                                                                                                     | View Details
                                                                                         else if offer.strRHWStatus == 'Approved' && offer.strRClientStatus =='Approved'
                                                                                             .col-xs-12
@@ -153,7 +161,7 @@ block content
                                                                                                 .col-xs-12.text-center
                                                                                                     p
                                                                                                     h2 You accepted this job offer from #{offer.strFName} #{offer.strLName} . The client added you to the list. <br> Wait for the contract that will be sent
-                                                                                                    h2  by the client 
+                                                                                                        |  by the client 
                                                                                                     p
                                                                                                     br
                                                                                             .col-xs-12.bottom.text-center
@@ -161,6 +169,26 @@ block content
                                                                                                 button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjob_contract', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No)
                                                                                                     | View Details
                                                                                         else if offer.strRHWStatus == 'Approved' && offer.strRClientStatus =='Rejected'
+                                                                                            .col-xs-12
+                                                                                                center
+                                                                                                    h2
+                                                                                                        br
+                                                                                                        | Type of Request:
+                                                                                                        if offer.strRequestType == 'Add'
+                                                                                                            b &nbsp&nbspAdd Household Worker
+                                                                                                        else if offer.strRequestType == 'Replacement' || offer.strRequestType == 'Replace Client'
+                                                                                                            b &nbsp&nbspReplacement of Household Worker
+                                                                                                        else if offer.strRequestType == 'Reliever'
+                                                                                                            b &nbsp&nbspReliever
+                                                                                                        br
+                                                                                                .col-xs-12.text-center
+                                                                                                    p
+                                                                                                    h2 Your application was rejected by #{offer.strFName} #{offer.strLName}.
+                                                                                                    p
+                                                                                                    br
+                                                                                            .col-xs-12.bottom.text-center
+                                                                                                button.btn.btn-primary(type='button', data-toggle='modal', data-target='#viewjo', data-id=offer.intRRequestID, data-id2=offer.intRRequest_No)
+                                                                                                    | View Details
                                                             else if offer.strRequestStatus == 'Pending'
                                                                 .row
                                                                     .col-md-12
@@ -440,7 +468,8 @@ block content
                                         object(width='870', height='500', data='/pdfs/'+cont.strContract, type="application/pdf")
                                         .form-group
                                             center
-                                                h1 Your Monthly SALARY: 
+                                                h3 
+                                                    b   Your Monthly SALARY: 
                                                     |
                                                     if (cont.intConsalry % 1 != 0)
                                                         span.label.label-info &#8369; #{cont.intConSalary}.00
