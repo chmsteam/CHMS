@@ -16,7 +16,8 @@ function render(req,res){
           request2tab: req.request2,
           myreqtab: req.myreq,
           totalirtab: req.totalir,
-          historytab: req.history
+          historytab: req.history,
+          totalirtab: req.totalir
         });
     else if(req.valid==0)
       res.render('admin/views/invalidpages/normalonly');
@@ -157,7 +158,8 @@ function countirequest(req,res,next){
       console.log(err)
     }
     else{
-      var totallr = results[0].totallr;
+      req.totallr = results;
+      console.log('total leave req:'+ results[0].totallr)
       db.query(`SELECT count(*) as totalrep, u.intID AS clientid, u.strFName AS clientfname, u.strLName AS clientlname, uu.intID AS hwid, uu.strFName AS hwfname, uu.strLName AS hwlname 
       FROM tblfinalrequest INNER JOIN tbluser as u on u.intID = intRequest_ClientID INNER JOIN tblreplacement ON intReplaceReqID = intRequestID INNER JOIN tbluser AS uu ON uu.intID = intReplaceOldHWID
       WHERE strRequestType='Replace Client' AND intRequest_ClientID=?`,[req.session.user], function(err,results2){
@@ -165,9 +167,13 @@ function countirequest(req,res,next){
           console.log(err)
         }
         else{
-          var totalrep = results2[0].totalrep;
-          var totalir = totallr+totalrep;
+          req.totalrep = results2;
+          var totalir = [{
+            totalir:  results[0].totallr + results2[0].totalrep
+          }]
           req.totalir = totalir;
+          console.log('total rep ='+ results2[0].totalrep);
+          console.log('total IR: '+ req.totalir);
           return next();
         }
       })
@@ -190,6 +196,48 @@ function findreplacementofclient(req,res, next){
   WHERE strRequestType='Replace Client' AND intRequest_ClientID=? `,[req.session.user], function(err,results) {
     console.log(err)
     req.replace = results;
+    return next();
+  });
+}
+// ------------------------------------------------------------------------------- HW PROFILE
+router.get('/hw_profile_:hwid', flog, findhw, findhweduc, findhwwork, renderhwprofile)
+function renderhwprofile(req,res){
+  if(req.valid==1)
+    res.render('home/views/hw_profile',{usertab: req.user, hw1tab: req.hw1, hw2tab: req.hw2, hw3tab: req.hw3});
+  else if(req.valid==0)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+function findhw(req,res,next){
+  var db = require('../../lib/database')();
+  db.query("SELECT * FROM tbluser INNER JOIN tblhouseholdworker on intID = intHWID INNER JOIN tblmservice AS a ON intServiceID=a.intID WHERE tbluser.intID =?",[req.params.hwid], function (err, results) {
+    console.log(''+req.params.hwid);
+    if (err) return res.send(err);
+    if (!results[0])
+    console.log('???'+req.params.userid);
+    req.hw1 = results;
+    return next();
+  });
+}
+
+function findhweduc(req,res,next){
+  var db = require('../../lib/database')();
+  db.query("SELECT * FROM tblhw_educbg WHERE intHWID_educbg = ? ",[req.params.hwid], function (err, results) {
+    if (err) return res.send(err);
+    if (!results[0])
+    console.log('');
+    req.hw2 = results;
+    return next();
+  });
+}
+function findhwwork(req,res,next){
+  var db = require('../../lib/database')();
+  db.query("SELECT * FROM tblhw_workbg WHERE intHWID_workbg = ? ",[req.params.hwid], function (err, results) {
+    if (err) return res.send(err);
+    if (!results[0])
+    console.log('');
+    req.hw3 = results;
     return next();
   });
 }

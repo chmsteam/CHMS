@@ -249,25 +249,23 @@ block content
                                                                         .right.col-xs-5.text-center
                                                                             img.img-circle.img-responsive(src='../images/'+selected.strPicture, alt='', style='width:100px; height:100px')
                                                                     .col-xs-12.bottom.text-center
-                                                                        //- .col-xs-12.col-sm-4.emphasis
-                                                                            .x_panel
-                                                                                input#check-all.flat(type='checkbox')
                                                                         .col-xs-12.col-sm-8.emphasis
                                                                             //- a(href='/admin/hw_profile_'+selected.intRRequestID+selected.intRHWID)
                                                                             a(href='/admin/profile_hw_'+selected.intHWID)
                                                                                 button.btn.btn-primary(type='button')
                                                                                     i.fa.fa-user  
                                                                                     |  View Profile
-                                                                        .col-xs-12.col-sm-8.emphasis
-                                                                            if selected.strRHWStatus == 'Approved' && ((selected.strRClientStatus =='Waiting') || (selected.strRClientStatus =='Approved'))
-                                                                                //- button.btn.btn-primary(type='button')
-                                                                                //-     i.fa.fa-user  
-                                                                                //-     |  View Profile
-                                                                            else if selected.strRHWStatus == 'Approved' && selected.strRClientStatus =='Rejected'
-                                                                                button.btn.btn-danger(type='button')
-                                                                                    i.fa.fa-times 
-                                                                                    |  Remove
-                                    else
+                                                                        form(method="POST" action="tr_add_actions_"+selected.intRRequestID)
+                                                                            input.reqno(type='text' name='reqno' value=''+selected.intRRequest_No, style="display:none;" )
+                                                                            .col-xs-12.col-sm-8.emphasis
+                                                                                if selected.strRHWStatus == 'Approved' && ((selected.strRClientStatus =='Waiting') || (selected.strRClientStatus =='Approved'))
+                                                                                    //- button.btn.btn-primary(type='button')
+                                                                                    //-     i.fa.fa-user  
+                                                                                    //-     |  View Profile
+                                                                                else if selected.strRHWStatus == 'Approved' && selected.strRClientStatus =='Rejected'
+                                                                                    button.btn.btn-danger(type='submit' name='hwid' value=selected.intRHWID)
+                                                                                        i.fa.fa-trash
+                                                                                        |  Remove From List
                                         .x_panel(style='background-color:rgba(38,185,154,0.3)')
                                             .x_title
                                                 .x_panel(style='background-color:#394D5F; border-color:#394D5F')
