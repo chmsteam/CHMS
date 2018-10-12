@@ -83,14 +83,14 @@ block content
                                                         table.table.table-striped.table-bordered
                                                             thead
                                                                 tr
-                                                                    th Date of Deployment
-                                                                    th Time of Deployment
-                                                                    th Type of Deployment
+                                                                    th(style="text-align:center") Date of Deployment
+                                                                    th(style="text-align:center") Time of Deployment
+                                                                    th(style="text-align:center") Type of Deployment
                                                                     th 
                                                                     th
                                                             tbody
                                                                 each contractdetails in contractdetailstab
-                                                                    tr
+                                                                    tr(align='center')
                                                                         //- td #{contractdetails.}
                                                                         td #{contractdetails.datDateofDeployment}
                                                                         td #{contractdetails.timTimeofDeployment}
@@ -268,40 +268,45 @@ block content
                                                                                     i.fa.fa-times 
                                                                                     |  Remove
                                     else
-                                        center
-                                            h5 Client's Approved Services
-                                        .row
-                                            each selected in selectedtab
-                                                if selected.strRClientStatus =='Approved'
-                                                    .col-md-4.col-sm-4.col-xs-12.profile_details
-                                                        .well.profile_view
-                                                            .col-sm-12
-                                                                h4.brief
-                                                                    i #{selected.strName}: #{selected.intRHWID}
-                                                                .left.col-xs-7
-                                                                    h2 Name: #{selected.strFName} #{selected.strLName} 
-                                                                    p 
-                                                                        | Age:
-                                                                        strong #{selected.age}  
-                                                                    ul.list-unstyled
-                                                                        li
-                                                                            | Gender: 
-                                                                            b #{selected.strGender}
-                                                                        li
-                                                                            | Status: #{selected.strRClientStatus}
-                                                                            b 
-                                                                .right.col-xs-5.text-center
-                                                                    img.img-circle.img-responsive(src='../images/'+selected.strPicture, alt='', style='width:100px; height:100px')
-                                                            .col-xs-12.bottom.text-center
-                                                                //- .col-xs-12.col-sm-4.emphasis
-                                                                    .x_panel
-                                                                        input#check-all.flat(type='checkbox')
-                                                                .col-xs-12.col-sm-8.emphasis
-                                                                    //- a(href='/admin/hw_profile_'+selected.intRRequestID+selected.intRHWID)
-                                                                    a(href='/admin/profile_hw_'+selected.intHWID)
-                                                                        button.btn.btn-primary(type='button')
-                                                                            i.fa.fa-user  
-                                                                            |  View Profile
+                                        .x_panel(style='background-color:rgba(38,185,154,0.3)')
+                                            .x_title
+                                                .x_panel(style='background-color:#394D5F; border-color:#394D5F')
+                                                    h2(style="color:white") 
+                                                        b   Client's Approved Services
+                                            .x_panel
+                                                br
+                                                .row
+                                                    each selected in selectedtab
+                                                        if selected.strRClientStatus =='Approved'
+                                                            .col-md-4.col-sm-4.col-xs-12.profile_details
+                                                                .well.profile_view
+                                                                    .col-sm-12
+                                                                        h4.brief
+                                                                            i #{selected.strName}: #{selected.intRHWID}
+                                                                        .left.col-xs-7
+                                                                            h2 Name: #{selected.strFName} #{selected.strLName} 
+                                                                            p 
+                                                                                | Age:
+                                                                                strong #{selected.age}  
+                                                                            ul.list-unstyled
+                                                                                li
+                                                                                    | Gender: 
+                                                                                    b #{selected.strGender}
+                                                                                li
+                                                                                    | Status: #{selected.strRClientStatus}
+                                                                                    b 
+                                                                        .right.col-xs-5.text-center
+                                                                            img.img-circle.img-responsive(src='../images/'+selected.strPicture, alt='', style='width:100px; height:100px')
+                                                                    .col-xs-12.bottom.text-center
+                                                                        //- .col-xs-12.col-sm-4.emphasis
+                                                                            .x_panel
+                                                                                input#check-all.flat(type='checkbox')
+                                                                        .col-xs-12.col-sm-8.emphasis
+                                                                            //- a(href='/admin/hw_profile_'+selected.intRRequestID+selected.intRHWID)
+                                                                            a(href='/admin/profile_hw_'+selected.intHWID)
+                                                                                button.btn.btn-primary(type='button')
+                                                                                    i.fa.fa-user  
+                                                                                    |  View Profile
                                     
             //- modals
             #view_item.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')

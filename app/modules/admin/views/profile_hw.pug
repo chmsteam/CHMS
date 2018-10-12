@@ -231,10 +231,13 @@ block content
                             input#thedate(type='text' name='thedate' hidden)
                             input#id(type='text' name='id' hidden)
                             center
-                                h1 Are you sure you want to ban this user?
+                                br
+                                h3 
+                                    b   Are you sure you want to ban this user?
+                                br
                         .modal-footer
-                            button.btn.btn-danger(type='submit' name='btn1' value='ban' onclick='time();') Yes
-                            button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
+                            button.btn.btn-success(type='submit' name='btn1' value='ban' onclick='time();') Yes
+                            button.btn.btn-primary(type='button', data-dismiss='modal') No
         #reinstate.modal.fade.modal-icon(tabindex='-1', role='dialog')
             .modal-dialog(role='document')
                 form(method="POST"  action="/admin/profile_hw_banreinstate")
@@ -247,10 +250,13 @@ block content
                             input#thedate2(type='text' name='thedate' hidden)
                             input#id(type='text' name='id' hidden)
                             center
-                                h1 Are you sure you want to reinstate this user?
+                                br
+                                h3 
+                                    b   Are you sure you want to reinstate this user?
+                                br
                         .modal-footer
-                            button.btn.btn-warning(type='submit' name='btn1' value='reinstate' onclick='time();') Yes
-                            button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
+                            button.btn.btn-success(type='submit' name='btn1' value='reinstate' onclick='time();') Yes
+                            button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
     script.
         function time(){
             var today = new Date();

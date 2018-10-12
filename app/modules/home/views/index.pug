@@ -44,7 +44,7 @@ block content
                                                                         .well.profile_view(style='width:100%')
                                                                             .col-xs-12
                                                                                 center
-                                                                                    h2
+                                                                                    h2(style='text-align:center')
                                                                                         br
                                                                                         | Type of Request:
                                                                                         b &nbsp&nbspAdd Household Worker
@@ -52,13 +52,13 @@ block content
                                                                                         br
                                                                                         p Date Created: 
                                                                                             b &nbsp #{request.datRequestDate}
-                                                                                .col-xs-12.text-center
+                                                                                .col-xs-12.text-center(style='text-align:center')
                                                                                     p
                                                                                     if request.strRequestType == 'Add' && request.strRequestStatus == 'Draft'
-                                                                                        h2 You have created a list. The request status is currently on 'Draft'. Please submit your list to be able the agency to see your request.
+                                                                                        h2 You have created a list. Your request is currently on 'Draft' status. Please submit/sent your list to continue the transaction.
                                                                                         p
                                                                                     else if request.strRequestType == 'Add' && request.strRequestStatus == 'On process'
-                                                                                        h2 Your created list has been submitted, please wait for the results that the agency will send to you. The request status is currently 'On process'. You can proceed to deployment and contract negotiations after you completed your list.
+                                                                                        h2 Your created list has been submitted, please wait for any suggested services from the agency. Kindly monitor your request often. 
                                                                                         p
                                                                                     else if request.strRequestType == 'Add' && request.strRequestStatus == 'Pending'
                                                                                         h2 Your request has been sent for approval of the agency. The request status is currently 'On process'.
@@ -373,7 +373,8 @@ block content
                                     .col-md-5
                                         .profile_img
                                             img#imagepre(src="" style=' height: 220px; width:100%;')
-                                            h4(style="margin-left:40px")#fullname
+                                            h4
+                                                b(style="margin-left:40px")#fullname
                                     .col-md-7
                                         .row
                                             .col-md-12

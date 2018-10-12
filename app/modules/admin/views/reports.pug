@@ -3,6 +3,203 @@ extends ../../../templates/navbaradmin.pug
 block content
     section#services
         .right_col(role='main' style="background-color:transparent")
+
+                .title_left
+                    h5
+                        b Reports
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
+                        .x_panel(style='background-color:rgba(52,152,219,.3)')
+                            //hhowrkers
+                            each cn in hwCount
+                                p(hidden)#RegiC #{cn.CNT}
+                            each cnr in hwRCount
+                                p(hidden)#DepC #{cnr.CNT}
+                            br
+                            .col-md-6.col-sm-6.col-xs-12
+                                .x_panel
+                                    .x_title
+                                        h2
+                                            | Household Worker
+                                            h2#HW(style="float:right") 
+                                        .clearfix
+                                    .x_content
+                                        canvas#myChart
+                            .col-md-6.col-sm-6.col-xs-12
+                                //clients
+                                each clP in clPCount
+                                    p(hidden)#Pencl #{clP.CNT}
+                                each clR in clRCount
+                                    p(hidden)#Regcl #{clR.CNT}
+                                each clB in clBCount
+                                    p(hidden)#Bancl #{clB.CNT}
+                                .x_panel
+                                    .x_title
+                                        h2
+                                            | Client
+                                            h2#CL(style="float:right") 
+                                        .clearfix
+                                    .x_content
+                                        canvas#myChart2
+
+                            .col-md-6.col-sm-6.col-xs-12
+                                br
+                                .x_panel
+                                    .x_title
+                                        h2
+                                            | Household Worker Requests
+                                        .clearfix
+                                    .x_content
+                                        canvas#myChart4
+                            .col-md-6.col-sm-6.col-xs-12
+                                br
+                                .x_panel
+                                    .x_title
+                                        h2
+                                            | Client Requests
+                                        .clearfix
+                                    .x_content
+                                        canvas#myChart3
+
+                            .col-md-6.col-sm-6.col-xs-12
+                                br
+                                .x_panel
+                                    .x_title
+                                        h2
+                                            | Incident Report
+                                        .clearfix
+                                    .x_content
+                                        canvas#myChart5
+                            .col-md-6.col-sm-6.col-xs-12
+                                br
+                                .x_panel
+                                    .x_title
+                                        h2
+                                            | Transactions
+                                        .clearfix
+                                    .x_content
+                                        canvas#myChart6
+
+        script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+        script.
+            $(document).ready(function(){
+                var regCn=parseInt(document.getElementById("RegiC").innerHTML);
+                var depCn=parseInt(document.getElementById("DepC").innerHTML);
+                var total;
+                totalHW = regCn + depCn;
+                document.getElementById("HW").innerHTML = totalHW;
+
+                var pencL=parseInt(document.getElementById("Pencl").innerHTML);
+                var regcL=parseInt(document.getElementById("Regcl").innerHTML);
+                var bancL=parseInt(document.getElementById("Bancl").innerHTML);
+                var totalCl;
+                totalCl = pencL + regcL + bancL;
+                document.getElementById("CL").innerHTML = totalCl;
+                
+            });
+        // Chart.js
+        script(src='/admin/gentelella/vendors/Chart.js/dist/Chart.js')
+        script.
+            var ctx = document.getElementById("myChart");
+            var regiC = document.getElementById("RegiC").innerHTML;
+            var depC = document.getElementById("DepC").innerHTML;
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ["Registered", "Deployed", "Banned"],
+                    datasets: [{
+                        label: 'Household Worker',
+                        data: [regiC, depC, 1],
+                        backgroundColor: [
+                            'rgba(38, 185, 154, 0.60)',
+                            'rgba(54, 162, 235, 0.60)',
+                            'rgba(255, 99, 132, 0.60)',
+                        ],
+                        borderColor: [
+                            'rgba(38,185,154,0.60)',
+                            'rgba(54, 162, 235, 0.60)',
+                            'rgba(255, 99, 132, 0.60)',
+
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                }
+            });
+            var ctx2 = document.getElementById("myChart2");
+            var penCl = document.getElementById("Pencl").innerHTML;
+            var regCl = document.getElementById("Regcl").innerHTML;
+            var banCl = document.getElementById("Bancl").innerHTML;
+            var myChart2 = new Chart(ctx2, {
+                type: 'pie',
+                data: {
+                    labels: ["Registered", "Banned"],
+                    datasets: [{
+                        label: 'Household Worker',
+                        data: [regCl, banCl],
+                        backgroundColor: [
+                            'rgba(38, 185, 154, 0.60)',
+                            'rgba(255, 99, 132, 0.60)',
+                        ],
+                        borderColor: [
+                            'rgba(38, 185, 154,0.60)',
+                            'rgba(255,99,132,0.60)',
+
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                }
+            });
+            var ctx3 = document.getElementById("myChart3");
+            var myChart3 = new Chart(ctx3, {
+                type: 'pie',
+                data: {
+                    labels: ["Add","Replacement", "Reliever"],
+                    datasets: [{
+                        label: 'Household Worker',
+                        data: [5,20, 19],
+                        backgroundColor: [
+                            'rgba(38, 185, 154, 0.60)',
+                            'rgba(255, 99, 132, 0.60)',
+                            'rgba(54, 162, 235, 0.60)',
+                        ],
+                        borderColor: [
+                            'rgba(38, 185, 154, 0.60)',
+                            'rgba(255,99,132,0.60)',
+                            'rgba(54, 162, 235, 0.60)',
+
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                }
+            });
+            var ctx4 = document.getElementById("myChart4");
+            var myChart4 = new Chart(ctx4, {
+                type: 'pie',
+                data: {
+                    labels: ["Leave","Replacement"],
+                    datasets: [{
+                        label: 'Household Worker',
+                        data: [5, 19],
+                        backgroundColor: [
+                            'rgba(38, 185, 154, 0.60)',
+                            'rgba(255, 99, 132, 0.60)',
+                        ],
+                        borderColor: [
+                            'rgba(38, 185, 154, 0.60)',
+                            'rgba(255, 99, 132, 0.60)',
+
             .title_left
                 h5
                     b Reports
@@ -356,15 +553,73 @@ block content
                         'rgba(50, 182, 202, 0.2)',
                         'rgba(140, 102, 255, 0.2)',
 
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-            }
-        });
+
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                }
+            });
+            var ctx5 = document.getElementById("myChart5");
+            var myChart5 = new Chart(ctx5, {
+                type: 'pie',
+                data: {
+                    labels: ["Client","Household Worker"],
+                    datasets: [{
+                        label: 'Household Worker',
+                        data: [20, 19],
+                        backgroundColor: [
+                            'rgba(38, 185, 154, 0.60)',
+                            'rgba(54, 162, 235, 0.60)',
+                        ],
+                        borderColor: [
+                            'rgba(38, 185, 154, 0.60)',
+                            'rgba(54, 162, 235, 0.60)',
+
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                }
+            });
+            var ctx6 = document.getElementById("myChart6");
+            var myChart6 = new Chart(ctx6, {
+                type: 'pie',
+                data: {
+                    labels: ["Approved","Rejected","On-going","Finished","Terminated"],
+                    datasets: [{
+                        label: 'Household Worker',
+                        data: [19, 32, 20, 40, 12],
+                        backgroundColor: [
+                            'rgba(38, 185, 154, 0.60)',
+                            'rgba(255, 99, 132, 0.60)',
+                            'rgba(243, 156, 18, 0.65)',
+                            'rgba(54, 162, 235, 0.60)',
+                            'rgba(52, 73, 94, 0.60)',
+                            
+                        ],
+                        borderColor: [
+                            'rgba(38, 185, 154, 0.60)',
+                            'rgba(255, 99, 132, 0.60)',
+                            'rgba(243, 156, 18, 0.65)',
+                            'rgba(54, 162, 235, 0.60)',
+                            'rgba(52, 73, 94, 0.10)',
+
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                }
+            });
 
 
 

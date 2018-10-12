@@ -9,7 +9,7 @@ block content
                             .x_panel
                                 .x_title
                                     h1  
-                                        b   Report Client
+                                        b   Report Clien
                                     .clearfix
                                 br
                                 .x_panel(style='background-color:#f1f1f1')
@@ -67,11 +67,11 @@ block content
         .modal-dialog.modal-sm
             form.form-horizontal(method='POST' action='/request_irhw/ir_hw')
                 .modal-content
-                    .modal-header
+                    .modal-header(style="background-color:#2A3F54; color:white")
                         button.close(type='button', data-dismiss='modal')
                             span(aria-hidden='true') ×
-                        h4#myModalLabel.modal-title Report Client
-                            p#hwname 
+                        h4#myModalLabel.modal-title(align='center')(style='color:white') Report Client
+                            p(style="text-align:center; font-weight:bold; font-size:15px")#hwname 
                     .modal-body
                         input.form-control(id='thedate' type='date', name='daterep' style='display:none;')
                         input.form-control(id='_id' type='text', name='recipentid' style='display:none;')
@@ -85,7 +85,7 @@ block content
                         .row
                             .col-md-12
                                 .form-group
-                                    |Reason:
+                                    b   Reason:
                                     textarea.form-control.AddMessage(rows='10' name='reason')
                     .modal-footer
                         button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Submit

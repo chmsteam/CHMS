@@ -3,102 +3,134 @@ extends ../../../templates/navbaradmin.pug
 block content
     section#services
         .right_col(role='main' style="background-color:transparent")
-            div
-                .page-title
+                    .title_left
+                    h5
+                        | Queries /&nbsp
+                        b Household Worker
+                
                     .row
                         .col-md-12.col-sm-12.col-xs-12
-                            .x_panel(style='background-color:rgba(52,152,219,.3)')
-                                .x_panel
-                                    .x_title
-                                        h1
+                                                .x_panel(style='background-color:rgba(52,152,219,.3)')
+                                                    
+                                                        .x_panel
+                                                            h1
+                                                            .x_panel(style='background-color:')
+                                                                form(method='POST' action='queries_hw').form-inline
+                                                                    br
+                                                                    br
+                                                                    .row
+                                                                        .col-md-4
+                                                                            .form-group 
+                                                                                label Date From:
+                                                                                    |&nbsp
+                                                                                    |&nbsp
+                                                                                    input.form-control(type='date', required='required', name='datefrom')
+                                                                        .col-md-3
+                                                                            .form-group
+                                                                                label Status: &nbsp
+                                                                                        select.form-control(id='status' name='thestatus')
+                                                                                            option(value='Registered') Registered
+                                                                                            option(value='Deployed') Deployed
+                                                                                            option(value='Banned') Banned
+                                                                        .col-md-4
+                                                                            .form-group
+                                                                                label Location: &nbsp
+                                                                                    select.form-control(id='residence' name='residence')
+                                                                                        option(value='All') All
+                                                                                        option(value='In Metro Manila') Metro Manila
+                                                                                        option(value='Outside Metro Manila') Outside Metro Manila
+                                                                    br
+                                                                    .row
+                                                                        .col-md-4
+                                                                            label(style="margin-left:49px;")  To:
+                                                                                |&nbsp
+                                                                                |&nbsp
+                                                                                input.form-control(type='date', required='required', name='dateto')
+                                                                        .col-md-4
+                                                                            label(id='NCRcities' style='display:none;') City:
+                                                                                |&nbsp
+                                                                                |&nbsp
+                                                                                select.form-control(name='city')
+                                                                                    option(value='All') All
+                                                                                    each item in itemtab
+                                                                                        option(value=''+item.strName) #{item.strName}
+                                                                            
+                                                                    .row(style="float:right; margin-bottom:10px")
+                                                                        .form-group
+                                                                            button.btn.btn-info(type='submit')
+                                                                                i.fa.fa-search
+                                                                                |  Filter
                                             
-                                        .x_panel
-                                            form(method='POST' action='queries_hw').form-inline
+                                                        //-.x_panel.alert-info(style='color:white')
+                                                            each resultdates in resultdateslist
+                                                                i
+                                                                    h4 
+                                                                        b   Displaying results;
+                                                                        br
+                                                                        br
+                                                                        b &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspfrom 
+                                                                        |   #{resultdates.date1} 
+                                                                        b   to 
+                                                                        |   #{resultdates.date2}
+                                                                        b   &nbsp&nbsp&nbsp&nbspStatus: 
+                                                                        |   #{resultdates.status} 
+                                                                        b   &nbsp&nbsp&nbsp&nbspLocation: 
+                                                                        |   #{resultdates.location} 
+                                                                        b   &nbsp&nbsp&nbsp&nbspCity: 
+                                                                        |   #{resultdates.city}
                                                 br
-                                                .row
-                                                    .col-md-4
-                                                        .form-group 
-                                                            label Date From:
-                                                                |&nbsp
-                                                                |&nbsp
-                                                                input.form-control(type='date', required='required', name='datefrom')
-                                                    .col-md-4
-                                                        .form-group
-                                                            label Status: &nbsp
-                                                                    select.form-control(id='status' name='thestatus')
-                                                                        option(value='Registered') Registered
-                                                                        option(value='Deployed') Deployed
-                                                                        option(value='Banned') Banned
-                                                    .col-md-4
-                                                        .form-group
-                                                            label Location: &nbsp
-                                                                select.form-control(id='residence' name='residence')
-                                                                    option(value='All') All
-                                                                    option(value='In Metro Manila') Metro Manila
-                                                                    option(value='Outside Metro Manila') Outside Metro Manila
                                                 br
-                                                .row
-                                                    .col-md-4
-                                                        label(style="margin-left:49px;")  To:
-                                                            |&nbsp
-                                                            |&nbsp
-                                                            input.form-control(type='date', required='required', name='dateto')
-                                                    .col-md-4
-                                                        label(id='NCRcities' style='display:none;') City:
-                                                            |&nbsp
-                                                            |&nbsp
-                                                            select.form-control(name='city')
-                                                                option(value='All') All
-                                                                each item in itemtab
-                                                                    option(value=''+item.strName) #{item.strName}
-                                                        
-                                                .row(style="float:right; margin-bottom:10px")
-                                                    .form-group
-                                                        button.btn.btn-info(type='submit')
-                                                            i.fa.fa-eye
-                                                            |  Filter
-                                        hr
-                                        .x_panel
-                                            each resultdates in resultdateslist
-                                                i
-                                                    h4 Displaying results from "#{resultdates.date1}" to "#{resultdates.date2}". Status: "#{resultdates.status}". Location: "#{resultdates.location}". City: "#{resultdates.city}".
-                                        br
-                                        br
-                                        .col-md-12.col-sm-12.col-xs-12
-                                            .table-responsive
-                                                table#datatable.table.table-striped.jambo_table.table-bordered
-                                                    thead
-                                                        tr.headings
-                                                        tr
-                                                            th NAME
-                                                            th DATE
-                                                            th CITY
-                                                            th ACTION
-                                                    tbody
-                                                        each theresults in theresultstab
-                                                            if theresults == undefined
-                                                            else if theresults.strStatus != 'Deployed'
-                                                                tr.even.pointer
-                                                                    td #{theresults.strFName} #{theresults.strLName}
-                                                                    td #{theresults.datDateRegistered}
-                                                                    td #{theresults.strCity}
-                                                                    td
-                                                                        a(href='/admin/profile_client_'+theresults.intHWID)
-                                                                            button.btn.btn-info(type='button')
-                                                                                i.fa.fa-eye
-                                                                                |  view
-                                                            else
-                                                                tr.even.pointer
-                                                                    td #{theresults.strFName} #{theresults.strLName}
-                                                                    td #{theresults.datDateSettled}
-                                                                    td #{theresults.strCity}
-                                                                    td
-                                                                        a(href='/admin/profile_client_'+theresults.intHWID)
-                                                                            button.btn.btn-info(type='button')
-                                                                                i.fa.fa-eye
-                                                                                |  view
+                                                .x_panel(style='background-color:rgba(52,152,219,.3)')
+                                                    .x_panel
+                                                        br
+                                                        .no-print.pull-left
+                                                            .col-xs-12
+                                                                //- a(href='/request_add')
+                                                                //-     button.btn.btn-primary.pull-right(type='button') Back to List
+            
+                                                                button.btn.btn-success.pull-right#printInv2
+                                                                    i.fa.fa-print
+                                                                    |  Print
+                                                                button.btn.btn-primary.pull-right#generateButton2(style='margin-right: 5px;')
+                                                                    i.fa.fa-download
+                                                                    |  Generate PDF
+                                                        .col-md-12.col-sm-12.col-xs-12
+                                                            br
+                                                            .table-responsive
+                                                                br
+                                                                table#datatable.table.table-striped.jambo_table.table-bordered
+                                                                    thead
+                                                                        tr.headings
+                                                                        tr
+                                                                            th(style="text-align:center") NAME
+                                                                            th(style="text-align:center") DATE
+                                                                            th(style="text-align:center") CITY
+                                                                            th(style="text-align:center") ACTION
+                                                                    tbody
+                                                                        each theresults in theresultstab
+                                                                            if theresults == undefined
+                                                                            else if theresults.strStatus != 'Deployed'
+                                                                                tr.even.pointer(style="text-align:center")
+                                                                                    td#qName #{theresults.strFName} #{theresults.strLName}
+                                                                                    td#qDate #{theresults.datDateRegistered}
+                                                                                    td#qCity #{theresults.strCity}
+                                                                                    td
+                                                                                        a(href='/admin/profile_client_'+theresults.intHWID)
+                                                                                            //-button.btn.btn-info(type='button')
+                                                                                                i.fa.fa-eye
+                                                                                                |  view
+                                                                            else
+                                                                                tr.even.pointer
+                                                                                    td #{theresults.strFName} #{theresults.strLName}
+                                                                                    td #{theresults.datDateSettled}
+                                                                                    td #{theresults.strCity}
+                                                                                    td
+                                                                                        a(href='/admin/profile_client_'+theresults.intHWID)
+                                                                                            //-button.btn.btn-info(type='button')
+                                                                                                i.fa.fa-eye
+                                                                                                |  view
 
-                                        .clearfix
+                                    
     script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
     script(src='/admin/gentelella/vendors/moment/min/moment.min.js')
     script.
@@ -118,3 +150,121 @@ block content
         //-         $('#Deployedcity').hide();
         //-     }
         //- });
+    script(type='text/javascript').
+        $(document).ready(function(){
+            $(document).on(	'click', '#generateButton2', function(){
+   
+                // Query Result
+                var qqName = document.getElementById('qName').innerHTML;
+                var qqDate = document.getElementById('qDate').innerHTML;
+                var qqCity = document.getElementById('qCity').innerHTML;
+                
+                var docDefinition = {
+                        //- pageOrientation: 'landscape',
+                        pageSize: 'A5',
+                        pageOrientation: 'landscape',
+                        content: [
+                            { text: " " },
+                            { text: " " },
+                            { text: "__________________________________________________________________________________________", alignment: 'center', },
+                            { text: " " },   
+                                {   
+                                    width: '*',
+                                    alignment: 'center',
+                                    columns:[
+                                        {
+                                            text: "NAME" , fontSize: 10, bold: true
+                                        },
+                                        {
+                                            text: "DATE" , fontSize: 10, bold: true
+                                        },
+                                        {
+                                            text: "RESIDENCE" , fontSize: 10, bold: true
+                                        },
+                                    ],
+                                },
+                            { text: "__________________________________________________________________________________________", alignment: 'center', },
+                            { text: " " }, 
+                                {   
+                                    width: '*',
+                                    alignment: 'center',
+                                    columns:[
+                                        {
+                                            text: qqName , fontSize: 10
+                                        },
+                                        {
+                                            text: qqDate , fontSize: 10
+                                        },
+                                        {
+                                            text: qqCity , fontSize: 10
+                                        },
+                                    ],
+                                },
+
+                        ],
+                            pageBreakBefore: function(currentNode, followingNodesOnPage, nodesOnNextPage, previousNodesOnPage) {
+                                return currentNode.headlineLevel === 1 && followingNodesOnPage.length === 0;
+                                },
+                    };
+                    pdfMake.createPdf(docDefinition).open();
+                });    
+        });
+    script(type='text/javascript').
+        $(document).ready(function(){
+            $(document).on(	'click', '#printInv2', function(){
+   
+                // Query Result
+                var qqName = document.getElementById('qName').innerHTML;
+                var qqDate = document.getElementById('qDate').innerHTML;
+                var qqCity = document.getElementById('qCity').innerHTML;
+                
+                var docDefinition = {
+                        //- pageOrientation: 'landscape',
+                        pageSize: 'A5',
+                        pageOrientation: 'landscape',
+                        content: [
+                            { text: " " },
+                            { text: " " },
+                            { text: "__________________________________________________________________________________________", alignment: 'center', },
+                            { text: " " },   
+                                {   
+                                    width: '*',
+                                    alignment: 'center',
+                                    columns:[
+                                        {
+                                            text: "NAME" , fontSize: 10, bold: true
+                                        },
+                                        {
+                                            text: "DATE" , fontSize: 10, bold: true
+                                        },
+                                        {
+                                            text: "RESIDENCE" , fontSize: 10, bold: true
+                                        },
+                                    ],
+                                },
+                            { text: "__________________________________________________________________________________________", alignment: 'center', },
+                            { text: " " }, 
+                                {   
+                                    width: '*',
+                                    alignment: 'center',
+                                    columns:[
+                                        {
+                                            text: qqName , fontSize: 10
+                                        },
+                                        {
+                                            text: qqDate , fontSize: 10
+                                        },
+                                        {
+                                            text: qqCity , fontSize: 10
+                                        },
+                                    ],
+                                },
+
+                        ],
+                            pageBreakBefore: function(currentNode, followingNodesOnPage, nodesOnNextPage, previousNodesOnPage) {
+                                return currentNode.headlineLevel === 1 && followingNodesOnPage.length === 0;
+                                },
+                    };
+                    pdfMake.createPdf(docDefinition).print();
+                });    
+        });
