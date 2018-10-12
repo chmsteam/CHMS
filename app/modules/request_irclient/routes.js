@@ -73,7 +73,7 @@ function displayIncidentRep(req, res, next){
                 INNER JOIN tblmincidentreport i ON i.intID = r.intTypeofReport 
                 INNER JOIN tblhouseholdworker thw ON thw.intHWID
                 INNER JOIN tblmservice ts ON thw.intServiceID = ts.intID
-                WHERE intReporterID = ?)`,[req.session.user], function(err, results){
+                WHERE intReporterID = ?`,[req.session.user], function(err, results){
         console.log(err)
         req.displayIncidentRep = results;
         console.log(req.session.user)
@@ -131,6 +131,21 @@ function reporthw(req, res){
       })
     console.log(err)
   });
+}
+router.post('/cancelremove', flog, cancelremove)
+function cancelremove(req, res){
+    var db = require('../../lib/database')()
+    if(req.body.btn=='cancel')
+    db.query(`DELETE FROM tblreport WHERE intReportID = ?`,[req.body.id], function(err){
+        console.log(err);
+        res.redirect('/request_irclient')
+    })
+    else{
+      db.query(`Update tblreport SET strReportStatus = 'Resolved (hid by client)' WHERE intReportID = ?`,[req.body.id], function(err){
+        console.log(err);
+        res.redirect('/request_irclient')
+    })
+    }
 }
 //-------------------------------------------------------------ROUTER GET
 router.get('/profile_hw_:hwOwnID', flog, renderFunctions, renderhwprofile);

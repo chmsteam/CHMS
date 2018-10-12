@@ -359,11 +359,13 @@ html(lang='en')
               var id = button.data('id')
               var name = button.data('name')
               var day = button.data('day')
+              var leavefileday = button.data('leavefileday')
 
               var modal = $(this)
               modal.find('.modal-body #_id').val(id)
               modal.find('.modal-body #_name').val(name)
               modal.find('.modal-body #_day').val(day)
+              modal.find('.modal-body #_leavefileday').val(leavefileday)
             });
             $('#editskill').on('show.bs.modal', function (event) {
               var button = $(event.relatedTarget)
@@ -583,6 +585,7 @@ html(lang='en')
               var recfname= button.data('recfname')
               var reclname= button.data('reclname')
               var rec= button.data('rec')
+              var image= button.data('image')
 
               var modal = $(this)
 
@@ -593,6 +596,7 @@ html(lang='en')
               modal.find('.modal-body #reason').val(reason)
               modal.find('.modal-body #recfname').val(recfname +' '+ reclname)
               modal.find('.modal-body #rec').val(rec)
+              $('#imagepre').attr('src', image)
             });
             
             $('#dec').on('show.bs.modal', function (event) {

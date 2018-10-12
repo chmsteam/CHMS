@@ -219,6 +219,7 @@ block content
                                                                                         i.fa.fa-fa-trash
                                                                                         |  Remove
                                         
+                                        
                                         .x_panel(style='background-color:rgba(38,185,154,0.3)')
                                             .x_title
                                                 .x_panel(style='background-color:#394D5F; border-color:#394D5F')
@@ -255,17 +256,18 @@ block content
                                                                                 button.btn.btn-primary(type='button')
                                                                                     i.fa.fa-user  
                                                                                     |  View Profile
-                                                                        form(method="POST" action="tr_add_actions_"+selected.intRRequestID)
-                                                                            input.reqno(type='text' name='reqno' value=''+selected.intRRequest_No, style="display:none;" )
-                                                                            .col-xs-12.col-sm-8.emphasis
-                                                                                if selected.strRHWStatus == 'Approved' && ((selected.strRClientStatus =='Waiting') || (selected.strRClientStatus =='Approved'))
-                                                                                    //- button.btn.btn-primary(type='button')
-                                                                                    //-     i.fa.fa-user  
-                                                                                    //-     |  View Profile
-                                                                                else if selected.strRHWStatus == 'Approved' && selected.strRClientStatus =='Rejected'
-                                                                                    button.btn.btn-danger(type='submit' name='hwid' value=selected.intRHWID)
-                                                                                        i.fa.fa-trash
-                                                                                        |  Remove From List
+                                                                        //- form(method="POST" action="tr_add_actions_"+selected.intRRequestID)
+                                                                        //-     input.reqno(type='text' name='reqno' value=''+selected.intRRequest_No, style="display:none;" )
+                                                                        .col-xs-12.col-sm-8.emphasis
+                                                                            if selected.strRHWStatus == 'Approved' && ((selected.strRClientStatus =='Waiting') || (selected.strRClientStatus =='Approved'))
+                                                                                //- button.btn.btn-primary(type='button')
+                                                                                //-     i.fa.fa-user  
+                                                                                //-     |  View Profile
+                                                                            else if selected.strRHWStatus == 'Approved' && selected.strRClientStatus =='Rejected'
+                                                                                button.btn.btn-danger(type='submit' name='hwid' value=selected.intRHWID)
+                                                                                    i.fa.fa-trash
+                                                                                    |  Remove From List
+                                    else if list.strRequestStatus == 'Pending'
                                         .x_panel(style='background-color:rgba(38,185,154,0.3)')
                                             .x_title
                                                 .x_panel(style='background-color:#394D5F; border-color:#394D5F')

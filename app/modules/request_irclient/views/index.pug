@@ -24,17 +24,16 @@ block content
                                                     th ACTION
                                             tbody
                                                 each reported in reportedtab
-                                                    tr
-                                                        td #{reported.RFName} #{reported.RLName}
-                                                        td #{reported.strName}
-                                                        td #{reported.strReportStatus}
-                                                        td
-                                                            button.btn.btn-primary.btn-md(type='button') View
-                                                            if reported.strReportStatus == ''
-                                                                button.btn.btn-danger.btn-md(type='button') Cancel
-                                                            else if reported.strReportStatus == 'Acknowledged'
-                                                                button.btn.btn-info.btn-md(type='button') View Action Taken
-                                                                button.btn.btn-danger.btn-md(type='button') Hide
+                                                    if reported.strReportStatus != 'Resolved (hid by client)'
+                                                        tr
+                                                            td #{reported.RFName} #{reported.RLName}
+                                                            td #{reported.strName}
+                                                            td #{reported.strReportStatus}
+                                                            td
+                                                                if reported.strReportStatus == '' || reported.strReportStatus == 'Under Investigation'
+                                                                    button.btn.btn-danger.btn-md(type='button' data-toggle='modal' data-target='#report_cancel' data-id=reported.intReportID) Cancel
+                                                                else if reported.strReportStatus == 'Resolved'
+                                                                    button.btn.btn-danger.btn-md(type='button' data-toggle='modal' data-target='#report_hide' data-id=reported.intReportID) Hide
                                 br  
                                 br
                                 .x_panel(style='background-color:rgba(38,185,154,0.3)')
@@ -61,47 +60,41 @@ block content
                                                                 |View Profile
                                                         if currenthw.strCurStatus == 'Current'
                                                             button.btn.btn-danger.btn-md(type='button' data-toggle='modal', data-target='#report',  data-hwid=currenthw.intConHWID, data-hwfname=currenthw.strFName, data-hwlname=currenthw.strLName) Report
-                                                        //- else if currenthw.strCurStatus == 'To be replaced'
-                                                        //-     a(href='/request_replacement/replace_list_'+currenthw.intConTransID+currenthw.intConHWID)
-                                                        //-         button.btn.btn-info.btn-md(type='button') View Details
-                                                            button.btn.btn-danger.btn-md(type='button') Cancel
+
                                                         
         
         //- ---- modals
-        //- #report.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
-        //-     .modal-dialog.modal-md
-        //-         form.form-horizontal(method='POST' action='/request_irclient/ir_client')
-        //-             .modal-content
-        //-                 .modal-header(style="background-color:#2A3F54; color:white")
-        //-                     button.close(type='button', data-dismiss='modal')
-        //-                         span(aria-hidden='true') ×
-        //-                     h4#myModalLabel.modal-title(align='center')(style='color:white')  Report Household Worker
-        //-                             p(style="text-align:center; font-weight:bold; font-size:28px")#hwname 
-        //-                 .modal-body
-        //-                     input.form-control(id='thedate' type='date', name='daterep' style='display:none;')
-        //-                     input.form-control(id='_id' type='text', name='recipentid' style='display:none;')
-        //-                     .row
-        //-                         br
-        //-                         .col-md-1
-        //-                             .form-group
-        //-                                 | &nbsp
-        //-                         .col-md-5
-        //-                             .form-group
-        //-                                 | Choose Type of Incident
-        //-                                 select.form-control(name='ir')
-        //-                                     each ir in irtab
-        //-                                         option(value=''+ir.intID) #{ir.strName}
-        //-                     .row
-        //-                         .col-md-1
-        //-                             .form-group
-        //-                                 | &nbsp
-        //-                         .col-md-10
-        //-                             .form-group
-        //-                                 |Reason:
-        //-                                 each ir in irtab
-        //-                                     textarea.form-control.AddMessage(rows='7' name='reason' value=ir.strDesc readonly)
-        //-                 .modal-footer
-        //-                     button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Submit
+        #report_cancel.modal.fade(tabindex='-1', role='dialog', aria-labelledby='report', aria-hidden='true')
+            .modal-dialog.modal-md
+                form.form-horizontal(method='POST' action='/request_irclient/cancelremove')
+                    .modal-content
+                        .modal-header(style="background-color:#2A3F54; color:white")
+                            button.close(type='button', data-dismiss='modal')
+                                span(aria-hidden='true') ×
+                            h4.modal-title(align='center')(style='color:white')  Cancel Report
+                        .modal-body
+                            input(type="text", id='id' name="id" style='display: none;' )
+                            center
+                                h3 Are you sure you want to cancel this report?
+                        .modal-footer
+                            button.btn.btn-warning(type='submit' name='btn' value='cancel') Yes
+                            button.btn.btn-secondary(type='button', data-dismiss='modal') No
+        #report_hide.modal.fade(tabindex='-1', role='dialog', aria-labelledby='report', aria-hidden='true')
+            .modal-dialog.modal-md
+                form.form-horizontal(method='POST' action='/request_irclient/cancelremove')
+                    .modal-content
+                        .modal-header(style="background-color:#2A3F54; color:white")
+                            button.close(type='button', data-dismiss='modal')
+                                span(aria-hidden='true') ×
+                            h4.modal-title(align='center')(style='color:white')  Hide Report
+                        .modal-body
+                            input(type="text", id='id2' name="id" style='display: none;' )
+                            center
+                                h3 Are you sure you want to hide this report?
+                        .modal-footer
+                            button.btn.btn-warning(type='submit' name='btn' value='hide') Yes
+                            button.btn.btn-secondary(type='button', data-dismiss='modal') No
+        
         #report.modal.fade(tabindex='-1', role='dialog', aria-labelledby='report', aria-hidden='true')
             .modal-dialog.modal-md
                 form.form-horizontal(method='POST' action='/request_irclient/ir_client' enctype='multipart/form-data')
@@ -118,10 +111,6 @@ block content
                                 each ir in irtab
                                     option(value=''+ir.intID) #{ir.strName}
                                 option(value='other') Other Reason
-                            //- each ir in irtab
-                            //-     -var reas = "id" + ir.intID
-                            //-     .form-group(hidden id=reas)
-                            //-         textarea.form-control(rows='2' readonly) #{ir.strDesc}
                             .form-group#textt(hidden)
                                 textarea.form-control#textarea1(name='reason', placeholder='Specify Reason', rows='3', maxlength='150', hidden)
                                 .txtcount-div.block-none
@@ -131,7 +120,7 @@ block content
                             .row
                                 .col-md-12.text-center
                                     img#uploadPreview2(style='width: 100%; height: 200px;')        
-                            input.form-control.file-input(id="uploadImage2" type='file', name='postimage', accept='image/*' onchange="PreviewImage2();" required\)
+                            input.form-control.file-input(id="uploadImage2" type='file', name='postimage', accept='image/*' onchange="PreviewImage2();" required)
                             br
                             .mt-1
                                 .form-check
