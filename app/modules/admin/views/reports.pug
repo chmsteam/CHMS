@@ -6,6 +6,28 @@ block content
             .title_left
                 h5
                     b Reports
+            .x_panel
+                form.form-inline(method='POST' action='reports')
+                    each thequery in thequerytab
+                        br
+                        .row
+                            .col-md-4
+                                .form-group 
+                                    label Date From:
+                                        |&nbsp
+                                        |&nbsp
+                                        input.form-control(type='date', required='required', value=''+thequery.date1 name='datefrom')
+                            .col-md-3  
+                                .form-group           
+                                    label(style="margin-left:49px;") To:
+                                        |&nbsp
+                                        |&nbsp
+                                        input.form-control(type='date', required='required', value=''+thequery.date2 name='dateto')
+                        .row 
+                            .form-group
+                                button.btn.btn-info(type='submit')
+                                    i.fa.fa-eye
+                                    |  Filter
             .col-md-6.col-sm-6.col-xs-12
                 //hhowrkers
                 each cn in hwCount
@@ -23,8 +45,7 @@ block content
                             h2#HW(style="float:right") 
                         .clearfix
                     .x_content
-                        canvas#myChart
-                            
+                        canvas#myChart                
             .col-md-6.col-sm-6.col-xs-12
                 //clients
                 each clP in clPCount
@@ -103,7 +124,6 @@ block content
                         .clearfix
                     .x_content
                         canvas#myChart6
-                        br
 
     script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
     script.
@@ -125,8 +145,8 @@ block content
 
             var hwleavereq=parseInt(document.getElementById("hwleavereq").innerHTML);
             var hwreplacereq=parseInt(document.getElementById("hwreplacereq").innerHTML);
-            var totalhwreq = hwleavereq+hwreplacereq;
-            var totalhwreqdisp = 'Total: '+totalhwreq;
+            var totalhwreq = hwleavereq + hwreplacereq;
+            var totalhwreqdisp = 'Total: '+ totalhwreq;
             document.getElementById("hwreq").innerHTML = totalhwreqdisp;
 
             var clientaddreq=parseInt(document.getElementById("clientaddreq").innerHTML);

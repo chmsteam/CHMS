@@ -2713,6 +2713,11 @@ counters = [hwPenCnt, hwRegCnt, hwDepCnt, hwBanCnt, clBanCnt, clPenCnt, clRegCnt
    transpending, transapproved, transrejected, transongoing, transfinished, transterminated];
 router.get('/reports',flog, counters, renderreports);
 function renderreports(req,res){
+  var thequery = [{
+    date1 : '2012-01-01',
+    date2: '2018-10-17'
+  }]
+  req.thequery = thequery;
   if(req.valid==0)
     res.render('admin/views/reports',
       {
@@ -2736,7 +2741,8 @@ function renderreports(req,res){
         transrejectedtab: req.transrejected, 
         transongoingtab: req.transongoing, 
         transfinishedtab: req.transfinished, 
-        transterminatedtab: req.transterminated
+        transterminatedtab: req.transterminated,
+        thequerytab: req.thequery
       });
   else if(req.valid==1)
     res.render('admin/views/invalidpages/normalonly');
@@ -2746,7 +2752,12 @@ function renderreports(req,res){
 //Pending WH
 function hwPenCnt(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Household Worker' AND strStatus = 'Unregistered'", function (err, results) {
+  var thequery = [{
+    date1 : '2012-01-01',
+    date2: '2018-10-17'
+  }]
+  req.thequery = thequery;
+  db.query(`SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Household Worker' AND strStatus = 'Unregistered' AND (datDateRegistered BETWEEN '${thequery[0].date1}' AND '${thequery[0].date2}')`, function (err, results) {
       if (err) return res.send(err);
       req.hwPenCount = results;
       return next();
@@ -2755,7 +2766,12 @@ function hwPenCnt(req, res, next){
 //Registered HW
 function hwRegCnt(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Household Worker' AND strStatus = 'Registered'", function (err, results) {
+  var thequery = [{
+    date1 : '2012-01-01',
+    date2: '2018-10-17'
+  }]
+  req.thequery = thequery;
+  db.query(`SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Household Worker' AND strStatus = 'Registered' AND (datDateRegistered BETWEEN '${thequery[0].date1}' AND '${thequery[0].date2}')`, function (err, results) {
       if (err) return res.send(err);
       req.hwRegCount = results;
       return next();
@@ -2764,7 +2780,12 @@ function hwRegCnt(req, res, next){
 //Deployed HW
 function hwDepCnt(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Household Worker' AND strStatus = 'Deployed'", function (err, results) {
+  var thequery = [{
+    date1 : '2012-01-01',
+    date2: '2018-10-17'
+  }]
+  req.thequery = thequery;
+  db.query(`SELECT COUNT(*) AS CNT FROM tbluser INNER JOIN tblcontract ON intID = intConHWID  WHERE strType = 'Household Worker' AND strStatus = 'Deployed' AND (datDateStarted BETWEEN '${thequery[0].date1}' AND '${thequery[0].date2}')`, function (err, results) {
       if (err) return res.send(err);
       req.hwDepCount = results;
       return next();
@@ -2773,16 +2794,27 @@ function hwDepCnt(req, res, next){
 // Banned HW
 function hwBanCnt(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Household Worker' AND strStatus = 'Banned'", function (err, results) {
+  var thequery = [{
+    date1 : '2012-01-01',
+    date2: '2018-10-17'
+  }]
+  req.thequery = thequery;
+  db.query(`SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Household Worker' AND strStatus = 'Banned' AND (datDateRegistered BETWEEN '${thequery[0].date1}' AND '${thequery[0].date2}')`, function (err, results) {
       if (err) return res.send(err);
       req.hwBanCount = results;
       return next();
   });
 }
+
 //Pending CLients
 function clPenCnt(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Client' AND strStatus = 'Unregistered'", function (err, results) {
+  var thequery = [{
+    date1 : '2012-01-01',
+    date2: '2018-10-17'
+  }]
+  req.thequery = thequery;
+  db.query(`SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Client' AND strStatus = 'Unregistered' AND (datDateRegistered BETWEEN '${thequery[0].date1}' AND '${thequery[0].date2}')`, function (err, results) {
       if (err) return res.send(err);
       req.clPenCount = results;
       return next();
@@ -2791,7 +2823,12 @@ function clPenCnt(req, res, next){
 //Registered CLients
 function clRegCnt(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Client' AND strStatus = 'Registered'", function (err, results) {
+  var thequery = [{
+    date1 : '2012-01-01',
+    date2: '2018-10-17'
+  }]
+  req.thequery = thequery;
+  db.query(`SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Client' AND strStatus = 'Registered' AND (datDateRegistered BETWEEN '${thequery[0].date1}' AND '${thequery[0].date2}')`, function (err, results) {
       if (err) return res.send(err);
       req.clRegCount = results;
       return next();
@@ -2800,7 +2837,12 @@ function clRegCnt(req, res, next){
 //Banned CLients
 function clBanCnt(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Client' AND strStatus = 'Banned'", function (err, results) {
+  var thequery = [{
+    date1 : '2012-01-01',
+    date2: '2018-10-17'
+  }]
+  req.thequery = thequery;
+  db.query(`SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Client' AND strStatus = 'Banned' AND (datDateRegistered BETWEEN '${thequery[0].date1}' AND '${thequery[0].date2}')`, function (err, results) {
       if (err) return res.send(err);
       req.clBanCount = results;
       return next();
@@ -2810,7 +2852,12 @@ function clBanCnt(req, res, next){
 // HW Leave Request 
 function hwleavereq(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tblleaverequest", function (err, results) {
+  var thequery = [{
+    date1 : '2012-01-01',
+    date2: '2018-10-17'
+  }]
+  req.thequery = thequery;
+  db.query(`SELECT COUNT(*) AS CNT FROM tblleaverequest WHERE datDateCreated BETWEEN '${thequery[0].date1}' AND '${thequery[0].date2}'`, function (err, results) {
       if (err) return res.send(err);
       req.hwleavereq = results;
       return next();
@@ -2819,7 +2866,12 @@ function hwleavereq(req, res, next){
 // HW Replacement of Client Request 
 function hwreplacereq(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tblfinalrequest WHERE strRequestType='Replace Client'", function (err, results) {
+  var thequery = [{
+    date1 : '2012-01-01',
+    date2: '2018-10-17'
+  }]
+  req.thequery = thequery;
+  db.query(`SELECT COUNT(*) AS CNT FROM tblfinalrequest WHERE strRequestType='Replace Client' AND (datRequestDate BETWEEN '${thequery[0].date1}' AND '${thequery[0].date2}') AND strRequestStatus NOT IN('Draft', 'Cancelled', 'Deleted')`, function (err, results) {
       if (err) return res.send(err);
       req.hwreplacereq = results;
       return next();
@@ -2829,7 +2881,12 @@ function hwreplacereq(req, res, next){
 // Client Add Request
 function clientaddreq(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tblfinalrequest WHERE strRequestType='Add'", function (err, results) {
+  var thequery = [{
+    date1 : '2012-01-01',
+    date2: '2018-10-17'
+  }]
+  req.thequery = thequery;
+  db.query(`SELECT COUNT(*) AS CNT FROM tblfinalrequest WHERE strRequestType='Add' AND (datRequestDate BETWEEN '${thequery[0].date1}' AND '${thequery[0].date2}') AND strRequestStatus NOT IN('Draft', 'Cancelled', 'Deleted')`, function (err, results) {
       if (err) return res.send(err);
       req.clientaddreq = results;
       return next();
@@ -2838,7 +2895,12 @@ function clientaddreq(req, res, next){
 // Client Replacement Request
 function clientreplacereq(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tblfinalrequest WHERE strRequestType='Replacement'", function (err, results) {
+  var thequery = [{
+    date1 : '2012-01-01',
+    date2: '2018-10-17'
+  }]
+  req.thequery = thequery;
+  db.query(`SELECT COUNT(*) AS CNT FROM tblfinalrequest WHERE strRequestType='Replacement'  AND (datRequestDate BETWEEN '${thequery[0].date1}' AND '${thequery[0].date2}') AND strRequestStatus NOT IN('Draft', 'Cancelled', 'Deleted')`, function (err, results) {
       if (err) return res.send(err);
       req.clientreplacereq = results;
       return next();
@@ -2847,7 +2909,12 @@ function clientreplacereq(req, res, next){
 // Client Reliever Request
 function clientrelieverreq(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tblfinalrequest WHERE strRequestType='Reliever'", function (err, results) {
+  var thequery = [{
+    date1 : '2012-01-01',
+    date2: '2018-10-17'
+  }]
+  req.thequery = thequery;
+  db.query(`SELECT COUNT(*) AS CNT FROM tblfinalrequest WHERE strRequestType='Reliever'  AND (datRequestDate BETWEEN '${thequery[0].date1}' AND '${thequery[0].date2}') AND strRequestStatus NOT IN('Draft', 'Cancelled', 'Deleted')`, function (err, results) {
       if (err) return res.send(err);
       req.clientrelieverreq = results;
       return next();
@@ -2857,7 +2924,12 @@ function clientrelieverreq(req, res, next){
 // Incident Report na ginawa ni Client
 function irclient(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tblreport INNER JOIN tbluser ON intReporterID = intID WHERE strType = 'Client'", function (err, results) {
+  var thequery = [{
+    date1 : '2012-01-01',
+    date2: '2018-10-17'
+  }]
+  req.thequery = thequery;
+  db.query(`SELECT COUNT(*) AS CNT FROM tblreport INNER JOIN tbluser ON intReporterID = intID WHERE strType = 'Client' AND (datDateReported BETWEEN '${thequery[0].date1}' AND '${thequery[0].date2}')`, function (err, results) {
       if (err) return res.send(err);
       req.irclient = results;
       return next();
@@ -2866,7 +2938,12 @@ function irclient(req, res, next){
 // Incident Report na ginawa ni HW
 function irhw(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tblreport INNER JOIN tbluser ON intReporterID = intID WHERE strType = 'Household Worker'", function (err, results) {
+  var thequery = [{
+    date1 : '2012-01-01',
+    date2: '2018-10-17'
+  }]
+  req.thequery = thequery;
+  db.query(`SELECT COUNT(*) AS CNT FROM tblreport INNER JOIN tbluser ON intReporterID = intID WHERE strType = 'Household Worker' AND (datDateReported BETWEEN '${thequery[0].date1}' AND '${thequery[0].date2}')`, function (err, results) {
       if (err) return res.send(err);
       req.irhw = results;
       return next();
@@ -2876,7 +2953,12 @@ function irhw(req, res, next){
 // transactions pending
 function transpending(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tbltransaction WHERE strTStatus = 'Pending'", function (err, results) {
+  var thequery = [{
+    date1 : '2012-01-01',
+    date2: '2018-10-17'
+  }]
+  req.thequery = thequery;
+  db.query(`SELECT COUNT(*) AS CNT FROM tbltransaction WHERE strTStatus = 'Pending' AND (datDateRequested BETWEEN '${thequery[0].date1}' AND '${thequery[0].date2}')`, function (err, results) {
       if (err) return res.send(err);
       req.transpending = results;
       return next();
@@ -2885,7 +2967,12 @@ function transpending(req, res, next){
 // transactions approved
 function transapproved(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tbltransaction WHERE strTStatus = 'Approved'", function (err, results) {
+  var thequery = [{
+    date1 : '2012-01-01',
+    date2: '2018-10-17'
+  }]
+  req.thequery = thequery;
+  db.query(`SELECT COUNT(*) AS CNT FROM tbltransaction WHERE strTStatus = 'Approved' AND (datDateRequested BETWEEN '${thequery[0].date1}' AND '${thequery[0].date2}')`, function (err, results) {
       if (err) return res.send(err);
       req.transapproved = results;
       return next();
@@ -2894,7 +2981,12 @@ function transapproved(req, res, next){
 // transactions rejected
 function transrejected(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tbltransaction WHERE strTStatus = 'Rejected'", function (err, results) {
+  var thequery = [{
+    date1 : '2012-01-01',
+    date2: '2018-10-17'
+  }]
+  req.thequery = thequery;
+  db.query(`SELECT COUNT(*) AS CNT FROM tbltransaction WHERE strTStatus = 'Rejected' AND (datDateRequested BETWEEN '${thequery[0].date1}' AND '${thequery[0].date2}')`, function (err, results) {
       if (err) return res.send(err);
       req.transrejected = results;
       return next();
@@ -2903,7 +2995,12 @@ function transrejected(req, res, next){
 // transactions ongoing
 function transongoing(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tbltransaction WHERE strTStatus = 'On-going'", function (err, results) {
+  var thequery = [{
+    date1 : '2012-01-01',
+    date2: '2018-10-17'
+  }]
+  req.thequery = thequery;
+  db.query(`SELECT COUNT(*) AS CNT FROM tbltransaction WHERE strTStatus = 'On-going' AND (datDateRequested BETWEEN '${thequery[0].date1}' AND '${thequery[0].date2}')`, function (err, results) {
       if (err) return res.send(err);
       req.transongoing = results;
       return next();
@@ -2912,7 +3009,12 @@ function transongoing(req, res, next){
 // transactions finished
 function transfinished(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tbltransaction WHERE strTStatus = 'Finished'", function (err, results) {
+  var thequery = [{
+    date1 : '2012-01-01',
+    date2: '2018-10-17'
+  }]
+  req.thequery = thequery;
+  db.query(`SELECT COUNT(*) AS CNT FROM tbltransaction WHERE strTStatus = 'Finished' AND (datDateRequested BETWEEN '${thequery[0].date1}' AND '${thequery[0].date2}')`, function (err, results) {
       if (err) return res.send(err);
       req.transfinished = results;
       return next();
@@ -2921,13 +3023,246 @@ function transfinished(req, res, next){
 // transactions terminated
 function transterminated(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tbltransaction WHERE strTStatus = 'Terminated'", function (err, results) {
+  var thequery = [{
+    date1 : '2012-01-01',
+    date2: '2018-10-17'
+  }]
+  req.thequery = thequery;
+  db.query(`SELECT COUNT(*) AS CNT FROM tbltransaction WHERE strTStatus = 'Terminated' AND (datDateRequested BETWEEN '${thequery[0].date1}' AND '${thequery[0].date2}')`, function (err, results) {
       if (err) return res.send(err);
       req.transterminated = results;
       return next();
   });
 }
 
+
+// ------------------------------------------------POST report
+counters2=[hwPenCnt2, hwRegCnt2, hwDepCnt2, hwBanCnt2, clBanCnt2, clPenCnt2, clRegCnt2, hwleavereq2, hwreplacereq2,
+  clientaddreq2, clientreplacereq2, clientrelieverreq2, irclient2, irhw2, 
+  transpending2, transapproved2, transrejected2, transongoing2, transfinished2, transterminated2]
+router.post('/reports',flog, counters2, queryreports);
+function queryreports(req,res){
+  var thequery = [{
+    date1 : req.body.datefrom,
+    date2: req.body.dateto
+  }]
+  req.thequery = thequery;
+  if(req.valid==0)
+    res.render('admin/views/reports',
+      {
+        usertab: req.user,
+        hwPCount: req.hwPenCount,
+        hwCount: req.hwRegCount,
+        hwRCount: req.hwDepCount,
+        hwBCount: req.hwBanCount,
+        clRCount: req.clRegCount,
+        clPCount: req.clPenCount,
+        clBCount: req.clBanCount,
+        hwleavereqtab: req.hwleavereq,
+        hwreplacereqtab: req.hwreplacereq,
+        clientaddreqtab: req.clientaddreq,
+        clientreplacereqtab: req.clientreplacereq,
+        clientrelieverreqtab: req.clientrelieverreq,
+        irclienttab: req.irclient,
+        irhwtab: req.irhw,
+        transpendingtab: req.transpending, 
+        transapprovedtab: req.transapproved, 
+        transrejectedtab: req.transrejected, 
+        transongoingtab: req.transongoing, 
+        transfinishedtab: req.transfinished, 
+        transterminatedtab: req.transterminated,
+        thequerytab: req.thequery
+      });
+  else if(req.valid==1)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+//Pending WH
+function hwPenCnt2(req, res, next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Household Worker' AND strStatus = 'Unregistered' AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}')`, function (err, results) {
+      if (err) return res.send(err);
+      req.hwPenCount = results;
+      return next();
+  });
+}
+//Registered HW
+function hwRegCnt2(req, res, next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Household Worker' AND strStatus = 'Registered' AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}')`, function (err, results) {
+      if (err) return res.send(err);
+      req.hwRegCount = results;
+      return next();
+  });
+}
+//Deployed HW
+function hwDepCnt2(req, res, next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) AS CNT FROM tbluser INNER JOIN tblcontract ON intID = intConHWID  WHERE strType = 'Household Worker' AND strStatus = 'Deployed' AND (datDateStarted BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}')`, function (err, results) {
+      if (err) return res.send(err);
+      req.hwDepCount = results;
+      return next();
+  });
+}
+// Banned HW
+function hwBanCnt2(req, res, next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Household Worker' AND strStatus = 'Banned' AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}')`, function (err, results) {
+      if (err) return res.send(err);
+      req.hwBanCount = results;
+      return next();
+  });
+}
+
+//Pending CLients
+function clPenCnt2(req, res, next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Client' AND strStatus = 'Unregistered' AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}')`, function (err, results) {
+      if (err) return res.send(err);
+      req.clPenCount = results;
+      return next();
+  });
+}
+//Registered CLients
+function clRegCnt2(req, res, next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Client' AND strStatus = 'Registered' AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}')`, function (err, results) {
+      if (err) return res.send(err);
+      req.clRegCount = results;
+      return next();
+  });
+}
+//Banned CLients
+function clBanCnt2(req, res, next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) AS CNT FROM tbluser WHERE strType = 'Client' AND strStatus = 'Banned' AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}')`, function (err, results) {
+      if (err) return res.send(err);
+      req.clBanCount = results;
+      return next();
+  });
+}
+
+// HW Leave Request 
+function hwleavereq2(req, res, next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) AS CNT FROM tblleaverequest WHERE datDateCreated BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}'`, function (err, results) {
+      if (err) return res.send(err);
+      req.hwleavereq = results;
+      return next();
+  });
+}
+// HW Replacement of Client Request 
+function hwreplacereq2(req, res, next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) AS CNT FROM tblfinalrequest WHERE strRequestType='Replace Client' AND (datRequestDate BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND strRequestStatus NOT IN('Draft', 'Cancelled', 'Deleted')`, function (err, results) {
+      if (err) return res.send(err);
+      req.hwreplacereq = results;
+      return next();
+  });
+}
+
+// Client Add Request
+function clientaddreq2(req, res, next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) AS CNT FROM tblfinalrequest WHERE strRequestType='Add' AND (datRequestDate BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND strRequestStatus NOT IN('Draft', 'Cancelled', 'Deleted')`, function (err, results) {
+      if (err) return res.send(err);
+      req.clientaddreq = results;
+      return next();
+  });
+}
+// Client Replacement Request
+function clientreplacereq2(req, res, next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) AS CNT FROM tblfinalrequest WHERE strRequestType='Replacement'  AND (datRequestDate BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND strRequestStatus NOT IN('Draft', 'Cancelled', 'Deleted')`, function (err, results) {
+      if (err) return res.send(err);
+      req.clientreplacereq = results;
+      return next();
+  });
+}
+// Client Reliever Request
+function clientrelieverreq2(req, res, next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) AS CNT FROM tblfinalrequest WHERE strRequestType='Reliever'  AND (datRequestDate BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND strRequestStatus NOT IN('Draft', 'Cancelled', 'Deleted')`, function (err, results) {
+      if (err) return res.send(err);
+      req.clientrelieverreq = results;
+      return next();
+  });
+}
+
+// Incident Report na ginawa ni Client
+function irclient2(req, res, next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) AS CNT FROM tblreport INNER JOIN tbluser ON intReporterID = intID WHERE strType = 'Client' AND (datDateReported BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}')`, function (err, results) {
+      if (err) return res.send(err);
+      req.irclient = results;
+      return next();
+  });
+}
+// Incident Report na ginawa ni HW
+function irhw2(req, res, next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) AS CNT FROM tblreport INNER JOIN tbluser ON intReporterID = intID WHERE strType = 'Household Worker' AND (datDateReported BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}')`, function (err, results) {
+      if (err) return res.send(err);
+      req.irhw = results;
+      return next();
+  });
+}
+
+// transactions pending
+function transpending2(req, res, next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) AS CNT FROM tbltransaction WHERE strTStatus = 'Pending' AND (datDateRequested BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}')`, function (err, results) {
+      if (err) return res.send(err);
+      req.transpending = results;
+      return next();
+  });
+}
+// transactions approved
+function transapproved2(req, res, next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) AS CNT FROM tbltransaction WHERE strTStatus = 'Approved' AND (datDateRequested BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}')`, function (err, results) {
+      if (err) return res.send(err);
+      req.transapproved = results;
+      return next();
+  });
+}
+// transactions rejected
+function transrejected2(req, res, next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) AS CNT FROM tbltransaction WHERE strTStatus = 'Rejected' AND (datDateRequested BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}')`, function (err, results) {
+      if (err) return res.send(err);
+      req.transrejected = results;
+      return next();
+  });
+}
+// transactions ongoing
+function transongoing2(req, res, next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) AS CNT FROM tbltransaction WHERE strTStatus = 'On-going' AND (datDateRequested BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}')`, function (err, results) {
+      if (err) return res.send(err);
+      req.transongoing = results;
+      return next();
+  });
+}
+// transactions finished
+function transfinished2(req, res, next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) AS CNT FROM tbltransaction WHERE strTStatus = 'Finished' AND (datDateRequested BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}')`, function (err, results) {
+      if (err) return res.send(err);
+      req.transfinished = results;
+      return next();
+  });
+}
+// transactions terminated
+function transterminated2(req, res, next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) AS CNT FROM tbltransaction WHERE strTStatus = 'Terminated' AND (datDateRequested BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}')`, function (err, results) {
+      if (err) return res.send(err);
+      req.transterminated = results;
+      return next();
+  });
+}
 // -----------------------------------------------------------------QUERIES
 // -----------------------------------------------------------CLIENT
 function queryclient(req,res,next){
