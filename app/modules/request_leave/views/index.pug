@@ -28,7 +28,7 @@ block content
                                                         label(style='color:#394D5F') Type Of Leave *
                                                         select#sort.form-control(name='type')
                                                             each leave in leavetab
-                                                                option.sort.form-control(value=''+leave.intID, readonly days=leave.intDays fileDate= leave.intDaysForFile )
+                                                                option.sort.form-control(value=''+leave.intID, readonly days=leave.intDays fileDate= leave.intDaysForFile ) #{leave.strName}
                                                 .col-md-4
                                                         .form-group
                                                             br
@@ -43,13 +43,13 @@ block content
                                                     .form-group
                                                         
                                                         label(style='color:#394D5F') Starting From: *
-                                                        input#start(type='date' id='thedate'  onkeyup='time();' name="created"  hidden)
-                                                        input.form-control(type='date' name="started")
+                                                        input(type='date' id='thedate'  onkeyup='time();' name="created"  hidden)
+                                                        input.form-control#start(type='date' name="started")
                                                 .col-md-5
                                                     .form-group
                                                         
                                                         label(style='color:#394D5F') To: *
-                                                        input.form-control#end( type='date' name="end")
+                                                        input.form-control#end( type='date' name="end" readonly)
                                             .row
                                                 .col-md-1
                                                     .form-group
@@ -72,25 +72,25 @@ block content
                             br
 
                                             
-                        //-     h2 Leave
-                        //-     ul.nav.navbar-right.panel_toolbox
-                        //-         li
-                        //-             a.collapse-link
-                        //-                 i.fa.fa-chevron-up
-                        //-         li.dropdown
-                        //-             a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
-                        //-                 i.fa.fa-wrench
-                        //-             ul.dropdown-menu(role='menu')
-                        //-                 li
-                        //-                     a(href='#') Settings 1
-                        //-                 li
-                        //-                     a(href='#') Settings 2
-                        //-         li
-                        //-             a.close-link
-                        //-                 i.fa.fa-close
-                        //-     .clearfix
-                        //- .x_content
-                        //-     | Add content to the page ...
+        //-     h2 Leave
+        //-     ul.nav.navbar-right.panel_toolbox
+        //-         li
+        //-             a.collapse-link
+        //-                 i.fa.fa-chevron-up
+        //-         li.dropdown
+        //-             a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
+        //-                 i.fa.fa-wrench
+        //-             ul.dropdown-menu(role='menu')
+        //-                 li
+        //-                     a(href='#') Settings 1
+        //-                 li
+        //-                     a(href='#') Settings 2
+        //-         li
+        //-             a.close-link
+        //-                 i.fa.fa-close
+        //-     .clearfix
+        //- .x_content
+        //-     | Add content to the page ...
         //- script(src="/custom/bootstrap-datetimepicker.min.js")
         //- script(src="/custom/moment.min.js")
         script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
