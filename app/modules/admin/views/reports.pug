@@ -334,7 +334,7 @@ block content
         var myChart6 = new Chart(ctx6, {
             type: 'pie',
             data: {
-                labels: ["Approved","Rejected","On-going","Finished","Terminated"],
+                labels: ["Approved: "+transapproved, "Rejected: "+transrejected, "On-going: "+transongoing, "Finished: "+transfinished, "Terminated: "+transterminated],
                 datasets: [{
                     label: 'Household Worker',
                     data: [transapproved, transrejected, transongoing, transfinished, transterminated],

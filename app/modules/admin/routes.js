@@ -1809,7 +1809,7 @@ function rendertranssettled(req,res){
 function findtranssettled (req,res,next){
   var db = require('../../lib/database')();
   db.query(`SELECT CONCAT(b.strLName,', ', b.strFName) AS strName, intTRequestID, datDateSettled, strTStatus, datDateExpiry AS dateexpire, strRequestType FROM tbltransaction AS A INNER JOIN tblfinalrequest ON intRequestID = intTRequestID INNER JOIN tbluser AS b ON intID = intRequest_ClientID
-     WHERE a.strTStatus IN ('On-going') ORDER BY datDateSettled Desc`, function (err, results) {
+     WHERE a.strTStatus IN ('On-going', 'Finished', 'Terminated') ORDER BY datDateSettled Desc`, function (err, results) {
     console.log(err)
     for(var i = 0; i < results.length; i++){
       results[i].datDateSettled =  moment(results[i].datDateSettled).format("LL");
@@ -2220,11 +2220,20 @@ function hwbanreinstate(req,res){
     })
   }
   else if (req.body.btn1 == 'reinstate'){
-    db.query(`UPDATE tbluser SET strStatus ='Registered', datDateRegistered=? WHERE intID=?`, [req.body.thedate, req.body.id], function(err){
-      if (err) res.send(err);
-      else
-        res.redirect('/admin/profile_hw_'+req.body.id)
-    })
+    if(req.body.thestatus == 'Registered'){
+      db.query(`UPDATE tbluser SET strStatus ='Registered', datDateRegistered=? WHERE intID=?`, [req.body.thedate, req.body.id], function(err){
+        if (err) res.send(err);
+        else
+          res.redirect('/admin/profile_hw_'+req.body.id)
+      })  
+    }
+    else{
+      db.query(`UPDATE tbluser SET strStatus ='Deployed' WHERE intID=?`, [req.body.id], function(err){
+        if (err) res.send(err);
+        else
+          res.redirect('/admin/profile_hw_'+req.body.id)
+      })  
+    }
   }
 }
 //Update Picture
@@ -3552,7 +3561,35 @@ function queryhw(req,res,next){
 }
 router.post('/queries_hw',flog, findmcity, queryhw)
 
-
+// ---------------------------------------------------------------------Terminate Contract
+router.post('/terminatecontract',flog, terminatecontract)
+function terminatecontract(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`UPDATE tblcontract SET strCurStatus ='Terminated', strConReason=? WHERE intConHWID=? AND intConTransID=?`, [req.body.reason, req.body.hwid, req.body.transid], function(err){
+    if (err) res.send(err);
+    else{
+      db.query(`UPDATE tbluser SET strStatus='Registered' WHERE intID=?`, [req.body.hwid], function(err){
+        if (err) res.send(err);
+        else{
+          db.query(`SELECT COUNT(*) as totalcon FROM tblcontract WHERE intConTransID = ? AND strCurStatus IN('Current', 'On leave')`, [req.body.transid], function(err,result){
+            if (err) res.send(err);
+            else{
+              if(result[0].totalcon == 0){
+                db.query(`UPDATE tbltransaction set strTStatus ='Terminated', datDateExpiry=? WHERE intTRequestID=? AND strTStatus='On-going'`, [req.body.thedate, req.body.transid], function(err){
+                  if (err) res.send(err);
+                  else res.redirect('/admin/transaction_settled_'+req.body.transid);
+                })
+              }
+              else{
+                res.redirect('/admin/transaction_settled_'+req.body.transid);
+              }
+            }
+          })
+        }
+      })
+    }
+  })
+}
 
 
 

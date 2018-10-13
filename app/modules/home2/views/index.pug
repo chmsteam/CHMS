@@ -566,18 +566,18 @@ block content
                     $('#viewjob_contract').modal('hide')
                     );
                 });
-                //- $('button#rejectContract').click(function(){
-                //-     swal({
-                //-         type: 'warning',
-                //-         title: 'Contract Rejected',
-                //-         //- text: 'Wait for the client contract for further information',
-                //-         showConfirmButton: true,
-                //-         closeOnConfirm: true,
-                //-         },
-                //-         $(function(){
-                //-             location.reload();
-                //-         }),
-                //-     $('#viewjob_contract').modal('hide')
-                //-     );
-                //- });
+                $('button#rejectContract').click(function(){
+                    swal({
+                        type: 'warning',
+                        title: 'Contract Rejected',
+                        //- text: 'Wait for the client contract for further information',
+                        showConfirmButton: true,
+                        closeOnConfirm: true,
+                        },
+                        $(function(){
+                            location.reload();
+                        }),
+                    $('#viewjob_contract').modal('hide')
+                    );
+                });
             });

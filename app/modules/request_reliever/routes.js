@@ -207,7 +207,7 @@ function clientdecision(req,res){
     db.query(`UPDATE tblresults SET strRClientStatus= 'Approved' WHERE strRClientStatus='Waiting' AND intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}'`,function (err) {
       console.log('xxxxxxxxxxxxxx'+err);
       db.query(`SELECT * FROM tblresults as a INNER JOIN tblinitialrequest as b on a.intRRequestID = b.intIRequestID WHERE intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}' AND strRClientStatus = 'Approved'`, function (err,results){
-        db.query(`INSERT INTO tblcontract VALUES ('${req.body.transid}', '${req.body.reqno}', '${req.body.hwid}', '${results[0].deciRequestSalary}', '', NULL, '',NULL,'')`, function(err,results2){
+        db.query(`INSERT INTO tblcontract VALUES ('${req.body.transid}', '${req.body.reqno}', '${req.body.hwid}', '${results[0].deciRequestSalary}', '', NULL, '',NULL,'', '')`, function(err,results2){
           console.log('yyyyyyyyyyyyy'+err)
           res.redirect('/request_reliever/result_/-/'+ req.body.transid +'/-/'+req.params.requestno+'/-/'+ req.body.oldhwid);
         })

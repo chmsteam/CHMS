@@ -51,7 +51,7 @@ function findcontract(req, res, next){
 }
 function countcontract(req, res, next){
   var db = require('../../lib/database')();
-  db.query(`SELECT COUNT(*) as numero FROM tblcontract WHERE intConHWID=? AND strConStatus IN ('Waiting') `,[req.session.user], function (err, results) {
+  db.query(`SELECT COUNT(*) as numero FROM tblcontract WHERE intConHWID=? AND strConStatus IN ('Waiting', 'Rejected') `,[req.session.user], function (err, results) {
       console.log(''+req.params.userid);
       req.count= results;
       return next();
@@ -85,15 +85,15 @@ function contractdecision(req,res){
   if(req.body.btn1 == 'accept'){
     db.query(`UPDATE tblcontract SET strConStatus='Approved' WHERE intConHWID = '${req.session.user}' and intConTransID = '${req.body.transid}'`,function (err) {
       console.log(err)
-      res.redirect('/home_householdworker', flog, findjoboffers, noofincomingrequests, countcontract, findcontract, render);
+      res.redirect('/home_householdworker');
     })
   }
-  // else if(req.body.btn1 == 'reject'){
-  //   db.query(`UPDATE tblresults SET strRHWStatus= 'Rejected' WHERE strRHWStatus='Waiting' AND intRRequestID = '${req.body.transID}' AND intRRequest_No = '${req.body.reqno}' AND intRHWID = '${req.session.user}'`,function (err) {
-  //     console.log(''+err);
-  //     res.redirect('/home_householdworker', flog, findjoboffers, noofincomingrequests, countcontract, findcontract, render);
-  //   })
-  // }
+  else if(req.body.btn1 == 'reject'){
+    db.query(`UPDATE tblcontract SET strConStatus='Rejected' WHERE intConHWID = '${req.session.user}' and intConTransID = '${req.body.transid}'`,function (err) {
+      console.log(''+err);
+      res.redirect('/home_householdworker');
+    })
+  }
 }
 
 exports.home_householdworker= router;
