@@ -6,34 +6,34 @@ block content
             .page-title
                 .row
                     .col-md-12.col-sm-12.col-xs-12
-                     
                                 .x_panel
-                                    .x_title
-                                        h1  
-                                            b   Report Household Worker 
-                                        .clearfix
-                                    br
-                                    .x_panel(style='background-color:#f1f1f1')
-                                        h3 To be reported:
-                                        table#datatable2-responsive.table.jambo_table.table-bordered
-                                            thead
-                                                tr
-                                                    th NAME
-                                                    th Incident Report
-                                                    th STATUS
-                                                    th ACTION
-                                            tbody
-                                                each reported in reportedtab
-                                                    if reported.strReportStatus != 'Resolved (hid by client)'
-                                                        tr
-                                                            td #{reported.RFName} #{reported.RLName}
-                                                            td #{reported.strName}
-                                                            td #{reported.strReportStatus}
-                                                            td
-                                                                if reported.strReportStatus == '' || reported.strReportStatus == 'Under Investigation'
-                                                                    button.btn.btn-danger.btn-md(type='button' data-toggle='modal' data-target='#report_cancel' data-id=reported.intReportID) Cancel
-                                                                else if reported.strReportStatus == 'Resolved'
-                                                                    button.btn.btn-danger.btn-md(type='button' data-toggle='modal' data-target='#report_hide' data-id=reported.intReportID) Hide
+                                    .x_panel
+                                        .x_title
+                                            h1  
+                                                b   Report Household Worker 
+                                            .clearfix
+                                        br
+                                        .x_panel(style='background-color:#f1f1f1')
+                                            h3 To be reported:
+                                            table#datatable2-responsive.table.jambo_table.table-bordered
+                                                thead
+                                                    tr
+                                                        th NAME
+                                                        th Incident Report
+                                                        th STATUS
+                                                        th ACTION
+                                                tbody
+                                                    each reported in reportedtab
+                                                        if reported.strReportStatus != 'Resolved (hid by client)'
+                                                            tr
+                                                                td #{reported.RFName} #{reported.RLName}
+                                                                td #{reported.strName}
+                                                                td #{reported.strReportStatus}
+                                                                td
+                                                                    if reported.strReportStatus == '' || reported.strReportStatus == 'Under Investigation'
+                                                                        button.btn.btn-danger.btn-md(type='button' data-toggle='modal' data-target='#report_cancel' data-id=reported.intReportID) Cancel
+                                                                    else if reported.strReportStatus == 'Resolved'
+                                                                        button.btn.btn-primary.btn-md(type='button' data-toggle='modal' data-target='#report_hide' data-id=reported.intReportID) Remove
                                 br  
                                 br
                                 .x_panel(style='background-color:rgba(38,185,154,0.3)')
@@ -56,7 +56,7 @@ block content
                                                     td #{currenthw.strCurStatus}
                                                     td
                                                         a(href='/request_irclient/profile_hw_'+currenthw.intHWID)
-                                                            button.btn.btn-info(type='button')
+                                                            button.btn.btn-primary(type='button')
                                                                 |View Profile
                                                         if currenthw.strCurStatus == 'Current'
                                                             button.btn.btn-danger.btn-md(type='button' data-toggle='modal', data-target='#report',  data-hwid=currenthw.intConHWID, data-hwfname=currenthw.strFName, data-hwlname=currenthw.strLName) Report
@@ -71,14 +71,17 @@ block content
                         .modal-header(style="background-color:#2A3F54; color:white")
                             button.close(type='button', data-dismiss='modal')
                                 span(aria-hidden='true') ×
-                            h4.modal-title(align='center')(style='color:white')  Cancel Report
+                            h4.modal-title(align='center')(style="text-align:center; font-weight:bold") Cancel Report
                         .modal-body
                             input(type="text", id='id' name="id" style='display: none;' )
                             center
+                                br
                                 h3 Are you sure you want to cancel this report?
+                        br
                         .modal-footer
-                            button.btn.btn-warning(type='submit' name='btn' value='cancel') Yes
-                            button.btn.btn-secondary(type='button', data-dismiss='modal') No
+                            button.btn.btn-primary(type='button', data-dismiss='modal') No
+                            button.btn.btn-danger(type='submit' name='btn' value='cancel') Yes
+                            
         #report_hide.modal.fade(tabindex='-1', role='dialog', aria-labelledby='report', aria-hidden='true')
             .modal-dialog.modal-md
                 form.form-horizontal(method='POST' action='/request_irclient/cancelremove')
@@ -86,14 +89,17 @@ block content
                         .modal-header(style="background-color:#2A3F54; color:white")
                             button.close(type='button', data-dismiss='modal')
                                 span(aria-hidden='true') ×
-                            h4.modal-title(align='center')(style='color:white')  Hide Report
+                            h4.modal-title(align='center')(style="text-align:center; font-weight:bold") Hide Report
                         .modal-body
                             input(type="text", id='id2' name="id" style='display: none;' )
                             center
-                                h3 Are you sure you want to hide this report?
+                                br
+                                h3 Are you sure you want to remove this report?
+                        br
                         .modal-footer
-                            button.btn.btn-warning(type='submit' name='btn' value='hide') Yes
-                            button.btn.btn-secondary(type='button', data-dismiss='modal') No
+                            button.btn.btn-primary(type='button', data-dismiss='modal') No
+                            button.btn.btn-danger(type='submit' name='btn' value='hide') Yes
+                            
         
         #report.modal.fade(tabindex='-1', role='dialog', aria-labelledby='report', aria-hidden='true')
             .modal-dialog.modal-md
@@ -102,7 +108,7 @@ block content
                         .modal-header(style="background-color:#2A3F54; color:white")
                             button.close(type='button', data-dismiss='modal')
                                 span(aria-hidden='true') ×
-                            h4#myModalLabel.modal-title(align='center')(style='color:white')  Report Household Worker
+                            h4#myModalLabel.modal-title(align='center')(style="text-align:center; font-weight:bold") Report Household Worker
                                     p(style="text-align:center; font-weight:bold; font-size:28px")#hwname 
                         .modal-body
                             input.form-control(id='thedate' type='date', name='daterep', style='display:none;')

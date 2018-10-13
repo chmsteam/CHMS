@@ -284,7 +284,7 @@ block content
                                     else
                                         textarea.form-control.AddMessage(rows='5' name='reqdesc' disabled) #{list.strRequestDesc}
                         .modal-footer
-                            button.btn.btn-secondary(type='button', data-dismiss='modal') Close
+                            button.btn.btn-primary(type='button', data-dismiss='modal') Close
                             each list in listtab 
                                 if list.strRequestStatus == 'Draft' || list.strRequestStatus == 'On process'
                                     button.btn.btn-warning.btn-md(type='submit') Change

@@ -6,7 +6,7 @@ block content
             .row
                 .col-md-12
                     .x_panel(style='background-color:rgba(52,152,219,.3)')
-                        br
+                        
                         .x_title
                             .pull-right
                                 a(href='/admin/transaction_settle')
@@ -15,7 +15,14 @@ block content
                         .x_pa
                         .clearfix
                             //- tbltransaction
-                            
+                            .x_panel.alert-info(style='background-color:')
+                                h3(style="font-size:18px;" align='center')
+                                    b   &nbsp&nbsp&nbsp&nbsp&nbspDisclaimer !!!
+                                    br
+                                    br
+                                    To To settle request, you must <b>upload</b> contract first.
+                            br
+                            br
                             .x_panel
                                 h1 
                                     b   Client:
@@ -83,9 +90,9 @@ block content
                                                     a(href="/admin/profile_hw_"+hw.intConHWID)
                                                         button.btn.btn-primary.btn-md(type='button') View Profile
                                                     if hw.strConCopy == ''
-                                                        button.btn.btn-primary.btn-md(type='button' data-toggle='modal', data-target='#settle_viewcon_empty', data-con=hw.strConCopy, data-conname=hw.strConCopy, data-hwid=hw.intConHWID, data-transid=hw.intConTransID) View Contract
+                                                        button.btn.btn-primary.btn-md(type='button' data-toggle='modal', data-target='#settle_viewcon_empty', data-con=hw.strConCopy, data-conname=hw.strConCopy, data-hwid=hw.intConHWID, data-transid=hw.intConTransID) Contract
                                                     else
-                                                        button.btn.btn-primary.btn-md(type='button' data-toggle='modal', data-target='#settle_viewcon', data-con=hw.strConCopy, data-conname=hw.strConCopy, data-hwid=hw.intConHWID, data-transid=hw.intConTransID) View Contract
+                                                        button.btn.btn-primary.btn-md(type='button' data-toggle='modal', data-target='#settle_viewcon', data-con=hw.strConCopy, data-conname=hw.strConCopy, data-hwid=hw.intConHWID, data-transid=hw.intConTransID) Contract
         //- modals
         #deployment_details.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog(role='document')
@@ -120,7 +127,11 @@ block content
         #settle_viewcon_empty.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog(role='document')
                 .modal-content
-                    .modal-header(style="background-color:#EDEDED") Upload Contract
+                    .modal-header(style="background-color:#EDEDED")
+                        h2.modal-title 
+                            |   Upload Contract
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') ×
                     .modal-body
                         form#demo-form2.form-horizontal.form-label-left(method="POST" enctype="multipart/form-data" action="upload_hwcon")
                             input(type="text", id='hwid' name='hwid' style='display:none;')
@@ -293,6 +304,7 @@ block content
                         swal({
                             type: 'success',
                             title: 'Transaction Settled',
+                            text: 'Transaction successfully settled.',
                             showConfirmButton: false,
                             timer: 5000
                             }),
