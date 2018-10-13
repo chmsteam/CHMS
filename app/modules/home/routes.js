@@ -137,7 +137,7 @@ router.get('/householdworker_list', flog, myhw, renderhwlist);
 
 function countmyrequest(req,res,next){
   var db = require('../../lib/database')();
-  db.query(`SELECT COUNT(*) AS myrequest FROM tblfinalrequest WHERE intRequest_ClientID=? AND strRequestStatus IN ('Draft', 'On process', 'Pending')`, [req.session.user], function(err,results){
+  db.query(`SELECT COUNT(*) AS myrequest FROM tblfinalrequest WHERE intRequest_ClientID=? AND strRequestStatus IN ('Draft', 'On process', 'Pending') AND strRequestType NOT IN('Replace Client')`, [req.session.user], function(err,results){
     console.log(err);
     req.myreq=results;
     return next();

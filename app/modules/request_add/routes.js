@@ -287,7 +287,12 @@ function deleteservice(req,res){
   else if (req.body.btn1 == 'deleteonprocess'){
     db.query(`DELETE FROM tblinitialrequest WHERE intIRequestID =? AND intIRequest_No=?`,[req.body.requestid, req.body.requestno], function(err){
       console.log(err);
-      res.redirect('/request_add/mylist_'+req.body.requestid);
+      db.query(`DELETE FROM tblresults WHERE intRRequestID=? AND intRRequest_No=?`,[req.body.requestid, req.body.requestno], function(err){
+        db.query(`DELETE FROM tblcontract WHERE intConTransID=? AND intConReqNo=?`,[req.body.requestid, req.body.requestno], function(err){
+          res.redirect('/request_add/mylist_'+req.body.requestid);
+  
+        })
+      })
     })
   }
 }
@@ -324,7 +329,7 @@ function clientdecision(req,res){
     db.query(`UPDATE tblresults SET strRClientStatus= 'Approved' WHERE strRClientStatus='Waiting' AND intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}'`,function (err) {
       console.log('xxxxxxxxxxxxxx'+err);
       db.query(`SELECT * FROM tblresults as a INNER JOIN tblinitialrequest as b on a.intRRequestID = b.intIRequestID WHERE intRRequestID = '${req.body.transid}' AND intRRequest_No = '${req.params.requestno}' AND intRHWID = '${req.body.hwid}' AND strRClientStatus = 'Approved'`, function (err,results){
-        db.query(`INSERT INTO tblcontract VALUES ('${req.body.transid}', '${req.body.reqno}', '${req.body.hwid}', '${results[0].deciRequestSalary}', '', NULL, '',NULL,'')`, function(err,results2){
+        db.query(`INSERT INTO tblcontract VALUES ('${req.body.transid}', '${req.body.reqno}', '${req.body.hwid}', '${results[0].deciRequestSalary}', '', NULL, '',NULL,'','')`, function(err,results2){
           console.log('yyyyyyyyyyyyy'+err)
           res.redirect('/request_add/result_/-/'+req.params.transid +'/-/'+ req.params.requestno);
         })
