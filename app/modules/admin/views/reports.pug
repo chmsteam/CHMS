@@ -6,124 +6,140 @@ block content
             .title_left
                 h5
                     b Reports
-            .x_panel
-                form.form-inline(method='POST' action='reports')
-                    each thequery in thequerytab
-                        br
-                        .row
-                            .col-md-4
-                                .form-group 
-                                    label Date From:
-                                        |&nbsp
-                                        |&nbsp
-                                        input.form-control(type='date', required='required', value=''+thequery.date1 name='datefrom')
-                            .col-md-3  
-                                .form-group           
-                                    label(style="margin-left:49px;") To:
-                                        |&nbsp
-                                        |&nbsp
-                                        input.form-control(type='date', required='required', value=''+thequery.date2 name='dateto')
-                        .row 
-                            .form-group
-                                button.btn.btn-info(type='submit')
-                                    i.fa.fa-eye
-                                    |  Filter
-            .col-md-6.col-sm-6.col-xs-12
-                //hhowrkers
-                each cn in hwCount
-                    p(hidden)#RegiC #{cn.CNT}
-                each cnr in hwRCount
-                    p(hidden)#DepC #{cnr.CNT}
-                //- each hwpcount in hwPCount
-                //-     p(hidden)#PenC #{hwpcount.CNT}
-                each hwbcount in hwBCount
-                    p(hidden)#BanC #{hwbcount.CNT}
+            .x_panel(style='background-color:rgba(52,152,219,.3)')
                 .x_panel
-                    .x_title
-                        h2
-                            | Household Worker
-                            h2#HW(style="float:right") 
-                        .clearfix
-                    .x_content
-                        canvas#myChart                
-            .col-md-6.col-sm-6.col-xs-12
-                //clients
-                //- each clP in clPCount
-                //-     p(hidden)#Pencl #{clP.CNT}
-                each clR in clRCount
-                    p(hidden)#Regcl #{clR.CNT}
-                each clB in clBCount
-                    p(hidden)#Bancl #{clB.CNT}
-                .x_panel
-                    .x_title
-                        h2
-                            | Client
-                            h2#CL(style="float:right") 
-                        .clearfix
-                    .x_content
-                        canvas#myChart2
-            .col-md-6.col-sm-6.col-xs-12
-                each hwleavereq in hwleavereqtab
-                    p(hidden)#hwleavereq #{hwleavereq.CNT}
-                each hwreplacereq in hwreplacereqtab
-                    p(hidden)#hwreplacereq #{hwreplacereq.CNT}
-                .x_panel
-                    .x_title
-                        h2
-                            | Household Worker Requests
-                            h2#hwreq(style="float:right") 
-                        .clearfix
-                    .x_content
-                        canvas#myChart4
-            .col-md-6.col-sm-6.col-xs-12
-                each clientaddreq in clientaddreqtab
-                    p(hidden)#clientaddreq #{clientaddreq.CNT}
-                each clientreplacereq in clientreplacereqtab
-                    p(hidden)#clientreplacereq #{clientreplacereq.CNT}
-                each clientrelieverreq in clientrelieverreqtab
-                    p(hidden)#clientrelieverreq #{clientrelieverreq.CNT}
-                .x_panel
-                    .x_title
-                        h2
-                            | Client Requests
-                            h2#clientreq(style="float:right") 
-                        .clearfix
-                    .x_content
-                        canvas#myChart3
-            .col-md-6.col-sm-6.col-xs-12
-                .x_panel
-                    each irclient in irclienttab
-                        p(hidden)#irclient #{irclient.CNT}
-                    each irhw in irhwtab
-                        p(hidden)#irhw #{irhw.CNT}
-                    .x_title
-                        h2
-                            | Incident Report
-                            h2#ir(style="float:right") 
-                        .clearfix
-                    .x_content
-                        canvas#myChart5
-            .col-md-6.col-sm-6.col-xs-12
-                //- each transpending in transpendingtab
-                //-     p(hidden)#transpending #{transpending.CNT}
-                each transapproved in transapprovedtab
-                    p(hidden)#transapproved #{transapproved.CNT}
-                each transrejected in transrejectedtab
-                    p(hidden)#transrejected #{transrejected.CNT}
-                each transongoing in transongoingtab
-                    p(hidden)#transongoing #{transongoing.CNT}
-                each transfinished in transfinishedtab
-                    p(hidden)#transfinished #{transfinished.CNT}
-                each transterminated in transterminatedtab
-                    p(hidden)#transterminated #{transterminated.CNT}
-                .x_panel
-                    .x_title
-                        h2
-                            | Transactions
-                            h2#trans(style="float:right") 
-                        .clearfix
-                    .x_content
-                        canvas#myChart6
+                    .col-md-12.col-sm-12.col-xs-12
+                        form.form-inline(method='POST' action='reports')
+                            each thequery in thequerytab
+                                br
+                                .row
+                                    .col-md-1
+                                        .form-group 
+
+                                    .col-md-4
+                                        .form-group 
+                                            label Date&nbsp&nbsp From:
+                                                |&nbsp
+                                                |&nbsp
+                                                input.form-control(type='date', required='required', value=''+thequery.date1 name='datefrom')
+                                    
+                                    .col-md-4
+                                        .form-group           
+                                            label(style="margin-left:49px;") To:
+                                                |&nbsp
+                                                |&nbsp
+                                                input.form-control(type='date', required='required', value=''+thequery.date2 name='dateto')
+                                .row(style="float:right; margin-bottom:10px")
+                                    .form-group
+                                        button.btn.btn-info(type='submit')
+                                            i.fa.fa-filter
+                                            |  Filter
+
+            br
+            br
+            .x_panel(style='background-color:rgba(52,152,219,.3)')
+                .col-md-6.col-sm-6.col-xs-12
+                    //hhowrkers
+                    each cn in hwCount
+                        p(hidden)#RegiC #{cn.CNT}
+                    each cnr in hwRCount
+                        p(hidden)#DepC #{cnr.CNT}
+                    //- each hwpcount in hwPCount
+                    //-     p(hidden)#PenC #{hwpcount.CNT}
+                    each hwbcount in hwBCount
+                        p(hidden)#BanC #{hwbcount.CNT}
+                    .x_panel
+                        .x_title
+                            h2
+                                | Household Worker
+                                h2
+                                b#HW(style="float:right") 
+                            .clearfix
+                        .x_content
+                            canvas#myChart                
+                .col-md-6.col-sm-6.col-xs-12
+                    //clients
+                    //- each clP in clPCount
+                    //-     p(hidden)#Pencl #{clP.CNT}
+                    each clR in clRCount
+                        p(hidden)#Regcl #{clR.CNT}
+                    each clB in clBCount
+                        p(hidden)#Bancl #{clB.CNT}
+                    .x_panel
+                        .x_title
+                            h2
+                                | Client
+                                h2
+                                b#CL(style="float:right") 
+                            .clearfix
+                        .x_content
+                            canvas#myChart2
+                .col-md-6.col-sm-6.col-xs-12
+                    each hwleavereq in hwleavereqtab
+                        p(hidden)#hwleavereq #{hwleavereq.CNT}
+                    each hwreplacereq in hwreplacereqtab
+                        p(hidden)#hwreplacereq #{hwreplacereq.CNT}
+                    .x_panel
+                        .x_title
+                            h2
+                                | Household Worker Requests
+                                h2
+                                b#hwreq(style="float:right") 
+                            .clearfix
+                        .x_content
+                            canvas#myChart4
+                .col-md-6.col-sm-6.col-xs-12
+                    each clientaddreq in clientaddreqtab
+                        p(hidden)#clientaddreq #{clientaddreq.CNT}
+                    each clientreplacereq in clientreplacereqtab
+                        p(hidden)#clientreplacereq #{clientreplacereq.CNT}
+                    each clientrelieverreq in clientrelieverreqtab
+                        p(hidden)#clientrelieverreq #{clientrelieverreq.CNT}
+                    .x_panel
+                        .x_title
+                            h2
+                                | Client Requests
+                                h2
+                                b#clientreq(style="float:right") 
+                            .clearfix
+                        .x_content
+                            canvas#myChart3
+                .col-md-6.col-sm-6.col-xs-12
+                    .x_panel
+                        each irclient in irclienttab
+                            p(hidden)#irclient #{irclient.CNT}
+                        each irhw in irhwtab
+                            p(hidden)#irhw #{irhw.CNT}
+                        .x_title
+                            h2
+                                | Incident Report
+                                h2
+                                b#ir(style="float:right") 
+                            .clearfix
+                        .x_content
+                            canvas#myChart5
+                .col-md-6.col-sm-6.col-xs-12
+                    //- each transpending in transpendingtab
+                    //-     p(hidden)#transpending #{transpending.CNT}
+                    each transapproved in transapprovedtab
+                        p(hidden)#transapproved #{transapproved.CNT}
+                    each transrejected in transrejectedtab
+                        p(hidden)#transrejected #{transrejected.CNT}
+                    each transongoing in transongoingtab
+                        p(hidden)#transongoing #{transongoing.CNT}
+                    each transfinished in transfinishedtab
+                        p(hidden)#transfinished #{transfinished.CNT}
+                    each transterminated in transterminatedtab
+                        p(hidden)#transterminated #{transterminated.CNT}
+                    .x_panel
+                        .x_title
+                            h2
+                                | Transactions
+                                h2
+                                b#trans(style="float:right") 
+                            .clearfix
+                        .x_content
+                            canvas#myChart6
 
     script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
     script.

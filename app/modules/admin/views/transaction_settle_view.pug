@@ -167,7 +167,7 @@ block content
         #settle.modal.fade.bs-example(tabindex='-1', role='dialog', aria-hidden='true')
                 .modal-dialog
                     .modal-content
-                        form#settleAdd(method='POST' action='transaction_settledecision' enctype='multipart/form-data')
+                        form.settleAdd(method='POST' action='transaction_settledecision' enctype='multipart/form-data')
                             .modal-header(style='background-color:#f1f1f1')
                                 button.close(type='button', data-dismiss='modal', aria-label='Close')
                                     span(aria-hidden='true') ×
@@ -193,11 +193,11 @@ block content
                                             input.form-control#ss(type="text", name="ornum" required)
                             .modal-footer.center
                                 button.btn.btn-primary(type='button', data-dismiss='modal') Close
-                                button.btn.btn-success#settleAdd(type='submit' name='btn1' value='settle',  onCLick='time();') Ok
+                                button.btn.btn-success(type='submit' name='btn1' value='settle',  onCLick='time();') Ok
         #settle_replacementclient.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog
                 .modal-content
-                    form(method='POST' action='transaction_settledecision_replacementclient' enctype='multipart/form-data')
+                    form.settleAdd(method='POST' action='transaction_settledecision_replacementclient' enctype='multipart/form-data')
                         .modal-header(style='background-color:#f1f1f1')
                             button.close(type='button', data-dismiss='modal', aria-label='Close')
                                 span(aria-hidden='true') ×
@@ -223,11 +223,11 @@ block content
                                         input.form-control#ss(type="text", name="ornum" required)
                         .modal-footer.center
                             button.btn.btn-primary(type='button', data-dismiss='modal') Close
-                            button.btn.btn-success#settleAdd(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
+                            button.btn.btn-success(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
         #settle_replaceclient.modal.fade.bs-example(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog
                 .modal-content
-                    form(method='POST' action='transaction_settledecision_replaceclient' enctype='multipart/form-data')
+                    form.settleAdd(method='POST' action='transaction_settledecision_replaceclient' enctype='multipart/form-data')
                         .modal-header(style='background-color:#f1f1f1')
                             button.close(type='button', data-dismiss='modal', aria-label='Close')
                                 span(aria-hidden='true') ×
@@ -253,11 +253,11 @@ block content
                                         input.form-control#ss(type="text", name="ornum" required)
                         .modal-footer.center
                             button.btn.btn-primary(type='button', data-dismiss='modal') Close
-                            button.btn.btn-success#settleAdd(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
+                            button.btn.btn-success(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
         #settle_reliever.modal.fade.bs-example(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog
                 .modal-content
-                    form(method='POST' action='transaction_settledecision_reliever' enctype='multipart/form-data')
+                    form.settleAdd(method='POST' action='transaction_settledecision_reliever' enctype='multipart/form-data')
                         .modal-header(style='background-color:#f1f1f1')
                             button.close(type='button', data-dismiss='modal', aria-label='Close')
                                 span(aria-hidden='true') ×
@@ -283,9 +283,26 @@ block content
                                         input.form-control#ss(type="text", name="ornum" required)
                         .modal-footer.center
                             button.btn.btn-primary(type='button', data-dismiss='modal') Close
-                            button.btn.btn-success#settleAdd(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
+                            button.btn.btn-success(type='submit' name='btn1' value='settle',  onCLick='time2();') Ok
         
 
+        script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+        script.
+            $(document).ready(function(){
+                $('form.settleAdd').submit(function(){
+                        swal({
+                            type: 'success',
+                            title: 'Transaction Settled',
+                            showConfirmButton: false,
+                            timer: 5000
+                            }),
+                        $('.modal').modal('hide').then(
+                            $(function(){
+                                location.reload();
+                                }, 6000)
+                        );
+                    });
+            });
         script.
             function getname(){
                 var x = document.getElementById("mainfile").value;

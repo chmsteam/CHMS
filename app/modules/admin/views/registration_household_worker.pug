@@ -7,7 +7,7 @@ block content
                 h5
                     | Registration / Household Worker / 
                     b Form
-            form.form-horizontal.form-label-left(method='POST' action='register_householdworker', onkeyup='haha(), hoho();')
+            form#regi(method='POST' action='register_householdworker', onkeyup='haha(), hoho();').form-horizontal.form-label-left
                 .row
                     .col-md-12.col-sm-12.col-xs-12
                         .x_panel(style='background-color:rgba(52,152,219,.3)')
@@ -576,6 +576,34 @@ block content
 
 
                                         // End SmartWizard Content
+            script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+            script.
+                $(document).ready(function(){
+                    $('form#regi').submit(function(e){
+                        e.preventDefault();
+                        $.ajax({
+                            url: $('form#regi').attr('action'),
+                            method: 'post',
+                            data: $('form#regi').serialize(),
+                            success: function(response){
+                                console.log(response);
+                                if(response == 'success'){
+                                    swal({
+                                        type: 'success',
+                                        title: 'Submitted!',
+                                        text: "Registration successfully sent. Please wait for admin's approval.",
+                                        showConfirmButton: true,
+                                    },
+                                    function(isConfirm){
+                                        if(isConfirm){
+                                            location.reload();
+                                        }
+                                    });
+                                }   
+                            }
+                        })
+                    });
+                });
             script(type='text/javascript').
                 function haha(){
                     if(document.getElementById("elemname").value == '' && document.getElementById("secondname").value != ''){
@@ -630,6 +658,7 @@ block content
                         document.getElementById("educskill").disabled = false;      
                     }
                 }
+
                 //- function hoho(){
                 //-     if(documement.getElementById("workfrom1").value == "" && documement.getElementById("workfrom2").value != ""){
                 //-         document.getElementById("workfrom2").value = "";

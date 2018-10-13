@@ -19,125 +19,176 @@ block content
                                 h3 Personal Details
                                 .clearfix
                             .x_content
-                                br
-                                form.form-horizontal.form-label-left(method="POST" action="register_client")
-                                    .item.form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12
-                                            | Name 
-                                            span.required *
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            input.form-control.col-md-7.col-xs-12(type='text', name='firstname', placeholder='First Name', required='required')
-                                    .item.form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12
-                                            span.required
-                                        .col-md-3.fcol-sm-6.col-xs-12
-                                            input.form-control.col-md-7.col-xs-12(data-validate-length-range='6', data-validate-words='2', name='middlename', placeholder='Middle Name (Optional)', type='text')
-                                        .col-md-3.col-sm-6.col-xs-12
-                                            input.form-control.col-md-7.col-xs-12(data-validate-length-range='6', data-validate-words='2', name='lastname', placeholder='Last Name', required='required', type='text')
-                                    br
-                                    .item.form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12
-                                            | Email Address
-                                            span.required *
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            input.form-control.col-md-7.col-xs-12(type='email', name='email', required='required')
-                                    .item.form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12
-                                            | Password
-                                            span.required *
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            input.form-control.col-md-7.col-xs-12(type='password', name='password', required='required' placeholder='(Minimun of 5 characters)')
-                                    .item.form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12
-                                            |Confirm Password
-                                            span.required *
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            input.form-control.col-md-7.col-xs-12(type='password', name='conpassword', required='required')
-                                    br
-                                    .item.form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12
-                                            | Mobile Number / Telephone Number
-                                            span.required *
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            input.form-control.col-md-7.col-xs-12(type='txt', name='contactnum', required='required')
-                                    .item.form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12
-                                            | Current Address 
-                                            span.required *
-                                        .col-md-3.col-sm-6.col-xs-12
-                                            input.form-control.col-md-7.col-xs-12(id="_1", type='text', name='housenum', placeholder='House/Bldg. no.', required='required')
-                                        .col-md-3.col-sm-6.col-xs-12
-                                            input.form-control.col-md-7.col-xs-12(id="_2", type='text', name='streetnum', placeholder='Street', required='required')
-                                    .item.form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12
-                                            span.required
-                                        .col-md-3.col-sm-6.col-xs-12
-                                            input.form-control.col-md-7.col-xs-12(id="_3", type='text', name='province', placeholder='Province', required='required')
-                                        .col-md-3.col-sm-6.col-xs-12
-                                            input.form-control.col-md-7.col-xs-12(id="_4", type='text', name='city', placeholder='City', required='required')
-                                    .item.form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12
-                                            | Permanent Address 
-                                            span.required *
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            input.form-control.col-md-7.col-xs-12(id="txtf", type='text', name='permanentadd', placeholder='', required='required')
-                                        .checkbox.control-label.col-md-9.col-xs-12
-                                            label
-                                                input(id='chb', type='checkbox', value='', onClick="copy();")
-                                                |  Same with my Current Address.
-                                    br
-                                    .item.form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12
-                                            | Office Address 
-                                            span.required
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            input.form-control.col-md-7.col-xs-12(type='text', name='ofcaddress', placeholder='')
-                                    .item.form-group
-                                        label.control-label.col-md-3.col-sm-3.col-xs-12
-                                            | Office Telephone Number 
-                                        .col-md-6.col-sm-6.col-xs-12
-                                            input.form-control.col-md-7.col-xs-12(type='text', name='ofcnum')
-                                    .row
-                                        .col-md-12
-                                            .form-group
-                                                input#accept(name='accept', type='checkbox', value='y')
-                                                |  I have read and agree to the 
-                                                a(href="/admin/registration/Terms_and_Conditions") 
-                                                    b(style="color:blue;") terms and conditons
-                                    .form-group
-                                        .col-md-7.col-md-offset-3.pull-right
-                                            | 
-                                            button.btn.btn-primary(type='reset') Reset
-                                            button.btn.btn-success#submitbtn(type='submit' disabled='disabled') Register
-                                    .ln_solid
+                                form#regi(method="POST" action="register_client")
+                                    .x_title
+                                        center
+                                            h1 Client Registration
+                                    .x_content
+                                        br
+                                        .col-lg-12
+                                            .row
+                                                .col-md-4
+                                                    .form-group
+                                                        label First Name*
+                                                        input.form-control(type='text', id='firstname' name='firstname', maxlength='45' required )
+                                                .col-md-4
+                                                    .form-group
+                                                        label Middle Name 
+                                                        input.form-control(data-validate-length-range='6', data-validate-words='2', id='middlename' name='middlename', placeholder='(Optional)', type='text' maxlength='45')
+                                                .col-md-4
+                                                    .form-group
+                                                        label Last Name*
+                                                        input.form-control(data-validate-length-range='6', data-validate-words='2', id='lastname' name='lastname',  required, type='text' maxlength='45')
+                                            br
+                                            .row
+                                                .col-md-6
+                                                    .form-group
+                                                        label Email Address*
+                                                        input.form-control(type='email', id='email' name='email', required maxlength='45')
+                                                .col-md-6
+                                                    .form-group
+                                                        label Mobile Number / Telephone Number*
+                                                        input.form-control(type='txt', id='contactnum' name='contactnum', required maxlength='45')
+                                            .row
+                                                .col-md-6    
+                                                    .form-group
+                                                        label Password*
+                                                        input.form-control(type='password', id='password' name='password', required='required' placeholder='(Minimun of 5 characters)' minlength='5' maxlength='45')
+                                                .col-md-6
+                                                    .form-group
+                                                        label Confirm Password*
+                                                        input.form-control(type='password', id='conpassword' name='conpassword', required='required' minlength='5' maxlength='45')
+                                            .row
+                                                .col-md-3
+                                                    .form-group
+                                                        label Current Address* 
+                                                        input.form-control(id="_1", type='text',   name='housenum', placeholder='House/Bldg. no.', required='required' maxlength='45')
+                                                .col-md-3
+                                                    .form-group
+                                                        label &nbsp
+                                                        input.form-control(id="_2", type='text', name='streetnum', placeholder='Street', required='required' maxlength='45')
+                                                .col-md-3
+                                                    .form-group
+                                                        label &nbsp
+                                                        input.form-control(id="_3", type='text',  name='province', placeholder='Municipality', required='required' maxlength='45')
+                                                .col-md-3
+                                                    .form-group
+                                                        label &nbsp
+                                                        input.form-control(id="_4", type='text',  name='city', placeholder='City', required='required' maxlength='45')
+                                            //- .row
+                                            //-     .col-md-9
+                                            //-         .form-group
+                                            //-             label Permanent Address*
+                                            //-                 input.form-control.col-md-7.col-xs-12(id="txtf", type='text', name='permanentadd', placeholder='', required='required' maxlength='70')
+                                            //-                 .checkbox
+                                            //-                     label
+                                            //-                         input(id='chb', type='checkbox', value='', onClick="copy();")
+                                            //-                         |  Same with my Current Address.
+                                                br
+                                            .row
+                                                .col-md-7
+                                                    .form-group
+                                                        label Office Address
+                                                        input.form-control(type='text', id='ofcaddress' name='ofcaddress', placeholder=''  maxlength='70')
+                                                .col-md-5
+                                                    .form-group
+                                                        label Office Telephone Number 
+                                                        input.form-control(type='text', id='ofcnum' name='ofcnum'  maxlength='45')
+                                            .row
+                                                .col-md-12
+                                                    .form-group
+                                                        input#accept(name='accept', type='checkbox', value='y')
+                                                        |  I have read and agree to the 
+                                                        a(href="/registration/Terms_and_Conditions") 
+                                                            b(style="color:blue;") terms and conditons
+                                            .row
+                                                .form-group(style="float:right")
+                                                    button.btn.btn-primary(type='reset') Reset
+                                                    button.btn.btn-success#submitbtn(type='submit' disabled='disabled') Register
+    script.
+        $('#accept').click(function() {
+            if ($('#submitbtn').is(':disabled')) {
+                $('#submitbtn').removeAttr('disabled');
+            } else {
+                $('#submitbtn').attr('disabled', 'disabled');
+            }
+        }); 
+    script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+    
+    //- script.
+    //-     $('form#regi').submit(function(){
+    //-         console.log("nakapunta dito");
+    //-         setTimeout(function() {
+    //-             window.location.href = "/login";
+    //-             }, 5000);
+    //-         swal({
+    //-             type: 'success',
+    //-             title: 'Submitted',
+    //-             text: 'You may now present the needed documents in the admin office',
+    //-         });
+    //-     })
+    script.
+        $('form#regi').submit(function(e){
+            e.preventDefault();
+            $.ajax({
+                url: $('form#regi').attr('action'),
+                method: 'post',
+                data: $('form#regi').serialize(),
+                success: function(response){
+                    console.log(response);
+                    if(response == 'success'){
+                        swal({
+                            type: 'success',
+                            title: 'Submitted!',
+                            text: "Registration successfully sent. Please wait for admin's approval.",
+                            showConfirmButton: true,
+                        },function(isConfirm){
+                            if(isConfirm){
+                                location.reload();
+                                }
+                        });
+                    }
+                    else if(response == 'notmatch'){
+                        swal({
+                            type: 'warning',
+                            title: 'Password Not Matched',
+                            text: 'Password didnt match',
+                            showConfirmButton: false,
+                            timer: 2000
+                            }
+                        );
+                    }
+                }
+            })
+        });
+    script(type='text/javascript').
+        function copy() {
+            var txt1 = document.getElementById("_1");
+            var txt2 = document.getElementById("_2");
+            var txt3 = document.getElementById("_3");
+            var txt4 = document.getElementById("_4");
+            var txtf = document.getElementById("txtf");
+            
+            if((txt1.value && txt2.value && txt3.value && txt4.value) == ''){
+                txtf.value= '';
+            }
+            else{
+              txtf.value = txt1.value + ', ' + txt2.value + ', ' + txt3.value + ', ' + txt4.value;                     
+            }
+   
+        }
+        function dis(){
+            var txt1 = document.getElementById("_1");
+            var txt2 = document.getElementById("_2");
+            var txt3 = document.getElementById("_3");
+            var txt4 = document.getElementById("_4");
+            var txtf = document.getElementById("txtf");       
 
-            script(type='text/javascript').
-                function copy() {
-                    var txt1 = document.getElementById("_1");
-                    var txt2 = document.getElementById("_2");
-                    var txt3 = document.getElementById("_3");
-                    var txt4 = document.getElementById("_4");
-                    var txtf = document.getElementById("txtf");
-                    
-                    if((txt1.value && txt2.value && txt3.value && txt4.value) == ''){
-                        txtf.value= '';
-                    }
-                    else{
-                    txtf.value = txt1.value + ', ' + txt2.value + ', ' + txt3.value + ', ' + txt4.value;                     
-                    }
+            if((txt1.value && txt2.value && txt3.value && txt4.value) == ''){
+                document.getElementById("chb").disabled = true;
+            }
+            else if ((txt1.value)=='1'){
+                document.getElementById("chb").disabled = false;
+            }
+        }
         
-                }
-                function dis(){
-                    var txt1 = document.getElementById("_1");
-                    var txt2 = document.getElementById("_2");
-                    var txt3 = document.getElementById("_3");
-                    var txt4 = document.getElementById("_4");
-                    var txtf = document.getElementById("txtf");       
-
-                    if((txt1.value && txt2.value && txt3.value && txt4.value) == ''){
-                        document.getElementById("chb").disabled = true;
-                    }
-                    else if ((txt1.value)=='1'){
-                        document.getElementById("chb").disabled = false;
-                    }
-                }

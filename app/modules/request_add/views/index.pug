@@ -14,7 +14,7 @@ block content
                                 .x_title
                                     .clearfix
                                     .x_panel.alert-success(style='background-color:')
-                                        h3(style="font-size:18px;")(align='center')
+                                        h3(style="font-size:18px;" align='center')
                                             b   &nbsp&nbsp&nbsp&nbsp&nbspDisclaimer !!!
                                                 br
                                                 br
@@ -36,7 +36,7 @@ block content
                                         if list.strRequestStatus != 'Finished' && list.strRequestStatus != 'Deleted'
                                             .col-md-4.col-sm-4.col-xs-12.profile_details
                                                 .well.profile_view
-                                                    .col-sm-6(align='right')(style='padding-right:10px')
+                                                    .col-sm-6(align='right' style='padding-right:10px')
                                                     |   #{list.datRequestDate}  
                                                     .col-sm-12
                                                         .right.col-sm-12
@@ -158,7 +158,7 @@ block content
                     .modal-header(style="background-color:#2A3F54; color:white")
                         button.close(type='button', data-dismiss='modal')
                             span(aria-hidden='true') ×
-                        h2#myModalLabel.modal-title(align='center')(style='color:white') 
+                        h2#myModalLabel.modal-title(align='center' style='color:white') 
                             p(style="text-align:center; font-weight:bold; font-size:28px") Create List
                     br
                     .modal-body
@@ -174,7 +174,7 @@ block content
                                 .col-md-5
                                     .form-group
                                         b   Date Needed
-                                        input.form-control(type='date', name='dateneed' required)
+                                        input.form-control#need(type='date', name='dateneed' required)
                         .row
                             .col-md-1
                                 .form-group     
@@ -207,8 +207,34 @@ block content
                             showConfirmButton: false,
                             },setTimeout(function() {
                                 location.reload();
-                            }, 2500)
+                            }, 1500)
                         );
+                    }
+                    else if(response == 'already exists'){
+                        $('#Add').modal('hide');
+                        swal({
+                            type: 'warning',
+                            title: 'List Already Exists',
+                            showConfirmButton: false,
+                            timer: 1500
+                            }
+                        );
+                    }
+                    else if(response == 'invalid date'){
+                        $('#Add').modal('hide');
+                        swal({
+                            type: 'warning',
+                            title: 'Invalid Date',
+                            text: 'Date Needed should be atleast 1 week',
+                            showConfirmButton: true
+                        },
+                        function(isConfirm){
+                            if(isConfirm){
+                                swal({
+                                    modalClose: true
+                                });
+                            }
+                        });
                     }
                 }
             })
@@ -251,4 +277,25 @@ block content
             today = yyyy + '-' + mm + '-' + dd ;
             //- document.write(today);
            document.getElementById("thedate").value=today;
+
+            var valid = new Date();
+                var dd1 = valid.getDate()+7;
+                var mm2 = valid.getMonth()+1; //January is 0!
+                var yyyy2 = valid.getFullYear();
+                var hh2 = valid.getHours();
+                var min2 = valid.getMinutes();
+                var sec2 = valid.getSeconds();
+                var y= document.getElementById("need");
+                
+                if(dd1<10) {
+                    dd1 = '0'+dd1
+                } 
+
+                if(mm2<10) {
+                    mm2 = '0'+mm2
+                } 
+
+                valid = yyyy2 + '-' + mm2 + '-' + dd1 ;
+                //- document.write(valid);
+           document.getElementById("need").setAttribute("min", valid);
         }

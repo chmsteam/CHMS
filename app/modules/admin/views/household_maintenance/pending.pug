@@ -17,16 +17,16 @@ block content
                             table#datatable.table.table-striped.table-bordered
                                 thead
                                     tr
-                                        th ID NO.
-                                        th NAME
-                                        th SERVICE
-                                        th STATUS
-                                        th ACTION
+                                        //- th ID NO.
+                                        th(style="text-align:center") NAME
+                                        th(style="text-align:center") SERVICE
+                                        th(style="text-align:center") STATUS
+                                        th(style="text-align:center") ACTION
                                 tbody
                                     each item in itemtab
-                                        tr
+                                        tr(style="text-align:center")
                                         
-                                            td #{item.intHWID}
+                                            //- td #{item.intHWID}
                                             td #{item.strNames}
                                             td #{item.strName}
                                             td #{item.stat}
@@ -78,7 +78,7 @@ block content
                 .modal-footer
                     button.btn.btn-primary(type='button', data-dismiss='modal') Close
     #req_unregistered_hw.modal.fade.bs-add-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
-        .modal-dialog.sm(style="width:400px")
+        .modal-dialog
             .modal-content
                 .modal-header(style="background-color:#EDEDED")
                     button.close(type='button', data-dismiss='modal')
@@ -91,12 +91,17 @@ block content
                         input#email(type="text", name="email" hidden)
                         input#fname(type="text" name="fname" hidden)
                         input#lname(type="text" name="lname" hidden)
-                        each requirement in HWreqtab
-                            .form-group
-                                .col-md-12
-                                    label
-                                        input.check(id=requirement.intID, type='checkbox', value=requirement.intID, name='requ' onClick='getreq(this.id);')
-                                        | &nbsp #{requirement.strName}
+                        p(style="font-size:15px") The following requirements should be presented in able to approve a Household Worker
+                        .row
+                            .col-md-12
+                                each requirement in HWreqtab
+                                    li #{requirement.strName}
+                        br
+                        .row
+                            .col-md-12
+                                input.check(type='checkbox') 
+                                span 
+                                    label(style='margin-left:5px') All requirements are presented.
                         .ln_solid
                         .form-group.pull-right
                             button.btn.btn-success#sub(type='submit' name='btn1' value='approve' onCLick='time();' disabled)
@@ -132,13 +137,13 @@ block content
         //-         $("#sub").attr("disabled", !$(".check:checked").length);
         //-     });
         //- });
-        $(function() {
-            $(".check").click(function(){
-                var len = $('.check').length;
-                console.log(len);
-                $('#sub').prop('disabled',$('input.check:checked').length <= 7);
-            });
-        });
+        $('.check').click(function() {
+            if ($('#sub').is(':disabled')) {
+                $('#sub').removeAttr('disabled');
+            } else {
+                $('#sub').attr('disabled', 'disabled');
+            }
+        }); 
         function time(){
             var today = new Date();
             var dd = today.getDate();

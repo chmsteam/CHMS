@@ -104,12 +104,12 @@ block content
                                                                                 i.fa.fa-list
                                                                                 |   View Contract
                                                                             if list.strRequestType == "Add"
-                                                                                a(href="/admin/invoice_"+contractdetails.intTRequestID)
+                                                                                a(href="/admin/invoice_"+contractdetails.intTRequestID, target="_blank")
                                                                                     button.btn.btn-primary(type='button')
                                                                                         i.fa.fa-list
                                                                                         |   View Invoice
                                                                             else if list.strRequestType == "Replacement"
-                                                                                a(href="/admin/replacementInvoice_"+contractdetails.intTRequestID)
+                                                                                a(href="/admin/replacementInvoice_"+contractdetails.intTRequestID, target="_blank")
                                                                                     button.btn.btn-primary(type='button')
                                                                                         i.fa.fa-list
                                                                                         |   View Invoice

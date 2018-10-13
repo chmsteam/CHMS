@@ -172,7 +172,7 @@ block content
                                         .col-md-5.col-sm-6.col-xs-12
                                             input.form-control.col-md-7.col-xs-12(type='text', id='id', name='transid' required='required' style="display:none;")
                                             input.form-control.col-md-7.col-xs-12(type='text', id='hwid', name='hwid' required='required' style="display:none;")
-                                            input.form-control.col-md-7.col-xs-12(type='number', id='salary', name='salary' required='required', min=1)
+                                            input.form-control.col-md-7.col-xs-12(type='number', id='salary', name='salary' required='required', min="2500")
                                 .modal-footer
                                     button.btn.btn-success.btn-md#editSalary(type='submit') Change
            
@@ -222,6 +222,7 @@ block content
                             type: 'success',
                             title: 'Contract Sent!',
                             text: 'Wait for the confirmation of the household worker.',
+                            showConfirmButton: false,
                             },
                             $(function(){
                                 location.reload();
