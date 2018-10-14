@@ -23,7 +23,8 @@ block content
                                             li.active(role='presentation')
                                                 a#home-tab(href='#tab_content1', role='tab', data-toggle='tab', aria-expanded='true') My Request
                                             li(role='presentation')
-                                                a#incoming-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Incoming Request
+                                                each ircount in ircounttab
+                                                    a#incoming-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Incoming Request: #{ircount.ircount}
                                             li(role='presentation')
                                                 a#history-tab(href='#tab_content3', role='tab', data-toggle='tab', aria-expanded='false') History	
                                         #myTabContent.tab-content
@@ -444,13 +445,13 @@ block content
                                                     span#sal
                                                 td
                                                 td
-                        //- .modal-footer
-                        //-     button.btn.btn-success#acceptJob(type='submit' name='btn1' value='accept')
-                        //-         i.fa.fa-thumbs-up
-                        //-         |   Accept
-                        //-     button.btn.btn-danger#rejectJob(type='submit' name='btn1' value='reject')
-                        //-         i.fa.fa-trash
-                        //-         |   Reject
+                        .modal-footer
+                            button.btn.btn-success#acceptJob(type='submit' name='btn1' value='accept')
+                                i.fa.fa-thumbs-up
+                                |   Accept
+                            button.btn.btn-danger#rejectJob(type='submit' name='btn1' value='reject')
+                                i.fa.fa-trash
+                                |   Reject
         #viewjob_contract.modal.fade.bs-add-modal-lg(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog.modal-lg
                 .modal-content

@@ -3,10 +3,10 @@ var flog = require( '../login/loggedin');
 var router = express.Router();
 var moment = require('moment')
 
-router.get('/', flog, findjoboffers, noofincomingrequests, countcontract, findcontract, render);
+router.get('/', flog, findjoboffers, noofincomingrequests, countcontract, findcontract, ircount, render);
 function render(req,res){
     if(req.valid==2)
-      res.render('home2/views/index',{usertab: req.user, offertab: req.offer, irtab: req.ir, conttab: req.cont, counttab: req.count});
+      res.render('home2/views/index',{usertab: req.user, offertab: req.offer, irtab: req.ir, conttab: req.cont, counttab: req.count, ircounttab: req.ircount});
     else if(req.valid==0)
       res.render('admin/views/invalidpages/normalonly');
     else
@@ -57,13 +57,31 @@ function countcontract(req, res, next){
       return next();
   });
 }
+// -----------------------------------------------------------------Count Incoming Request
+function ircount(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) as ircount FROM (SELECT * FROM tblresults AS a 
+    INNER JOIN tblfinalRequest AS b ON a.intRRequestID = b.intRequestID 
+    INNER JOIN tblclient AS c ON b.intRequest_ClientID = c.intClientID 
+    INNER JOIN tbluser AS d ON d.intID = c.intClientID WHERE intRHWID = ? AND (strRHWStatus IN ('Waiting','Approved','Rejected'))) as ta 
+    INNER JOIN tblinitialrequest as tb 
+    INNER JOIN tblmservice AS tm ON tb.intITypeOfService = tm.intID
+    WHERE ta.intRRequestID = tb.intIRequestID AND ta.intRRequest_No = tb.intIRequest_No`, [req.session.user], function(err,results){
+      if (err) res.send(err);
+      else{
+        req.ircount=results;
+        console.log('ircount= '+results[0].ircount)
+        return next();
+      }
+    })
+}
 // -----------------------------------------------------------------JOB OFFER DECISION
 function offerdecision(req,res){
   var db = require('../../lib/database')();
   if(req.body.btn1 == 'accept'){
     db.query(`UPDATE tblresults SET strRHWStatus= 'Approved' WHERE  intRRequestID = '${req.body.transID}' AND intRRequest_No = '${req.body.reqno}' AND intRHWID = '${req.session.user}'`,function (err) {
       console.log(''+err);
-      db.query(`UPDATE tblresults SET strRHWStatus='Rejected' WHERE strRHWStatus NOT IN ('Approved') AND intRHWID = '${req.session.user}'`,function (err) {
+      db.query(`UPDATE tblresults SET strRHWStatus='Rejected' WHERE strRHWStatus NOT IN ('Approved', 'Rejected') AND intRHWID = '${req.session.user}'`,function (err) {
         console.log(''+err);
         res.send('accepted');
         // res.redirect('/home_householdworker', flog, findjoboffers, noofincomingrequests, countcontract, findcontract, render);
