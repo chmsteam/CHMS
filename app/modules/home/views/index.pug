@@ -106,10 +106,10 @@ block content
                                                                                     .col-xs-12.text-center
                                                                                         p
                                                                                         if request2.strRequestType == 'Replacement' && request2.strRequestStatus == 'Draft'
-                                                                                            h2 You have created a list for replacement. The request status is currently on 'Draft'. Please submit your list to be able the agency to see your request.
+                                                                                            h2 You have created a list for replacement. The request status is currently on 'Draft'. Please submit/sent your list to continue the transaction.
                                                                                             p
                                                                                         else if request2.strRequestType == 'Replacement' && request2.strRequestStatus == 'On process'
-                                                                                            h2 Your created list has been submitted, please wait for the results that the agency will send to you. The request status is currently 'On process'. You can proceed to deployment and contract negotiations after you completed your list.
+                                                                                            h2 Your request has been submitted. Please wait for any suggested services for your request. Kindly monitor your request often. 
                                                                                             p
                                                                                         else if request2.strRequestType == 'Replacement' && request2.strRequestStatus == 'Pending'
                                                                                             h2 Your request has been sent for approval of the agency. The request status is currently 'On process'.

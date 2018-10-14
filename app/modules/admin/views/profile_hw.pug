@@ -38,22 +38,22 @@ block content
                                                     | &nbsp Upload
                                                 
                                                 each hw1 in hw1tab
-                                                    if  hw1.stat == 'Registered'
+                                                    if  hw1.stat == 'Registered' || hw1.stat =='Deployed'
                                                         button.btn.btn-danger(type='button' data-toggle='modal' data-target='#ban' data-id=hw1.intHWID) 
                                                             i.fa.fa-exclamation-circle
                                                             | &nbsp Ban
                                                     else if hw1.stat =='Banned'
-                                                        button.btn.btn-warning(type='button' data-toggle='modal' data-target='#reinstate' data-id=hw1.intHWID) 
+                                                        button.btn.btn-warning(type='button' data-toggle='modal' data-target='#reinstate' data-id=hw1.intHWID, data-thestatus=hw1.stat) 
                                                             i.fa.fa-mail-reply
                                                             | &nbsp Reinstate
-                                                    else if hw1.stat =='Deployed'
-                                                        button.btn.btn-warning(type='button') 
-                                                            i.fa.fa-warning
-                                                            | &nbsp Suspend
-                                                    else if hw1.stat =='Suspended'
-                                                        button.btn.btn-warning(type='button') 
-                                                            i.fa.fa-mail-reply
-                                                            | &nbsp Reinstate
+                                                    //- else if hw1.stat =='Deployed'
+                                                    //-     button.btn.btn-warning(type='button') 
+                                                    //-         i.fa.fa-warning
+                                                    //-         | &nbsp Suspend
+                                                    //- else if hw1.stat =='Suspended'
+                                                    //-     button.btn.btn-warning(type='button') 
+                                                    //-         i.fa.fa-mail-reply
+                                                    //-         | &nbsp Reinstate
                                             br
                                             br
                                             ul.list-unstyled.user_data(style="text-transform: capitalize; color:white") 
@@ -249,6 +249,7 @@ block content
                         .modal-body
                             input#thedate2(type='text' name='thedate' hidden)
                             input#id(type='text' name='id' hidden)
+                            input#thestatus(type='text' name='thestatus' hidden)
                             center
                                 br
                                 h3 

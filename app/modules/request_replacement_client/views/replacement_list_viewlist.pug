@@ -7,21 +7,23 @@ block content
                 .row
                     .col-md-12.col-sm-12.col-xs-12
                         .x_panel
-                                .x_title
+                                    .x_title
 
-                                    .pull-right
-                                        each list in listtab
-                                            each oldhwservice in oldhwservicetab
-                                                a(href='/request_replacement/replace_list_/-/'+list.intRequestID+'/-/'+oldhwservice.intHWID)
-                                                    button.btn.btn-primary.btn-lg(type='button') Back
-                                    center
-                                        h3
-                                            b Results
-                                br
-                                br
-                                .x_title
+                                        .pull-right
+                                            each list in listtab
+                                                each oldhwservice in oldhwservicetab
+                                                    a(href='/request_replacement/replace_list_/-/'+list.intRequestID+'/-/'+oldhwservice.intHWID)
+                                                        button.btn.btn-primary.btn-lg(type='button') Back
+                                        center
+                                            h3
+                                                b Results
+                                    br
+                                
+                                
                                     .x_panel(style='background-color:#394D5F')
                                         h2(style="font-weight:bold; color:white") Suggested service/s from the Admin:
+                                    br
+                                    br
                                     table#datatable-responsive.table.table-striped.table-bordered
                                         thead
                                             tr
@@ -148,7 +150,7 @@ block content
             $('#approveHW').click(function(){
                 swal({
                     type: 'success',
-                    title: 'Approved',
+                    title: 'Approved!',
                     text: 'Household worker approved',
                     showConfirmButton: false,
                     },
@@ -159,8 +161,8 @@ block content
             $('#rejectHW').click(function(){
                 swal({
                     type: 'warning',
-                    title: 'Rejected',
-                    text: 'Household worker rejected',
+                    title: 'Rejected!',
+                    text: 'Household worker rejected.',
                     showConfirmButton: false,
                     },
                     $(function(){
@@ -170,8 +172,8 @@ block content
             $('.revertHW').click(function(){
                 swal({
                     type: 'info',
-                    title: 'Reverted',
-                    text: 'Action Reverted',
+                    title: 'Reverted!',
+                    text: 'Household Worker Removed.',
                     showConfirmButton: false,
                     },
                     $(function(){

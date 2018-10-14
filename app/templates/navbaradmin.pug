@@ -639,9 +639,11 @@ html(lang='en')
             $('#reinstate').on('show.bs.modal', function (event) {
               var button = $(event.relatedTarget)
               var id = button.data('id')
+              var thestatus = button.data('thestatus')
               
               var modal = $(this)
               modal.find('.modal-body #id').val(id)
+              modal.find('.modal-body #thestatus').val(thestatus)
             });
 
             //view leave request
@@ -694,5 +696,13 @@ html(lang='en')
               modal.find('.modal-body #transid').val(transid)
               modal.find('.modal-body #thecon').attr('data',''+thecon)
             });
-            
+            $('#terminate_contract').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var hwid = button.data('hwid');
+              var transid = button.data('transid');
+
+              var modal = $(this)
+              modal.find('.modal-body #hwid').val(hwid)
+              modal.find('.modal-body #transid').val(transid)
+            });
           

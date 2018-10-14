@@ -69,7 +69,7 @@ block content
                                                                             //-     button.btn.btn-danger.btn-lg(type='button') testpdf
                                                                         else if cont.strContractStatus == 'Accepted'
                                                                         else if cont.strContractStatus == 'Rejected'
-                                                                            button.btn.btn-warning(type='button' data-toggle='modal' data-target='#revertrejectcontract', data-id=list.intRequestID) Revert
+                                                                            //- button.btn.btn-warning(type='button' data-toggle='modal' data-target='#revertrejectcontract', data-id=list.intRequestID) Revert
                                                                             button.btn.btn-success(type='submit' name='btn1' value='accept') Accept
                                                                         else if cont.strContractStatus == 'Client Confirmation'
                                                                             button.btn.btn-success(type='submit' name='btn1' value='accept') Accept
@@ -153,9 +153,10 @@ block content
                                 br
                                 .form-group.pull-right
                                     input(type='text', id='transid' required='required', name='transid' style="display:none;")
+                                    button.btn.btn-primary(type='button', data-dismiss='modal') Close 
                                     button.btn.btn-success(type='submit' name='btn1' value='reject' ) Send
-            #edit_salary.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
-                .modal-dialog.modal-sm
+            #edit_salary.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
+                .modal-dialog.modal-md
                     .modal-content
                         form.form-horizontal#editSalary(method='POST' action='/request_add/edit_salary')
                             .modal-content
@@ -165,6 +166,7 @@ block content
                                     h2#myModalLabel.modal-title(style="text-align:center; font-weight:bold") Update Salary
                                 .modal-body
                                     br
+                                    br
                                     .form-group
                                         label.control-label.col-md-4.col-sm-3.col-xs-12
                                             | Salary:  P
@@ -173,7 +175,9 @@ block content
                                             input.form-control.col-md-7.col-xs-12(type='text', id='id', name='transid' required='required' style="display:none;")
                                             input.form-control.col-md-7.col-xs-12(type='text', id='hwid', name='hwid' required='required' style="display:none;")
                                             input.form-control.col-md-7.col-xs-12(type='number', id='salary', name='salary' required='required', min="2500")
+                                br
                                 .modal-footer
+                                    button.btn.btn-primary(type='button', data-dismiss='modal') Close 
                                     button.btn.btn-success.btn-md#editSalary(type='submit') Change
            
             script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
@@ -221,7 +225,7 @@ block content
                         swal({
                             type: 'success',
                             title: 'Contract Sent!',
-                            text: 'Wait for the confirmation of the household worker.',
+                            text: 'Please wait for the confirmation of the household worker.',
                             showConfirmButton: false,
                             },
                             $(function(){
@@ -273,8 +277,8 @@ block content
                                 if(response == 'sent'){
                                     swal({
                                         type: 'success',
-                                        title: 'Contract Sent!',
-                                        text: 'Wait for the admin to settle  your transaction.',
+                                        title: 'Request Sent!',
+                                        text: "Please wait for the Admin's approval.",
                                         showConfirmButton: true,
                                     },function(isConfirm){
                                         if(isConfirm){

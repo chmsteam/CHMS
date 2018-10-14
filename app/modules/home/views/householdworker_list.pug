@@ -16,10 +16,10 @@ block content
                                 ul#myTab.nav.nav-tabs.bar_tabs(role='tablist')
                                     li.active(role='presentation')
                                         a#current-tab(href='#tab_content1', role='tab', data-toggle='tab', aria-expanded='true') Current Household Worker
-                                    li(role='presentation')
+                                    //- li(role='presentation')
                                         a#replaced-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Replaced Household Worker
                                     li(role='presentation')
-                                        a#reported-tab(href='#tab_content3', role='tab', data-toggle='tab', aria-expanded='false') Reported Household Worker
+                                        a#reported-tab(href='#tab_content3', role='tab', data-toggle='tab', aria-expanded='false') Previous Household Worker
                                 #myTabContent.tab-content
                                     #tab_content1.tab-pane.fade.active.in(role='tabpanel', aria-labelledby='current-tab')
                                         table#datatable-responsive.table.jambo_table.table-bordered
@@ -31,7 +31,7 @@ block content
                                                     th ACTION
                                             tbody
                                                 each myhw in myhwtab
-                                                    if myhw.strCurStatus =='Current' || myhw.strCurStatus =='Reliever' || myhw.strCurStatus =='On Leave'
+                                                    if myhw.strCurStatus =='Current' || myhw.strCurStatus =='Reliever' || myhw.strCurStatus =='On Leave' || myhw.strCurStatus =='To be replaced'
                                                         tr
                                                             td #{myhw.strFName} #{myhw.strLName}
                                                             td #{myhw.strName}
@@ -41,23 +41,23 @@ block content
                                                                     button.btn.btn-sm.btn-primary(type='button') View Profile
                                                                     
 
-                                    #tab_content2.tab-pane.fade.in(role='tabpanel', aria-labelledby='replaced-tab')
-                                        table#datatable-responsive.table.jambo_table.table-bordered
-                                            thead
-                                                tr
-                                                    th NAME
-                                                    th SERVICE
-                                                    th STATUS
-                                                    th ACTION
-                                            tbody
-                                                each myhw in myhwtab
-                                                    if myhw.strCurStatus =='Replaced' || myhw.strCurStatus =='To be replaced'
-                                                        tr
-                                                            td #{myhw.strFName} #{myhw.strLName}
-                                                            td #{myhw.strName}
-                                                            td #{myhw.strCurStatus}
-                                                            td
-                                                                a(href="/home_client/hw_profile_"+myhw.intConHWID)
+                                    //- #tab_content2.tab-pane.fade.in(role='tabpanel', aria-labelledby='replaced-tab')
+                                    //-     table#datatable-responsive.table.jambo_table.table-bordered
+                                    //-         thead
+                                    //-             tr
+                                    //-                 th NAME
+                                    //-                 th SERVICE
+                                    //-                 th STATUS
+                                    //-                 th ACTION
+                                    //-         tbody
+                                    //-             each myhw in myhwtab
+                                    //-                 if myhw.strCurStatus =='Replaced' || myhw.strCurStatus =='To be replaced'
+                                    //-                     tr
+                                    //-                         td #{myhw.strFName} #{myhw.strLName}
+                                    //-                         td #{myhw.strName}
+                                    //-                         td #{myhw.strCurStatus}
+                                    //-                         td
+                                    //-                             a(href="/home_client/hw_profile_"+myhw.intConHWID)
                                                                     button.btn.btn-sm.btn-primary(type='button') View Profile
                                     #tab_content3.tab-pane.fade.in(role='tabpanel', aria-labelledby='reported-tab')
                                         table#datatable-responsive.table.jambo_table.table-bordered
@@ -67,13 +67,16 @@ block content
                                                     th SERVICE
                                                     th STATUS
                                                     th ACTION
-                                            //- tbody
-                                            //-     each myhw in myhwtab
-                                            //-         tr
-                                            //-             td #{myhw.strFName} #{myhw.strLName}
-                                            //-             td #{myhw.strName}
-                                            //-             td #{myhw.strCurStatus}
-                                            //-             td
+                                            tbody
+                                                each myhw in myhwtab
+                                                    if myhw.strCurStatus == 'Terminated' || myhw.strCurStatus =='Replaced'
+                                                        tr
+                                                            td #{myhw.strFName} #{myhw.strLName}
+                                                            td #{myhw.strName}
+                                                            td #{myhw.strCurStatus}
+                                                            td
+                                                                a(href="/home_client/hw_profile_"+myhw.intConHWID)
+                                                                    button.btn.btn-sm.btn-primary(type='button') View Profile
                                                     
    
     //- scripts

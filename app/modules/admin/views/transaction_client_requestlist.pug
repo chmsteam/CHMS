@@ -224,7 +224,7 @@ block content
                                             .x_title
                                                 .x_panel(style='background-color:#394D5F; border-color:#394D5F')
                                                     h2(style="color:white")  
-                                                        b   List for Client's pproval
+                                                        b   List for Client's approval
                                             .x_panel
                                                 br
                                                 .row    
@@ -422,12 +422,13 @@ block content
                                 type: 'success',
                                 title: 'Request Sent!',
                                 text: 'Wait for the confirmation of the household worker',
-                                showConfirmButton: false,
+                                showConfirmButton: true,
                                 //- showConfirmButton: true,
                                 //- closeOnConfirm: true,
-                                },setTimeout(function() {
+                                },
+                                function() {
                                     location.reload();
-                                }, 3000)
+                                }, 
                             );
                         }
                     }
@@ -516,10 +517,11 @@ block content
                                 type: 'success',
                                 title: 'Sent!',
                                 text: 'Household worker information sent to the client',
-                                showConfirmButton: false,
-                                },setTimeout(function() {
+                                showConfirmButton: true,
+                                },
+                                function() {
                                     location.reload();
-                                }, 2000)
+                                },
                             );
                         }
                     }
