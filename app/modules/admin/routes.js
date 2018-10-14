@@ -1962,16 +1962,16 @@ function approveClient2(req,res){
     var sql = "UPDATE tbluser SET strStatus= 'Registered', datDateRegistered=? WHERE strStatus='Unregistered' AND intID = ?";
     db.query(sql,[req.body.dateregistered, req.body.clientID],function (err) {
     if (err) return res.send(err)
-    res.send('approved');
-    // res.redirect('/admin/transactions/clients/pending');
+    // res.send('approved');
+    res.redirect('/admin/transactions/clients/pending');
     })
   }
   else if (req.body.btn1 == 'reject'){
     var sql = "UPDATE tbluser SET strStatus= 'Rejected' WHERE strStatus='Unregistered' AND intID = ?";
     db2.query(sql,[req.body.clientID],function (err) {
     if (err) return res.send(err);
-    res.send('rejected');
-    // res.redirect('/admin/transactions/clients/pending');
+    // res.send('rejected');
+    res.redirect('/admin/transactions/clients/pending');
     })
   }
   else if(req.body.btn1 == 'revert'){
