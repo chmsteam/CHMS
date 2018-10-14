@@ -1907,7 +1907,8 @@ function irc_actions(req,res){
   db.query(`UPDATE tblreport SET strValidity =?, strReportStatus= ?, strActionTaken=? WHERE intReportID =?`,[req.body.validity, req.body.stat, req.body.action, req.body.reportid],function (err){
     console.log( req.body.action)
     console.log(req.body.reportid)
-    res.redirect('/admin/transaction_ir_client')
+    res.send('success');
+    // res.redirect('/admin/transaction_ir_client')
   })
 }
 router.post('/tr_ir_hw',flog, irc_actions2);

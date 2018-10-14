@@ -127,7 +127,23 @@ block content
         };
     script(type='text/javascript').
         $(document).ready(function(){
+            //- var imageko = toDataURL('/admin/gentelella/production/images/mega.png');
             $(document).on(	'click', '#generateButton', function(){
+                function toDataURL(url, callback) {
+                        var xhr = new XMLHttpRequest();
+                        xhr.onload = function() {
+                            var reader = new FileReader();
+                            reader.onloadend = function() {
+                            callback(reader.result);
+                            }
+                            reader.readAsDataURL(xhr.response);
+                        };
+                        xhr.open('GET', url);
+                        xhr.responseType = 'blob';
+                        xhr.send();
+                }
+                toDataURL('/admin/gentelella/production/images/mega.png', function(imageko) {
+
                 var invoiceNo = "Invoice:"+" "+ document.getElementById('invNo').innerHTML;
                 // Agency
                 var date = document.getElementById('dateReq').innerHTML;
@@ -160,10 +176,22 @@ block content
                 
                 //- var servName = document.getElementByClassName('servName').innerHTML;
                 var docDefinition = {
-                        //- pageOrientation: 'landscape',
+                        //- watermark: {text: 'Mega Pacific Employment Services', color: 'blue', opacity: 0.3, bold: true, italics: false},
                         pageSize: 'A5',
                         pageOrientation: 'landscape',
+                        info: {
+                            title: invoiceNo,
+                            author: 'CHMS Team',
+                            subject: 'Invoice',
+                        },
                         content: [
+                            {
+                                image: imageko,
+                                width: 200,
+                                height: 60,
+                                margin: [0, -15, 0 , 0],
+                                alignment: 'center'
+                            },
                             {
                                 width: '*',
                                 columns:[
@@ -274,9 +302,8 @@ block content
                                     ],
                                 },
                             {text: "" },
-                            {text: "" },
                                 {
-                                    margin:[325, 50, 0, 0],
+                                    margin:[325, 30, 0, 0],
                                     width: "*",
                                         columns:[
                                             {
@@ -320,11 +347,26 @@ block content
                                 },
                     };
                     pdfMake.createPdf(docDefinition).open();
+                    });
                 });    
         });
     script(type='text/javascript').
         $(document).ready(function(){
             $(document).on(	'click', '#printInv', function(){
+                function toDataURL(url, callback) {
+                        var xhr = new XMLHttpRequest();
+                        xhr.onload = function() {
+                            var reader = new FileReader();
+                            reader.onloadend = function() {
+                            callback(reader.result);
+                            }
+                            reader.readAsDataURL(xhr.response);
+                        };
+                        xhr.open('GET', url);
+                        xhr.responseType = 'blob';
+                        xhr.send();
+                }
+                toDataURL('/admin/gentelella/production/images/mega.png', function(imageko) {
                 var invoiceNo = "Invoice:"+" "+ document.getElementById('invNo').innerHTML;
                 // Agency
                 var date = document.getElementById('dateReq').innerHTML;
@@ -358,9 +400,22 @@ block content
                 //- var servName = document.getElementByClassName('servName').innerHTML;
                 var docDefinition = {
                         //- pageOrientation: 'landscape',
+                        //- watermark: {text: 'Mega Pacific Employment Services', color: 'blue', opacity: 0.3, bold: true, italics: false},
                         pageSize: 'A5',
                         pageOrientation: 'landscape',
+                        info: {
+                            title: invoiceNo,
+                            author: 'CHMS Team',
+                            subject: 'Invoice',
+                        },
                         content: [
+                            {
+                                image: imageko,
+                                width: 200,
+                                height: 60,
+                                margin: [0, -15, 0 , 0],
+                                alignment: 'center'
+                            },
                             {
                                 width: '*',
                                 columns:[
@@ -471,9 +526,8 @@ block content
                                     ],
                                 },
                             {text: "" },
-                            {text: "" },
                                 {
-                                    margin:[325, 50, 0, 0],
+                                    margin:[325, 30, 0, 0],
                                     width: "*",
                                         columns:[
                                             {
@@ -517,5 +571,6 @@ block content
                                 },
                     };
                     pdfMake.createPdf(docDefinition).print();
-                });    
+                });   
+            }); 
         });

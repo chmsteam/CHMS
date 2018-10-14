@@ -614,6 +614,62 @@ function findotherfee(req,res,next){
     return next();
   });
 }
+// ------------------------------------------------------------------------------- HW PROFILE
+router.get('/hw_profile_:hwid', flog, findhw, findhweduc, findhwwork,findhwreports, renderhwprofile)
+function renderhwprofile(req,res){
+  if(req.valid==1)
+    res.render('home/views/hw_profile',{usertab: req.user, hw1tab: req.hw1, hw2tab: req.hw2, hw3tab: req.hw3, hw5tab: req.hw5});
+  else if(req.valid==0)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+function findhwreports(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT * , a.intID AS ReporterID, a.strFName AS RFName, a.strLName AS RLName, strName FROM tbluser As a INNER JOIN tblreport ON intID = intReporterID  INNER JOIN tblmincidentreport as i ON i.intID = intTypeofReport WHERE intRecipentID =? AND strValidity ='Valid'`, [req.params.hwid], function(err,results){
+    console.log(err);
+    for(var i = 0; i < results.length; i++){
+      results[i].datDateReported =  moment(results[i].datDateReported).format("LL");   
+    }
+    req.hw5=results;
+    return next();
+  })
+}
+function findhw(req,res,next){
+  var db = require('../../lib/database')();
+  db.query("SELECT * FROM tbluser INNER JOIN tblhouseholdworker on intID = intHWID INNER JOIN tblmservice AS a ON intServiceID=a.intID WHERE tbluser.intID =?",[req.params.hwid], function (err, results) {
+    console.log(''+req.params.hwid);
+    if (err) return res.send(err);
+    if (!results[0])
+    console.log('???'+req.params.userid);
+    for(var i = 0; i < results.length; i++){
+      results[i].datBirthDay =  moment(results[i].datBirthDay).format("LL");   
+    }
+    req.hw1 = results;
+    return next();
+  });
+}
+
+function findhweduc(req,res,next){
+  var db = require('../../lib/database')();
+  db.query("SELECT * FROM tblhw_educbg WHERE intHWID_educbg = ? ",[req.params.hwid], function (err, results) {
+    if (err) return res.send(err);
+    if (!results[0])
+    console.log('');
+    req.hw2 = results;
+    return next();
+  });
+}
+function findhwwork(req,res,next){
+  var db = require('../../lib/database')();
+  db.query("SELECT * FROM tblhw_workbg WHERE intHWID_workbg = ? ",[req.params.hwid], function (err, results) {
+    if (err) return res.send(err);
+    if (!results[0])
+    console.log('');
+    req.hw3 = results;
+    return next();
+  });
+}
 
 // ----------------------------------------------------------------------------
 // router.get('/mylist_:userid', flog, findcreatedlist, findcreateditem, findcountcreateditem, findmservice, findskills, findresult, findapprove, findfees, rendermylist);

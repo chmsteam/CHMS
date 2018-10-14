@@ -123,11 +123,12 @@ router.post('/ir_client', flog, reporthw)
 function reporthw(req, res){
     var db = require('../../lib/database')()
     var randomId= makeid();
-    jpeg= req.body.daterep+"-"+req.body.recipentid+"-"+req.session.user+('-'+randomId+'.jpg');
+    jpeg= "["+req.body.daterep+"]"+"-"+req.body.recipentid+"-"+req.session.user+('-'+randomId+'.jpg');
     req.files.postimage.mv('public/image/reports/'+jpeg, function(err) {
       db.query(`INSERT INTO tblreport (intReporterID, intRecipentID, intTypeofReport, strReason, strValidity, datDateReported, strReportStatus, strActionTaken, strEviPic)  VALUES(?,?,?,?,'',?,'','', ?)`,[req.session.user, req.body.recipentid, req.body.ir, req.body.reason, req.body.daterep, jpeg], function(err){
           console.log(err);
-          res.redirect('/request_irclient')
+          res.send('success')
+          // res.redirect('/request_irclient')
       })
     console.log(err)
   });

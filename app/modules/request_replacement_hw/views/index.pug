@@ -45,7 +45,7 @@ block content
                                                 th(style="text-align:center") ACTION
                                         tbody
                                             each myclient in myclienttab
-                                                tr
+                                                tr(style="text-align:center")
                                                     td #{myclient.strFName} #{myclient.strLName}
                                                     td #{myclient.strCurStatus}
                                                     td
@@ -54,7 +54,7 @@ block content
 
         #replacementofclient.modal.fade.bs-example-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog.modal-md
-                form.form-horizontal(method='POST' action='/request_replacement_hw/replace')
+                form.form-horizontal#replace(method='POST' action='/request_replacement_hw/replace')
                     .modal-content
                         .modal-header(style="background-color:#2A3F54; color:white")
                             button.close(type='button', data-dismiss='modal')
@@ -81,6 +81,31 @@ block content
                                         textarea.form-control.AddMessage(rows='10' name='reqdesc')
                         .modal-footer
                             button.btn.btn-success.btn-md(type='submit',  onCLick='time();') Send to Admin
+        script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+        script(src="/custom/moment.min.js")
+        script.
+            $('form#replace').submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: 'post',
+                    data: $('form#replace').serialize(),
+                    success: function(response){
+                        console.log(response);
+                        if(response == 'success'){
+                            $('.modal').modal('hide');
+                            swal({
+                                type: 'success',
+                                title: 'Request Sent!',
+                                showConfirmButton: false,
+                                },setTimeout(function() {
+                                    location.reload();
+                                }, 800)
+                            );
+                        }
+                    }
+                })
+            });
         script.
             function time(){
                 var today = new Date();

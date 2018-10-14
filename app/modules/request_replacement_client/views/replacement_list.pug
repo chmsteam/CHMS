@@ -41,7 +41,8 @@ block content
                                                     td #{currenthwtobereplaced.intConReplacementLeft}
                                                     td #{currenthwtobereplaced.strCurStatus}
                                                     td
-                                                        button.btn.btn-primary.btn-md(type='button') View Profile
+                                                        a(href="/home_client/hw_profile_"+currenthwtobereplaced.intConHWID)
+                                                            button.btn.btn-primary.btn-md(type='button') View Profile
                                                         if currenthwtobereplaced.strRequestStatus == 'Draft'
                                                             button.btn.btn-danger.btn-md(type='button' data-toggle='modal' data-target='#cancel_replacement_draft', data-id=currenthwtobereplaced.intReplaceReqID, data-hwid=currenthwtobereplaced.intConHWID) Cancel
                                                         else if currenthwtobereplaced.strRequestStatus == 'On process'
@@ -440,7 +441,7 @@ block content
                                             .col-md-8
                                                 .form-group
                                                     label Preferred Date For Deployment
-                                                    input.form-control.has-feedback-left(type='date', name='datedep')
+                                                    input.form-control.has-feedback-left.deploy(type='date', name='datedep')
                                                     span#inputSuccess2Status4.sr-only (success)
                                         .row
                                             .col-md-2
@@ -449,7 +450,7 @@ block content
                                                 .form-group
                                                     label Preferred Time For Deployment
                                                     .input-group.date
-                                                        input.form-control(type='time' name='timedep')
+                                                        input.form-control.time(type='time' name='timedep')
                                                         span.input-group-addon
                                                             span.glyphicon.glyphicon-time 
                                         
@@ -478,7 +479,7 @@ block content
                                                     .form-group
                                                         label Preferred Date For Deployment
                                                         .input-group.date
-                                                            input.form-control.has-feedback-left(type='date', aria-describedby='inputSuccess2Status4'  name='datedep' value=''+prevtransdetails.datDateofDeployment required)
+                                                            input.form-control.has-feedback-left.deploy1(type='date', aria-describedby='inputSuccess2Status4'  name='datedep' value=''+prevtransdetails.datDateofDeployment required)
                                                             span.input-group-addon
                                                                 span.fa.fa-calendar
                                             .row
@@ -488,7 +489,7 @@ block content
                                                     .form-group
                                                         label Preferred Time For Deployment
                                                         .input-group.date
-                                                            input.form-control.has-feedback-left(type='time' name='timedep' value=''+prevtransdetails.timTimeofDeployment required)
+                                                            input.form-control.has-feedback-left.time(type='time' name='timedep' value=''+prevtransdetails.timTimeofDeployment required)
                                                             span.input-group-addon
                                                                 span.glyphicon.glyphicon-time
                         .modal-footer
@@ -498,6 +499,26 @@ block content
             script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
             script.
                 $(document).ready(function(){
+                //================================
+                //minimum for date deployement
+                //===============================
+                    var now = moment().format("YYYY-MM-DD");
+                    var minimum = moment(now).add(3, 'days').format("YYYY-MM-DD");
+                    console.log(minimum);
+
+                    $(".deploy").attr("min", minimum);
+                    $(".deploy1").attr("min", minimum);
+                    $(".deploy").attr("value", minimum);
+                    $(".time").attr("min", "08:00");
+
+                //================================
+                //max for date deployement
+                //===============================
+                    var maximum = moment(now).add(7, 'days').format("YYYY-MM-DD");
+
+                    $(".deploy").attr("max", maximum);
+                    $(".deploy1").attr("max", maximum);
+                    $(".time").attr("max", "17:00");
                     $('form#SetAttri').submit(function(e){
                         e.preventDefault();
                         var ur = $(this).attr('action');
