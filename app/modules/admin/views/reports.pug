@@ -21,14 +21,14 @@ block content
                                             label Date&nbsp&nbsp From:
                                                 |&nbsp
                                                 |&nbsp
-                                                input.form-control(type='date', required='required', value=''+thequery.date1, id='from', name='datefrom')
+                                                input.form-control(type='date', required='required', value=''+thequery.date1 name='datefrom')
                                     
                                     .col-md-4
                                         .form-group           
                                             label(style="margin-left:49px;") To:
                                                 |&nbsp
                                                 |&nbsp
-                                                input.form-control(type='date', required='required', value=''+thequery.date2, id='to', name='dateto')
+                                                input.form-control(type='date', required='required', value=''+thequery.date2 name='dateto')
                                 .row(style="float:right; margin-bottom:10px")
                                     .form-group
                                         button.btn.btn-info(type='submit')
@@ -38,7 +38,7 @@ block content
             
             
                 
-            .x_panel(style='background-color:rgba(52,152,219,.3)')
+            
                 //-.col-xs-12
                     button.btn.btn-primary.pull-left#generateButtonReport(style='margin-right: 5px;')
                         i.fa.fa-download
@@ -46,6 +46,12 @@ block content
                     button.btn.btn-success.pull-left#printReport
                         i.fa.fa-print
                         |  Print
+                
+
+
+            br
+            br
+            .x_panel(style='background-color:rgba(52,152,219,.3)')
                 .col-md-6.col-sm-6.col-xs-12
                     //- each transpending in transpendingtab
                     //-     p(hidden)#transpending #{transpending.CNT}
@@ -68,7 +74,6 @@ block content
                             .clearfix
                         .x_content
                             canvas#myChart6
-
                 .col-md-6.col-sm-6.col-xs-12
                     //hhowrkers
                     each cn in hwCount
@@ -390,6 +395,7 @@ block content
                     maintainAspectRatio: false,
                 }
             });
+
     script(type='text/javascript').
         $(document).ready(function(){
             $(document).on(	'click', '#generateButtonReport', function(){
@@ -1098,3 +1104,4 @@ block content
                 });   
             }); 
         });
+
