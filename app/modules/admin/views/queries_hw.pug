@@ -122,6 +122,7 @@ block content
                                                                             th(style="text-align:center") NAME
                                                                             th(style="text-align:center") SERVICE
                                                                             th(style="text-align:center") AGE
+                                                                            th(style="text-align:center") GENDER
                                                                             th(style="text-align:center") CITY
                                                                             th(style="text-align:center") CONTACT NO.
                                                                             th(style="text-align:center") EMAIL
@@ -135,6 +136,7 @@ block content
                                                                                     td#qName #{theresults.strFName} #{theresults.strLName}
                                                                                     td#qService #{theresults.strName}
                                                                                     td#qAge #{theresults.age}
+                                                                                    td#qGender #{theresults.strGender}
                                                                                     td#qCity #{theresults.strCity}
                                                                                     td#qContact #{theresults.strCellNum}
                                                                                     td#qEmail #{theresults.strEmail}
@@ -199,6 +201,7 @@ block content
                 var qqName = document.getElementById('qName').innerHTML;
                 var qqService = document.getElementById('qService').innerHTML;
                 var qqAge = document.getElementById('qAge').innerHTML;
+                var qqGender = document.getElementById('qGender').innerHTML;
                 var qqCity = document.getElementById('qCity').innerHTML;
                 var qqContact = document.getElementById('qContact').innerHTML;
                 var qqEmail = document.getElementById('qEmail').innerHTML;
@@ -237,6 +240,9 @@ block content
                                             text: "AGE" , fontSize: 10, bold: true
                                         },
                                         {
+                                            text: "GENDER" , fontSize: 10, bold: true
+                                        },
+                                        {
                                             text: "RESIDENCE" , fontSize: 10, bold: true
                                         },
                                         {
@@ -264,6 +270,9 @@ block content
                                         },
                                         {
                                             text: qqAge , fontSize: 10
+                                        },
+                                        {
+                                            text: qqGender , fontSize: 10
                                         },
                                         {
                                             text: qqCity , fontSize: 10
@@ -313,6 +322,7 @@ block content
                 var qqName = document.getElementById('qName').innerHTML;
                 var qqService = document.getElementById('qService').innerHTML;
                 var qqAge = document.getElementById('qAge').innerHTML;
+                var qqGender = document.getElementById('qGender').innerHTML;
                 var qqCity = document.getElementById('qCity').innerHTML;
                 var qqContact = document.getElementById('qContact').innerHTML;
                 var qqEmail = document.getElementById('qEmail').innerHTML;
@@ -351,6 +361,9 @@ block content
                                             text: "AGE" , fontSize: 10, bold: true
                                         },
                                         {
+                                            text: "GENDER" , fontSize: 10, bold: true
+                                        },
+                                        {
                                             text: "RESIDENCE" , fontSize: 10, bold: true
                                         },
                                         {
@@ -378,6 +391,9 @@ block content
                                         },
                                         {
                                             text: qqAge , fontSize: 10
+                                        },
+                                        {
+                                            text: qqGender , fontSize: 10
                                         },
                                         {
                                             text: qqCity , fontSize: 10

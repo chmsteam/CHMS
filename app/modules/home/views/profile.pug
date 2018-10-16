@@ -43,63 +43,74 @@ block content
                                                         br
                                                         .col-md-12.col-sm-12.col-xs-12
                                                             .x_panel
-                                                                table.table.table-striped
-                                                                    each client in clienttab
-                                                                        br
-                                                                        tbody
-                                                                            tr
-                                                                                th(scope='row')
-                                                                                td
-                                                                                    b Current Address:
-                                                                                -var curAdd = client.strCAHouseNo + " " + client.strCAStreet + " " + client.strCAProvince + ", " + client.strCity
-                                                                                td #{curAdd}
-                                                                                td
-                                                                                td
-                                                                            tr
-                                                                                th(scope='row')
-                                                                                td
-                                                                                    b Permanent Address:
-                                                                                td #{client.strPAddress}
-                                                                                td
-                                                                                td
-                                                                            tr
-                                                                                th(scope='row')
-                                                                                td
-                                                                                    b Email:
-                                                                                td 
-                                                                                    input(type='email' name='email' value=''+client.strEmail required max='45')
-                                                                                td
-                                                                                td
-                                                                            tr
-                                                                                th(scope='row')
-                                                                                td
-                                                                                    b Password:
-                                                                                td 
-                                                                                    input(type='password' name='password' value=''+client.strPassword required max='45')
-                                                                                td
-                                                                                td
-                                                                            tr
-                                                                                th(scope='row')
-                                                                                td
-                                                                                    b Contact Details:
-                                                                                td 
-                                                                                    input(type='number' name='contact' value=''+client.strContact max='45')
-                                                                                td
-                                                                                td
-                                                                            tr
-                                                                                th(scope='row')
-                                                                                td
-                                                                                    b Office Address:
-                                                                                td 
-                                                                                    input(type='text' name='officeadd' value=''+client.strOAddress max='70')
-                                                                                td
-                                                                                td
-                                                                            tr
-                                                                                th(scope='row')
-                                                                                td
-                                                                                    b Office Contact Number:
-                                                                                td 
-                                                                                    input(type='text' name='officenum' value=''+client.strOContact max='45')
-                                                                                td
-                                                                                td
-                                    //-                 #tab_content2.tab-pane.fade(role='tabpanel', aria-labelledby='educ-tab')
+                                                                form(action="/ediprofile", method="post")
+                                                                    table.table.table-striped
+                                                                        each client in clienttab
+                                                                            br
+                                                                            tbody
+                                                                                tr
+                                                                                    th(scope='row')
+                                                                                    td
+                                                                                        b Current Address:
+                                                                                    -var curAdd = client.strCAHouseNo + " " + client.strCAStreet + " " + client.strCAProvince + ", " + client.strCity
+                                                                                    td #{curAdd}
+                                                                                    td
+                                                                                    td
+                                                                                tr
+                                                                                    th(scope='row')
+                                                                                    td
+                                                                                        b Permanent Address:
+                                                                                    td #{client.strPAddress}
+                                                                                    td
+                                                                                    td
+                                                                                tr
+                                                                                    th(scope='row')
+                                                                                    td
+                                                                                        b Email:
+                                                                                    td 
+                                                                                        input(type='email' name='email' value=''+client.strEmail required max='45')
+                                                                                    td
+                                                                                    td
+                                                                                tr
+                                                                                    th(scope='row')
+                                                                                    td
+                                                                                        b Password:
+                                                                                    td 
+                                                                                        input(type='password' name='password' value=''+client.strPassword required max='45')
+                                                                                    td
+                                                                                    td
+                                                                                tr
+                                                                                    th(scope='row')
+                                                                                    td
+                                                                                        b Confirm Password:
+                                                                                    td 
+                                                                                        input(type='password' name='conpassword' value='' required max='45')
+                                                                                    td
+                                                                                    td
+                                                                                tr
+                                                                                    th(scope='row')
+                                                                                    td
+                                                                                        b Contact Details:
+                                                                                    td 
+                                                                                        input(type='number' name='contact' value=''+client.strContact max='45')
+                                                                                    td
+                                                                                    td
+                                                                                tr
+                                                                                    th(scope='row')
+                                                                                    td
+                                                                                        b Office Address:
+                                                                                    td 
+                                                                                        input(type='text' name='officeadd' value=''+client.strOAddress max='70')
+                                                                                    td
+                                                                                    td
+                                                                                tr
+                                                                                    th(scope='row')
+                                                                                    td
+                                                                                        b Office Contact Number:
+                                                                                    td 
+                                                                                        input(type='text' name='officenum' value=''+client.strOContact max='45')
+                                                                                    td
+                                                                                    td
+                                                                    br
+                                                                    br
+                                                                    button.btn.btn-success.btn-md(type='submit' onclick="checkpass();" style="float:right") Save Changes 
