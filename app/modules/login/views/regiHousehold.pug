@@ -197,7 +197,7 @@ html(lang='en')
                                                     .col-md-4
                                                         .form-group
                                                             label Date of Birth*
-                                                            input.form-control(type='date', name='bday' required max="2000-09-01")
+                                                            input.form-control#bday(type='date', name='bday' required)
                                                     .col-md-4
                                                         .form-group
                                                             label Place of Birth*
@@ -753,25 +753,41 @@ html(lang='en')
     script.
         $('form#regi').submit(function(e){
             e.preventDefault();
-            $.ajax({
-                url: '/registration/household_worker',
-                method: 'post',
-                data: $('form#regi').serialize(),
-                success: function(response){
-                    console.log(response);
-                    if(response == 'success'){
-                        swal({
-                            type: 'success',
-                            title: 'Submitted!',
-                            text: "Registration successfully sent. Please wait for admin's approval.",
-                            showConfirmButton: true,
-                        },
-                        function(isConfirm){
-                            if(isConfirm){
-                                window.location.href = "/login";
-                            }
-                        });
-                    }   
-                }
-            })
+            var now = moment().format("YYYY");
+            var bday = $("#bday").val();
+            var input = moment(bday).format("YYYY");
+            var age = now - input;
+            console.log(now);
+            console.log(input);
+            console.log(age);
+            if(age < 18){
+                swal({
+                    type: 'info',
+                    title: 'Under Age!',
+                    text: 'Household worker must be 18 yrs old and above. You are just ' + age + ' y/o',
+                })
+            }
+            else{
+                $.ajax({
+                    url: '/registration/household_worker',
+                    method: 'post',
+                    data: $('form#regi').serialize(),
+                    success: function(response){
+                        console.log(response);
+                        if(response == 'success'){
+                            swal({
+                                type: 'success',
+                                title: 'Submitted!',
+                                text: "Registration successfully sent. Please wait for admin's approval.",
+                                showConfirmButton: true,
+                            },
+                            function(isConfirm){
+                                if(isConfirm){
+                                    window.location.href = "/login";
+                                }
+                            });
+                        }   
+                    }
+                })
+            }
         });

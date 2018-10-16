@@ -135,11 +135,11 @@ block content
                         select.form-control#myselect(name='ir')
                             each ir in irtab
                                 option(value=''+ir.intID) #{ir.strName}
-                            option(value='other') Other Reason
-                        .form-group#textt(hidden)
+                            //- option(value='other') Other Reason
+                        .form-group
                             textarea.form-control#textarea1(name='reason', placeholder='Specify Reason', rows='3', maxlength='150', hidden)
-                            .txtcount-div.block-none
-                                small#txtcount 0/150
+                            //- .txtcount-div.block-none
+                            //-     small#txtcount 0/150
                         br
                         label Include proof/evidence here
                         .row
@@ -156,8 +156,53 @@ block content
                     .modal-footer
                         button.btn.btn-success(type='submit' onCLick='time();') Submit
                         button.btn.btn-primary(type='button', data-dismiss='modal') Close
-
     //- scripts
+    script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+    script(src="/custom/moment.min.js")
+    script.
+        $(document).ready(function(){
+            $('button#cancel').click(function(){
+                $('.modal').modal('hide');
+                swal({
+                    type: 'info',
+                    title: 'Cancelled!',
+                    text: 'Report Cancelled',
+                    showConfirmButton: false,
+                    },
+                    $(function(){
+                        location.reload();
+                        }, 6000));
+            });
+            $('form#report').submit(function(e){
+                var form = $('form#report')[0];
+                var data = new FormData(form);
+                e.preventDefault();
+                $.ajax({
+                    url: '/request_irhw/ir_hw',
+                    enctype: 'multipart/form-data',
+                    processData: false,  // Important!
+                    contentType: false,
+                    cache: false,
+                    method: 'post',
+                    data: new FormData(form),
+                    success: function(response){
+                        console.log(response);
+                        if(response == 'success'){
+                            $('.modal').modal('hide');
+                            swal({
+                                type: 'success',
+                                title: 'Reported!',
+                                text: 'Client Reported.',
+                                showConfirmButton: false,
+                                },setTimeout(function() {
+                                    location.reload();
+                                }, 800)
+                            );
+                        }
+                    }
+                })
+            });
+        });
     script.
         function time(){
             var today = new Date();

@@ -56,8 +56,8 @@ function reporthw(req, res){
     req.files.postimage.mv('public/image/reports/'+jpeg, function(err) {
       db.query(`INSERT INTO tblreport (intReporterID, intRecipentID, intTypeofReport, strReason, strValidity, datDateReported, strReportStatus, strActionTaken, strEviPic)  VALUES(?,?,?,?,'',?,'','', ?)`,[req.session.user, req.body.recipentid, req.body.ir, req.body.reason, req.body.daterep, jpeg], function(err){
           console.log(err);
-        //   res.send('success')
-          res.redirect('/request_irhw')
+          res.send('success')
+        //   res.redirect('/request_irhw')
       })
     console.log(err)
   });

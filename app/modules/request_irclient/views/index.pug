@@ -115,9 +115,9 @@ block content
                             input.form-control(id='_id' type='text', name='recipentid', style='display:none;')
                             select.form-control#myselect(name='ir')
                                 each ir in irtab
-                                    option(value=''+ir.intID) #{ir.strName}
-                                option(value='other') Other Reason
-                            .form-group#textt(hidden)
+                                    option.wii(value=''+ir.intID) #{ir.strName}
+                                //- option#ni(value="other") Other Reason
+                            .form-group
                                 textarea.form-control#textarea1(name='reason', placeholder='Specify Reason', rows='3', maxlength='150', hidden)
                                 .txtcount-div.block-none
                                     small#txtcount 0/150

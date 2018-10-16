@@ -15,7 +15,7 @@ function submitBtn(){
 }
 
 $('#myselect').on('change', function(){
-  if($(this).val()=='other'){
+  if($(this).val()=="other"){
     $('#textt').removeAttr('hidden');
   }
   else{
