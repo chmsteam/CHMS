@@ -22,9 +22,9 @@ block content
                                                         // Current avatar
                                                         br
                                                         img.img-responsive.avatar-view(src='../images/'+hw1.strPicture, alt='Avatar', title='Change the avatar' style='widht:175px; height:200px')
-                                                h2(style="text-transform: capitalize; color:white") 
+                                                h2(style="text-transform: capitalize; color:") 
                                                     b #{hw1.strLName}, #{hw1.strFName} #{hw1.strMName} 
-                                                h5(style="text-transform: capitalize; color:white") ( #{hw1.strName} )
+                                                h5(style="text-transform: capitalize; color:") ( #{hw1.strName} )
                                                 //- button.btn.btn-success(data-toggle='modal', data-target='#editpic', data-id=hw1.intHWID, data-image=`../images/${hw1.strPicture}`) 
                                                 //-     i.fa.fa-camera 
                                                 //-     | &nbsp Upload
@@ -46,9 +46,8 @@ block content
                                                     //-     button.btn.btn-warning(type='button') 
                                                     //-         i.fa.fa-mail-reply
                                                     //-         | &nbsp Reinstate
-                                            br
-                                            br
-                                            ul.list-unstyled.user_data(style="text-transform: capitalize; color:white") 
+                                            
+                                            ul.list-unstyled.user_data(style="text-transform: capitalize; color:") 
                                                 li Age: &nbsp #{hw1.age}
                                                 li Gender: &nbsp #{hw1.strGender}
                                                 li
