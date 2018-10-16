@@ -43,7 +43,7 @@ block content
                                                         br
                                                         .col-md-12.col-sm-12.col-xs-12
                                                             .x_panel
-                                                                form(action="/ediprofile", method="post")
+                                                                form(action="/editprofile", method="post")
                                                                     table.table.table-striped
                                                                         each client in clienttab
                                                                             br
@@ -76,7 +76,7 @@ block content
                                                                                     td
                                                                                         b Password:
                                                                                     td 
-                                                                                        input(type='password' name='password' value=''+client.strPassword required max='45')
+                                                                                        input#pass(type='password' name='password' value=''+client.strPassword required min='5' max='45')
                                                                                     td
                                                                                     td
                                                                                 tr
@@ -84,7 +84,7 @@ block content
                                                                                     td
                                                                                         b Confirm Password:
                                                                                     td 
-                                                                                        input(type='password' name='conpassword' value='' required max='45')
+                                                                                        input#conpass(type='password' name='conpassword' value='' required min='5' max='45')
                                                                                     td
                                                                                     td
                                                                                 tr
@@ -92,7 +92,7 @@ block content
                                                                                     td
                                                                                         b Contact Details:
                                                                                     td 
-                                                                                        input(type='number' name='contact' value=''+client.strContact max='45')
+                                                                                        input(type='text' name='contact' value=''+client.strContact max='45')
                                                                                     td
                                                                                     td
                                                                                 tr
@@ -113,4 +113,22 @@ block content
                                                                                     td
                                                                     br
                                                                     br
-                                                                    button.btn.btn-success.btn-md(type='submit' onclick="checkpass();" style="float:right") Save Changes 
+                                                                    div#error(style='hidden')
+                                                                        h3 Enter and confirm your password to save your changes.
+                                                                    button.btn.btn-success.btn-md#sub(type='submit' style="float:right" disabled) Save Changes
+        script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+        script.
+            $(document).ready(function() {
+                $(':input[type="submit"]').prop('disabled', true);
+                $('#conpass').keyup(function() {
+                    if($(this).val() != $('#pass').val()) {
+                        $(':input[type="submit"]').prop('disabled', true);
+                        $('#error').show();
+                    }
+                    else{
+
+                        $(':input[type="submit"]').prop('disabled', false);
+                        $('#error').hide();
+                    }
+                });
+            });
