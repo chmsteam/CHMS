@@ -37,15 +37,38 @@ block content
 
             
             
-                .col-xs-12
+                
+            .x_panel(style='background-color:rgba(52,152,219,.3)')
+                //-.col-xs-12
                     button.btn.btn-primary.pull-left#generateButtonReport(style='margin-right: 5px;')
                         i.fa.fa-download
                         |  Generate PDF
                     button.btn.btn-success.pull-left#printReport
                         i.fa.fa-print
                         |  Print
-            .x_panel(style='background-color:rgba(52,152,219,.3)')
-        
+                .col-md-6.col-sm-6.col-xs-12
+                    //- each transpending in transpendingtab
+                    //-     p(hidden)#transpending #{transpending.CNT}
+                    each transapproved in transapprovedtab
+                        p(hidden)#transapproved #{transapproved.CNT}
+                    each transrejected in transrejectedtab
+                        p(hidden)#transrejected #{transrejected.CNT}
+                    each transongoing in transongoingtab
+                        p(hidden)#transongoing #{transongoing.CNT}
+                    each transfinished in transfinishedtab
+                        p(hidden)#transfinished #{transfinished.CNT}
+                    each transterminated in transterminatedtab
+                        p(hidden)#transterminated #{transterminated.CNT}
+                    .x_panel
+                        .x_title
+                            h2
+                                | Transactions
+                                h2
+                                b#trans(style="float:right") 
+                            .clearfix
+                        .x_content
+                            canvas#myChart6
+
                 .col-md-6.col-sm-6.col-xs-12
                     //hhowrkers
                     each cn in hwCount
@@ -126,29 +149,7 @@ block content
                             .clearfix
                         .x_content
                             canvas#myChart5
-                .col-md-6.col-sm-6.col-xs-12
-                    //- each transpending in transpendingtab
-                    //-     p(hidden)#transpending #{transpending.CNT}
-                    each transapproved in transapprovedtab
-                        p(hidden)#transapproved #{transapproved.CNT}
-                    each transrejected in transrejectedtab
-                        p(hidden)#transrejected #{transrejected.CNT}
-                    each transongoing in transongoingtab
-                        p(hidden)#transongoing #{transongoing.CNT}
-                    each transfinished in transfinishedtab
-                        p(hidden)#transfinished #{transfinished.CNT}
-                    each transterminated in transterminatedtab
-                        p(hidden)#transterminated #{transterminated.CNT}
-                    .x_panel
-                        .x_title
-                            h2
-                                | Transactions
-                                h2
-                                b#trans(style="float:right") 
-                            .clearfix
-                        .x_content
-                            canvas#myChart6
-
+                
     script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
     script.
         $(document).ready(function(){
@@ -207,11 +208,11 @@ block content
         //- var penC = document.getElementById("PenC").innerHTML;
         var banC = document.getElementById("BanC").innerHTML;
         var myChart = new Chart(ctx, {
-            type: 'pie',
+            type: 'line',
             data: {
                 labels: ["Registered: "+regiC, "Deployed: "+depC, "Banned: "+banC],
                 datasets: [{
-                    label: 'Household Worker',
+                    label: ' Status',
                     data: [regiC, depC,banC],
                     backgroundColor: [
                         'rgba(38, 185, 154, 0.60)',
@@ -238,11 +239,11 @@ block content
         var regCl = document.getElementById("Regcl").innerHTML;
         var banCl = document.getElementById("Bancl").innerHTML;
         var myChart2 = new Chart(ctx2, {
-            type: 'pie',
+            type: 'line',
             data: {
                 labels: ["Registered: "+regCl, "Banned: "+banCl],
                 datasets: [{
-                    label: 'Client',
+                    label: ' Status',
                     data: [regCl, banCl],
                     backgroundColor: [
                         'rgba(38, 185, 154, 0.60)',
@@ -267,11 +268,11 @@ block content
         var clientreplacereq = document.getElementById("clientreplacereq").innerHTML;
         var clientrelieverreq = document.getElementById("clientrelieverreq").innerHTML;
         var myChart3 = new Chart(ctx3, {
-            type: 'pie',
+            type: 'line',
             data: {
                 labels: ["Add: "+clientaddreq,"Replacement: "+clientreplacereq, "Reliever: "+clientrelieverreq],
                 datasets: [{
-                    label: 'Client Request',
+                    label: ' Status',
                     data: [clientaddreq, clientreplacereq, clientrelieverreq],
                     backgroundColor: [
                         'rgba(38, 185, 154, 0.60)',
@@ -296,11 +297,11 @@ block content
         var hwleavereq = document.getElementById("hwleavereq").innerHTML;
         var hwreplacereq = document.getElementById("hwreplacereq").innerHTML;
         var myChart4 = new Chart(ctx4, {
-            type: 'pie',
+            type: 'line',
             data: {
                 labels: ["Leave: "+hwleavereq,"Replacement: "+hwreplacereq],
                 datasets: [{
-                    label: 'Household Worker requests',
+                    label: ' Status',
                     data: [hwleavereq, hwreplacereq],
                     backgroundColor: [
                         'rgba(38, 185, 154, 0.60)',
@@ -325,11 +326,11 @@ block content
         var irclient = document.getElementById("irclient").innerHTML;
         var irhw = document.getElementById("irhw").innerHTML;
         var myChart5 = new Chart(ctx5, {
-            type: 'pie',
+            type: 'line',
             data: {
                 labels: ["Client: "+irclient,"Household Worker: "+irhw],
                 datasets: [{
-                    label: 'Incident Report',
+                    label: ' Status',
                     data: [irclient, irhw],
                     backgroundColor: [
                         'rgba(38, 185, 154, 0.60)',
@@ -356,11 +357,11 @@ block content
         var transfinished = document.getElementById("transfinished").innerHTML;
         var transterminated = document.getElementById("transterminated").innerHTML;
         var myChart6 = new Chart(ctx6, {
-            type: 'pie',
+            type: 'line',
             data: {
                 labels: ["Approved: "+transapproved, "Rejected: "+transrejected, "On-going: "+transongoing, "Finished: "+transfinished, "Terminated: "+transterminated],
                 datasets: [{
-                    label: 'Household Worker',
+                    label: ' Status',
                     data: [transapproved, transrejected, transongoing, transfinished, transterminated],
                     backgroundColor: [
                         
@@ -415,7 +416,25 @@ block content
                 var HwDepC = document.getElementById('DepC').innerHTML;
                 var HwBanC = document.getElementById('BanC').innerHTML;
                 
+                var regCl = document.getElementById("Regcl").innerHTML;
+                var banCl = document.getElementById("Bancl").innerHTML;
+
+                var hwleavereq = document.getElementById("hwleavereq").innerHTML;
+                var hwreplacereq = document.getElementById("hwreplacereq").innerHTML;
                 
+                var clientaddreq = document.getElementById("clientaddreq").innerHTML;
+                var clientreplacereq = document.getElementById("clientreplacereq").innerHTML;
+                var clientrelieverreq = document.getElementById("clientrelieverreq").innerHTML;
+
+                var irclient = document.getElementById("irclient").innerHTML;
+                var irhw = document.getElementById("irhw").innerHTML;
+
+                var transapproved = document.getElementById("transapproved").innerHTML;
+                var transrejected = document.getElementById("transrejected").innerHTML;
+                var transongoing = document.getElementById("transongoing").innerHTML;
+                var transfinished = document.getElementById("transfinished").innerHTML;
+                var transterminated = document.getElementById("transterminated").innerHTML;
+
                 //- var servName = document.getElementByClassName('servName').innerHTML;
                 var docDefinition = {
                         //- watermark: {text: 'Mega Pacific Employment Services', color: 'blue', opacity: 0.3, bold: true, italics: false},
@@ -542,10 +561,10 @@ block content
                                     alignment: 'center',
                                     columns:[
                                         {
-                                            text:  , fontSize: 10
+                                            text: regC1 , fontSize: 10
                                         },
                                         {
-                                            text:  , fontSize: 10
+                                            text: banC1  , fontSize: 10
                                         },
                                     ],
                                 },
@@ -580,10 +599,10 @@ block content
                                     alignment: 'center',
                                     columns:[
                                         {
-                                            text:  , fontSize: 10
+                                            text: hwleavereq , fontSize: 10
                                         },
                                         {
-                                            text:  , fontSize: 10
+                                            text: hwreplacereq , fontSize: 10
                                         },
                                     ],
                                 },
@@ -621,13 +640,13 @@ block content
                                     alignment: 'center',
                                     columns:[
                                         {
-                                            text:  , fontSize: 10
+                                            text: clientaddreq , fontSize: 10
                                         },
                                         {
-                                            text:  , fontSize: 10
+                                            text: clientreplacereq , fontSize: 10
                                         },
                                         {
-                                            text:  , fontSize: 10
+                                            text: clientrelieverreq , fontSize: 10
                                         },
                                     ],
                                 },
@@ -662,10 +681,10 @@ block content
                                     alignment: 'center',
                                     columns:[
                                         {
-                                            text:  , fontSize: 10
+                                            text: irclient , fontSize: 10
                                         },
                                         {
-                                            text:  , fontSize: 10
+                                            text: irhw , fontSize: 10
                                         },
                                     ],
                                 },
@@ -700,6 +719,28 @@ block content
                                         },
                                         {
                                             text: "Terminated" , fontSize: 10
+                                        },
+                                    ],
+                                },
+                            { text: "---------------------------------------------------------------------------------------------------------------------------------------------------------", alignment: 'center', },
+                                {   
+                                    width: '*',
+                                    alignment: 'center',
+                                    columns:[
+                                        {
+                                            text: transapproved , fontSize: 10
+                                        },
+                                        {
+                                            text: transrejected , fontSize: 10
+                                        },
+                                        {
+                                            text: transfinished , fontSize: 10
+                                        },
+                                        {
+                                            text: transongoing, fontSize: 10
+                                        },
+                                        {
+                                            text: transterminated , fontSize: 10
                                         },
                                     ],
                                 },
