@@ -57,7 +57,10 @@ block content
                                                 //- td #{currenthw.}
                                                 td #{currenthw.strFName} #{currenthw.strLName}
                                                 td #{currenthw.strName}
-                                                td #{currenthw.intConReplacementLeft}
+                                                if currenthw.strCurStatus == 'Reliever'
+                                                    td 0
+                                                else
+                                                    td #{currenthw.intConReplacementLeft}
                                                 td #{currenthw.strCurStatus}
                                                 td
                                                     a(href="/home_client/hw_profile_"+currenthw.intConHWID)
@@ -72,6 +75,14 @@ block content
                                                         a(href='/request_replacement/replace_list_'+currenthw.intReplaceReqID + currenthw.intConHWID)
                                                             button.btn.btn-info.btn-md(type='button') View Details
                                                         button.btn.btn-danger.btn-md(type='button') Cancel
+                                                    else if currenthw.strCurStatus == 'On leave'
+                                                    else if currenthw.strCurStatus == 'Reliever'
+                                                        button.btn.btn-danger.btn-md(type='button') Terminate Contract
+
+                                                        //- a(href='/request_replacement/replace_list_'+currenthw.intReplaceReqID + currenthw.intConHWID)
+                                                        //-     button.btn.btn-info.btn-md(type='button') View Details
+                                                        //- button.btn.btn-danger.btn-md(type='button') Cancel
+
 
 
                                                             

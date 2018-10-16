@@ -33,7 +33,7 @@ block content
                                                                     if reported.strReportStatus == '' || reported.strReportStatus == 'Under Investigation'
                                                                         button.btn.btn-danger.btn-md(type='button' data-toggle='modal' data-target='#report_cancel' data-id=reported.intReportID) Cancel
                                                                     else if reported.strReportStatus == 'Resolved'
-                                                                        button.btn.btn-primary.btn-md(type='button' data-toggle='modal' data-target='#report_hide' data-id=reported.intReportID) Remove
+                                                                        button.btn.btn-danger.btn-md(type='button' data-toggle='modal' data-target='#report_hide' data-id=reported.intReportID) Hide
                                 br  
                                 br
                                 .x_panel(style='background-color:rgba(38,185,154,0.3)')

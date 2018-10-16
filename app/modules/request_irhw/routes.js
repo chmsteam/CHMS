@@ -3,6 +3,15 @@ var flog = require( '../login/loggedin');
 var router = express.Router();
 var moment = require('moment');
 
+//--------------------------------------------------------------IDMAKE
+function makeid() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvqxyz1234567890";
+    for (var i = 0; i < 10; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text;
+  }
+
 function render(req,res){
     if(req.valid==2)
     res.render('request_irhw/views/index',{usertab: req.user, cctab: req.cc, irtab: req.ir, reportedtab: req.reported});
@@ -42,10 +51,31 @@ function findincidentreport(req,res,next){
 router.post('/ir_hw', flog, reporthw)
 function reporthw(req, res){
     var db = require('../../lib/database')()
-    db.query(`INSERT INTO tblreport (intReporterID, intRecipentID, intTypeofReport, strReason, strValidity, datDateReported, strReportStatus, strActionTaken)  VALUES(?,?,?,?,'',?,'','')`,[req.session.user, req.body.recipentid, req.body.ir, req.body.reason, req.body.daterep], function(err){
+    var randomId= makeid();
+    jpeg= "["+req.body.daterep+"]"+"-"+req.body.recipentid+"-"+req.session.user+('-'+randomId+'.jpg');
+    req.files.postimage.mv('public/image/reports/'+jpeg, function(err) {
+      db.query(`INSERT INTO tblreport (intReporterID, intRecipentID, intTypeofReport, strReason, strValidity, datDateReported, strReportStatus, strActionTaken, strEviPic)  VALUES(?,?,?,?,'',?,'','', ?)`,[req.session.user, req.body.recipentid, req.body.ir, req.body.reason, req.body.daterep, jpeg], function(err){
+          console.log(err);
+        //   res.send('success')
+          res.redirect('/request_irhw')
+      })
+    console.log(err)
+  });
+}
+router.post('/cancelremove', flog, cancelremove)
+function cancelremove(req, res){
+    var db = require('../../lib/database')()
+    if(req.body.btn=='cancel')
+    db.query(`DELETE FROM tblreport WHERE intReportID = ?`,[req.body.id], function(err){
         console.log(err);
         res.redirect('/request_irhw')
     })
+    else{
+      db.query(`Update tblreport SET strReportStatus = 'Resolved (hid by household worker)' WHERE intReportID = ?`,[req.body.id], function(err){
+        console.log(err);
+        res.redirect('/request_irhw')
+    })
+    }
 }
 
 router.get('/', flog, currentclient, findreportedclient, findincidentreport, render);
