@@ -6,7 +6,7 @@ block content
                 .row
                     .col-md-12.col-sm-12.col-xs-12
                         .x_panel
-                            .x_panel
+                            .x_panel#test
                                 .x_content
                                     section.content.invoice
                                         // title row
@@ -112,9 +112,11 @@ block content
                                                 button.btn.btn-primary.pull-right#generateButton(style='margin-right: 5px;')
                                                     i.fa.fa-download
                                                     |  Generate PDF
+                                                //- button.btn.btn-primary.pull-right#test1(style='margin-right: 5px;')
                                         //- button.btn.btn-primary#generateButton Pdfs
         
     script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+    script(src="/custom/jspdf.min.js")
     script.
         function total(){
                 var subtot=parseInt(document.getElementById("subtot").value)
@@ -125,6 +127,59 @@ block content
 
                 document.getElementById("tots").innerHTML = 'P '+total;
         };
+    //- script(type='text/javascript').
+    //-     $(document).ready(function(){
+    //-         $(document).on(	'click', '#test1', function(){
+    //-             var servyName = $(".servName");
+    //-             var name = [];
+    //-             for(var i = 0; i < servyName.length; i++){
+    //-                 name.push($(servyName[i]).text());
+    //-                 var externalDataRetrievedFromServer = [
+    //-                 { name: name[i], age: age[i] },
+    //-             ];
+    //-             }
+    //-             var servQty = $('.servQty');
+    //-             var age = [];
+    //-             for(var i = 0; i < servQty.length; i++){
+    //-                 age.push($(servQty[i]).text());
+    //-             }
+
+    //-             function buildTableBody(data, columns) {
+    //-                 var body = [];
+
+    //-                 body.push(columns);
+
+    //-                 data.forEach(function(row) {
+    //-                     var dataRow = [];
+
+    //-                     columns.forEach(function(column) {
+    //-                         dataRow.push(row[column].toString());
+    //-                     })
+
+    //-                     body.push(dataRow);
+    //-                 });
+
+    //-                 return body;
+    //-             }
+
+    //-             function table(data, columns) {
+    //-                 return {
+    //-                     table: {
+    //-                         headerRows: 1,
+    //-                         body: buildTableBody(data, columns)
+    //-                     }
+    //-                 };
+    //-             }
+
+    //-             var dd = {
+    //-                 content: [
+    //-                     { text: 'Dynamic parts', style: 'header' },
+    //-                     table(externalDataRetrievedFromServer, ['name', 'age'])
+    //-                 ]
+    //-             }
+    //-             pdfMake.createPdf(dd).open();
+    //-         });
+    //-     });
     script(type='text/javascript').
         $(document).ready(function(){
             //- var imageko = toDataURL('/admin/gentelella/production/images/mega.png');
@@ -157,7 +212,8 @@ block content
                 var clientPhone = document.getElementById('cPhone').innerHTML;
                 var clientEmail = document.getElementById('cEmail').innerHTML;
                 //service
-                var servName = document.getElementById('servName').innerHTML;
+                
+
                 //- console.log(servName);
                 //- var len = $('#servName').length;
                 //- console.log(len);
@@ -165,7 +221,6 @@ block content
                 //-         $("#servName").innerHTML = "text";
                 //-     };
                 //------------------------
-                var servQty = document.getElementById('servQty').innerHTML;
                 var servRate = document.getElementById('servRate').innerHTML;
                 var servSub = document.getElementById('servSub').innerHTML;
                 //total
@@ -175,6 +230,18 @@ block content
                 var total = document.getElementById('tots').innerHTML;
                 
                 //- var servName = document.getElementByClassName('servName').innerHTML;
+                var servName = $("#servName").text();
+                var servQty = $('#servQty').text();
+                //- var array1 = [];
+                //- for(var i = 0; i < servyName.length; i++){
+                //-     array1.push($(servyName[i]).text());
+                //-     console.log(array1[i]);
+                //- }
+                //- var array2 = [];
+                //- for(var i = 0; i < servQty.length; i++){
+                //-     array2.push($(servQty[i]).text());
+                //-     console.log(array2[i]);
+                //- }
                 var docDefinition = {
                         //- watermark: {text: 'Mega Pacific Employment Services', color: 'blue', opacity: 0.3, bold: true, italics: false},
                         pageSize: 'A5',
@@ -287,7 +354,7 @@ block content
                                     alignment: 'center',
                                     columns:[
                                         {
-                                            text: "\u200B\t\t" +servName , fontSize: 10
+                                            text: servName , fontSize: 10
                                         },
                                         {
                                             text: servQty , fontSize: 10
@@ -351,6 +418,7 @@ block content
                     });
                 });    
         });
+
     script(type='text/javascript').
         $(document).ready(function(){
             $(document).on(	'click', '#printInv', function(){
@@ -382,6 +450,7 @@ block content
                 var clientEmail = document.getElementById('cEmail').innerHTML;
                 //service
                 var servName = document.getElementById('servName').innerHTML;
+                var inputs = $(".class1");
                 //- console.log(servName);
                 //- var len = $('#servName').length;
                 //- console.log(len);

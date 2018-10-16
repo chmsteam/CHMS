@@ -29,13 +29,19 @@ block content
                                                         select#sort.form-control(name='type')
                                                             each leave in leavetab
                                                                 option.sort.form-control(value=''+leave.intID, readonly days=leave.intDays fileDate= leave.intDaysForFile ) #{leave.strName}
-                                                .col-md-4
-                                                        .form-group
-                                                            br
-                                                            br
-                                                            label(style='color:#394D5F') Corresponding Days:
-                                                            input.form-control#total(type='number' readonly, name='totaldays')
-                                                            input.form-control#days(type='number' readonly, name='file' style='display:none')
+                                                .row
+                                                    .col-md-2
+                                                            .form-group
+                                                                br
+                                                                br
+                                                                label(style='color:#394D5F')  Max Day/s:
+                                                                input.form-control#total(type='number' readonly)
+                                                                input.form-control#days(type='number' readonly, name='file' style='display:none')
+                                                    .col-md-2
+                                                            .form-group
+                                                                br
+                                                                label(style='color:#394D5F') Desired Day/s:
+                                                                input.form-control#custom(type='number' name='totaldays' min=1)
                                             .row
                                                 .col-md-1
                                                     .form-group
@@ -99,8 +105,8 @@ block content
             $(document).ready(function(){
                 $('select#sort').change(function(){
                     var now = moment().format("YYYY-MM-DD");
-                    var totalDate = $(this).find('option:selected').attr('days')
-                    var fileDate = $(this).find('option:selected').attr('fileDate')
+                    var totalDate = $(this).find('option:selected').attr('days');
+                    var fileDate = $(this).find('option:selected').attr('fileDate');
                     var intfDate = parseInt(fileDate)
                     var intmaxDate = parseInt(totalDate)
                     var maxx = intfDate + intmaxDate;
@@ -109,6 +115,7 @@ block content
                     console.log(now);
 
                     $('#total').val($(this).find('option:selected').attr('days'))
+
                     $('#days').val($(this).find('option:selected').attr('fileDate'))
 
                     var minDate1 = moment(now).add(intfDate, 'days').format("YYYY-MM-DD");
@@ -117,60 +124,105 @@ block content
                     
                     $("#start").attr("min", minDate1);
                     $("input#start").val(minDate1)
-                    //- $("#start").attr("value", minDate1);
+                    $("#start").val(minDate1);
                     console.log(maxDate1);
+                    $('input#custom').val('0');
 
-                    $("#end").attr("max", maxDate1);
-                    $("#end").attr("value", maxDate1);
+                    //- $("#end").attr("max", maxDate1);
+                    $("#end").val(maxDate1);
                 })
                 $("#start").change(function(){
+                    var now = moment().format("YYYY-MM-DD");
+                    var totalDate = $('#total').val()
+                    var fileDate = $('#days').val();
+                    var intfDate = parseInt(fileDate)
+                    var intmaxDate = parseInt(totalDate);
+                    var customD = parseInt(totalDate);
+                    var customdy = intfDate + customD;
+                    var eto = intfDate + intmaxDate;
+                    console.log(eto)
+                    console.log(customdy);
+
+
+                    var simula = $('#start').val();
+                    $('input#custom').val('0');
+                    var minDate1 = moment(now).add(intfDate, 'days').format("YYYY-MM-DD");
+                    var ending = moment(simula).add(customD, 'days').format("YYYY-MM-DD");
+                    console.log(simula);
+                    console.log(ending);
+
+                    $("#end").attr("min", minDate1);
+                    $("#end").val(ending);
+                    //- $("#end").attr("max", ending);
+                })
+                $("#custom").change(function(){
+                    var now = moment().format("YYYY-MM-DD");
                     var totalDate = $('#total').val()
                     var fileDate = $('#days').val();
                     var intfDate = parseInt(fileDate)
                     var intmaxDate = parseInt(totalDate)
-                    var eto = intfDate + intmaxDate;
-                    console.log(eto)
+                    var maxx = intfDate + intmaxDate;
 
-                    var simula = $('#start').val();
-                    var ending = moment(simula).add(intmaxDate, 'days').format("YYYY-MM-DD");
-                    console.log(simula);
-                    console.log(ending);
+                    var startD = $('#start').val();
+                    var custom = $('#custom').val();
+                    var intCustom = parseInt(custom);
 
-                    $("#end").attr("value", ending);
+
+                    var minDate1 = moment(now).add(intfDate, 'days').format("YYYY-MM-DD");
+                    var maxDate1 = moment(now).add(maxx, 'days').format("YYYY-MM-DD");
+                    var customdate =  moment(startD).add(intCustom, 'days').format("YYYY-MM-DD");
+                    console.log(customdate);
+
+
+                    $("#start").attr("min", minDate1);
+                    $("#end").val(customdate);
                 })
             });
         script.
             $('form#leave').submit(function(e){
                 e.preventDefault();
-                $.ajax({
-                    url: $(this).attr('action'),
-                    method: 'post',
-                    data: $('form#leave').serialize(),
-                    success: function(response){
-                        console.log(response);
-                        if(response == 'success'){
-                            swal({
-                                type: 'success',
-                                title: 'Submitted!',
-                                text: 'Leave Request Submitted',
-                                showConfirmButton: false,
-                                },setTimeout(function() {
-                                    location.reload();
-                                }, 1500)
-                            );
+                var totalDate = $('#total').val();
+                var custom = $('#custom').val();
+                var intmaxDate = parseInt(totalDate);
+                var intCustom = parseInt(custom);
+                if(intCustom > intmaxDate){
+                    swal({
+                        type: 'info',
+                        title: 'Invalid!',
+                        text: 'Desired days exceeds to maximum days',
+                    })
+                }
+                else{
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        method: 'post',
+                        data: $('form#leave').serialize(),
+                        success: function(response){
+                            console.log(response);
+                            if(response == 'success'){
+                                swal({
+                                    type: 'success',
+                                    title: 'Submitted!',
+                                    text: 'Leave Request Submitted',
+                                    showConfirmButton: false,
+                                    },setTimeout(function() {
+                                        location.reload();
+                                    }, 1500)
+                                );
+                            }
+                            else if(response == 'wala client'){
+                                swal({
+                                    type: 'warning',
+                                    title: 'Failed!',
+                                    text: 'You dont have any client',
+                                    showConfirmButton: false,
+                                    timer: 1000
+                                    }
+                                );
+                            }
                         }
-                        else if(response == 'wala client'){
-                            swal({
-                                type: 'warning',
-                                title: 'Failed!',
-                                text: 'You dont have any client',
-                                showConfirmButton: false,
-                                timer: 1000
-                                }
-                            );
-                        }
-                    }
-                })
+                    })
+                }
             });
         script.
             function time(){
