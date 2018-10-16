@@ -3470,7 +3470,8 @@ function renderquerieshw(req,res,next){
   }]
   req.resultdates = resultdates;
   if(req.valid==0)
-  db.query(`SELECT * FROM tbluser INNER JOIN tblhouseholdworker ON intID=intHWID WHERE datDateRegistered BETWEEN '2012-01-01' AND '2018-05-17'`,function(err,results){
+  db.query(`SELECT *,TIMESTAMPDIFF(YEAR,datBirthDay,CURDATE()) as age FROM tbluser INNER JOIN tblhouseholdworker ON intID=intHWID INNER JOIN tblmservice AS tser ON tser.intID = intServiceID 
+            WHERE datDateRegistered BETWEEN '2012-01-01' AND '2018-10-17' AND tbluser.strStatus='Registered'`,function(err,results){
     for(var i = 0; i < results.length; i++){
       results[i].datDateRegistered =  moment(results[i].datDateRegistered).format("LL"); 
     }
@@ -3499,7 +3500,7 @@ function queryhw(req,res,next){
     resultdates[i].date2 =  moment(resultdates[i].date2).format("LL"); 
   }
   req.resultdates = resultdates;
-  if(req.body.thestatus =='Deployed'){
+  if(req.body.thestatus =='dawfgsd'){
     if(req.body.residence == 'All'){
       db.query(`SELECT  * FROM tbluser as hw INNER JOIN tblcontract ON hw.intID = intConHWID 
                                 INNER JOIN tbltransaction ON intTRequestID = intConTransID
@@ -3579,7 +3580,8 @@ function queryhw(req,res,next){
   }
   else{
     if(req.body.residence == 'All'){
-    db.query(`SELECT * FROM tbluser INNER JOIN tblhouseholdworker ON intID=intHWID WHERE strStatus='${req.body.thestatus}' AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}')`,function(err,results){
+    db.query(`SELECT *,TIMESTAMPDIFF(YEAR,datBirthDay,CURDATE()) as age FROM tbluser INNER JOIN tblhouseholdworker ON intID=intHWID INNER JOIN tblmservice AS tser ON tser.intID = intServiceID 
+              WHERE tbluser.strStatus='${req.body.thestatus}' AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}')`,function(err,results){
       if(err){
         res.send(err);
       }
@@ -3593,7 +3595,8 @@ function queryhw(req,res,next){
     })
   }
   else if(req.body.residence == 'Outside Metro Manila'){
-    db.query(`SELECT * FROM tbluser INNER JOIN tblhw ON intID=intHWID WHERE (strStatus='${req.body.thestatus}') AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND strCity NOT IN (SELECT strName FROM tblmcity)`,function(err,results){
+    db.query(`SELECT *,TIMESTAMPDIFF(YEAR,datBirthDay,CURDATE()) as age FROM tbluser INNER JOIN tblhouseholdworker ON intID=intHWID INNER JOIN tblmservice AS tser ON tser.intID = intServiceID 
+                      WHERE (tbluser.strStatus='${req.body.thestatus}') AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND strCity NOT IN (SELECT strName FROM tblmcity)`,function(err,results){
       if(err){
         res.send(err);
       }
@@ -3608,7 +3611,8 @@ function queryhw(req,res,next){
   }
   else if(req.body.residence == 'In Metro Manila'){
     if(req.body.city == 'All'){
-      db.query(`SELECT * FROM tbluser INNER JOIN tblhouseholdworker ON intID=intHWID WHERE (strStatus='${req.body.thestatus}') AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND strCity IN (SELECT strName FROM tblmcity)`,function(err,results){
+      db.query(`SELECT *,TIMESTAMPDIFF(YEAR,datBirthDay,CURDATE()) as age FROM tbluser INNER JOIN tblhouseholdworker ON intID=intHWID INNER JOIN tblmservice AS tser ON tser.intID = intServiceID 
+                        WHERE (tbluser.strStatus='${req.body.thestatus}') AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND strCity IN (SELECT strName FROM tblmcity)`,function(err,results){
         if(err){
           res.send(err);
         }
@@ -3622,7 +3626,8 @@ function queryhw(req,res,next){
       })
     }
     else{
-      db.query(`SELECT * FROM tbluser INNER JOIN tblhouseholdworker ON intID=intHWID WHERE (strStatus='${req.body.thestatus}') AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND strCity = '${req.body.city}'`,function(err,results){
+      db.query(`SELECT *,TIMESTAMPDIFF(YEAR,datBirthDay,CURDATE()) as age FROM tbluser INNER JOIN tblhouseholdworker ON intID=intHWID INNER JOIN tblmservice AS tser ON tser.intID = intServiceID 
+                        WHERE (strStatus='${req.body.thestatus}') AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND strCity = '${req.body.city}'`,function(err,results){
         if(err){
           res.send(err);
         }

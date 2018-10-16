@@ -29,18 +29,6 @@ block content
                                                         img.img-responsive.avatar-view(src='../images/'+client.strPicture, alt='Avatar', title='Change the avatar' style='widht:175px; height:200px')
                                                 h2(style="text-transform: capitalize; color:white") 
                                                     b   #{client.strLName}, #{client.strFName} #{client.strMName}
-                                                //- button.btn.btn-success(type='button' data-toggle='modal' data-target='#editpic1'  data-id= client.intClientID, data-image=`../images/${client.strPicture}`)
-                                                //-     i.fa.fa-camera 
-                                                //-     | &nbsp Upload
-                                                
-                                    //-             if client.strStatus == 'Registered'
-                                    //-                 button.btn.btn-danger(type='button' data-toggle='modal' data-target='#ban' data-id=client.intID) 
-                                    //-                     i.fa.fa-exclamation-circle
-                                    //-                     | &nbsp Ban
-                                    //-             else if client.strStatus =='Banned'
-                                    //-                 button.btn.btn-warning(type='button' data-toggle='modal' data-target='#reinstate' data-id=client.intID) 
-                                    //-                     i.fa.fa-mail-reply
-                                    //-                     | &nbsp Reinstate
                                     .col-md-9.col-sm-9.col-xs-12
                                         .x_panel
                                             div(role='tabpanel', data-example-id='togglable-tabs')
@@ -49,8 +37,6 @@ block content
                                                         a#profile-tab(href='#tab_content1', role='tab', data-toggle='tab', aria-expanded='true') Profile
                                                     //- li(role='presentation')
                                                     //-     a#educ-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Household Worker
-                                                    //- li(role='presentation')
-                                                    //-     a#reports-tab(href='#tab_content3', role='tab', data-toggle='tab', aria-expanded='false') Reports
                                                 #myTabContent.tab-content
                                                     #tab_content1.tab-pane.fade.active.in(role='tabpanel', aria-labelledby='profile-tab')
                                                         // Profile
@@ -80,28 +66,40 @@ block content
                                                                                 th(scope='row')
                                                                                 td
                                                                                     b Email:
-                                                                                td #{client.strEmail}
+                                                                                td 
+                                                                                    input(type='email' name='email' value=''+client.strEmail required max='45')
+                                                                                td
+                                                                                td
+                                                                            tr
+                                                                                th(scope='row')
+                                                                                td
+                                                                                    b Password:
+                                                                                td 
+                                                                                    input(type='password' name='password' value=''+client.strPassword required max='45')
                                                                                 td
                                                                                 td
                                                                             tr
                                                                                 th(scope='row')
                                                                                 td
                                                                                     b Contact Details:
-                                                                                td #{client.strContact} / #{client.strOContact}
+                                                                                td 
+                                                                                    input(type='number' name='contact' value=''+client.strContact max='45')
                                                                                 td
                                                                                 td
                                                                             tr
                                                                                 th(scope='row')
                                                                                 td
                                                                                     b Office Address:
-                                                                                td #{client.strOAddress}
+                                                                                td 
+                                                                                    input(type='text' name='officeadd' value=''+client.strOAddress max='70')
                                                                                 td
                                                                                 td
                                                                             tr
                                                                                 th(scope='row')
                                                                                 td
                                                                                     b Office Contact Number:
-                                                                                td #{client.strOContact}
+                                                                                td 
+                                                                                    input(type='text' name='officenum' value=''+client.strOContact max='45')
                                                                                 td
                                                                                 td
                                     //-                 #tab_content2.tab-pane.fade(role='tabpanel', aria-labelledby='educ-tab')
