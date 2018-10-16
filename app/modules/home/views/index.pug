@@ -220,6 +220,7 @@ block content
                                                                                     data-start=lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View Leave Details
                                                                                 a(href='/request_reliever/reliever_list_/-/'+lr.intLeaveRequestID+'/-/'+lr.intHouseholdID)
                                                                                     button.btn.btn-primary-sm(type='button') Choose a Reliver
+                                                                                    
                                             each replace in replacetab
                                                 if replace.strRequestStatus != 'Finished'
                                                     .row

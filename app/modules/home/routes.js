@@ -256,6 +256,35 @@ function findhwwork(req,res,next){
   });
 }
 
+// ---------------------------------------------------------------------------Client Profile
+router.get('/profile',flog, findclient, renderprofile)
+function renderprofile(req,res){
+  if(req.valid==1)
+    res.render('home/views/profile',{usertab: req.user, clienttab: req.client});
+  else if(req.valid==0)
+    res.render('admin/views/invalidpages/normalonly');
+  else
+    res.render('login/views/invalid');
+}
+function findclient(req,res,next){
+  var db = require('../../lib/database')();
+  db.query("SELECT *,CONCAT(strLName,', ', strFName) AS strName FROM tbluser INNER JOIN tblclient ON intID = intClientID WHERE intID=?",[req.session.user], function (err, results) {
+    if (err) return res.send(err);
+    if (!results[0])
+    console.log('');
+    req.client = results;
+    return next();
+  });
+}
+
+
+
+
+
+
+
+
+
 function smp(req,res){
     res.render('home/views/smp');
 }

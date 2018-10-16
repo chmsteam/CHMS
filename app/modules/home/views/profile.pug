@@ -1,0 +1,107 @@
+extends ../../../templates/navbarclient.pug
+
+block content
+    section#services
+        .right_col(role='main' style="background-color:transparent")
+            .page-title
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
+                        .x_panel(style='background-color:rgba(52,152,219,.3)')
+                            .x_title
+                                button.btn.btn-primary.btn-lg(onclick="goBack()" style="float:right") 
+                                    | Back
+                                script.
+                                    function goBack() {
+                                        window.history.back();
+                                    }
+                                center
+                                    h3(style='color:')
+                                        b Client's Profile
+                            .x_panel.wow.fadeInRight(style='background-color:#3E5367')
+                                .x_content
+                                    br
+                                    each client in clienttab
+                                        .col-md-3.col-sm-3.col-xs-12.profile_left
+                                            center
+                                                .profile_img
+                                                    #crop-avatar
+                                                        // Current avatar
+                                                        img.img-responsive.avatar-view(src='../images/'+client.strPicture, alt='Avatar', title='Change the avatar' style='widht:175px; height:200px')
+                                                h2(style="text-transform: capitalize; color:white") 
+                                                    b   #{client.strLName}, #{client.strFName} #{client.strMName}
+                                                //- button.btn.btn-success(type='button' data-toggle='modal' data-target='#editpic1'  data-id= client.intClientID, data-image=`../images/${client.strPicture}`)
+                                                //-     i.fa.fa-camera 
+                                                //-     | &nbsp Upload
+                                                
+                                    //-             if client.strStatus == 'Registered'
+                                    //-                 button.btn.btn-danger(type='button' data-toggle='modal' data-target='#ban' data-id=client.intID) 
+                                    //-                     i.fa.fa-exclamation-circle
+                                    //-                     | &nbsp Ban
+                                    //-             else if client.strStatus =='Banned'
+                                    //-                 button.btn.btn-warning(type='button' data-toggle='modal' data-target='#reinstate' data-id=client.intID) 
+                                    //-                     i.fa.fa-mail-reply
+                                    //-                     | &nbsp Reinstate
+                                    .col-md-9.col-sm-9.col-xs-12
+                                        .x_panel
+                                            div(role='tabpanel', data-example-id='togglable-tabs')
+                                                ul#myTab.nav.nav-tabs.bar_tabs(role='tablist')
+                                                    li.active(role='presentation')
+                                                        a#profile-tab(href='#tab_content1', role='tab', data-toggle='tab', aria-expanded='true') Profile
+                                                    //- li(role='presentation')
+                                                    //-     a#educ-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Household Worker
+                                                    //- li(role='presentation')
+                                                    //-     a#reports-tab(href='#tab_content3', role='tab', data-toggle='tab', aria-expanded='false') Reports
+                                                #myTabContent.tab-content
+                                                    #tab_content1.tab-pane.fade.active.in(role='tabpanel', aria-labelledby='profile-tab')
+                                                        // Profile
+                                                        br
+                                                        .col-md-12.col-sm-12.col-xs-12
+                                                            .x_panel
+                                                                table.table.table-striped
+                                                                    each client in clienttab
+                                                                        br
+                                                                        tbody
+                                                                            tr
+                                                                                th(scope='row')
+                                                                                td
+                                                                                    b Current Address:
+                                                                                -var curAdd = client.strCAHouseNo + " " + client.strCAStreet + " " + client.strCAProvince + ", " + client.strCity
+                                                                                td #{curAdd}
+                                                                                td
+                                                                                td
+                                                                            tr
+                                                                                th(scope='row')
+                                                                                td
+                                                                                    b Permanent Address:
+                                                                                td #{client.strPAddress}
+                                                                                td
+                                                                                td
+                                                                            tr
+                                                                                th(scope='row')
+                                                                                td
+                                                                                    b Email:
+                                                                                td #{client.strEmail}
+                                                                                td
+                                                                                td
+                                                                            tr
+                                                                                th(scope='row')
+                                                                                td
+                                                                                    b Contact Details:
+                                                                                td #{client.strContact} / #{client.strOContact}
+                                                                                td
+                                                                                td
+                                                                            tr
+                                                                                th(scope='row')
+                                                                                td
+                                                                                    b Office Address:
+                                                                                td #{client.strOAddress}
+                                                                                td
+                                                                                td
+                                                                            tr
+                                                                                th(scope='row')
+                                                                                td
+                                                                                    b Office Contact Number:
+                                                                                td #{client.strOContact}
+                                                                                td
+                                                                                td
+                                    //-                 #tab_content2.tab-pane.fade(role='tabpanel', aria-labelledby='educ-tab')

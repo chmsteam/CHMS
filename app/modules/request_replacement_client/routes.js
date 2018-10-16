@@ -17,7 +17,7 @@ function renderreplacement(req,res){
 function findcurrenthw(req,res,next){
     var db = require('../../lib/database')();
     db.query(`SELECT * FROM tblcontract INNER JOIN tblhouseholdworker ON intConHWID = intHWID INNER JOIN tblmservice ON tblmservice.intID = intServiceID INNER JOIN tbltransaction ON intTRequestID = intConTransID INNER JOIN tbluser ON tbluser.intID = intHWID
-             WHERE strCurStatus IN ('Current') AND intTClientID = '${req.session.user}'`, function(err,results){
+             WHERE strCurStatus IN ('Current', 'Reliever', 'On leave') AND intTClientID = '${req.session.user}'`, function(err,results){
         console.log(err);
         req.currenthw = results;
         return next();
