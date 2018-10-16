@@ -33,77 +33,77 @@ block content
                                                 td #{rep.datDateReported}
                                                 td #{rep.strReportStatus}
                                                 td
-                                                    button.btn.btn-info(type='button' data-toggle='modal', data-target='#view_report', data-id=rep.intReportID, data-doreport=rep.datDateReported,
-                                                                            data-reportname=rep.strName, data-desc=rep.strDesc, data-reason=rep.strReason, data-recfname=rep.RFName, data-reclname=rep.RLName, data-rec=rep.intRecipentID)
+                                                    button.btn.btn-info(type='button' data-toggle='modal', data-target='#view_report', data-id=rep.intReportID, data-doreport=rep.datDateReported, data-action=rep.strActionTaken, data-stat=rep.strReportStatus
+                                                                            data-reportname=rep.strName, data-desc=rep.strDesc, data-reason=rep.strReason, data-recfname=rep.RFName, data-reclname=rep.RLName, data-rec=rep.intRecipentID, data-image=`../image/reports/${rep.strEviPic}`)
                                                         i.fa.fa-eye
                                                         |   View
         //- modals
         #view_report.modal.fade.bs-add-modal-md(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog.modal-md
                 .modal-content
-                    .modal-header
+                    .modal-header(style="background-color:#f7f7f7")
                         button.close(type='button', data-dismiss='modal')
                             span(aria-hidden='true') ×
                         h4#myModalLabel.modal-title Report Details
                     .modal-body
-                        form#demo-form2.form-horizontal.form-label-left(method="POST" action="/admin/tr_ir_hw")
+                        form.form-horizontal.form-label-left(method="POST" action="/admin/tr_ir_hw")
                             input(id='id' name="reportid" hidden)
+                            input.form-control.col-md-7.col-xs-12(id='rec' type='text' style='display:none;')
                             //- input(type='text' id='id')
-                            .form-group
-                                label.control-label.col-md-3.col-sm-3.col-xs-12
-                                    | Date of Report:
-                                .col-md-6.col-sm-6.col-xs-12
-                                    input.form-control.col-md-7.col-xs-12(id='doreport' type='text',  readonly)
-                                    input.form-control.col-md-7.col-xs-12(id='rec' type='text' style='display:none;')
-                            .form-group
-                                label.control-label.col-md-3.col-sm-3.col-xs-12
-                                    | Type of Incident:
-                                .col-md-6.col-sm-6.col-xs-12
-                                    input.form-control.col-md-7.col-xs-12(id='reportname'  type='text',  readonly)
-                            .form-group
-                                label.control-label.col-md-3.col-sm-3.col-xs-12
-                                    | Description:
-                                .col-md-6.col-sm-6.col-xs-12
-                                    textarea.form-control.col-md-7.col-xs-12(id='desc' type='text', rows='3' readonly)
-
-                            .form-group
-                                label.control-label.col-md-3.col-sm-3.col-xs-12
-                                    | Reason:
-                                .col-md-6.col-sm-6.col-xs-12
-                                    textarea.form-control.col-md-7.col-xs-12(id='reason' type='text', rows='3'  readonly)
-                            .form-group
-                                label.control-label.col-md-3.col-sm-3.col-xs-12
-                                    | Client:
-                                .col-md-6.col-sm-6.col-xs-12
-                                    input.form-control.col-md-7.col-xs-12(id='recfname' type='text',  readonly)
-                            .form-group
-                                label.control-label.col-md-3.col-sm-3.col-xs-12 Validity:
-                                .col-md-6.col-sm-6.col-xs-12
-                                    select(name='validity').form-control
-                                        option(value='Valid') Valid
-                                        option(value='Invalid') Invalid
-                            .form-group
-                                label.control-label.col-md-3.col-sm-3.col-xs-12 Action Taken:
-                                .col-md-6.col-sm-6.col-xs-12
-                                    select(name='action').form-control
-                                        option(value='No Action') No Action
-                                        option(value='1st offense') 1st offense
-                                        option(value='2nd offense') 2nd offense
-                                        option(value='3rd offense') 3rd offense
-                                        option(value='Ban') Ban 
-                                        option(value='Suspend') Suspend
-                            .form-group
-                                label.control-label.col-md-3.col-sm-3.col-xs-12 Report Status
-                                .col-md-6.col-sm-6.col-xs-12
-                                    select(name='stat').form-control
-                                        option(value='Under Investigation') Under Investigation
-                                        option(value='Resolved') Resolved                        
-
-                                        
+                            .row
+                                .col-md-12
+                                    .form-group
+                                        img#imagepre(src="" style='width: 100%; height: 200px;')
+                            .row
+                                .col-md-6
+                                    .form-group
+                                        label Client:
+                                        input.form-control.col-md-7.col-xs-12(id='recfname' type='text',  readonly)
+                                .col-md-6
+                                    .form-group
+                                        label Type of Incident:
+                                        input.form-control.col-md-7.col-xs-12(id='reportname'  type='text',  readonly)
+                            .row
+                                .col-md-6
+                                    .form-group
+                                        label Description:
+                                        textarea.form-control.col-md-7.col-xs-12(id='desc' type='text', rows='3' readonly)
+                            
+                                .col-md-6
+                                    .form-group
+                                        label Reason:
+                                        textarea.form-control.col-md-7.col-xs-12(id='reason'  type='text', rows='3'  readonly)
+                            .row
+                                .col-md-6
+                                    .form-group
+                                        label Date of Report:
+                                        input.form-control.col-md-7.col-xs-12(id='doreport' type='text',  readonly)
+                                .col-md-6
+                                    .form-group
+                                        label Validity:
+                                        select(name='validity').form-control
+                                            option(value='Valid') Valid
+                                            option(value='Invalid') Invalid
+                            .row
+                                .col-md-6
+                                    .form-group
+                                        label Action Taken:
+                                        select#action(name='action').form-control
+                                            option(value='No Action') No Action
+                                            option(value='1st offense') 1st offense
+                                            option(value='2nd offense') 2nd offense
+                                            option(value='3rd offense') 3rd offense
+                                            option(value='Ban') Ban 
+                                .col-md-6
+                                    .form-group
+                                        label Report Status
+                                        select#repStat(name='stat').form-control
+                                            option(value='Under Investigation') Under Investigation
+                                            option(value='Resolved') Resolved                          
                             .ln_solid
                             .form-group.pull-right
+                                button.btn.btn-primary(type='button', data-dismiss='modal') Close   
                                 button.btn.btn-success(type='submit') Perform Action
-                                button.btn.btn-primary(type='button', data-dismiss='modal') Close
                             
 
             

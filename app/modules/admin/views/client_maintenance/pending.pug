@@ -54,12 +54,11 @@ block content
                         span(aria-hidden='true') ×
                     h4#myModalLabel.modal-title Registered
                 .modal-body
-                    p(style="font-size:15px") &nbsp&nbsp&nbsp&nbsp&nbspThe following requirements and clearances are presented:
+                    p(style="font-size:15px") The following requirements and clearances are presented:
                         .row
                             .col-md-12
                                 each requirement in requirementtab
-                                    b
-                                        li #{requirement.strName} 
+                                    li #{requirement.strName} 
                 .modal-footer
                     button.btn.btn-primary(type='button', data-dismiss='modal') Close
     #req_unregistered.modal.fade.bs-add-modal-sm(tabindex='-1', role='dialog', aria-hidden='true')
@@ -75,12 +74,11 @@ block content
                         input.form-control.col-md-7.col-xs-12(type='text', id='_id', required='required', name='clientID' style="display:none;")
                         input.form-control#pangalan(type='text' name='fullname' style="display:none;")
                         input.form-control#thedate(type='date' name='dateregistered' style="display:none;")
-                        p(style="font-size:15px") &nbsp&nbsp&nbsp&nbsp&nbspThe following requirements should be presented in able to approve a client
+                        p(style="font-size:15px") The following requirements should be presented in able to approve a client
                             .row
                                 .col-md-12
                                     each requirement in requirementtab
-                                        b
-                                            li #{requirement.strName}
+                                        li #{requirement.strName}
                             br
                             .row
                                 .col-md-12

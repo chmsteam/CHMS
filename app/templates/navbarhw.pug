@@ -212,6 +212,20 @@ html(lang='en')
               var modal = $(this)
               modal.find('.modal-body #_id').val(id)
           });
+          $('#report_cancel').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id)
+          });
+          $('#report_hide').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+
+            var modal = $(this)
+            modal.find('.modal-body #id2').val(id)
+          });
           //- ------------------------------ replace client
           $('#replacementofclient').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)
@@ -220,8 +234,6 @@ html(lang='en')
             var clfname = button.data('clfname')
             var cllname = button.data('cllname')
 
-
-
             var modal = $(this)
             modal.find('.modal-header #hwname').text(clfname+' '+cllname)
             modal.find('.modal-body #id').val(id)
@@ -229,3 +241,11 @@ html(lang='en')
             modal.find('.modal-body #hwid').val(hwid)
 
             });
+          
+          function PreviewImage2() {
+              var oFReader = new FileReader();
+              oFReader.readAsDataURL(document.getElementById("uploadImage2").files[0]);
+              oFReader.onload = function (oFREvent) {
+              document.getElementById("uploadPreview2").src = oFREvent.target.result;
+              };
+            };

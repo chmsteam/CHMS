@@ -55,27 +55,6 @@ block content
                                                                     button.btn.btn-info(type='submit')
                                                                         i.fa.fa-filter
                                                                         |  Filter
-                                            //- each thequery in thequerytab'
-                                            
-                                            //- hr
-                                            
-                                            //-.x_panel.alert-info(style='color:white')
-                                                each resultdates in resultdateslist
-                                                    i
-                                                        h4 
-                                                            b   Displaying results;
-                                                            br
-                                                            br
-                                                            b &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspfrom 
-                                                            |   #{resultdates.date1} 
-                                                            b   to 
-                                                            |   #{resultdates.date2} 
-                                                            b   &nbsp&nbsp&nbsp&nbspStatus: 
-                                                            |   #{resultdates.status} 
-                                                            b   &nbsp&nbsp&nbsp&nbspLocation: 
-                                                            |   #{resultdates.location} 
-                                                            b   &nbsp&nbsp&nbsp&nbspCity: 
-                                                            |   #{resultdates.city}
                                         br
                                         br
                                         .x_panel(style='background-color:rgba(52,152,219,.3)')
@@ -121,8 +100,10 @@ block content
                                                                 tr
                                                                     th(style="text-align:center") NAME
                                                                     th(style="text-align:center") DATE
+                                                                    th(style="text-align:center") EMAIL
+                                                                    th(style="text-align:center") CONTACT NO.
                                                                     th(style="text-align:center") RESIDENCE
-                                                                    th(style="text-align:center") ACTION
+                                                                    //- th(style="text-align:center") ACTION
                                                             tbody
                                                                 each theresults in theresultstab
                                                                     if theresults == undefined
@@ -130,9 +111,11 @@ block content
                                                                         tr.even.pointer(style="text-align:center")
                                                                             td#qName #{theresults.strFName} #{theresults.strLName}
                                                                             td#qDate #{theresults.datDateRegistered}
+                                                                            td#qEmail #{theresults.strEmail}
+                                                                            td#qContact #{theresults.strContact}
                                                                             td#qCity #{theresults.strCity}
-                                                                            td
-                                                                                a(href='/admin/profile_client_'+theresults.intClientID)
+                                                                            //- td
+                                                                            //-     a(href='/admin/profile_client_'+theresults.intClientID)
                                                                                     //-button.btn.btn-info(type='button')
                                                                                         i.fa.fa-eye
                                                                                         |  view
@@ -191,7 +174,9 @@ block content
                 // Query Result
                 var qqName = document.getElementById('qName').innerHTML;
                 var qqDate = document.getElementById('qDate').innerHTML;
-                var qqCity = document.getElementById('qCity').innerHTML;                
+                var qqCity = document.getElementById('qCity').innerHTML; 
+                var qqEmail = document.getElementById('qEmail').innerHTML;
+                var qqContact = document.getElementById('qContact').innerHTML;                 
                 var docDefinition = {
                         //- pageOrientation: 'landscape',
                         pageSize: 'A5',
@@ -209,42 +194,6 @@ block content
                                 alignment: 'center'
                             },
                             { text: " " },
-                            { text: " " },
-                                {   
-                                    width: '*',
-                                    alignment: 'left',
-                                    columns:[
-                                        {
-                                            text: "Queries: Client" , fontSize: 20, bold:true
-                                        },
-                                    ],
-                                },
-                            { text: " " },
-                                {   
-                                    width: '*',
-                                    alignment: 'left',
-                                    columns:[
-                                        {
-                                            text: "Date From:" , fontSize: 15
-                                        },
-                                        {
-                                            text: "To:" , fontSize: 15
-                                        },
-                                    ],
-                                },
-                                {   
-                                    width: '*',
-                                    alignment: 'left',
-                                    columns:[
-                                        {
-                                            text: from, fontSize: 13, bold:true
-                                        },
-                                        {
-                                            text: to , fontSize: 13, bold:true
-                                        },
-                                    ],
-                                },
-                            { text: " " },
                             { text: "__________________________________________________________________________________________", alignment: 'center', },
                             { text: " " },   
                                 {   
@@ -256,6 +205,12 @@ block content
                                         },
                                         {
                                             text: "DATE" , fontSize: 10, bold: true
+                                        },
+                                        {
+                                            text: "EMAIL" , fontSize: 10, bold: true
+                                        },
+                                        {
+                                            text: "CONTACT NO." , fontSize: 10, bold: true
                                         },
                                         {
                                             text: "RESIDENCE" , fontSize: 10, bold: true
@@ -273,6 +228,12 @@ block content
                                         },
                                         {
                                             text: qqDate , fontSize: 10
+                                        },
+                                        {
+                                            text: qqEmail , fontSize: 10
+                                        },
+                                        {
+                                            text: qqContact , fontSize: 10
                                         },
                                         {
                                             text: qqCity , fontSize: 10
@@ -312,6 +273,8 @@ block content
                 // Query Result
                 var qqName = document.getElementById('qName').innerHTML;
                 var qqDate = document.getElementById('qDate').innerHTML;
+                var qqEmail = document.getElementById('qEmail').innerHTML;
+                var qqContact = document.getElementById('qContact').innerHTML;           
                 var qqCity = document.getElementById('qCity').innerHTML;
                 
                 var docDefinition = {
@@ -330,43 +293,6 @@ block content
                             height: 70, 
                             alignment: 'center'
                             },
-                            { text: " " },
-                            { text: " " },
-                                {   
-                                    width: '*',
-                                    alignment: 'left',
-                                    columns:[
-                                        {
-                                            text: "Queries: Client" , fontSize: 20, bold:true
-                                        },
-                                    ],
-                                },
-                            { text: " " },
-                                {   
-                                    width: '*',
-                                    alignment: 'left',
-                                    columns:[
-                                        {
-                                            text: "Date From:" , fontSize: 15
-                                        },
-                                        {
-                                            text: "To:" , fontSize: 15
-                                        },
-                                    ],
-                                },
-                                {   
-                                    width: '*',
-                                    alignment: 'left',
-                                    columns:[
-                                        {
-                                            text: from, fontSize: 13, bold:true
-                                        },
-                                        {
-                                            text: to , fontSize: 13, bold:true
-                                        },
-                                    ],
-                                },
-                            { text: " " },
                             { text: "__________________________________________________________________________________________", alignment: 'center', },
                             { text: " " },   
                                 {   
@@ -378,6 +304,12 @@ block content
                                         },
                                         {
                                             text: "DATE" , fontSize: 10, bold: true
+                                        },
+                                        {
+                                            text: "EMAIL" , fontSize: 10, bold: true
+                                        },
+                                        {
+                                            text: "CONTACT NO." , fontSize: 10, bold: true
                                         },
                                         {
                                             text: "RESIDENCE" , fontSize: 10, bold: true
@@ -395,6 +327,12 @@ block content
                                         },
                                         {
                                             text: qqDate , fontSize: 10
+                                        },
+                                        {
+                                            text: qqEmail , fontSize: 10
+                                        },
+                                        {
+                                            text: qqContact , fontSize: 10
                                         },
                                         {
                                             text: qqCity , fontSize: 10

@@ -322,6 +322,25 @@ function displayLeaveReq(req, res, next){
       return next();
   });
 }
+function updateleavestatus(req, res, next){
+  var db = require('../../lib/database')();
+  db.query('SELECT * FROM tblleaverequest AS tl INNER JOIN tbluser AS ts ON tl.intHouseholdID = ts.intID INNER JOIN tblmleave AS lt ON tl.intTypeOfLeave = lt.intID', function (err, results, fields) {
+    var x= moment().format('DD/MM/YYYY');
+    var y = moment(results[0].datDateFrom).format('DD/MM/YYYY');
+    if(x < y){
+      console.log('Hindi pa po')
+    }
+    else if(x == y){
+      console.log('Ngayon Na!')
+    }
+    else if(x > y){
+      console.log('lagpas na')
+    }
+    console.log('date today: '+ x)
+    console.log('date from: '+ y)
+    return next();
+  })
+}
 //Reject Household Request
 router.post('/transaction_hhRequest_leave/reject', (req, res) =>{
   var db = require('../../lib/database')();
@@ -339,6 +358,54 @@ router.post('/transaction_hhRequest_leave/approve', (req, res) =>{
         if (err) console.log(err);
       res.redirect('/admin/transaction_hhRequest_leave')
       });
+})
+// leave effective
+router.post('/transaction_hhRequest_leave/effective', (req,res) =>{
+  var db = require('../../lib/database')();
+    db.query("UPDATE tblleaverequest SET strLeaveStatus = 'Effective' WHERE intLeaveRequestID = ?", [req.body.id], (err, results, fields)=>{
+        if (err) console.log(err);
+      res.redirect('/admin/transaction_hhRequest_leave')
+      });
+})
+//  leave finish
+router.post('/transaction_hhRequest_leave/finish', (req, res) =>{
+  var db = require('../../lib/database')();
+  
+    db.query(`SELECT *, COUNT(intRelieverID) as bato FROM tblreliever WHERE intReq_RelID =?`, [req.body.id], function(err,results){
+      if (err){
+        res.send(err);
+      } 
+      else{
+        if(results[0].bato != 0){
+          // var x= moment().format('YYYY-MM-DD');
+          console.log('>>>>>>>>'+ req.body.date);
+          console.log('Merong reliever')
+          db.query(`UPDATE tblreliever SET strRelieverStatus = 'Finished' WHERE intReq_RelID = ?`, [req.body.id], function(err){
+            if (err) res.send(err);
+            db.query(`UPDATE tblcontract SET strCurStatus = 'Reliever Returned' WHERE intConHWID =? AND strCurStatus='Reliever'`, [results[0].intRelieverID], function(err){
+              if (err) res.send(err);
+              db.query(`UPDATE tbluser SET strStatus = 'Registered' WHERE intID =? AND strStatus='Deployed'`, [results[0].intRelieverID], function(err){
+                if (err) res.send(err);
+                db.query(`UPDATE tbltransaction SET strTStatus = 'Finished', datDateExpiry=? WHERE intTRequestID =?`, [req.body.thedate, req.body.id], function(err){
+                  if (err) res.send(err);
+                })
+              })
+            })
+          })
+        }
+      }
+      // req.item = results;
+      db.query(`UPDATE tblcontract SET strCurStatus = 'Current' WHERE intConHWID = ? AND strCurStatus = 'On leave'`, [results[0].intTobeRelievedID], function(err){
+        if (err) res.send(err);
+      db.query("UPDATE tblleaverequest SET strLeaveStatus = 'Finished' WHERE intLeaveRequestID = ? ",
+        [req.body.id], (err)=>{
+          if (err) console.log(err);
+          else{
+                res.redirect('/admin/transaction_hhRequest_leave')  
+          }
+      });
+      })
+    })
 })
 
 //------------------------------------------------------Household Request (REPLACEMENT OF CLIENT)
@@ -3403,7 +3470,8 @@ function renderquerieshw(req,res,next){
   }]
   req.resultdates = resultdates;
   if(req.valid==0)
-  db.query(`SELECT * FROM tbluser INNER JOIN tblhouseholdworker ON intID=intHWID WHERE datDateRegistered BETWEEN '2012-01-01' AND '2018-05-17'`,function(err,results){
+  db.query(`SELECT *,TIMESTAMPDIFF(YEAR,datBirthDay,CURDATE()) as age FROM tbluser INNER JOIN tblhouseholdworker ON intID=intHWID INNER JOIN tblmservice AS tser ON tser.intID = intServiceID 
+            WHERE datDateRegistered BETWEEN '2012-01-01' AND '2018-10-17' AND tbluser.strStatus='Registered'`,function(err,results){
     for(var i = 0; i < results.length; i++){
       results[i].datDateRegistered =  moment(results[i].datDateRegistered).format("LL"); 
     }
@@ -3432,7 +3500,7 @@ function queryhw(req,res,next){
     resultdates[i].date2 =  moment(resultdates[i].date2).format("LL"); 
   }
   req.resultdates = resultdates;
-  if(req.body.thestatus =='Deployed'){
+  if(req.body.thestatus =='dawfgsd'){
     if(req.body.residence == 'All'){
       db.query(`SELECT  * FROM tbluser as hw INNER JOIN tblcontract ON hw.intID = intConHWID 
                                 INNER JOIN tbltransaction ON intTRequestID = intConTransID
@@ -3512,7 +3580,8 @@ function queryhw(req,res,next){
   }
   else{
     if(req.body.residence == 'All'){
-    db.query(`SELECT * FROM tbluser INNER JOIN tblhouseholdworker ON intID=intHWID WHERE strStatus='${req.body.thestatus}' AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}')`,function(err,results){
+    db.query(`SELECT *,TIMESTAMPDIFF(YEAR,datBirthDay,CURDATE()) as age FROM tbluser INNER JOIN tblhouseholdworker ON intID=intHWID INNER JOIN tblmservice AS tser ON tser.intID = intServiceID 
+              WHERE tbluser.strStatus='${req.body.thestatus}' AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}')`,function(err,results){
       if(err){
         res.send(err);
       }
@@ -3526,7 +3595,8 @@ function queryhw(req,res,next){
     })
   }
   else if(req.body.residence == 'Outside Metro Manila'){
-    db.query(`SELECT * FROM tbluser INNER JOIN tblhw ON intID=intHWID WHERE (strStatus='${req.body.thestatus}') AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND strCity NOT IN (SELECT strName FROM tblmcity)`,function(err,results){
+    db.query(`SELECT *,TIMESTAMPDIFF(YEAR,datBirthDay,CURDATE()) as age FROM tbluser INNER JOIN tblhouseholdworker ON intID=intHWID INNER JOIN tblmservice AS tser ON tser.intID = intServiceID 
+                      WHERE (tbluser.strStatus='${req.body.thestatus}') AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND strCity NOT IN (SELECT strName FROM tblmcity)`,function(err,results){
       if(err){
         res.send(err);
       }
@@ -3541,7 +3611,8 @@ function queryhw(req,res,next){
   }
   else if(req.body.residence == 'In Metro Manila'){
     if(req.body.city == 'All'){
-      db.query(`SELECT * FROM tbluser INNER JOIN tblhouseholdworker ON intID=intHWID WHERE (strStatus='${req.body.thestatus}') AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND strCity IN (SELECT strName FROM tblmcity)`,function(err,results){
+      db.query(`SELECT *,TIMESTAMPDIFF(YEAR,datBirthDay,CURDATE()) as age FROM tbluser INNER JOIN tblhouseholdworker ON intID=intHWID INNER JOIN tblmservice AS tser ON tser.intID = intServiceID 
+                        WHERE (tbluser.strStatus='${req.body.thestatus}') AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND strCity IN (SELECT strName FROM tblmcity)`,function(err,results){
         if(err){
           res.send(err);
         }
@@ -3555,7 +3626,8 @@ function queryhw(req,res,next){
       })
     }
     else{
-      db.query(`SELECT * FROM tbluser INNER JOIN tblhouseholdworker ON intID=intHWID WHERE (strStatus='${req.body.thestatus}') AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND strCity = '${req.body.city}'`,function(err,results){
+      db.query(`SELECT *,TIMESTAMPDIFF(YEAR,datBirthDay,CURDATE()) as age FROM tbluser INNER JOIN tblhouseholdworker ON intID=intHWID INNER JOIN tblmservice AS tser ON tser.intID = intServiceID 
+                        WHERE (strStatus='${req.body.thestatus}') AND (datDateRegistered BETWEEN '${req.body.datefrom}' AND '${req.body.dateto}') AND strCity = '${req.body.city}'`,function(err,results){
         if(err){
           res.send(err);
         }
@@ -3611,7 +3683,7 @@ function terminatecontract(req,res,next){
 
 
 //-------------------------------------------Router.get(household request)
-var leaveReqFunc = [displayLeaveReq]
+var leaveReqFunc = [displayLeaveReq, updateleavestatus]
 router.get('/transaction_hhRequest_leave', flog, leaveReqFunc, hhReqLeave_render );
 router.get('/transaction_replacement_of_client', flog, findreplacementofclient, hhReqReplacementrender)
 //------------------------------------------ROUTER.get Client Maintenance 

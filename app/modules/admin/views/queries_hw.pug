@@ -120,56 +120,40 @@ block content
                                                                         tr.headings
                                                                         tr
                                                                             th(style="text-align:center") NAME
-                                                                            th(style="text-align:center") DATE
+                                                                            th(style="text-align:center") SERVICE
+                                                                            th(style="text-align:center") AGE
+                                                                            th(style="text-align:center") GENDER
                                                                             th(style="text-align:center") CITY
-                                                                            th(style="text-align:center") ACTION
+                                                                            th(style="text-align:center") CONTACT NO.
+                                                                            th(style="text-align:center") EMAIL
+                                                                            th(style="text-align:center") DATE
+                                                                            //- th(style="text-align:center") ACTION
                                                                     tbody
                                                                         each theresults in theresultstab
                                                                             if theresults == undefined
-                                                                            else if theresults.strStatus != 'Deployed'
+                                                                            else
                                                                                 tr.even.pointer(style="text-align:center")
                                                                                     td#qName #{theresults.strFName} #{theresults.strLName}
-                                                                                    td#qDate #{theresults.datDateRegistered}
+                                                                                    td#qService #{theresults.strName}
+                                                                                    td#qAge #{theresults.age}
+                                                                                    td#qGender #{theresults.strGender}
                                                                                     td#qCity #{theresults.strCity}
-                                                                                    td
-                                                                                        a(href='/admin/profile_client_'+theresults.intHWID)
-                                                                                            //-button.btn.btn-info(type='button')
-                                                                                                i.fa.fa-eye
-                                                                                                |  view
-                                                                            else
-                                                                                tr.even.pointer
-                                                                                    td #{theresults.strFName} #{theresults.strLName}
-                                                                                    td #{theresults.datDateSettled}
-                                                                                    td #{theresults.strCity}
-                                                                                    td
-                                                                                        a(href='/admin/profile_client_'+theresults.intHWID)
-                                                                                            //-button.btn.btn-info(type='button')
-                                                                                                i.fa.fa-eye
-                                                                                                |  view
+                                                                                    td#qContact #{theresults.strCellNum}
+                                                                                    td#qEmail #{theresults.strEmail}
+                                                                                    td#qDate #{theresults.datDateRegistered}
+                                                                                    
+                                                                            //- else
+                                                                            //-     tr.even.pointer
+                                                                            //-         td#qName #{theresults.strFName} #{theresults.strLName}
+                                                                            //-         td#qName #{theresults.datDateSettled}
+                                                                            //-         td#qName #{theresults.strCity}
+                                                                                    
 
                                     
     script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
     script(src='/admin/gentelella/vendors/moment/min/moment.min.js')
-    //- script(src='/custom/prints/buttonflash.min.js')
-    //- script(src='/custom/prints/buttons.html5.min.js')
-    //- script(src='/custom/prints/buttons.print.min.js')
-    //- script(src='/custom/prints/dataTables.buttons.min.js')
-    //- script(src='/custom/prints/fonts.js')
-    //- script(src='/custom/prints/jquery.dataTables.min.js')
-    //- script(src='/custom/prints/jszip.min.js')
-    //- script(src='/custom/prints/pdfmake.min.js')
-    //- link(rel="stylesheet", href="/custom/prints/jquery.dataTables.min.css")
-    //- link(rel="stylesheet", href="/custom/prints/buttons.dataTables.min.css")
 
     script.
-        //- $(document).ready(function(){
-        //-     $('#datatable').DataTable( {
-        //-         dom: 'Bfrtip',
-        //-         buttons: [
-        //-             'copy', 'csv', 'excel', 'pdf', 'print'
-        //-         ]
-        //-     });
-        //- });
         $('#residence').change(function(){
             if($(this).val() == 'In Metro Manila'){ 
                 $('#NCRcities').show();
@@ -215,8 +199,13 @@ block content
                 var date = "[ " + from +" - "+ to + "]" 
                 // Query Result
                 var qqName = document.getElementById('qName').innerHTML;
-                var qqDate = document.getElementById('qDate').innerHTML;
+                var qqService = document.getElementById('qService').innerHTML;
+                var qqAge = document.getElementById('qAge').innerHTML;
+                var qqGender = document.getElementById('qGender').innerHTML;
                 var qqCity = document.getElementById('qCity').innerHTML;
+                var qqContact = document.getElementById('qContact').innerHTML;
+                var qqEmail = document.getElementById('qEmail').innerHTML;
+                var qqDate = document.getElementById('qDate').innerHTML;
                 
                 var docDefinition = {
                         //- pageOrientation: 'landscape',
@@ -235,41 +224,6 @@ block content
                                 alignment: 'center'
                             },
                             { text: " " },
-                                {   
-                                    width: '*',
-                                    alignment: 'left',
-                                    columns:[
-                                        {
-                                            text: "Household Worker" , fontSize: 20, bold:true
-                                        },
-                                    ],
-                                },
-                            { text: " " },
-                                {   
-                                    width: '*',
-                                    alignment: 'left',
-                                    columns:[
-                                        {
-                                            text: "Date From:" , fontSize: 15
-                                        },
-                                        {
-                                            text: "To:" , fontSize: 15
-                                        },
-                                    ],
-                                },
-                                {   
-                                    width: '*',
-                                    alignment: 'left',
-                                    columns:[
-                                        {
-                                            text: from, fontSize: 13, bold:true
-                                        },
-                                        {
-                                            text: to , fontSize: 13, bold:true
-                                        },
-                                    ],
-                                },
-                            { text: " " },
                             { text: "__________________________________________________________________________________________", alignment: 'center', },
                             { text: " " },   
                                 {   
@@ -280,10 +234,25 @@ block content
                                             text: "NAME" , fontSize: 10, bold: true
                                         },
                                         {
-                                            text: "DATE" , fontSize: 10, bold: true
+                                            text: "SERVICE" , fontSize: 10, bold: true
+                                        },
+                                        {
+                                            text: "AGE" , fontSize: 10, bold: true
+                                        },
+                                        {
+                                            text: "GENDER" , fontSize: 10, bold: true
                                         },
                                         {
                                             text: "RESIDENCE" , fontSize: 10, bold: true
+                                        },
+                                        {
+                                            text: "CONTACT NO." , fontSize: 10, bold: true
+                                        },
+                                        {
+                                            text: "EMAIL" , fontSize: 10, bold: true
+                                        },
+                                        {
+                                            text: "DATE" , fontSize: 10, bold: true
                                         },
                                     ],
                                 },
@@ -297,10 +266,25 @@ block content
                                             text: qqName , fontSize: 10
                                         },
                                         {
-                                            text: qqDate , fontSize: 10
+                                            text: qqService , fontSize: 10
+                                        },
+                                        {
+                                            text: qqAge , fontSize: 10
+                                        },
+                                        {
+                                            text: qqGender , fontSize: 10
                                         },
                                         {
                                             text: qqCity , fontSize: 10
+                                        },
+                                        {
+                                            text: qqContact , fontSize: 10
+                                        },
+                                        {
+                                            text: qqEmail , fontSize: 10
+                                        },
+                                        {
+                                            text: qqDate , fontSize: 10
                                         },
                                     ],
                                 },
@@ -336,8 +320,13 @@ block content
                 var to = document.getElementById('to').innerHTML;
                 var date = "[ " + from +" - "+ to + "]" 
                 var qqName = document.getElementById('qName').innerHTML;
-                var qqDate = document.getElementById('qDate').innerHTML;
+                var qqService = document.getElementById('qService').innerHTML;
+                var qqAge = document.getElementById('qAge').innerHTML;
+                var qqGender = document.getElementById('qGender').innerHTML;
                 var qqCity = document.getElementById('qCity').innerHTML;
+                var qqContact = document.getElementById('qContact').innerHTML;
+                var qqEmail = document.getElementById('qEmail').innerHTML;
+                var qqDate = document.getElementById('qDate').innerHTML;
                 
                 var docDefinition = {
                         //- pageOrientation: 'landscape',
@@ -366,10 +355,25 @@ block content
                                             text: "NAME" , fontSize: 10, bold: true
                                         },
                                         {
-                                            text: "DATE" , fontSize: 10, bold: true
+                                            text: "SERVICE" , fontSize: 10, bold: true
+                                        },
+                                        {
+                                            text: "AGE" , fontSize: 10, bold: true
+                                        },
+                                        {
+                                            text: "GENDER" , fontSize: 10, bold: true
                                         },
                                         {
                                             text: "RESIDENCE" , fontSize: 10, bold: true
+                                        },
+                                        {
+                                            text: "CONTACT NO." , fontSize: 10, bold: true
+                                        },
+                                        {
+                                            text: "EMAIL" , fontSize: 10, bold: true
+                                        },
+                                        {
+                                            text: "DATE" , fontSize: 10, bold: true
                                         },
                                     ],
                                 },
@@ -383,10 +387,25 @@ block content
                                             text: qqName , fontSize: 10
                                         },
                                         {
-                                            text: qqDate , fontSize: 10
+                                            text: qqService , fontSize: 10
+                                        },
+                                        {
+                                            text: qqAge , fontSize: 10
+                                        },
+                                        {
+                                            text: qqGender , fontSize: 10
                                         },
                                         {
                                             text: qqCity , fontSize: 10
+                                        },
+                                        {
+                                            text: qqContact , fontSize: 10
+                                        },
+                                        {
+                                            text: qqEmail , fontSize: 10
+                                        },
+                                        {
+                                            text: qqDate , fontSize: 10
                                         },
                                     ],
                                 },

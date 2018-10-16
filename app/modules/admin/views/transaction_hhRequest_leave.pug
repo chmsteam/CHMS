@@ -19,6 +19,8 @@ block content
                                             th(style="text-align:center") NAME
                                             th(style="text-align:center") DATE FILED
                                             th(style="text-align:center") TYPE OF LEAVE
+                                            th(style="text-align:center") FROM
+                                            th(style="text-align:center") TO
                                             th(style="text-align:center") STATUS
                                             th(style="text-align:center") ACTION
                                     tbody
@@ -27,27 +29,37 @@ block content
                                                 td #{lr.strLName}, #{lr.strFName} #{lr.strMName}
                                                 td #{lr.datDateCreated}
                                                 td #{lr.strName}
+                                                td #{lr.datDateFrom}
+                                                td #{lr.datDateTo}
                                                 td #{lr.strLeaveStatus}
                                                 td
+                                                    button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLReport' 
+                                                        data-start= lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View
                                                     if lr.strLeaveStatus == "Pending"
-                                                        button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLReport' 
-                                                            data-start= lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View
                                                         button.btn.btn-secondary.btn-sm(data-toggle='modal', data-target='#rejectLReq' 
                                                             data-id = lr.intLeaveRequestID) Reject
                                                         form.btn.btn-sm(method="POST"  action="/admin/transaction_hhRequest_leave/approve")
                                                             input(value=lr.intLeaveRequestID  name="id" required, hidden)
-                                                            button.btn.btn-primary.btn-sm(type='submit') Approve
-                                                    
+                                                            button.btn.btn-primary.btn-sm(type='submit') Approve   
                                                     if lr.strLeaveStatus == "For Client Approval"
-                                                        button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLReport' 
-                                                            data-start= lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View
-                                                    if lr.strLeaveStatus == "Approved"
-                                                        button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLReport' 
-                                                            data-start= lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View
-
-        
-        
-        
+                                                        //- button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLReport' 
+                                                        //-     data-start= lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View
+                                                    else if lr.strLeaveStatus == "Approved" || lr.strLeaveStatus == "On-going"
+                                                        //- button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLReport' 
+                                                        //-     data-start= lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View
+                                                        form(method="POST"  action="/admin/transaction_hhRequest_leave/effective")
+                                                            input(value=lr.intLeaveRequestID  name="id" required, hidden)
+                                                            button.btn.btn-success.btn-sm(type='submit') Effective
+                                                    else if lr.strLeaveStatus == "Effective"
+                                                        form(method="POST"  action="/admin/transaction_hhRequest_leave/finish")
+                                                            //- button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLReport' 
+                                                            //- data-start= lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View
+                                                            input(value=lr.intLeaveRequestID  name="id" required, hidden)
+                                                            input(id='thedate' type='date' name="thedate" required, hidden)
+                                                            button.btn.btn-success.btn-sm(type='submit' onClick='time();') Finish
+                                                    else if lr.strLeaveStatus == "Finished"
+                                                        //-  button.btn.btn-info.btn-sm(data-toggle='modal', data-target='#viewLReport' 
+                                                        //-     data-start= lr.datDateFrom, data-end=lr.datDateTo, data-add=lr.strAddressOnLeave, data-reason=lr.strReason) View
         
         
         #viewLReport.modal.fade.bs-add-modal-xs(tabindex='-1', role='dialog', aria-hidden='true')
@@ -113,3 +125,25 @@ block content
                         .modal-footer
                             button.btn.btn-primary(type='submit') Reject
                             button.btn.btn-info(type='button', data-dismiss='modal') Cancel
+        script.
+            function time(){
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; //January is 0!
+                var yyyy = today.getFullYear();
+                var hh = today.getHours();
+                var min = today.getMinutes();
+                var sec = today.getSeconds();
+                
+                if(dd<10) {
+                    dd = '0'+dd
+                } 
+
+                if(mm<10) {
+                    mm = '0'+mm
+                } 
+
+                today = yyyy + '-' + mm + '-' + dd ;
+                //- document.write(today);
+            document.getElementById("thedate").value=today;
+            }

@@ -1,0 +1,134 @@
+extends ../../../templates/navbarclient.pug
+
+block content
+    section#services
+        .right_col(role='main' style="background-color:transparent")
+            .page-title
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
+                        .x_panel(style='background-color:rgba(52,152,219,.3)')
+                            .x_title
+                                button.btn.btn-primary.btn-lg(onclick="goBack()" style="float:right") 
+                                    | Back
+                                script.
+                                    function goBack() {
+                                        window.history.back();
+                                    }
+                                center
+                                    h3(style='color:')
+                                        b Client's Profile
+                            .x_panel.wow.fadeInRight(style='background-color:#3E5367')
+                                .x_content
+                                    br
+                                    each client in clienttab
+                                        .col-md-3.col-sm-3.col-xs-12.profile_left
+                                            center
+                                                .profile_img
+                                                    #crop-avatar
+                                                        // Current avatar
+                                                        img.img-responsive.avatar-view(src='../images/'+client.strPicture, alt='Avatar', title='Change the avatar' style='widht:175px; height:200px')
+                                                h2(style="text-transform: capitalize; color:white") 
+                                                    b   #{client.strLName}, #{client.strFName} #{client.strMName}
+                                    .col-md-9.col-sm-9.col-xs-12
+                                        .x_panel
+                                            div(role='tabpanel', data-example-id='togglable-tabs')
+                                                ul#myTab.nav.nav-tabs.bar_tabs(role='tablist')
+                                                    li.active(role='presentation')
+                                                        a#profile-tab(href='#tab_content1', role='tab', data-toggle='tab', aria-expanded='true') Profile
+                                                    //- li(role='presentation')
+                                                    //-     a#educ-tab(href='#tab_content2', role='tab', data-toggle='tab', aria-expanded='false') Household Worker
+                                                #myTabContent.tab-content
+                                                    #tab_content1.tab-pane.fade.active.in(role='tabpanel', aria-labelledby='profile-tab')
+                                                        // Profile
+                                                        br
+                                                        .col-md-12.col-sm-12.col-xs-12
+                                                            .x_panel
+                                                                form(action="/editprofile", method="post")
+                                                                    table.table.table-striped
+                                                                        each client in clienttab
+                                                                            br
+                                                                            tbody
+                                                                                tr
+                                                                                    th(scope='row')
+                                                                                    td
+                                                                                        b Current Address:
+                                                                                    -var curAdd = client.strCAHouseNo + " " + client.strCAStreet + " " + client.strCAProvince + ", " + client.strCity
+                                                                                    td #{curAdd}
+                                                                                    td
+                                                                                    td
+                                                                                tr
+                                                                                    th(scope='row')
+                                                                                    td
+                                                                                        b Permanent Address:
+                                                                                    td #{client.strPAddress}
+                                                                                    td
+                                                                                    td
+                                                                                tr
+                                                                                    th(scope='row')
+                                                                                    td
+                                                                                        b Email:
+                                                                                    td 
+                                                                                        input(type='email' name='email' value=''+client.strEmail required max='45')
+                                                                                    td
+                                                                                    td
+                                                                                tr
+                                                                                    th(scope='row')
+                                                                                    td
+                                                                                        b Password:
+                                                                                    td 
+                                                                                        input#pass(type='password' name='password' value=''+client.strPassword required min='5' max='45')
+                                                                                    td
+                                                                                    td
+                                                                                tr
+                                                                                    th(scope='row')
+                                                                                    td
+                                                                                        b Confirm Password:
+                                                                                    td 
+                                                                                        input#conpass(type='password' name='conpassword' value='' required min='5' max='45')
+                                                                                    td
+                                                                                    td
+                                                                                tr
+                                                                                    th(scope='row')
+                                                                                    td
+                                                                                        b Contact Details:
+                                                                                    td 
+                                                                                        input(type='text' name='contact' value=''+client.strContact max='45')
+                                                                                    td
+                                                                                    td
+                                                                                tr
+                                                                                    th(scope='row')
+                                                                                    td
+                                                                                        b Office Address:
+                                                                                    td 
+                                                                                        input(type='text' name='officeadd' value=''+client.strOAddress max='70')
+                                                                                    td
+                                                                                    td
+                                                                                tr
+                                                                                    th(scope='row')
+                                                                                    td
+                                                                                        b Office Contact Number:
+                                                                                    td 
+                                                                                        input(type='text' name='officenum' value=''+client.strOContact max='45')
+                                                                                    td
+                                                                                    td
+                                                                    br
+                                                                    br
+                                                                    div#error(style='hidden')
+                                                                        h3 Enter and confirm your password to save your changes.
+                                                                    button.btn.btn-success.btn-md#sub(type='submit' style="float:right" disabled) Save Changes
+        script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+        script.
+            $(document).ready(function() {
+                $(':input[type="submit"]').prop('disabled', true);
+                $('#conpass').keyup(function() {
+                    if($(this).val() != $('#pass').val()) {
+                        $(':input[type="submit"]').prop('disabled', true);
+                        $('#error').show();
+                    }
+                    else{
+
+                        $(':input[type="submit"]').prop('disabled', false);
+                        $('#error').hide();
+                    }
+                });
+            });
