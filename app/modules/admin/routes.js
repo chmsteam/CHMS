@@ -1184,14 +1184,17 @@ router.get('/transaction_client_request', flog, findclientrequest, rendertranscl
 router.post('/transactionrequestdecision',flog, clientrequestdecision);
 function clientrequestdecision(req,res){
   var db = require('../../lib/database')();
-  if(req.body.btn1='approve'){
+  if(req.body.btn1=='approve'){
     db.query(`UPDATE tblfinalrequest SET strRequestStatus ='Approved' WHERE intRequestID='${req.body.transid}'`, function (err) {
       console.log(err);
       res.redirect('/admin/transaction_client_request')
     });
   }
   else{
-
+    db.query(`UPDATE tblfinalrequest SET strRequestStatus ='Rejected' WHERE intRequestID='${req.body.transid}'`, function (err) {
+      console.log(err);
+      res.redirect('/admin/transaction_client_request')
+    });
   }
 }
 
@@ -1898,12 +1901,13 @@ function rendertranssettledview(req,res){
 }
 function findtransaction(req,res,next){
   var db = require('../../lib/database')();
-  db.query(`SELECT *, c.intID AS clientid, c.strFName AS clientFName, c.strLName AS clientLName, f.strName as deployment FROM tbltransaction INNER JOIN tbluser AS c ON c.intID = intTClientID INNER JOIN tblfee as f ON f.intID = intTypeofDeployment INNER JOIN tblfinalrequest on intRequestID = intTRequestID WHERE intTRequestID =  ?`, [req.params.transid], function(err,results){
+  db.query(`SELECT *, c.intID AS clientid, c.strFName AS clientFName, c.strLName AS clientLName, f.strName as deployment, datDateExpiry AS datdat FROM tbltransaction INNER JOIN tbluser AS c ON c.intID = intTClientID INNER JOIN tblfee as f ON f.intID = intTypeofDeployment INNER JOIN tblfinalrequest on intRequestID = intTRequestID WHERE intTRequestID =  ?`, [req.params.transid], function(err,results){
     console.log(err)
     console.log('xxxxxx'+req.params.transid);
     for(var i = 0; i < results.length; i++){
       results[i].datDateSettled =  moment(results[i].datDateSettled).format("LL");
-      results[i].datDateExpiry =  moment(results[i].datDateExpiry).format("LL");     
+      results[i].datDateExpiry =  moment(results[i].datDateExpiry).format("LL"); 
+      results[i].datdat =  moment(results[i].datdat).format("YYYY-MM-DD");    
     }
     req.trans = results;
     return next();
@@ -3671,6 +3675,22 @@ function terminatecontract(req,res,next){
               }
             }
           })
+        }
+      })
+    }
+  })
+}
+// ---------------------------------------------------------------------finish contract
+router.post('/finishcontract',flog, finishcontract)
+function finishcontract(req,res,next){
+  var db = require('../../lib/database')();
+  db.query(`UPDATE tbltransaction set strTStatus ='Finished', datDateExpiry=? WHERE intTRequestID=? AND strTStatus='On-going'`, [req.body.thedate, req.body.transid], function(err){
+    if (err) res.send(err);
+    else{
+      db.query(`UPDATE tblcontract set intConReplacementLeft = 0 WHERE intConTransID=? AND strCurStatus IN ('Current', 'Reliever')`, [req.body.transid], function(err){
+        if (err) res.send(err);
+        else{
+          res.redirect('/admin/transaction_settled_'+req.body.transid);
         }
       })
     }

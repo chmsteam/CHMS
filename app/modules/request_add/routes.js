@@ -576,6 +576,13 @@ function sendcontracttohw (req,res){
         res.redirect('/request_add/contract_'+req.body.transid,flog, findcreatedlist,rendercontract)
       })
     }
+    else if (req.body.btn1 == 'removehw'){
+      db.query(`UPDATE tblresults SET strRClientStatus= 'Waiting' WHERE strRClientStatus IN('Rejected','Approved') AND intRRequestID = '${req.body.transid}' AND intRHWID = '${req.body.hwid}'`, function(err){
+        db.query(`DELETE FROM tblcontract WHERE intConHWID = '${req.body.hwid}' and intConTransID = '${req.body.transid}'`, function(err){
+          res.redirect('/request_add/contract_'+req.body.transid,flog, findcreatedlist,rendercontract)
+        })
+      })
+    }
 }
 
 // ------------------------------------------------------------------------------------------accept cont / SEND REQ TO ADMIN

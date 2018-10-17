@@ -78,7 +78,7 @@ block content
                                                         else if list.strRequestStatus == 'Rejected'
                                                             a(href='/request_add/mylist_'+list.intRequestID)
                                                                 button.btn.btn-primary(type='button') View
-                                                            button.btn.btn-danger(type='button', data-toggle='modal', data-target='#D') Delete
+                                                            button.btn.btn-danger(type='button', data-toggle='modal', data-target='#remove_list', data-id=list.intRequestID) Delete
                                                         else if list.strRequestStatus == 'Cancelled'
                                                             a(href='/request_add/mylist_'+list.intRequestID)
                                                                 button.btn.btn-primary(type='button') View
