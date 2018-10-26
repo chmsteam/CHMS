@@ -1,0 +1,106 @@
+extends ../../../templates/navbarclient.pug
+block content
+    section#services
+        .right_col.wow.fadeInDown(role='main' style="background-color:transparent;")
+            .page-title
+                .row
+                    .col-md-12.col-sm-12.col-xs-12
+                            .x_panel
+                                .x_panel
+                                    .x_title
+                                        h1  
+                                            b   Extend Household Worker Contract
+                                        .clearfix
+                                    br
+                                    .x_panel(style='background-color:#f1f1f1')
+                                        h3 Household Workers:
+                                        table#datatable2-responsive.table.jambo_table.table-bordered
+                                            thead
+                                                tr
+                                                    th(style="text-align:center") NAME
+                                                    th(style="text-align:center") SERVICE
+                                                    th(style="text-align:center") DATE STARTED
+                                                    th(style="text-align:center") CONTRACT EXPIRY
+                                                    th(style="text-align:center") REPLACEMENT LEFT
+                                                    th(style="text-align:center") STATUS
+                                                    th(style="text-align:center") ACTION
+                                            tbody
+                                                each hw in hwtab
+                                                    tr(style="text-align:center")
+                                                        td #{hw.strFName} #{hw.strLName}
+                                                        td #{hw.strName}
+                                                        td #{hw.datDateStarted}
+                                                        td #{hw.datDateExpiry}
+                                                        td #{hw.intConReplacementLeft} 
+                                                        td #{hw.strCurStatus}
+                                                        td
+                                                            a(href="/home_client/hw_profile_"+hw.intHWID)
+                                                                button.btn.btn-primary.btn-md(type='button') View Profile
+                                                            if hw.intConReplacementLeft != 0 && hw.strCurStatus != 'Reliever'
+                                                                button.btn.btn-success.btn-md(type='button' data-toggle='modal' data-target='#extend_contract' data-hwid=hw.intConHWID, data-transid=hw.intConTransID) Extend Contract
+                                                        
+                            
+            //- ---- modals
+            #extend_contract.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
+                .modal-dialog(role='document')
+                    .modal-content.modal-md
+                        .modal-header(style="background-color:#EDEDED") 
+                            h2.modal-title Extend Contract
+                                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                    span(aria-hidden='true') ×
+                        .modal-body
+                            form#demo-form2.form-horizontal.form-label-left(method="POST" action="request_extension/extendcontract")
+                                input(type="text", id='hwid' name='hwid' style='display:none;')
+                                input(type="text", id='transid' name='transid' style='display:none;')
+                                input(type="date", id='thedate' name='thedate' style='display:none;')
+                                center
+                                    br
+                                    h3 
+                                        b   Are you sure you want to extend household worker's contract?
+                                //- .mt-1
+                                //-     .form-check
+                                //-         input.form-check-input(id='agree' type='checkbox', required='' style='margin-top: .2rem')
+                                //-         |&nbsp
+                                //-         label(for='agree') I agree to terminate this contract.
+                                .ln_solid
+                                .form-group.pull-right
+                                    button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+                                    button#ey.btn.btn-success(type='submit' onClick='time();') Yes
+            //- scripts
+            script(src="/custom/moment.min.js")
+            script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+            //- script.
+            //-     $(document).ready(function(){
+            //-         $('#agree').change(function(){
+            //-             if($('#agree').prop('checked', true)){
+            //-                 $('#ey').prop('disabled', false);
+            //-             }
+            //-             else if($('#agree').prop('checked', false)){
+            //-                 $('#ey').prop('disabled', true);
+            //-             }
+            //-         })
+            //-     })
+            script.
+                function time(){
+                    var today = new Date();
+                    var dd = today.getDate();
+                    var mm = today.getMonth()+1; //January is 0!
+                    var yyyy = today.getFullYear();
+                    var hh = today.getHours();
+                    var min = today.getMinutes();
+                    var sec = today.getSeconds();
+                    var x= document.getElementById("thedate");
+                    
+                    if(dd<10) {
+                        dd = '0'+dd
+                    } 
+
+                    if(mm<10) {
+                        mm = '0'+mm
+                    } 
+
+                    today = yyyy + '-' + mm + '-' + dd ;
+                    //- document.write(today);
+                   document.getElementById("thedate").value=today;
+                }
+                

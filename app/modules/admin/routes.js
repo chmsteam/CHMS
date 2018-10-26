@@ -1726,7 +1726,7 @@ function clientsettledecisionreplacementleft(req,res){
   db.query(`SELECT  (intConReplacementLeft-1) AS Remain, datDateExpiry as dateexpire  FROM tblreplacement INNER JOIN tblcontract ON intReplaceOldHWID=intConHWID INNER JOIN tbltransaction on intTRequestID = intConTransID  WHERE intReplaceReqID= ? ORDER BY datDateofDeployment DESC LIMIT 1`,[req.body.transid] ,function (err, results) {
     console.log(err)
     db.query(`UPDATE tblcontract SET intConReplacementLeft = ${results[0].Remain} WHERE intConTransID='${req.body.transid}'`)
-    db.query(`UPDATE tblcontract c INNER JOIN tblreplacement r ON c.intConHWID = r.intReplaceOldHWID INNER JOIN tbluser ON intID = r.intReplaceOldHWID SET c.strCurStatus ='Replaced', strStatus='Registered' WHERE  c.strCurStatus ='To be replaced' AND strStatus='Deployed' AND r.intReplaceReqID = '${req.body.transid}'`)
+    db.query(`UPDATE tblcontract c INNER JOIN tblreplacement r ON c.intConHWID = r.intReplaceOldHWID INNER JOIN tbluser ON intID = r.intReplaceOldHWID SET c.strCurStatus ='Replaced', strStatus IN ('Registered', 'Banned') WHERE  c.strCurStatus ='To be replaced' AND strStatus='Deployed' AND r.intReplaceReqID = '${req.body.transid}'`)
     // db.query(`SELECT DATE_ADD(datDateSettled, INTERVAL 6 MONTH) AS dateexpire FROM tbltransaction WHERE intTRequestID =?`, [req.body.transid], function (err,results2){
       // console.log(err);
       db.query(`UPDATE tbltransaction SET datDateExpiry =? WHERE intTRequestID = ?`,[results[0].dateexpire, req.body.transid], function(err){
@@ -1741,7 +1741,7 @@ function clientsettledecisionreplacementleft2(req,res){
   db.query(`SELECT (intConReplacementLeft) AS Remain, datDateExpiry as dateexpire  FROM tblreplacement INNER JOIN tblcontract ON intReplaceOldHWID=intConHWID INNER JOIN tbltransaction on intTRequestID = intConTransID WHERE intReplaceReqID='${req.body.transid}' ORDER BY datDateofDeployment DESC LIMIT 1`, function (err, results) {
     console.log(err)
     db.query(`UPDATE tblcontract SET intConReplacementLeft = ${results[0].Remain} WHERE intConTransID='${req.body.transid}'`)
-    db.query(`UPDATE tblcontract c INNER JOIN tblreplacement r ON c.intConHWID = r.intReplaceOldHWID INNER JOIN tbluser ON intID = r.intReplaceOldHWID SET c.strCurStatus ='Replaced', strStatus='Registered' WHERE  c.strCurStatus ='To be replaced' AND strStatus='Deployed' AND r.intReplaceReqID = '${req.body.transid}'`)
+    db.query(`UPDATE tblcontract c INNER JOIN tblreplacement r ON c.intConHWID = r.intReplaceOldHWID INNER JOIN tbluser ON intID = r.intReplaceOldHWID SET c.strCurStatus ='Replaced', strStatus ('Registered', 'Banned') WHERE  c.strCurStatus ='To be replaced' AND strStatus='Deployed' AND r.intReplaceReqID = '${req.body.transid}'`)
     db.query(`UPDATE tbltransaction SET datDateExpiry =? WHERE intTRequestID = ?`,[results[0].dateexpire, req.body.transid], function(err){
       console.log(err);
       res.redirect('/admin/transaction_settle')
@@ -1793,7 +1793,7 @@ function clientsettledecisionreplacementleft3(req,res){
             	ORDER BY datDateTo DESC LIMIT 1`, function (err, results) {
     console.log(err)
     db.query(`UPDATE tblcontract SET intConReplacementLeft = ${results[0].Remain} WHERE intConTransID='${req.body.transid}'`)
-    db.query(`UPDATE tblcontract c INNER JOIN tblreliever r ON c.intConHWID = r.intTobeRelievedID INNER JOIN tbluser ON intID = r.intTobeRelievedID SET c.strCurStatus ='On leave' WHERE  c.strCurStatus ='Current' AND strStatus='Deployed' AND r.intReq_RelID = '${req.body.transid}'`)
+    db.query(`UPDATE tblcontract c INNER JOIN tblreliever r ON c.intConHWID = r.intTobeRelievedID INNER JOIN tbluser ON intID = r.intTobeRelievedID SET c.strCurStatus ='On leave' WHERE  c.strCurStatus ='Current' AND strStatus ('Registered', 'Banned') AND r.intReq_RelID = '${req.body.transid}'`)
     db.query(`UPDATE tbltransaction SET datDateExpiry =? WHERE intTRequestID = ?`,[results[0].dateexpire, req.body.transid], function(err){
       console.log(err);
       res.redirect('/admin/transaction_settle')
