@@ -5,39 +5,62 @@ block content
             .page-title
                 .row
                     .col-md-12.col-sm-12.col-xs-12
+                        .x_panel
                             .x_panel
-                                .x_panel
-                                    .x_title
-                                        h1  
-                                            b   Extend Household Worker Contract
-                                        .clearfix
-                                    br
-                                    .x_panel(style='background-color:#f1f1f1')
-                                        h3 Household Workers:
-                                        table#datatable2-responsive.table.jambo_table.table-bordered
-                                            thead
-                                                tr
-                                                    th(style="text-align:center") NAME
-                                                    th(style="text-align:center") SERVICE
-                                                    th(style="text-align:center") DATE STARTED
-                                                    th(style="text-align:center") CONTRACT EXPIRY
-                                                    th(style="text-align:center") REPLACEMENT LEFT
-                                                    th(style="text-align:center") STATUS
-                                                    th(style="text-align:center") ACTION
-                                            tbody
-                                                each hw in hwtab
-                                                    tr(style="text-align:center")
-                                                        td #{hw.strFName} #{hw.strLName}
-                                                        td #{hw.strName}
-                                                        td #{hw.datDateStarted}
-                                                        td #{hw.datDateExpiry}
-                                                        td #{hw.intConReplacementLeft} 
-                                                        td #{hw.strCurStatus}
-                                                        td
-                                                            a(href="/home_client/hw_profile_"+hw.intHWID)
-                                                                button.btn.btn-primary.btn-md(type='button') View Profile
-                                                            if hw.intConReplacementLeft != 0 && hw.strCurStatus != 'Reliever'
-                                                                button.btn.btn-success.btn-md(type='button' data-toggle='modal' data-target='#extend_contract' data-hwid=hw.intConHWID, data-transid=hw.intConTransID) Extend Contract
+                                .x_title
+                                    h1  
+                                        b   Extend Household Worker Contract
+                                    .clearfix
+                                br
+                                .x_panel(style='background-color:#f1f1f1')
+                                    h3 For Contract Extension:
+                                    table#datatable2-responsive.table.jambo_table.table-bordered
+                                        thead
+                                            tr
+                                                th(style="text-align:center") NAME
+                                                th(style="text-align:center") SERVICE
+                                                th(style="text-align:center") STATUS
+                                                th(style="text-align:center") ACTION
+                                        tbody
+                                            each hwext in hwexttab
+                                                tr(style="text-align:center")
+                                                    td #{hwext.strFName} #{hwext.strLName}
+                                                    td #{hwext.strName}
+                                                    td #{hwext.strRequestStatus}
+                                                    td
+                                                        a(href="/home_client/hw_profile_"+hwext.intHWID)
+                                                            button.btn.btn-primary.btn-md(type='button') View Profile
+                                                        a(href='/request_extension/contract_'+hwext.intTRequestID)
+                                                            button.btn.btn-primary.btn-md(type='button') View Details
+                                                        button.btn.btn-danger.btn-md(type='button') Cancel
+                            .x_panel
+                                br
+                                .x_panel(style='background-color:#f1f1f1')
+                                    h3 Household Workers:
+                                    table#datatable2-responsive.table.jambo_table.table-bordered
+                                        thead
+                                            tr
+                                                th(style="text-align:center") NAME
+                                                th(style="text-align:center") SERVICE
+                                                th(style="text-align:center") DATE STARTED
+                                                th(style="text-align:center") CONTRACT EXPIRY
+                                                th(style="text-align:center") REPLACEMENT LEFT
+                                                th(style="text-align:center") STATUS
+                                                th(style="text-align:center") ACTION
+                                        tbody
+                                            each hw in hwtab
+                                                tr(style="text-align:center")
+                                                    td #{hw.strFName} #{hw.strLName}
+                                                    td #{hw.strName}
+                                                    td #{hw.datDateStarted}
+                                                    td #{hw.datDateExpiry}
+                                                    td #{hw.intConReplacementLeft} 
+                                                    td #{hw.strCurStatus}
+                                                    td
+                                                        a(href="/home_client/hw_profile_"+hw.intHWID)
+                                                            button.btn.btn-primary.btn-md(type='button') View Profile
+                                                        if hw.intConReplacementLeft != 0 && hw.strCurStatus != 'Reliever'
+                                                            button.btn.btn-success.btn-md(type='button' data-toggle='modal' data-target='#extend_contract' data-hwid=hw.intConHWID, data-transid=hw.intConTransID) Extend Contract
                                                         
                             
             //- ---- modals
@@ -52,7 +75,7 @@ block content
                             form#demo-form2.form-horizontal.form-label-left(method="POST" action="request_extension/extendcontract")
                                 input(type="text", id='hwid' name='hwid' style='display:none;')
                                 input(type="text", id='transid' name='transid' style='display:none;')
-                                input(type="date", id='thedate' name='thedate' style='display:none;')
+                                input(type="date", id='thedate' name='reqdate' style='display:none;')
                                 center
                                     br
                                     h3 

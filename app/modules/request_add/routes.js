@@ -167,7 +167,7 @@ function findcreatedlist(req, res, next){
   }
   function findfees(req, res, next){
     var db = require('../../lib/database')();
-    db.query("SELECT * FROM tblfee WHERE intID NOT IN('1','4')", function (err, results) {
+    db.query("SELECT * FROM tblfee WHERE intID NOT IN('1','4','5')", function (err, results) {
       if (err) return res.send(err);
       if (!results[0])
       console.log('');

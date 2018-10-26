@@ -47,6 +47,10 @@ block content
                                                         button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle_reliever', data-id=trans.intRequestID)
                                                             i.fa.fa-check
                                                             |   Settle
+                                                    else if trans.strRequestType == 'Extension'
+                                                        button.btn.btn-success(type='button', data-toggle='modal', data-target='#settle', data-id=trans.intRequestID)
+                                                            i.fa.fa-check
+                                                            |   Settle
                                 table.table.table-striped.table-bordered
                                     thead
                                         tr
