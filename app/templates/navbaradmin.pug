@@ -717,4 +717,18 @@ html(lang='en')
               modal.find('.modal-body #hwid').val(hwid)
               modal.find('.modal-body #transid').val(transid)
             });
+            $('#terminate_contract_reason').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var reason = button.data('reason');
+
+              var modal = $(this)
+              modal.find('.modal-body #reason').val(reason)
+            });
+            $('#finish_contract').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var transid = button.data('transid');
+
+              var modal = $(this)
+              modal.find('.modal-body #transid').val(transid)
+            });
           

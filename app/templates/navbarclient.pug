@@ -122,6 +122,10 @@ html(lang='en')
                       a(href='/request_replacement') Replace Household Worker
                     li
                       a(href='/request_irclient') Report Household Worker
+                    li
+                      a(href='/request_terminate') Terminate Contract
+                    li
+                      a(href='/request_extension') Extend Contract
                 li
                   a(href='/home_client') 
                     b Home  
@@ -406,3 +410,21 @@ html(lang='en')
             //- pdfMake.createPdf(docDefinition).open({}, window);
             //- pdfMake.createPdf(docDefinition).print();
           }
+          $('#terminate_contract').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var hwid = button.data('hwid');
+              var transid = button.data('transid');
+
+              var modal = $(this)
+              modal.find('.modal-body #hwid').val(hwid)
+              modal.find('.modal-body #transid').val(transid)
+          });
+          $('#extend_contract').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var hwid = button.data('hwid');
+              var transid = button.data('transid');
+
+              var modal = $(this)
+              modal.find('.modal-body #hwid').val(hwid)
+              modal.find('.modal-body #transid').val(transid)
+          });

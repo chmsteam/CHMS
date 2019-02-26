@@ -30,6 +30,8 @@ block content
                                             th(style="text-align:center") ACTION
                                     tbody
                                         each trans in transtab
+                                            input#date1(type="date" value=''+trans.datdat hidden)
+                                            input#date2(type="date" hidden)
                                             tr(style="text-align:center")
                                                 //- td #{trans.intTRequestID}
                                                 td(style="text-transform:capitalize") #{trans.clientFName} #{trans.clientLName}
@@ -47,6 +49,9 @@ block content
                                                         a(href="/admin/replacementInvoice_"+trans.intTRequestID)
                                                             button.btn.btn-primary(type='button') Invoice
                                                     button.btn.btn-secondary(type='button' data-toggle='modal' data-target='#viewOR', data-ornum=trans.strORNumber, data-image=`../image/orpic/${trans.strORPicture}`) O.R.
+                                                    if trans.strTStatus == "On-going"
+                                                        button.btn.btn-success#fin(type='button' data-toggle='modal' data-target='#finish_transaction', data-transid=trans.intTRequestID, disabled) Finish Transaction
+                                                    else
                                             //- View Deployment Details, View Contract, View Invoice, View OR,
                             br
     
@@ -85,8 +90,10 @@ block content
                                                         button.btn.btn-primary.btn-md(type='button' data-toggle='modal', data-target='#settle_viewcon_empty', data-con=hw.strConCopy, data-conname=hw.strConCopy, data-hwid=hw.intConHWID, data-transid=hw.intConTransID) View Contract
                                                     else
                                                         button.btn.btn-primary.btn-md(type='button' data-toggle='modal', data-target='#settle_viewcon', data-con=hw.strConCopy, data-conname=hw.strConCopy, data-hwid=hw.intConHWID, data-transid=hw.intConTransID) View Contract
-                                                    if hw.strCurStatus == 'Current' || hw.strCurStatus == 'On leave'
+                                                    if hw.strCurStatus == 'Current' || hw.strCurStatus == 'On leave' || hw.strCurStatus == 'Replaced'
                                                         button.btn.btn-danger.btn-md(type='button' data-toggle='modal' data-target='#terminate_contract' data-hwid=hw.intConHWID, data-transid=hw.intConTransID) Terminate Contract
+                                                    else if hw.strCurStatus == 'Terminated'
+                                                        button.btn.btn-warning.btn-md(type='button' data-toggle='modal' data-target='#terminate_contract_reason' data-hwid=hw.intConHWID, data-transid=hw.intConTransID, data-reason=hw.strConReason) View Reason
                                                     
         #settle_viewcon_empty.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog(role='document')
@@ -182,8 +189,95 @@ block content
                             .form-group.pull-right
                                 button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
                                 button.btn.btn-success(type='submit' onClick='time();') Yes
-                                
-                                
+        #terminate_contract_reason.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog(role='document')
+                .modal-content.modal-md
+                    .modal-header(style="background-color:#EDEDED") 
+                        h2.modal-title Terminate Contract Reason
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') ×
+                    .modal-body
+                        form#demo-form2.form-horizontal.form-label-left(method="POST" action="terminatecontract")
+                            input(type="text", id='hwid' name='hwid' style='display:none;')
+                            input(type="text", id='transid' name='transid' style='display:none;')
+                            input(type="date", id='thedate' name='thedate' style='display:none;')
+                            center
+                            .form-group
+                                br
+                                br
+                                label
+                                    |Reason:
+                                    span.required *
+                                textarea.form-control.col-md-5.col-xs-12#reason(type='text' name='reason' disabled)
+                            .ln_solid
+                            .form-group.pull-right
+                                //- button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+                                //- button.btn.btn-success(type='submit' onClick='time();') Yes                        
+        #finish_transaction.modal.fade.modal-icon(tabindex='-1', role='dialog', aria-hidden='true')
+            .modal-dialog(role='document')
+                .modal-content.modal-md
+                    .modal-header(style="background-color:#EDEDED") 
+                        h2.modal-title Finish Transaction
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') ×
+                    .modal-body
+                        form#demo-form2.form-horizontal.form-label-left(method="POST" action="finishtransaction")
+                            input(type="text", id='transid' name='transid' style='display:none;')
+                            input(type="date", id='thedate2' name='thedate' style='display:none;')
+                            center
+                                br
+                                h3 
+                                    b   Are you sure you want to finish this transaction?
+                            .form-group
+                                br
+                                br
+                                label
+                                    | State Reason:
+                                    span.required *
+                                textarea.form-control.col-md-5.col-xs-12(type='text', id='reason' name='reason')
+                            .ln_solid
+                            .form-group.pull-right
+                                button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+                                button.btn.btn-success(type='submit' onClick='time();') Yes
+        script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+        script.
+            $(document).ready(function(){
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; //January is 0!
+                var yyyy = today.getFullYear();
+                var hh = today.getHours();
+                var min = today.getMinutes();
+                var sec = today.getSeconds();
+                
+                if(dd<10) {
+                    dd = '0'+dd
+                } 
+
+                if(mm<10) {
+                    mm = '0'+mm
+                } 
+
+                today = yyyy + '-' + mm + '-' + dd ;
+                document.getElementById("date2").value=today;
+                $('#fin').prop('disabled', true);
+                //- $('#date1').on("load",function() {
+                if($('#date1').val() <= $('#date2').val()) {
+                    $('#fin').prop('disabled', false);
+                }
+                else{
+
+                    $('#fin').prop('disabled', true);
+                }
+                //- });
+            });
+            var d = new Date();
+            var month = d.getMonth()+1;
+            var day = d.getDate();
+
+            var output = d.getFullYear() + '/' +
+                (month<10 ? '0' : '') + month + '/' +
+                (day<10 ? '0' : '') + day;                   
         script.
             function time(){
                 var today = new Date();
@@ -206,6 +300,7 @@ block content
                 today = yyyy + '-' + mm + '-' + dd ;
                 //- document.write(today);
                 document.getElementById("thedate").value=today;
+                document.getElementById("thedate2").value=today;
             }
 
         
