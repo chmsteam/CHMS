@@ -12,12 +12,16 @@ var nodemailer = require('nodemailer');
 var hbs = require('nodemailer-express-handlebars');
 var mailer =  nodemailer.createTransport({
 	service: 'gmail',
-	port: 25,
+  port: 25,
+  requireTLS: true, 
 	secure: true,
 	auth:{
 		user: 'testchms123@gmail.com',
 		pass: 'wordpass123456' //pass ng email
-	}
+  },
+  tls:{
+    rejectUnauthorized:false
+  }
 });
 //----Terms And Conditions
 function terms(req,res){
