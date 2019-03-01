@@ -3,126 +3,371 @@ extends ../../../templates/navbaradmin.pug
 block content
     section#services
         .right_col(role='main' style="background-color:transparent;")
-                .title_left
-                  h1
-                    b Dashboard
-                .x_panel(style='background-color:rgba(38,185,154,0.3)')
+          .title_left(style="margin-top:-35px")
+            h1 Dashboard
+          div
+            //- (style="position: -webkit-sticky; position: sticky;top: 0;")
+            .row.top_tiles
+              .animated.flipInY.col-lg-3.col-md-3.col-sm-6.col-xs-12
+                .tile-stats
+                  .icon
+                    i.fa.fa-users.blue
+                  .count.blue #{cntDep.CNT}
+                  h4(style="margin-left:5px") Deployed Household Workers
+                  //- p Lorem ipsum psdea itgum rixt.
+              .animated.flipInY.col-lg-3.col-md-3.col-sm-6.col-xs-12
+                .tile-stats
+                  .icon
+                    i.fa.fa-users.blue
+                  .count#regHW.blue #{cntH.CNT}
+                  h4(style="margin-left:5px") Registered Household Workers
+                //- p Lorem ipsum psdea itgum rixt.
+              .animated.flipInY.col-lg-3.col-md-3.col-sm-6.col-xs-12
+                .tile-stats
+                  .icon
+                    i.fa.fa-smile-o.blue
+                  .count#clientReg.blue #{cntC.CNT}
+                  h4(style="margin-left:5px") Registered Clients
                   br
-                  .x_panel.wow.fadeInRight(style='width:49% ')
-                      .x_panel.alert-info
-                          h3(style="font-weight:bold; text-align:center ") Registration
-                      table.table.table-striped.table-bordered
-                        thead
-                          tr
-                            th(style="text-align:center") &nbsp
-                            th(style="text-align:center") PENDING REGISTRATIONS
-                            th(style="text-align:center") ACTION
-                        tbody
-                            tr(style="")
-                              each pending in clPending
-                                td Client
-                                td #{pending.CNT}
-                              td   
-                                a(href='/admin/transactions/clients/pending')
-                                  button.btn.btn-info(type='button')
-                                    i.fa.fa-eye
-                                    |   view
-                            tr(style="")
-                              each hhwpen in hwPending
-                                td Household Worker
-                                td #{hhwpen.CNT}
-                              td 
-                                a(href='/admin/transactions/household_workers/pending')  
-                                  button.btn.btn-info(type='button')
-                                    i.fa.fa-eye
-                                    |   view
-                  | &nbsp&nbsp&nbsp&nbsp&nbsp
-                
-                  .x_panel.wow.fadeInUp(style='width:49% ')
-                      .x_panel.alert-info
-                          h3(style="font-weight:bold; text-align:center ") Requests
-                      table.table.table-striped.table-bordered
-                        thead
-                          tr
-                            th(style="text-align:center") &nbsp
-                            th(style="text-align:center") REQUESTS
-                            th(style="text-align:center") ACTION
-                        tbody
-                            tr(style="")
-                              each req in clReq
-                                td Client
-                                td #{req.CNT}
-                              td
-                                a(href='/admin/transaction_client_request')   
-                                  button.btn.btn-info(type='button')
-                                    i.fa.fa-eye
-                                    |   view
-                            tr(style="")
-                              td Household Worker
-                              td 0
-                              td   
-                                button.btn.btn-info(type='button')
-                                  i.fa.fa-eye
-                                  |   view
+                  //- p Lorem ipsum psdea itgum rixt.
+              .animated.flipInY.col-lg-3.col-md-3.col-sm-6.col-xs-12
+                .tile-stats
+                  .icon
+                    i.fa.fa-check-square-o.blue
+                  .count.blue #{cntSet.CNT}
+                  h4(style="margin-left:5px") Settled Transactions
+                  br
+          hr
+          div
+            div.col-xs-12.col-sm-12.col-md-6.col-lg-6.wow.fadeInRight
+              .x_panel
+                .x_title
+                  h2
+                    | Household Workers
+                    small Sessions
+                  div.nav.navbar-right.panel_toolbox
+                    p.hidden#banned #{bannedHW.CNT}
+                    a.btn.btn.bg-green(href='/admin/transactions/household_workers/pending' style="padding:2px") 
+                      each pending in hwPending
+                        p.hidden#hwPending #{pending.CNT}
+                        | Pending Registrations: 
+                        p.badge.bg-orange(style="margin-top:10px") #{pending.CNT}
+                  .clearfix
+                .x_content
+                  canvas#household
+            div.col-xs-12.col-sm-12.col-md-6.col-lg-6.wow.fadeInUp
+              .x_panel
+                .x_title
+                  h2
+                    | Clients
+                    small Sessions
+                  div.nav.navbar-right.panel_toolbox
+                    p.hidden#bannedCl #{bannedCl.CNT}
+                    a.btn.btn.bg-green(href='/admin/transactions/clients/pending' style="padding:2px") 
+                      each pending in clPending
+                        p.hidden#clPending #{pending.CNT}
+                        | Pending Registrations: 
+                        p.badge.bg-orange(style="margin-top:10px") #{pending.CNT}
+                  .clearfix
+                .x_content
+                  canvas#client
+            hr
+            div
+              div.col-xs-12.col-sm-12.col-md-12.col-lg-12.wow.fadeInDown
+                .x_panel
+                  .x_title
+                    h2
+                      | Requests
+                      small Sessions
+                    ul.nav.navbar-right.panel_toolbox
+                      li
+                        a.collapse-link
+                          i.fa.fa-chevron-up
+                    .clearfix
+                  .x_content
+                    div.col-xs-12.col-sm-12.col-md-12.col-lg-8
+                      canvas#request
+                    div.col-xs-12.col-sm-12.col-md-12.col-lg-4
+                      h4(style="margin-top:-5px") Legends
+                      li(style="list-style:none;")
+                        a.btn.btn(href='/admin/transaction_client_request' style="padding: 2px; background-color:#006EB8; color:white") 
+                          each req in clReq
+                            | Client Requests: 
+                            p.badge.bg-red#clientReq(style="margin-top:10px") #{req.CNT}
+                      li(style="list-style:none;")
+                        a.btn.btn(href='/admin/transaction_client_request' style="padding: 2px; background-color:#38A5FF; color:white") 
+                          each req in clReq
+                            | Household Worker Requests: 
+                            p.badge.bg-red(style="margin-top:10px") 0
+                      li(style="list-style:none;")
+                        a.btn.btn(href='/admin/transaction_client_request' style="padding: 2px; background-color:#E60000; color:white") 
+                          each inci in clIr
+                            | Client Incident Report: 
+                            p.badge.bg-white#clInci(style="margin-top:10px") #{inci.CNT}
+                      li(style="list-style:none;")
+                        a.btn.btn(href='/admin/transaction_ir_client' style="padding: 2px; background-color:#FF2724; color:white") 
+                          each hwinci in hwIr
+                            | Household Worker Incident Report: 
+                            p.badge.bg-white#hwInci(style="margin-top:10px") #{hwinci.CNT}
+                      li(style="list-style:none;")
+                        a.btn.btn(href='/admin/transaction_settle' style="padding: 2px; background-color:#187C25; color:white") 
+                          each set in clSet
+                            | Settle Requests: 
+                            p.badge.bg-red#set(style="margin-top:10px") #{set.CNT}
+              
 
-                  br
-                  .x_panel.wow.fadeInDown(style='width:49% ')
-                      .x_panel.alert-info
-                          h3(style="font-weight:bold; text-align:center ") New Incident Report
-                      table.table.table-striped.table-bordered
-                        thead
-                          tr
-                            th(style="text-align:center") &nbsp
-                            th(style="text-align:center") INCOMING REQUEST
-                            th(style="text-align:center") ACTION
-                        tbody
-                            tr(style="")
-                              each inci in clIr
-                                td Client
-                                td #{inci.CNT}
-                              td
-                                a(href='/admin/transaction_ir_client')     
-                                  button.btn.btn-info(type='button')
-                                    i.fa.fa-eye
-                                    |   view
-                            tr(style="")
-                              each hwinci in hwIr
-                                td Household Worker
-                                td #{hwinci.CNT}
-                              td
-                                a(href='/admin/transaction_ir_hw')    
-                                  button.btn.btn-info(type='button')
-                                    i.fa.fa-eye
-                                    |   view
-                  | &nbsp&nbsp&nbsp&nbsp&nbsp
-                
-                  .x_panel.wow.fadeInLeft(style='width:49% ')
-                      .x_panel.alert-info
-                          h3(style="font-weight:bold; text-align:center ") Settled Transaction
-                      table.table.table-striped.table-bordered
-                        thead
-                          tr
-                            th(style="text-align:center") &nbsp
-                            th(style="text-align:center") SETTLED TRANSACTIONS
-                            th(style="text-align:center") ACTION
-                        tbody
-                            tr(style="")
-                              each set in clSet
-                                td Client
-                                td #{set.CNT}
-                              td 
-                                a(href='/admin/transaction_settled')    
-                                  button.btn.btn-info(type='button')
-                                    i.fa.fa-eye
-                                    |   view
-                            tr(style="")
-                              td Household Worker
-                              td 0
-                              td
-                                a(href='/admin/transaction_settled')      
-                                  button.btn.btn-info(type='button')
-                                    i.fa.fa-eye
-                                    |   view
-                  br
+          script(src='/admin/gentelella/vendors/jquery/dist/jquery.min.js')
+          script(src='/admin/gentelella/vendors/Chart.js/dist/Chart.js')
+          //- script(src='/admin/gentelella/build/js/custom.min.js')
+          script.
+            $(document).ready(function(){
+              var ctx2 = document.getElementById("household");
+              var pending = document.getElementById("hwPending").innerHTML;
+              var registered = document.getElementById("regHW").innerHTML;
+              var banned = document.getElementById("banned").innerHTML;
+              var myChart2 = new Chart(ctx2, {
+                  type: 'doughnut',
+                  data: {
+                      labels: ["Registered", "Banned", "Pending"],
+                      datasets: [{
+                          label: 'Status',
+                          data: [registered, banned, pending],
+                          backgroundColor: [
+                              '#3E7345',
+                              '#FF1B2D',
+                              'orange'
 
-                
+                          ],
+                          borderColor: [
+                              '#3E7345',
+                              '#FF1B2D',
+                              'orange'
+                          ],
+                          borderWidth: 2
+                      }]
+                  },
+                  options: {
+                      responsive: true,
+                      maintainAspectRatio: true,
+                  }
+              });
+            });
+          script.
+            $(document).ready(function(){
+              var client = document.getElementById("client");
+              var pending = document.getElementById("clPending").innerHTML;
+              var registered = document.getElementById("clientReg").innerHTML;
+              var banned = document.getElementById("bannedCl").innerHTML;
+              var myChart2 = new Chart(client, {
+                  type: 'pie',
+                  data: {
+                      labels: ["Registered", "Banned", "Pending"],
+                      datasets: [{
+                          label: 'Status',
+                          data: [registered, banned, pending],
+                          backgroundColor: [
+                              '#3E7345',
+                              '#FF1B2D',
+                              'orange'
+
+                          ],
+                          borderColor: [
+                              '#3E7345',
+                              '#FF1B2D',
+                              'orange'
+                          ],
+                          borderWidth: 2
+                      }]
+                  },
+                  options: {
+                      responsive: true,
+                      maintainAspectRatio: true,
+                  }
+              });
+            });
+          script.
+            $(document).ready(function(){
+              var request = document.getElementById("request");
+              var clientRequest = document.getElementById("clientReq").innerHTML;
+              var settle = document.getElementById("set").innerHTML;
+              var clientIncident = document.getElementById("clInci").innerHTML;
+              var workerIncident = document.getElementById("hwInci").innerHTML;
+              var myChart2 = new Chart(request, {
+                  type: 'bar',
+                  data: {
+                      labels: [
+                            "Client Request", 
+                            "Household Worker Request", 
+                            "Client Incident Report", 
+                            "Household Worker Incident Report", 
+                            "Settle Request"
+                      ],
+                      datasets: [{
+                          label: "Requests",
+                          data: [clientRequest, 0, clientIncident, workerIncident, settle ],
+                          backgroundColor: [
+                              '#007ACC',
+                              '#64B5F6',
+                              'red',
+                              '#EF5350',
+                              '#2D7637'
+
+                          ],
+                          borderColor: [
+                              '#007ACC',
+                              '#64B5F6',
+                              'red',
+                              '#EF5350',
+                              '#2D7637'
+                          ],
+                          borderWidth: 2
+                      }]
+                  },
+                  options: {
+                      responsive: true,
+                      maintainAspectRatio: true,
+                      legend: {
+                        display: false
+                      },
+                      scales: {
+                        yAxes:[{
+                            stacked:true,
+                            gridLines: {
+                              display:true,
+                              color:"rgba(255,99,132,0.2)"
+                            },
+                            ticks: {
+                              suggestedMax: 20,
+                              suggestedMin: 0
+                            }
+                        }],
+                        xAxes:[{
+                          gridLines: {
+                          display:false
+                          },
+                           ticks: {
+                              display: false,
+                          }
+                        }]
+                      }
+                  }
+              });
+            });
+        //- .x_panel(style='background-color:rgba(38,185,154,0.3)')
+        //-   br
+        //-   .x_panel.wow.fadeInRight(style='width:49% ')
+        //-       .x_panel.alert-info
+        //-           h3(style="font-weight:bold; text-align:center ") Registration
+        //-       table.table.table-striped.table-bordered
+        //-         thead
+        //-           tr
+        //-             th(style="text-align:center") &nbsp
+        //-             th(style="text-align:center") PENDING REGISTRATIONS
+        //-             th(style="text-align:center") ACTION
+        //-         tbody
+        //-             tr(style="")
+        //-               each pending in clPending
+        //-                 td Client
+        //-                 td #{pending.CNT}
+        //-               td   
+        //-                 a(href='/admin/transactions/clients/pending')
+        //-                   button.btn.btn-info(type='button')
+        //-                     i.fa.fa-eye
+        //-                     |   view
+        //-             tr(style="")
+        //-               each hhwpen in hwPending
+        //-                 td Household Worker
+        //-                 td #{hhwpen.CNT}
+        //-               td 
+        //-                 a(href='/admin/transactions/household_workers/pending')  
+        //-                   button.btn.btn-info(type='button')
+        //-                     i.fa.fa-eye
+        //-                     |   view
+        //-   | &nbsp&nbsp&nbsp&nbsp&nbsp
+        
+        //-   .x_panel.wow.fadeInUp(style='width:49% ')
+        //-       .x_panel.alert-info
+        //-           h3(style="font-weight:bold; text-align:center ") Requests
+        //-       table.table.table-striped.table-bordered
+        //-         thead
+        //-           tr
+        //-             th(style="text-align:center") &nbsp
+        //-             th(style="text-align:center") REQUESTS
+        //-             th(style="text-align:center") ACTION
+        //-         tbody
+        //-             tr(style="")
+        //-               each req in clReq
+        //-                 td Client
+        //-                 td #{req.CNT}
+        //-               td
+        //-                 a(href='/admin/transaction_client_request')   
+        //-                   button.btn.btn-info(type='button')
+        //-                     i.fa.fa-eye
+        //-                     |   view
+        //-             tr(style="")
+        //-               td Household Worker
+        //-               td 0
+        //-               td   
+        //-                 button.btn.btn-info(type='button')
+        //-                   i.fa.fa-eye
+        //-                   |   view
+
+        //-   br
+        //-   .x_panel.wow.fadeInDown(style='width:49% ')
+        //-       .x_panel.alert-info
+        //-           h3(style="font-weight:bold; text-align:center ") New Incident Report
+        //-       table.table.table-striped.table-bordered
+        //-         thead
+        //-           tr
+        //-             th(style="text-align:center") &nbsp
+        //-             th(style="text-align:center") INCOMING REQUEST
+        //-             th(style="text-align:center") ACTION
+        //-         tbody
+        //-             tr(style="")
+        //-               each inci in clIr
+        //-                 td Client
+        //-                 td #{inci.CNT}
+        //-               td
+        //-                 a(href='/admin/transaction_ir_client')     
+        //-                   button.btn.btn-info(type='button')
+        //-                     i.fa.fa-eye
+        //-                     |   view
+        //-             tr(style="")
+        //-               each hwinci in hwIr
+        //-                 td Household Worker
+        //-                 td #{hwinci.CNT}
+        //-               td
+        //-                 a(href='/admin/transaction_ir_hw')    
+        //-                   button.btn.btn-info(type='button')
+        //-                     i.fa.fa-eye
+        //-                     |   view
+        //-   | &nbsp&nbsp&nbsp&nbsp&nbsp
+        
+        //-   .x_panel.wow.fadeInLeft(style='width:49% ')
+        //-       .x_panel.alert-info
+        //-           h3(style="font-weight:bold; text-align:center ") Settled Transaction
+        //-       table.table.table-striped.table-bordered
+        //-         thead
+        //-           tr
+        //-             th(style="text-align:center") &nbsp
+        //-             th(style="text-align:center") SETTLED TRANSACTIONS
+        //-             th(style="text-align:center") ACTION
+        //-         tbody
+        //-             tr(style="")
+        //-               each set in clSet
+        //-                 td Client
+        //-                 td #{set.CNT}
+        //-               td 
+        //-                 a(href='/admin/transaction_settled')    
+        //-                   button.btn.btn-info(type='button')
+        //-                     i.fa.fa-eye
+        //-                     |   view
+        //-             tr(style="")
+        //-               td Household Worker
+        //-               td 0
+        //-               td
+        //-                 a(href='/admin/transaction_settled')      
+        //-                   button.btn.btn-info(type='button')
+        //-                     i.fa.fa-eye
+        //-                     |   view
+        //-   br

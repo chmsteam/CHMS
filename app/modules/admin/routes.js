@@ -11,9 +11,10 @@ var upload =require('express-fileupload');
 var nodemailer = require('nodemailer');
 var hbs = require('nodemailer-express-handlebars');
 var mailer =  nodemailer.createTransport({
-	service: 'gmail',
-  port: 25,
-  requireTLS: true, 
+	// service: 'gmail',
+  // port: 25,
+  host: 'smtp.gmail.com',
+  port: 465,
 	secure: true,
 	auth:{
 		user: 'testchms123@gmail.com',
@@ -469,14 +470,20 @@ function render(req,res){
         clReq: req.clientReq,
         clIr: req.clientIr,
         hwIr: req.hhwIr,
-        clSet: req.clientSet
+        clSet: req.clientSet,
+        cntH: req.cntRegHousehold,
+        cntC: req.cntRegCL,
+        cntDep: req.cntDepHhw,
+        cntSet : req.cntSettled,
+        bannedHW : req.bannedHW,
+        bannedCl :  req.bannedCl
       });
   else if(req.valid==1)
     res.render('admin/views/invalidpages/normalonly');
   else
     res.render('login/views/invalid');
 }
-var dashRender = [ cntPendingCL, cntPendingHHW, clientReq, clientIr, hhwIr, clientSet];
+var dashRender = [ bannedCl ,bannedHW, cntPendingCL, cntPendingHHW, clientReq, clientIr, hhwIr, clientSet, cntRegHousehold, cntRegCL, cntDepHhw, cntSettled];
 
 router.get('/', flog, dashRender, render);
 
@@ -2748,6 +2755,26 @@ function renderutilagency(req,res){
     res.render('login/views/invalid');
 }
 //-----------------------------------------------------DASHBOARD
+//registered Household worker Count
+function cntRegHousehold(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tbluser WHERE strStatus = 'Registered' AND strType = 'Household Worker' ", function(err, results){
+    if (err) return res.send(err);
+    req.cntRegHousehold = results[0];
+    console.log(results)
+    return next();
+  })
+}
+//registered Clients Count
+function cntRegCL(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tbluser WHERE strStatus = 'Registered' AND strType = 'Client' ", function(err, results){
+    if (err) return res.send(err);
+    req.cntRegCL = results[0];
+    console.log(results)
+    return next();
+  })
+}
 //regitration client
 function cntPendingCL(req, res, next){
   var db = require('../../lib/database')();
@@ -2756,6 +2783,28 @@ function cntPendingCL(req, res, next){
       req.PendingCL = results;
       return next();
   });
+}
+//Deployed household worker
+function cntDepHhw(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tbluser WHERE strStatus = 'Deployed' AND strType = 'Household Worker' ", function(err, results){
+    if (err) return res.send(err);
+    req.cntDepHhw = results[0];
+    console.log(results)
+    return next();
+  })
+}
+//registered Settled Transactions
+function cntSettled(req, res, next){
+  var db = require('../../lib/database')();
+  db.query(`SELECT COUNT(*) as CNT FROM tbltransaction AS A INNER JOIN tblfinalrequest ON intRequestID = intTRequestID 
+            INNER JOIN tbluser AS b ON intID = intRequest_ClientID
+            WHERE a.strTStatus IN ('On-going', 'Finished', 'Terminated')`, function(err, results){
+    if (err) return res.send(err);
+    req.cntSettled = results[0];
+    console.log(results)
+    return next();
+  })
 }
 //registration HHW
 function cntPendingHHW(req, res, next){
@@ -2796,14 +2845,34 @@ function hhwIr(req, res, next){
 //settled CLIENT
 function clientSet(req, res, next){
   var db = require('../../lib/database')();
-  db.query("SELECT COUNT(*) AS CNT FROM tbltransaction tbt INNER JOIN tbluser tbu ON tbt.intTClientID = tbu.intID WHERE strTStatus = 'On-going' AND strType = 'Client'", function (err, results, fields) {
+  db.query(`SELECT COUNT(*) AS CNT  FROM tblfinalrequest as a 
+	INNER JOIN tbluser as b ON a.intRequest_ClientID = b.intID 
+    WHERE a.strRequestStatus IN ('Approved')`, function (err, results, fields) {
       if (err) return res.send(err);
       req.clientSet = results;
       return next();
   });
 }
-
-
+//banned household worker
+function bannedHW(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tbluser WHERE strStatus = 'Banned' AND strType = 'Household Worker' ", function(err, results){
+    if (err) return res.send(err);
+    req.bannedHW = results[0];
+    console.log(results)
+    return next();
+  })
+}
+//banned clients
+function bannedCl(req, res, next){
+  var db = require('../../lib/database')();
+  db.query("SELECT COUNT(*) AS CNT FROM tbluser WHERE strStatus = 'Banned' AND strType = 'Client' ", function(err, results){
+    if (err) return res.send(err);
+    req.bannedCl = results[0];
+    console.log(results)
+    return next();
+  })
+}
 
 // -----------------------------------------------------------------REPORTS
 counters = [hwPenCnt, hwRegCnt, hwDepCnt, hwBanCnt, clBanCnt, clPenCnt, clRegCnt, hwleavereq, hwreplacereq,
